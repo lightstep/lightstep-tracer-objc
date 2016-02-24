@@ -17,7 +17,7 @@ publish: increment_version publish_source publish_pod
 # https://guides.cocoapods.org/making/getting-setup-with-trunk. That
 # email address is a google group; ask to be added if you're not
 # already a member and need to update the pod!
-POD_VERSION := $(shell cat lightstep-pod-tmp/pod/lightstep/VERSION)
+POD_VERSION := $(shell cat pod/lightstep/VERSION)
 POD_SPEC := lightstep-pod-tmp/pod/lightstep/lightstep.podspec
 publish_pod:
 	@echo "Cloning published source and publishing as a pod..."
