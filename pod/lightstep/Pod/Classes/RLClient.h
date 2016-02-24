@@ -7,12 +7,12 @@
 #import "crouton.h"
 
 /**
- * The default traceguide host:port endpoint for this reporting library.
+ * The default host:port endpoint for the reporting library.
  */
 extern NSString*const RLDefaultTraceguideReportingHostort;
 
 /**
- * An `RLActiveSpan` represents an un-`finish`ed (i.e., "Active") Traceguide span. One or more spans – presumably from different processes – are assembled into traces based on JoinIds, per `addJoinId:value:`. Each span also serves as a short-lived per-operation log.
+ * An `RLActiveSpan` represents an un-`finish`ed (i.e., "Active") span. One or more spans – presumably from different processes – are assembled into traces based on JoinIds, per `addJoinId:value:`. Each span also serves as a short-lived per-operation log.
  *
  * Create `RLActiveSpan`s via the `RLClient`'s `beginSpan:` method.
  */
@@ -55,7 +55,7 @@ extern NSString*const RLDefaultTraceguideReportingHostort;
 @end
 
 /**
- * The entrypoint to Traceguide instrumentation for Cocoa.
+ * The entrypoint to instrumentation for Cocoa.
  *
  * As early as feasible in the life of the application (e.g., in `application:didFinishLaunchingWithOptions:`), call one of the static `+[RLClient sharedInstanceWith...]` methods; `RLClient` calls made prior to that initialization will be dropped.
  *
@@ -71,8 +71,8 @@ extern NSString*const RLDefaultTraceguideReportingHostort;
 /**
  * Call this early in the application lifecycle (calls to 'sharedInstance' will return nil beforehand).
  *
- * @param hostport the Traceguide reporting service hostport, defaulting to RLDefaultTraceguideReportingHostport.
- * @param accessToken the Traceguide access token.
+ * @param hostport the reporting service hostport, defaulting to RLDefaultTraceguideReportingHostport.
+ * @param accessToken the access token.
  * @param groupName the "group name" to associate with spans from this process; e.g., the name of your iOS app or the bundle name.
  *
  * @return An `RLClient` instance that's ready to create spans and logs.
@@ -101,7 +101,7 @@ extern NSString*const RLDefaultTraceguideReportingHostort;
 + (instancetype) sharedInstance;
 
 /**----------------------------------------------
- * @name Traceguide service configuration.
+ * @name Service configuration.
  *-----------------------------------------------
  */
 
@@ -111,7 +111,7 @@ extern NSString*const RLDefaultTraceguideReportingHostort;
 @property (nonatomic, readonly) NSString* serviceUrl;
 
 /**
- * The `RLClient` instance's globally unique id ("guid"), which is both immutable and assigned automatically by Traceguide.
+ * The `RLClient` instance's globally unique id ("guid"), which is both immutable and assigned automatically by LightStep.
  */
 @property (nonatomic, readonly) NSString* runtimeGuid;
 
@@ -132,7 +132,7 @@ extern NSString*const RLDefaultTraceguideReportingHostort;
  */
 
 /**
- * The current end-user's id, which should be consistent with the end-user ids used in Traceguide instrumentation outside of the mobile app.
+ * The current end-user's id, which should be consistent with the end-user ids used in LightStep instrumentation outside of the mobile app.
  *
  * One can always set a per-`RLActiveSpan` end-user id manually using `-[RLActiveSpan addJoinId:value:]`; the advantage of this property is that all spans from this `RLClient` will automatically have the respective join id added.
  */
@@ -141,7 +141,7 @@ extern NSString*const RLDefaultTraceguideReportingHostort;
 /**
  * The key name for the endUserId's JoinId. Defaults to "end_user_id", but may be overridden.
  *
- * For instance, if you use a session id within the iOS app but don't always have client-side access to the endUserId used elsewhere in Traceguide instrumentation, you might set `endUserKeyName` to `session_id`, and of course set `endUserId` proper to that session id value.
+ * For instance, if you use a session id within the iOS app but don't always have client-side access to the endUserId used elsewhere in instrumentation, you might set `endUserKeyName` to `session_id`, and of course set `endUserId` proper to that session id value.
  *
  * One can always set a per-`RLActiveSpan` end-user id manually using `-[RLActiveSpan addJoinId:value:]`; the advantage of this property is that all spans from this `RLClient` will automatically have the respective join id added.
  */
@@ -193,7 +193,7 @@ extern NSString*const RLDefaultTraceguideReportingHostort;
  */
 
 /**
- * Explicitly flush to the Traceguide service (this is called periodically in the background, too).
+ * Explicitly flush to the LightStep collector (this is called periodically in the background, too).
  */
 - (void) flushToService;
 
