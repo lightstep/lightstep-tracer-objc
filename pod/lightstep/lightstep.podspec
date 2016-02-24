@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "lightstep"
-  s.version          = "VERSION_SUBSTITUTION_TARGET"
+  s.version          = "VERSION"
   s.summary          = "The LightStep Objective-C OpenTracing library."
 
   s.description      = <<-DESC
