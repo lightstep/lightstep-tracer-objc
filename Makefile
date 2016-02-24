@@ -1,11 +1,12 @@
 no_default:
-	@echo Project has no default target
+	@echo Project targets:
+	@echo "    publish"
+	@echo "    test"
 
 # Runs the 'test' that essentially just checks if the code compiles!
+.PHONY: test
 test:
-	pushd test/test_cruntime
-	bash scripts/build.sh
-	popd
+	cd test/test_cruntime && bash ./scripts/build.sh
 
 publish: increment_version publish_source publish_pod
 
@@ -16,10 +17,16 @@ publish: increment_version publish_source publish_pod
 # https://guides.cocoapods.org/making/getting-setup-with-trunk. That
 # email address is a google group; ask to be added if you're not
 # already a member and need to update the pod!
+POD_VERSION := $(shell cat lightstep-pod-tmp/pod/lightstep/VERSION)
+POD_SPEC := lightstep-pod-tmp/pod/lightstep/lightstep.podspec
 publish_pod:
 	@echo "Cloning published source and publishing as a pod..."
 	@echo "You make need to first run: pod trunk register communications@lightstep.com 'LightStep' --description='LightStep'"
 	git clone git@github.com:lightstephq/lightstep-tracer-objc lightstep-pod-tmp
+	@echo $(POD_SPEC)
+	sed 's/_VERSION_STRING_/$(POD_VERSION)/g' $(POD_SPEC) > $(POD_SPEC).tmp
+	cp $(POD_SPEC).tmp $(POD_SPEC)
+	rm $(POD_SPEC).tmp
 	pod trunk push --allow-warnings lightstep-pod-tmp/pod/lightstep/lightstep.podspec
 	rm -rf lightstep-pod-tmp
 
