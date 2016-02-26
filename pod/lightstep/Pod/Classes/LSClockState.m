@@ -1,15 +1,10 @@
-//
-//  RLClockState.m
-//
-
-#import "RLClockState.h"
-
-#import "RLClient.h"
+#import "LSClockState.h"
+#import "LSTracer.h"
 
 static const int kMaxOffsetAge = 7;
 static const micros_t kStoredSamplesTTLMicros = 60 * 60 * 1e6;
 
-@interface RLSyncSample : NSObject<NSCoding>
+@interface LSSyncSample : NSObject<NSCoding>
 
 - (id) initWithDelayMicros:(micros_t)delayMicros offsetMicros:(micros_t)offsetMicros;
 
@@ -18,7 +13,7 @@ static const micros_t kStoredSamplesTTLMicros = 60 * 60 * 1e6;
 
 @end
 
-@implementation RLSyncSample
+@implementation LSSyncSample
 
 - (id) initWithDelayMicros:(micros_t)delayMicros offsetMicros:(micros_t)offsetMicros
 {
@@ -44,17 +39,17 @@ static NSString* kOffsetKey = @"offset";
 
 @end
 
-@implementation RLClockState {
-    __weak RLClient* m_rlClient;
-    NSMutableArray* m_samples;  // elements are RLSyncSamples
+@implementation LSClockState {
+    __weak LSTracer* m_tracer;
+    NSMutableArray* m_samples;  // elements are LSSyncSamples
     micros_t m_currentOffsetMicros;
     int m_currentOffsetAge;
 }
 
-- (id) initWithRLClient:(RLClient*)rlClient
+- (id) initWithLSTracer:(LSTracer*)tracer
 {
     if (self = [super init]) {
-        self->m_rlClient = rlClient;
+        self->m_tracer = tracer;
         [self _tryToRestoreFromUserDefaults];
         [self update];
     }
@@ -66,7 +61,7 @@ static NSString* kOffsetKey = @"offset";
 }
 
 - (NSString*)_userDefaultsKey {
-    return [@"RLClockState:" stringByAppendingString:m_rlClient.serviceUrl];
+    return [@"LSClockState:" stringByAppendingString:m_tracer.serviceUrl];
 }
 
 static NSString* kTimestampMicrosKey = @"timestamp_micros";
@@ -75,12 +70,12 @@ static NSString* kSamplesKey = @"samples";
 - (void)_persistToUserDefaults
 {
     NSData* data = [NSKeyedArchiver archivedDataWithRootObject:
-                    @{kTimestampMicrosKey: @([RLClockState nowMicros]),
+                    @{kTimestampMicrosKey: @([LSClockState nowMicros]),
                       kSamplesKey: m_samples}];
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:[self _userDefaultsKey]];
 }
 
-// Overwrites all state; only intended to be called from initWithRLClient.
+// Overwrites all state; only intended to be called from initWithLSTracer.
 - (void)_tryToRestoreFromUserDefaults
 {
     self->m_samples = [NSMutableArray array];
@@ -95,20 +90,20 @@ static NSString* kSamplesKey = @"samples";
             NSNumber* tsMicros = [dict objectForKey:kTimestampMicrosKey];
             NSArray* samples = [dict objectForKey:kSamplesKey];
             if (dict && tsMicros && samples &&
-                (tsMicros.longLongValue > ([RLClockState nowMicros] - kStoredSamplesTTLMicros))) {
+                (tsMicros.longLongValue > ([LSClockState nowMicros] - kStoredSamplesTTLMicros))) {
                 NSUInteger loc = MAX(0, samples.count - (kMaxOffsetAge + 1));
                 NSUInteger len = samples.count - loc;
                 m_samples = [NSMutableArray arrayWithArray:[samples subarrayWithRange:NSMakeRange(loc, len)]];
             }
         }
         @catch (NSException* e) {
-            NSLog(@"Unable to decode RLClockState data. Leaving things be.");
+            NSLog(@"Unable to decode LSClockState data. Leaving things be.");
         }
     }
     if (m_samples.count == 0) {
         // Otherwise initalize with (kMaxOffsetAge+1) dummy samples.
         for (int i = 0; i < (kMaxOffsetAge+1); i++) {
-            RLSyncSample* ss = [[RLSyncSample alloc] initWithDelayMicros:INT64_MAX offsetMicros:0];
+            LSSyncSample* ss = [[LSSyncSample alloc] initWithDelayMicros:INT64_MAX offsetMicros:0];
             [m_samples addObject:ss];
         }
     }
@@ -147,7 +142,7 @@ static NSString* kSamplesKey = @"samples";
 
     // Discard the oldest sample and push the new one.
     [m_samples removeObjectAtIndex:0];
-    [m_samples addObject:[[RLSyncSample alloc] initWithDelayMicros:latestDelayMicros offsetMicros:latestOffsetMicros]];
+    [m_samples addObject:[[LSSyncSample alloc] initWithDelayMicros:latestDelayMicros offsetMicros:latestOffsetMicros]];
     m_currentOffsetAge++;
 
     // Remember what we've seen.
@@ -184,7 +179,7 @@ static NSString* kSamplesKey = @"samples";
     micros_t minDelayMicros = INT64_MAX;
     micros_t bestOffsetMicros = 0;
     for (int i = 0; i < m_samples.count; i++) {
-        RLSyncSample* curSamp = m_samples[i];
+        LSSyncSample* curSamp = m_samples[i];
         if (curSamp.delayMicros < minDelayMicros) {
             minDelayMicros = curSamp.delayMicros;
             bestOffsetMicros = curSamp.offsetMicros;
@@ -200,7 +195,7 @@ static NSString* kSamplesKey = @"samples";
     // offset were we to use it.
     double jitter = 0;
     for (int i = 0; i < m_samples.count; i++) {
-        RLSyncSample* curSamp = m_samples[i];
+        LSSyncSample* curSamp = m_samples[i];
         jitter += pow(bestOffsetMicros - curSamp.offsetMicros, 2);
     }
     jitter = sqrt(jitter / m_samples.count);

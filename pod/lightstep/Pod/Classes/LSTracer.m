@@ -1,55 +1,30 @@
 //
-//  RLClient.m
+//  LSTracer.m
 //
 
 #import <UIKit/UIKit.h>
-#import "RLClient.h"
-
-#import "RLClockState.h"
+#import "LSTracer.h"
+#import "LSSpan.h"
+#import "LSUtil.h"
+#import "LSClockState.h"
 #import "TBinaryProtocol.h"
 #import "THTTPClient.h"
 #import "TSocketClient.h"
 #import "TTransportException.h"
 
-#import <stdlib.h>  // arc4random_uniform()
-
-NSString*const RLDefaultLightStepReportingHostport = @"collector.lightstep.com:443";
+NSString*const LSDefaultLightStepReportingHostport = @"collector.lightstep.com:443";
 
 static NSString* kDefaultEndUserIdKey = @"end_user_id";
 static const int kFlushIntervalSeconds = 30;
 static const NSUInteger kDefaultMaxBufferedSpans = 5000;
 static const NSUInteger kDefaultMaxBufferedLogs = 10000;
 
-static NSString* _guidGenerator()
-{
-    return [NSString stringWithFormat:@"%x%x", arc4random(), arc4random()];
-}
-
-@interface RLActiveSpan()
-
-@property (nonatomic, copy) NSString* spanName;
-@property (nonatomic, weak) RLClient* client;
-
-@end
-
-// TODO: should put this somewhere else.
-@interface NSDate(RLActiveSpan)
-- (int64_t) toMicros;
-@end
-
-@implementation NSDate(RLActiveSpan)
-- (int64_t) toMicros
-{
-    return (int64_t)([self timeIntervalSince1970] * USEC_PER_SEC);
-}
-@end
-
-@implementation RLClient {
+@implementation LSTracer {
     NSDate* m_startTime;
     NSString* m_accessToken;
     NSString* m_runtimeGuid;
     RLRuntime* m_runtimeInfo;
-    RLClockState* m_clockState;
+    LSClockState* m_clockState;
 
     NSString* m_serviceUrl;
     RLReportingServiceClient* m_serviceStub;
@@ -66,7 +41,7 @@ static NSString* _guidGenerator()
 @synthesize maxLogRecords = m_maxLogRecords;
 @synthesize maxSpanRecords = m_maxSpanRecords;
 
-static RLClient* s_sharedInstance = nil;
+static LSTracer* s_sharedInstance = nil;
 static float kFirstRefreshDelay = 0;
 
 - (instancetype) initWithServiceHostport:(NSString*)hostport token:(NSString*)accessToken groupName:(NSString*)groupName
@@ -75,7 +50,7 @@ static float kFirstRefreshDelay = 0;
         self.endUserKeyName = kDefaultEndUserIdKey;
         self->m_serviceUrl = [NSString stringWithFormat:@"https://%@/_rpc/v1/reports/binary", hostport];
         self->m_accessToken = accessToken;
-        self->m_runtimeGuid = _guidGenerator();
+        self->m_runtimeGuid = [LSUtil generateGUID];
         self->m_startTime = [NSDate date];
         NSMutableArray* runtimeAttrs = @[[[RLKeyValue alloc] initWithKey:@"cruntime_platform" Value:@"cocoa"],
                                          [[RLKeyValue alloc] initWithKey:@"ios_version" Value:[[UIDevice currentDevice] systemVersion]],
@@ -94,15 +69,14 @@ static float kFirstRefreshDelay = 0;
         self->m_flushTimer = nil;
         self->m_refreshStubDelaySecs = kFirstRefreshDelay;
         self->m_enabled = true;  // depends on the remote kill-switch.
-        self->m_clockState = [[RLClockState alloc] initWithRLClient:self];
+        self->m_clockState = [[LSClockState alloc] initWithLSTracer:self];
         self->m_bgTaskId = UIBackgroundTaskInvalid;
         [self _refreshStub];
     }
     return self;
 }
 
-+ (instancetype) sharedInstanceWithServiceHostport:(NSString*)hostport token:(NSString*)accessToken groupName:(NSString*)groupName
-{
++ (instancetype) sharedInstanceWithServiceHostport:(NSString*)hostport token:(NSString*)accessToken groupName:(NSString*)groupName {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         s_sharedInstance = [[super alloc] initWithServiceHostport:hostport token:accessToken groupName:groupName];
@@ -110,23 +84,66 @@ static float kFirstRefreshDelay = 0;
     return s_sharedInstance;
 }
 
-+ (instancetype) sharedInstanceWithAccessToken:(NSString*)accessToken groupName:(NSString*)groupName
-{
-    return [RLClient sharedInstanceWithServiceHostport:RLDefaultLightStepReportingHostport token:accessToken groupName:groupName];
++ (instancetype) sharedInstanceWithAccessToken:(NSString*)accessToken groupName:(NSString*)groupName {
+    return [LSTracer sharedInstanceWithServiceHostport:LSDefaultLightStepReportingHostport token:accessToken groupName:groupName];
 }
 
 + (instancetype) sharedInstanceWithAccessToken:(NSString*)accessToken {
     NSString* runtimeGroupName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
-    return [RLClient sharedInstanceWithAccessToken:accessToken groupName:runtimeGroupName];
+    return [LSTracer sharedInstanceWithAccessToken:accessToken groupName:runtimeGroupName];
 }
 
-+ (RLClient*) sharedInstance
-{
++ (LSTracer*) sharedInstance {
     if (s_sharedInstance == nil) {
         NSLog(@"Must call sharedInstanceWithAccessToken: before calling sharedInstance:!");
     }
     return s_sharedInstance;
 }
+
+- (LSSpan*)startSpan:(NSString*)operationName {
+    return [self startSpan:operationName parent:nil tags:nil startTime:[NSDate date]];
+}
+
+- (LSSpan*)startSpan:(NSString*)operationName
+                tags:(NSDictionary*)tags {
+    return [self startSpan:operationName parent:nil tags:tags startTime:[NSDate date]];
+}
+
+- (LSSpan*)startSpan:(NSString*)operationName
+              parent:(LSSpan*)parentSpan {
+    return [self startSpan:operationName parent:parentSpan tags:nil  startTime:[NSDate date]];
+}
+
+- (LSSpan*)startSpan:(NSString*)operationName
+              parent:(LSSpan*)parentSpan
+                tags:(NSDictionary*)tags {
+    return [self startSpan:operationName parent:parentSpan tags:tags startTime:[NSDate date]];
+}
+
+- (LSSpan*)startSpan:(NSString*)operationName
+              parent:(LSSpan*)parentSpan
+                tags:(NSDictionary*)tags
+           startTime:(NSDate*)startTime {
+    LSSpan* span = [[LSSpan alloc] initWithTracer:self
+                                    operationName:operationName
+                                           parent:parentSpan
+                                             tags:tags
+                                        startTime:startTime];
+    return span;
+}
+
+- (NSObject*)injector:(NSString*)format {
+    // TODO: implement this
+    return nil;
+
+}
+
+- (NSObject*)extractor:(NSString*)format {
+    // TODO: implement this
+    return nil;
+}
+
+
 
 - (NSString*) serviceUrl {
     return m_serviceUrl;
@@ -157,7 +174,7 @@ static float kFirstRefreshDelay = 0;
     return m_enabled;
 }
 
-- (void) appendSpanRecord:(RLSpanRecord*)sr {
+- (void) _appendSpanRecord:(RLSpanRecord*)sr {
     if (!m_enabled) {
         // Drop sr.
         return;
@@ -170,7 +187,7 @@ static float kFirstRefreshDelay = 0;
     }
 }
 
-- (void) appendLogRecord:(RLLogRecord*)lr {
+- (void) _appendLogRecord:(RLLogRecord*)lr {
     if (!m_enabled) {
         // Drop lr.
         return;
@@ -211,55 +228,6 @@ static NSString* jsonStringForDictionary(NSDictionary* dict) {
     }
 }
 
-- (RLActiveSpan*) beginSpan:(NSString*)spanName
-{
-    if (!m_enabled) {
-        return nil;
-    }
-
-    RLActiveSpan* activeSpan = [RLActiveSpan new];
-    activeSpan.spanName = spanName;
-    activeSpan.client = self;
-    [activeSpan addJoinId:self.endUserKeyName value:self.endUserId];
-    return activeSpan;
-}
-
-- (void) log:(NSString*)message
-{
-    [self log:message payload:nil];
-}
-- (void) log:(NSString*)message payload:(NSDictionary*)payload
-{
-    [self log:message stableName:nil payload:payload spanGuid:nil];
-}
-- (void) logStable:(NSString*)stableName payload:(NSDictionary*)payload
-{
-    [self log:nil stableName:stableName payload:payload spanGuid:nil];
-}
-- (void) log:(NSString*)message stableName:(NSString*)stableName payload:(NSDictionary*)payload spanGuid:(NSString*)spanGuid
-{
-    if (!m_enabled) {
-        // Noop.
-        return;
-    }
-
-    RLLogRecord* logRecord = [[RLLogRecord alloc]
-                              initWithTimestamp_micros:[[NSDate date] toMicros]
-                              runtime_guid:self.runtimeGuid
-                              span_guid:spanGuid
-                              stable_name:stableName
-                              message:message
-                              level:nil
-                              thread_id:(int64_t)[NSThread currentThread]
-                              filename:nil  // TODO: support this
-                              line_number:0
-                              stack_frames:nil
-                              payload_json:jsonStringForDictionary(payload)
-                              error_flag:false];
-    [logRecord unsetLine_number]; // TODO: support this
-    [self appendLogRecord:logRecord];
-}
-
 - (void) _refreshStub
 {
     if (!m_enabled) {
@@ -284,7 +252,7 @@ static NSString* jsonStringForDictionary(NSDictionary* dict) {
             } else {
                 // Exponential backoff with a 5-minute max.
                 strongSelf->m_refreshStubDelaySecs = MIN(60*5, strongSelf->m_refreshStubDelaySecs * 1.5);
-                NSLog(@"RLClient backing off for %@ seconds", @(strongSelf->m_refreshStubDelaySecs));
+                NSLog(@"LSTracer backing off for %@ seconds", @(strongSelf->m_refreshStubDelaySecs));
                 [NSThread sleepForTimeInterval:strongSelf->m_refreshStubDelaySecs];
             }
 
@@ -302,7 +270,7 @@ static NSString* jsonStringForDictionary(NSDictionary* dict) {
                     dispatch_source_set_event_handler(strongSelf->m_flushTimer, ^{
                         __typeof__(self) reallyStrongSelf = weakSelf;
                         if (reallyStrongSelf) {
-                            [reallyStrongSelf flushToService];
+                            [reallyStrongSelf flush];
                         }
                     });
                     dispatch_resume(strongSelf->m_flushTimer);
@@ -325,12 +293,15 @@ static void correctTimestamps(NSArray* logRecords, NSArray* spanRecords, micros_
     }
 }
 
-- (void) flushToService
-{
+- (void) flush {
+
     micros_t tsCorrection = m_clockState.offsetMicros;
-    if (tsCorrection != 0) {
-        [self logStable:@"cr/time_correction_state" payload:@{@"offset_micros": @(tsCorrection)}];
-    }
+
+    // TODO: there is not currently a good way to report this diagnostic
+    // information
+    /*if (tsCorrection != 0) {
+        [self logEvent:@"cr/time_correction_state" payload:@{@"offset_micros": @(tsCorrection)}];
+    }*/
 
     NSMutableArray* spansToFlush;
     NSMutableArray* logsToFlush;
@@ -418,12 +389,12 @@ static void correctTimestamps(NSArray* logRecords, NSArray* spanRecords, micros_
 
             RLReportResponse* response = nil;
             @try {
-                micros_t originMicros = [RLClockState nowMicros];
+                micros_t originMicros = [LSClockState nowMicros];
                 response = [strongSelf->m_serviceStub Report:auth request:req];
-                micros_t destinationMicros = [RLClockState nowMicros];
+                micros_t destinationMicros = [LSClockState nowMicros];
                 for (RLCommand* command in response.commands) {
                     if (command.disable) {
-                        NSLog(@"NOTE: Signal RLClient disabled by remote peer.");
+                        NSLog(@"NOTE: Signal LSTracer disabled by remote peer.");
                         strongSelf->m_enabled = false;
                     }
                 }
@@ -462,93 +433,6 @@ static void correctTimestamps(NSArray* logRecords, NSArray* spanRecords, micros_
     };
 
     dispatch_async(m_queue, rpcBlock);
-}
-
-@end
-
-
-#pragma mark - RLActiveSpan
-
-@implementation RLActiveSpan {
-    NSString* m_spanGuid;
-    NSDate* m_startTime;
-    NSDate* m_endTime;
-    NSMutableArray* m_joinIds;
-    bool m_errorFlag;
-}
-
-- (instancetype) init
-{
-    if (self = [super init]) {
-        self->m_spanGuid = _guidGenerator();
-        self->m_startTime = [NSDate date];
-        self->m_endTime = nil;
-        self->m_joinIds = [NSMutableArray array];
-        self->m_errorFlag = false;
-    }
-    return self;
-}
-
-- (void) dealloc
-{
-    [self finish];  // in case we neglected to do so already.
-}
-
-- (void) addJoinId:(NSString *)key value:(NSString *)value {
-    [m_joinIds addObject:[[RLTraceJoinId alloc] initWithTraceKey:key Value:value]];
-}
-
-- (void) finish
-{
-    if (m_endTime == nil) {
-        m_endTime = [NSDate date];
-
-        [self.client appendSpanRecord:[[RLSpanRecord alloc]
-                                       initWithSpan_guid:m_spanGuid
-                                       runtime_guid:self.client.runtimeGuid
-                                       span_name:self.spanName
-                                       join_ids:m_joinIds
-                                       oldest_micros:[m_startTime toMicros]
-                                       youngest_micros:[m_endTime toMicros]
-                                       attributes:nil
-                                       error_flag:m_errorFlag]];
-    }
-}
-
-- (void) logError:(NSString*)errorMessage
-{
-    if (!self.client.enabled) {
-        // Noop.
-        return;
-    }
-
-    self->m_errorFlag = true;
-    RLLogRecord* logRecord = [[RLLogRecord alloc]
-                              initWithTimestamp_micros:[[NSDate date] toMicros]
-                              runtime_guid:self.client.runtimeGuid
-                              span_guid:m_spanGuid
-                              stable_name:nil
-                              message:errorMessage
-                              level:@"E"
-                              thread_id:(int64_t)[NSThread currentThread]
-                              filename:nil  // TODO: support this
-                              line_number:0
-                              stack_frames:nil
-                              payload_json:nil
-                              error_flag:true];
-
-    [logRecord unsetLine_number]; // TODO: support this
-    [self.client appendLogRecord:logRecord];
-}
-
-- (void) log:(NSString*)message
-{
-    [self.client log:message stableName:nil payload:nil spanGuid:m_spanGuid];
-}
-
-- (void) log:(NSString*)message payload:(NSDictionary*)payload
-{
-    [self.client log:message stableName:nil payload:payload spanGuid:m_spanGuid];
 }
 
 @end
