@@ -6,9 +6,15 @@
 /**
  * The entrypoint to instrumentation for Cocoa.
  *
- * As early as feasible in the life of the application (e.g., in `application:didFinishLaunchingWithOptions:`), call one of the static `+[LSTracer sharedInstanceWith...]` methods; `LSTracer` calls made prior to that initialization will be dropped.
+ * As early as feasible in the life of the application (e.g., in 
+ * `application:didFinishLaunchingWithOptions:`), call one of the static 
+ * `+[LSTracer sharedInstanceWith...]` methods; `LSTracer` calls made prior to 
+ * that initialization will be dropped.
  *
- * If there is a single end-user per Cocoa application instance, take advantage of the `LSTracer.endUserId` property.
+ * If there is a single end-user per Cocoa application instance, take advantage 
+ * of the `LSTracer.endUserId` property.
+ *
+ * LSTracer is thread-safe.
  */
 @interface LSTracer : NSObject
 
@@ -99,63 +105,41 @@
 
 #pragma mark - LightStep extensions and internal methods
 
-/*
+/**
  * Record a span.
  */
 - (void) _appendSpanRecord:(RLSpanRecord*)spanRecord;
 
-/*
+/**
  * Record a log record.
  */
 - (void) _appendLogRecord:(RLLogRecord*)logRecord;
 
-/*-----------------------------------------------
- * @name Service configuration.
- *-----------------------------------------------
+/**
+ *
  */
-
 - (bool) enabled;
 
-/*
+/**
  * The remote service URL string (as derived from `sharedInstancWithServiceHostport:token:`).
  */
 @property (nonatomic, readonly) NSString* serviceUrl;
 
-/*
+/**
  * The `LSTracer` instance's globally unique id ("guid"), which is both immutable and assigned automatically by LightStep.
  */
 @property (nonatomic, readonly) NSString* runtimeGuid;
 
 
-/*
+/**
  * The `LSTracer` instance's maximum number of records to buffer between reports.
  */
 @property (nonatomic) NSUInteger maxLogRecords;
 
-/*
+/**
  * The `LSTracer` instance's maximum number of records to buffer between reports.
  */
 @property (nonatomic) NSUInteger maxSpanRecords;
 
-/*-----------------------------------------------
- * @name Client-wide end-user ids.
- *-----------------------------------------------
- */
-
-/*
- * The current end-user's id, which should be consistent with the end-user ids used in LightStep instrumentation outside of the mobile app.
- *
- * One can always set a per-`LSSpan` end-user id manually using `-[LSSpan addJoinId:value:]`; the advantage of this property is that all spans from this `LSTracer` will automatically have the respective join id added.
- */
-@property (nonatomic, copy) NSString* endUserId;
-
-/*
- * The key name for the endUserId's JoinId. Defaults to "end_user_id", but may be overridden.
- *
- * For instance, if you use a session id within the iOS app but don't always have client-side access to the endUserId used elsewhere in instrumentation, you might set `endUserKeyName` to `session_id`, and of course set `endUserId` proper to that session id value.
- *
- * One can always set a per-`LSSpan` end-user id manually using `-[LSSpan addJoinId:value:]`; the advantage of this property is that all spans from this `LSTracer` will automatically have the respective join id added.
- */
-@property (nonatomic, copy) NSString* endUserKeyName;
 
 @end

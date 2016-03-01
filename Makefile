@@ -5,23 +5,33 @@ default:
 	@echo "    build_samples"
 	@echo "    clean"
 
+CROUTON_THRIFT=$(GOPATH)/src/crouton/crouton.thrift
 POD_VERSION := $(shell cat pod/lightstep/VERSION)
 POD_SPEC := lightstep-pod-tmp/pod/lightstep/lightstep.podspec
 
-# Runs the 'test' that essentially just checks if the code compiles!
 .PHONY: build
-build:
-	cd test/test_cruntime && xcodebuild clean build \
-	    CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ARCHS=arm64 ONLY_ACTIVE_ARCH=NO \
-	    -workspace test_cruntime.xcworkspace -scheme test_cruntime
+build: build_thrift
 	cd test/LightStepTestUI && xcodebuild clean build \
 		CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ARCHS=arm64 ONLY_ACTIVE_ARCH=NO \
 	    -workspace LightStepTestUI.xcworkspace -scheme LightStepTestUI
 
-open_test:
-	cd test/test_cruntime && open test_cruntime.xcworkspace
+.PHONY: build_thrift
+build_thrift:
+	thrift -r --gen cocoa -out pod/lightstep/Pod/Classes $(CROUTON_THRIFT)
+	cd pod/lightstep && bash ./patch_thrift.sh
 
-open_sample:
+
+# NOTE: this can be appear to hang if you don't have the simulator for the given
+# OS and platform. I believe it's downloading them in the background? Or maybe
+# XCode is just hanging without any messages? Who knows?
+.PHONY: test
+test:
+	cd test/LightStepTestUI && xcodebuild test \
+	CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO \
+	-workspace LightStepTestUI.xcworkspace -scheme LightStepTestUI \
+	-destination 'platform=iOS Simulator,name=iPhone 6,OS=9.2'
+
+open_xcode:
 	cd test/LightStepTestUI && open LightStepTestUI.xcworkspace
 
 publish: increment_version publish_source publish_pod

@@ -7,6 +7,8 @@
 /**
  * An `LSSpan` represents a logical unit of work done by the service. One or
  * more spans – presumably from different processes – are assembled into traces.
+ *
+ * The LSSpan class is thread-safe.
  */
 @interface LSSpan : NSObject
 

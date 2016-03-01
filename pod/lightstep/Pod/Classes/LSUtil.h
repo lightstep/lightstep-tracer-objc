@@ -6,6 +6,7 @@
 @interface LSUtil : NSObject
 
 + (NSString*)generateGUID;
++ (NSString*)objectToJSONString:(id)obj;
 
 @end
 

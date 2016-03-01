@@ -52,15 +52,20 @@
 }
 
 - (LSTracer*) tracer {
+    // The m_tracer pointer is immutable after initialization; no locking required.
     return m_tracer;
 }
 
 - (void) setOperationName:(NSString *)operationName {
-    m_operationName = operationName;
+    @synchronized(self) {
+        m_operationName = operationName;
+    }
 }
 
 - (void) setTag:(NSString *)key value:(NSString *)value {
-    [m_tags setObject:value forKey:key];
+    @synchronized(self) {
+        [m_tags setObject:value forKey:key];
+    }
 }
 
 - (void)logEvent:(NSString*)eventName {
@@ -75,12 +80,14 @@
   timestamp:(NSDate*)timestamp
     payload:(NSObject*)payload {
 
+    // No locking is requied as all the member variables used below are immutable
+    // after initialization:
+    // - m_tracer
+    // - m_guid
+
     if (![m_tracer enabled]) {
         return;
     }
-
-    // TODO: eventually this should be supported. Currently it is not.
-    self->m_errorFlag = false;
 
     RLLogRecord* logRecord = [[RLLogRecord alloc]
                               initWithTimestamp_micros:[timestamp toMicros]
@@ -93,21 +100,24 @@
                               filename:nil
                               line_number:0
                               stack_frames:nil
-                              payload_json:nil
+                              payload_json:[LSUtil objectToJSONString:payload]
                               error_flag:false];
 
     [m_tracer _appendLogRecord:logRecord];
-
 }
 
 - (void)setBaggageItem:(NSString*)key value:(NSString*)value {
     // TODO: need to check the key/value constraints
-    [m_baggage setObject:value forKey:key];
+    @synchronized(self) {
+        [m_baggage setObject:value forKey:key];
+    }
 }
 
 - (NSString*)getBaggageItem:(NSString*)key {
-    id obj = [m_baggage objectForKey:key];
-    return (NSString*)obj;
+    @synchronized(self) {
+        id obj = [m_baggage objectForKey:key];
+        return (NSString*)obj;
+    }
 }
 
 
@@ -121,28 +131,33 @@
         finishTime = [NSDate date];
     }
 
-    NSMutableArray* tagArray;
-    if ([m_tags count] > 0) {
-        tagArray = [[NSMutableArray alloc] initWithCapacity:[m_tags count]];
-        for (NSString* key in m_tags ) {
-            RLKeyValue* pair = [[RLKeyValue alloc] initWithKey:key Value:m_tags[key]];
-            [tagArray addObject:pair];
+    RLSpanRecord* record;
+    @synchronized(self) {
+        NSMutableArray* tagArray;
+        if ([m_tags count] > 0) {
+            tagArray = [[NSMutableArray alloc] initWithCapacity:[m_tags count]];
+            for (NSString* key in m_tags ) {
+                RLKeyValue* pair = [[RLKeyValue alloc] initWithKey:key Value:m_tags[key]];
+                [tagArray addObject:pair];
+            }
         }
+        record =[[RLSpanRecord alloc] initWithSpan_guid:m_guid
+                                           runtime_guid:m_tracer.runtimeGuid
+                                              span_name:m_operationName
+                                               join_ids:nil
+                                          oldest_micros:[m_startTime toMicros]
+                                        youngest_micros:[finishTime toMicros]
+                                             attributes:tagArray
+                                             error_flag:m_errorFlag];
     }
-
-    [m_tracer _appendSpanRecord:[[RLSpanRecord alloc]
-                                initWithSpan_guid:m_guid
-                                runtime_guid:m_tracer.runtimeGuid
-                                span_name:m_operationName
-                                join_ids:nil
-                                oldest_micros:[m_startTime toMicros]
-                                youngest_micros:[finishTime toMicros]
-                                attributes:tagArray
-                                error_flag:m_errorFlag]];
+    [m_tracer _appendSpanRecord:record];
 }
 
 - (void)_addTags:(NSDictionary*)tags {
-    if (tags != nil) {
+    if (tags == nil) {
+        return;
+    }
+    @synchronized(self) {
         [m_tags addEntriesFromDictionary:tags];
     }
 }
