@@ -89,6 +89,8 @@
         return;
     }
 
+    NSString* payloadJSON = [LSUtil objectToJSONString:payload
+                                             maxLength:[m_tracer maxPayloadJSONLength]];
     RLLogRecord* logRecord = [[RLLogRecord alloc]
                               initWithTimestamp_micros:[timestamp toMicros]
                               runtime_guid:[m_tracer runtimeGuid]
@@ -100,7 +102,7 @@
                               filename:nil
                               line_number:0
                               stack_frames:nil
-                              payload_json:[LSUtil objectToJSONString:payload]
+                              payload_json:payloadJSON
                               error_flag:false];
 
     [m_tracer _appendLogRecord:logRecord];
@@ -119,8 +121,6 @@
         return (NSString*)obj;
     }
 }
-
-
 
 - (void) finish {
     [self finishWithTime:[NSDate date]];

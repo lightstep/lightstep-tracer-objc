@@ -134,12 +134,17 @@
 /**
  * The `LSTracer` instance's maximum number of records to buffer between reports.
  */
-@property (nonatomic) NSUInteger maxLogRecords;
+@property (atomic) NSUInteger maxLogRecords;
 
 /**
  * The `LSTracer` instance's maximum number of records to buffer between reports.
  */
-@property (nonatomic) NSUInteger maxSpanRecords;
+@property (atomic) NSUInteger maxSpanRecords;
+
+/**
+ * Maximum string length of any single JSON payload.
+ */
+@property (atomic) NSUInteger maxPayloadJSONLength;
 
 
 @end

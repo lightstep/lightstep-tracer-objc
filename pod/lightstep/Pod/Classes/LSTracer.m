@@ -13,6 +13,7 @@ NSString*const LSDefaultLightStepReportingHostport = @"collector.lightstep.com:4
 static const int kFlushIntervalSeconds = 30;
 static const NSUInteger kDefaultMaxBufferedSpans = 5000;
 static const NSUInteger kDefaultMaxBufferedLogs = 10000;
+static const NSUInteger kDefaultMaxPayloadJSONLength = 4096;
 
 static LSTracer* s_sharedInstance = nil;
 static float kFirstRefreshDelay = 0;
@@ -38,6 +39,7 @@ static float kFirstRefreshDelay = 0;
 
 @synthesize maxLogRecords = m_maxLogRecords;
 @synthesize maxSpanRecords = m_maxSpanRecords;
+@synthesize maxPayloadJSONLength = m_maxPayloadJSONLength;
 
 - (instancetype) initWithServiceHostport:(NSString*)hostport
                                    token:(NSString*)accessToken
@@ -59,6 +61,7 @@ static float kFirstRefreshDelay = 0;
 
         self->m_maxLogRecords = kDefaultMaxBufferedLogs;
         self->m_maxSpanRecords = kDefaultMaxBufferedSpans;
+        self->m_maxPayloadJSONLength = kDefaultMaxPayloadJSONLength;
         self->m_pendingSpanRecords = [NSMutableArray array];
         self->m_pendingLogRecords = [NSMutableArray array];
         self->m_queue = dispatch_queue_create("com.resonancelabs.signal.rpc", DISPATCH_QUEUE_SERIAL);
@@ -142,8 +145,6 @@ static float kFirstRefreshDelay = 0;
     // TODO: implement this
     return nil;
 }
-
-
 
 - (NSString*) serviceUrl {
     @synchronized(self) {
@@ -273,9 +274,6 @@ static float kFirstRefreshDelay = 0;
     }
 }
 
-
-
-
 - (void) flush {
     __weak __typeof__(self) weakSelf = self;
     @synchronized(self) {
@@ -365,7 +363,6 @@ static float kFirstRefreshDelay = 0;
         }
     }
 }
-
 
 // Note: do not call directly from outside flush()
 - (void) _flushReport:(RLAuth*) auth request:(RLReportRequest*)req {

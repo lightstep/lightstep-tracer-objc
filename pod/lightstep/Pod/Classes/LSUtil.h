@@ -6,7 +6,7 @@
 @interface LSUtil : NSObject
 
 + (NSString*)generateGUID;
-+ (NSString*)objectToJSONString:(id)obj;
++ (NSString*)objectToJSONString:(id)obj maxLength:(NSUInteger)maxLength;
 
 @end
 

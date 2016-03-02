@@ -7,7 +7,18 @@
     return [NSString stringWithFormat:@"%x%x", arc4random(), arc4random()];
 }
 
-+ (NSString*)objectToJSONString:(id)obj {
++ (NSString*)objectToJSONString:(id)obj
+                      maxLength:(NSUInteger)maxLength {
+    NSString* json = [LSUtil _objectToJSONString:obj];
+    if ([json length] > maxLength) {
+        NSLog(@"Dropping excessively large payload: length=%ld", [json length]);
+        json = nil;
+    }
+    return json;
+}
+
+// Convert the object to JSON without string length constraints
++ (NSString*)_objectToJSONString:(id)obj {
     if (obj == nil) {
         return nil;
     } else if ([NSJSONSerialization isValidJSONObject:obj]) {
