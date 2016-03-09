@@ -1,0 +1,10 @@
+PODS:
+  - thrift (0.9.2)
+
+DEPENDENCIES:
+  - thrift (= 0.9.2)
+
+SPEC CHECKSUMS:
+  thrift: 54db2dc6b2918a6d38a866232e329e925471ddd6
+
+COCOAPODS: 0.39.0

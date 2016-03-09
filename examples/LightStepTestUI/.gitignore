@@ -31,8 +31,3 @@ Carthage
 # `pod install` in .travis.yml
 #
 # Pods/
-
-
-# LightStep specific
-tmp-publish/
-lightstep-pod-tmp/

@@ -1,0 +1,672 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0161AC9534A6C70187CD82CFE91BADC6 /* TNSStreamTransport.h in Headers */ = {isa = PBXBuildFile; fileRef = 795403CEB49066E74FC4FB338ED9285A /* TNSStreamTransport.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		02B9765AEFE57A9EA2D16D1E56213CC2 /* TException.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B3C40B5D4EFB0D20A8555ACCD372CF8 /* TException.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0DBDE7F25FDE630ED0CF38BEFB6188B3 /* TException.h in Headers */ = {isa = PBXBuildFile; fileRef = A26ED33FE62C1A68C899EAC6DCA67AE6 /* TException.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		10B97E09235EAFDBDCB8FC902C7AD877 /* thrift-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 55686D9473CCC06DBC5A9F7BB35EBE21 /* thrift-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18738F4AA19E9E4A26F4D85BF83F7A89 /* TProtocolDecorator.m in Sources */ = {isa = PBXBuildFile; fileRef = D1D13FFAD9E3BC89A2569039513FAC07 /* TProtocolDecorator.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		21959DD098851ECB9DE7EC5B03E9F74D /* TProtocolUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = E20368495A4B66E7FA54C8E33D25FBBC /* TProtocolUtil.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		2A530DB5A582E12B59AB60DC8BD3CBA8 /* TApplicationException.m in Sources */ = {isa = PBXBuildFile; fileRef = 9642FC3BE633EB1D900227F62E65A268 /* TApplicationException.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		37F4C09C344368A49E840573130F2BB6 /* TProtocolException.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9055CEFF7732FCA8100B125386B6AA /* TProtocolException.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		43E63D70B5B67507FB15AA0488A4FCFE /* TSSLSocketException.m in Sources */ = {isa = PBXBuildFile; fileRef = 48D4BAE73C9BEE1A33B780217DFD8A60 /* TSSLSocketException.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		48FE3BCD6A7B382DE801323BD81B0FAA /* thrift-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 44886E164AE7C380F34F925207D21C0C /* thrift-dummy.m */; };
+		4D3686CB74C387CAE7F4DFCE990E9CA6 /* TSharedProcessorFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CD096C2FD26C15C24AC88B2C58E7D83 /* TSharedProcessorFactory.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		4E6943A4F46D9ED6EF61A44A17398B41 /* TProtocolDecorator.h in Headers */ = {isa = PBXBuildFile; fileRef = CACD2C3F30713F51DC26EF28A1DCD6BE /* TProtocolDecorator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4F2B4304561334B4BE78F6362D4F5C9F /* TObjective-C.h in Headers */ = {isa = PBXBuildFile; fileRef = 77BFA4D372DAE9F147C5CCB00A525543 /* TObjective-C.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		51FF574FCB6540ACF7C948D5B4E2936E /* TProtocolFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EA0879F2C14D392E2994FA282880EB7 /* TProtocolFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		536F5BBB43872697E31E7139188AB42A /* TBinaryProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 2638B24C28CF230C1837915B99FA70F6 /* TBinaryProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		54D407180628B719414B3F6C93EA1C7E /* TBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 6C2525B6558902C78CD0F3C4AD5B42B2 /* TBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5888B86A37A7561E794DB40FFEC63251 /* TTransportException.h in Headers */ = {isa = PBXBuildFile; fileRef = 1E9D55EEC6D1F521D6F8FC7B08FB6032 /* TTransportException.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		680D02D3AF288D0B0F6B26FA0549E3CA /* TProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 6987EDBF97747D2F03A0A7887F233BC9 /* TProcessor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		696F74DA55A1DD0998830E6FBE3382B4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4E89230EF59BC255123B67864ACF77 /* Foundation.framework */; };
+		79906BF8EB45A85735AEA7359DD3BF91 /* TSocketServer.h in Headers */ = {isa = PBXBuildFile; fileRef = F5B2ECDE80CC4AAF6FBF473485BCCB8A /* TSocketServer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7C71F3D286CC9425E0C89EEE97441FCB /* TSocketServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1837C32D7551C1EA87A40ABB3127C564 /* TSocketServer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		7F578A93B6EAC2937688A91EBEB13B68 /* TSharedProcessorFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = E8D0E6FF00E78197E35C685BF885ED81 /* TSharedProcessorFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8088A93D60BBD23DF327B5AB3C17AB31 /* TMultiplexedProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = A10AE7A3497955D6D107301875A4C95A /* TMultiplexedProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		83F73F084E7E5921E6363352E18FE947 /* TTransportException.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A73138DF857E9576A0F46EBD6E8C7E9 /* TTransportException.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		86394FE8E7D4075F48071F77190F2747 /* Thrift.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BFC51D0A2FE05ABFE49C4E5736F4366 /* Thrift.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		86EB1F6A5A8F3A84FD8454FC1BB85D4C /* TProtocolException.h in Headers */ = {isa = PBXBuildFile; fileRef = 47FF0733BD4BD7A9DC187CECC061899C /* TProtocolException.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93D30AD20A7DA8946AE8CBE9244480A6 /* TSSLSocketException.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D1CDE329B3BCC9EC6D1868A9A3AA5D9 /* TSSLSocketException.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9E606C534401CAF491E57C8A5ADBA379 /* TNSFileHandleTransport.h in Headers */ = {isa = PBXBuildFile; fileRef = 17462DF948E9DF4433D4D51F35433B64 /* TNSFileHandleTransport.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A0E3B2564D92EDB047EDCDC65910A12E /* TProtocolUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = C141EAA578C38183D5B105F542BC4032 /* TProtocolUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A58DC45DC0DABA41B9F61AAD8A20E088 /* TTransport.h in Headers */ = {isa = PBXBuildFile; fileRef = 0453C231921FCCDD05D1BCA578F139F1 /* TTransport.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B378CA73E7332228A331A0DEEF2BDB53 /* TFramedTransport.h in Headers */ = {isa = PBXBuildFile; fileRef = A4CC50102D627E05E78AD199FF092A8A /* TFramedTransport.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B4D383841EAC4A51FAF13FDB4079D0C6 /* THTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 4877986D8D323CE7DDF819FC613121DD /* THTTPClient.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		B83317F38106A1F1AA18459978689A7A /* TProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 852B57341860F3F8505F3623F5430FA2 /* TProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B99CDE288349C6AF3EFCF2A9503C4094 /* THTTPClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 81A864FD86DBC27C2CE2AF473A10C583 /* THTTPClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B9B07F55920702F487A4A054EE21207E /* TNSStreamTransport.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE2498D666D880DB07CCCB89148183E /* TNSStreamTransport.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		BA3211E4995F28ED286EB032B782F40B /* Pods-LightStepTestUI-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 66803D535A364C5D43F9AF052418ADCB /* Pods-LightStepTestUI-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BA5ADAD44CA368B1D93F48721CD6E574 /* TFramedTransport.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC43BDD19131D6605C0B100C8449006 /* TFramedTransport.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		BC6FCFE0B9AF56FF951F0423A7444A07 /* TSSLSocketClient.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B681B1F7C58814085F8EE18E849B50 /* TSSLSocketClient.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		BFD674E36E6CB3FEFD81A0E2EB2F22E1 /* TSocketClient.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC991CE8FDDBA4A8783A91E91FE6906 /* TSocketClient.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		D102E9129601F52957E87A219042EB93 /* TMemoryBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7120B0C4018F9CE85E86322A7D5ECAA2 /* TMemoryBuffer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		D7EC3366521192FAC8AB54CA2EA3B254 /* TSocketClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7AEED1A5A36A590ED073BDD6B01536 /* TSocketClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DC058A939DFCAF7DDF3A0248342249B4 /* TSSLSocketClient.h in Headers */ = {isa = PBXBuildFile; fileRef = B24BD5256EB1CE4D9DAF9AD631F4812F /* TSSLSocketClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E0B228199F53BBCB198101A438B8559C /* TMemoryBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 22673C05B699E82E62E20571D20AE8EA /* TMemoryBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E63684FC35C19741351A55865F6123E2 /* TApplicationException.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D2394D7C85DCD8DCDC915F06659AA7F /* TApplicationException.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EC5F0BC54BDBD5AFCCD2B54BA5AE1041 /* TProcessorFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5AEB319709C6B2D510A5CF9094BC64 /* TProcessorFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ED85B3D89A016DBC99AF62955A912C63 /* TNSFileHandleTransport.m in Sources */ = {isa = PBXBuildFile; fileRef = A258FC431C36E1CAEF9A0E1601DD693B /* TNSFileHandleTransport.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		EE5C0C29E80236847E0182A4A830366F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4E89230EF59BC255123B67864ACF77 /* Foundation.framework */; };
+		EEA9A2F63833C53D7B92263CEF7DBE8B /* Pods-LightStepTestUI-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F890E779037BD3178EB5CB11E96E15E0 /* Pods-LightStepTestUI-dummy.m */; };
+		F8C0F4D3C3085DD6450427B48453C65B /* TMultiplexedProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A0878720202E82D2AFA3590CE8FF89 /* TMultiplexedProtocol.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		FE7AE1C7D2FE04894ABB90FC9EB18699 /* TBinaryProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9F15E4E448F6AAAA7661192C0FC2CB /* TBinaryProtocol.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0A5955596A923DA4E3BEE2F53CE92442 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 53817C03E63DC964502A507E18AC796B;
+			remoteInfo = thrift;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0453C231921FCCDD05D1BCA578F139F1 /* TTransport.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TTransport.h; path = lib/cocoa/src/transport/TTransport.h; sourceTree = "<group>"; };
+		0E9C579D460DCE266D36DC204B9CC081 /* Pods_LightStepTestUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LightStepTestUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0EA0879F2C14D392E2994FA282880EB7 /* TProtocolFactory.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TProtocolFactory.h; path = lib/cocoa/src/protocol/TProtocolFactory.h; sourceTree = "<group>"; };
+		11F992A2DA4B474F9D3BF4BBB18D5B67 /* Pods-LightStepTestUI-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-LightStepTestUI-acknowledgements.markdown"; sourceTree = "<group>"; };
+		17462DF948E9DF4433D4D51F35433B64 /* TNSFileHandleTransport.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TNSFileHandleTransport.h; path = lib/cocoa/src/transport/TNSFileHandleTransport.h; sourceTree = "<group>"; };
+		17D87BC36509582CAB4A7EACEFFF0AB0 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1837C32D7551C1EA87A40ABB3127C564 /* TSocketServer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TSocketServer.m; path = lib/cocoa/src/server/TSocketServer.m; sourceTree = "<group>"; };
+		1A2458AF6E941EFA56ECB62D0238FAE6 /* Pods-LightStepTestUI-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-LightStepTestUI-acknowledgements.plist"; sourceTree = "<group>"; };
+		1C9F15E4E448F6AAAA7661192C0FC2CB /* TBinaryProtocol.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TBinaryProtocol.m; path = lib/cocoa/src/protocol/TBinaryProtocol.m; sourceTree = "<group>"; };
+		1D2394D7C85DCD8DCDC915F06659AA7F /* TApplicationException.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TApplicationException.h; path = lib/cocoa/src/TApplicationException.h; sourceTree = "<group>"; };
+		1E9D55EEC6D1F521D6F8FC7B08FB6032 /* TTransportException.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TTransportException.h; path = lib/cocoa/src/transport/TTransportException.h; sourceTree = "<group>"; };
+		1FC43BDD19131D6605C0B100C8449006 /* TFramedTransport.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TFramedTransport.m; path = lib/cocoa/src/transport/TFramedTransport.m; sourceTree = "<group>"; };
+		22673C05B699E82E62E20571D20AE8EA /* TMemoryBuffer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TMemoryBuffer.h; path = lib/cocoa/src/transport/TMemoryBuffer.h; sourceTree = "<group>"; };
+		2638B24C28CF230C1837915B99FA70F6 /* TBinaryProtocol.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TBinaryProtocol.h; path = lib/cocoa/src/protocol/TBinaryProtocol.h; sourceTree = "<group>"; };
+		2721CDBD04B494102BD797B6A2980B0A /* Pods-LightStepTestUI-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-LightStepTestUI-resources.sh"; sourceTree = "<group>"; };
+		2AE1737A0F707ADA0D63A4E752BAC3ED /* Pods-LightStepTestUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-LightStepTestUI.debug.xcconfig"; sourceTree = "<group>"; };
+		2BFC51D0A2FE05ABFE49C4E5736F4366 /* Thrift.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Thrift.h; path = lib/cocoa/src/Thrift.h; sourceTree = "<group>"; };
+		2D1CDE329B3BCC9EC6D1868A9A3AA5D9 /* TSSLSocketException.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TSSLSocketException.h; path = lib/cocoa/src/transport/TSSLSocketException.h; sourceTree = "<group>"; };
+		3B3C40B5D4EFB0D20A8555ACCD372CF8 /* TException.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TException.m; path = lib/cocoa/src/TException.m; sourceTree = "<group>"; };
+		3E4E89230EF59BC255123B67864ACF77 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		44886E164AE7C380F34F925207D21C0C /* thrift-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "thrift-dummy.m"; sourceTree = "<group>"; };
+		47FF0733BD4BD7A9DC187CECC061899C /* TProtocolException.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TProtocolException.h; path = lib/cocoa/src/protocol/TProtocolException.h; sourceTree = "<group>"; };
+		4877986D8D323CE7DDF819FC613121DD /* THTTPClient.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = THTTPClient.m; path = lib/cocoa/src/transport/THTTPClient.m; sourceTree = "<group>"; };
+		48D4BAE73C9BEE1A33B780217DFD8A60 /* TSSLSocketException.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TSSLSocketException.m; path = lib/cocoa/src/transport/TSSLSocketException.m; sourceTree = "<group>"; };
+		4B49DE489EB44C81871CC398BFB37908 /* thrift-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "thrift-prefix.pch"; sourceTree = "<group>"; };
+		4CD096C2FD26C15C24AC88B2C58E7D83 /* TSharedProcessorFactory.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TSharedProcessorFactory.m; path = lib/cocoa/src/TSharedProcessorFactory.m; sourceTree = "<group>"; };
+		515D2F735B7A757416D4BA133E03FF11 /* Pods-LightStepTestUI.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-LightStepTestUI.modulemap"; sourceTree = "<group>"; };
+		55686D9473CCC06DBC5A9F7BB35EBE21 /* thrift-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "thrift-umbrella.h"; sourceTree = "<group>"; };
+		5F7AEED1A5A36A590ED073BDD6B01536 /* TSocketClient.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TSocketClient.h; path = lib/cocoa/src/transport/TSocketClient.h; sourceTree = "<group>"; };
+		66803D535A364C5D43F9AF052418ADCB /* Pods-LightStepTestUI-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-LightStepTestUI-umbrella.h"; sourceTree = "<group>"; };
+		6987EDBF97747D2F03A0A7887F233BC9 /* TProcessor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TProcessor.h; path = lib/cocoa/src/TProcessor.h; sourceTree = "<group>"; };
+		6C2525B6558902C78CD0F3C4AD5B42B2 /* TBase.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TBase.h; path = lib/cocoa/src/protocol/TBase.h; sourceTree = "<group>"; };
+		7120B0C4018F9CE85E86322A7D5ECAA2 /* TMemoryBuffer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TMemoryBuffer.m; path = lib/cocoa/src/transport/TMemoryBuffer.m; sourceTree = "<group>"; };
+		77098F18A57CB3499B7F53AAFDB5EC7B /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		77BFA4D372DAE9F147C5CCB00A525543 /* TObjective-C.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "TObjective-C.h"; path = "lib/cocoa/src/TObjective-C.h"; sourceTree = "<group>"; };
+		795403CEB49066E74FC4FB338ED9285A /* TNSStreamTransport.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TNSStreamTransport.h; path = lib/cocoa/src/transport/TNSStreamTransport.h; sourceTree = "<group>"; };
+		7E5AEB319709C6B2D510A5CF9094BC64 /* TProcessorFactory.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TProcessorFactory.h; path = lib/cocoa/src/TProcessorFactory.h; sourceTree = "<group>"; };
+		81A864FD86DBC27C2CE2AF473A10C583 /* THTTPClient.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = THTTPClient.h; path = lib/cocoa/src/transport/THTTPClient.h; sourceTree = "<group>"; };
+		852B57341860F3F8505F3623F5430FA2 /* TProtocol.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TProtocol.h; path = lib/cocoa/src/protocol/TProtocol.h; sourceTree = "<group>"; };
+		85A9D2620D70E5F0C7F03CF17B4C6066 /* thrift.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = thrift.xcconfig; sourceTree = "<group>"; };
+		86A0878720202E82D2AFA3590CE8FF89 /* TMultiplexedProtocol.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TMultiplexedProtocol.m; path = lib/cocoa/src/protocol/TMultiplexedProtocol.m; sourceTree = "<group>"; };
+		8A73138DF857E9576A0F46EBD6E8C7E9 /* TTransportException.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TTransportException.m; path = lib/cocoa/src/transport/TTransportException.m; sourceTree = "<group>"; };
+		8EB88BB0D291CD8B976C59E85D4EEBE5 /* thrift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = thrift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9642FC3BE633EB1D900227F62E65A268 /* TApplicationException.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TApplicationException.m; path = lib/cocoa/src/TApplicationException.m; sourceTree = "<group>"; };
+		A10AE7A3497955D6D107301875A4C95A /* TMultiplexedProtocol.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TMultiplexedProtocol.h; path = lib/cocoa/src/protocol/TMultiplexedProtocol.h; sourceTree = "<group>"; };
+		A258FC431C36E1CAEF9A0E1601DD693B /* TNSFileHandleTransport.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TNSFileHandleTransport.m; path = lib/cocoa/src/transport/TNSFileHandleTransport.m; sourceTree = "<group>"; };
+		A26ED33FE62C1A68C899EAC6DCA67AE6 /* TException.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TException.h; path = lib/cocoa/src/TException.h; sourceTree = "<group>"; };
+		A4CC50102D627E05E78AD199FF092A8A /* TFramedTransport.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TFramedTransport.h; path = lib/cocoa/src/transport/TFramedTransport.h; sourceTree = "<group>"; };
+		B24BD5256EB1CE4D9DAF9AD631F4812F /* TSSLSocketClient.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TSSLSocketClient.h; path = lib/cocoa/src/transport/TSSLSocketClient.h; sourceTree = "<group>"; };
+		BA6428E9F66FD5A23C0A2E06ED26CD2F /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		C141EAA578C38183D5B105F542BC4032 /* TProtocolUtil.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TProtocolUtil.h; path = lib/cocoa/src/protocol/TProtocolUtil.h; sourceTree = "<group>"; };
+		C4DF13CB45368DE1140043C8C8C1C98E /* Pods-LightStepTestUI-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-LightStepTestUI-frameworks.sh"; sourceTree = "<group>"; };
+		C5B681B1F7C58814085F8EE18E849B50 /* TSSLSocketClient.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TSSLSocketClient.m; path = lib/cocoa/src/transport/TSSLSocketClient.m; sourceTree = "<group>"; };
+		CACD2C3F30713F51DC26EF28A1DCD6BE /* TProtocolDecorator.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TProtocolDecorator.h; path = lib/cocoa/src/protocol/TProtocolDecorator.h; sourceTree = "<group>"; };
+		CE2BB5F5657D868A951FE2199A0FF2FC /* Pods-LightStepTestUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-LightStepTestUI.release.xcconfig"; sourceTree = "<group>"; };
+		D1D13FFAD9E3BC89A2569039513FAC07 /* TProtocolDecorator.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TProtocolDecorator.m; path = lib/cocoa/src/protocol/TProtocolDecorator.m; sourceTree = "<group>"; };
+		DB9055CEFF7732FCA8100B125386B6AA /* TProtocolException.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TProtocolException.m; path = lib/cocoa/src/protocol/TProtocolException.m; sourceTree = "<group>"; };
+		DDE2498D666D880DB07CCCB89148183E /* TNSStreamTransport.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TNSStreamTransport.m; path = lib/cocoa/src/transport/TNSStreamTransport.m; sourceTree = "<group>"; };
+		E20368495A4B66E7FA54C8E33D25FBBC /* TProtocolUtil.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TProtocolUtil.m; path = lib/cocoa/src/protocol/TProtocolUtil.m; sourceTree = "<group>"; };
+		E8D0E6FF00E78197E35C685BF885ED81 /* TSharedProcessorFactory.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TSharedProcessorFactory.h; path = lib/cocoa/src/TSharedProcessorFactory.h; sourceTree = "<group>"; };
+		EE1376EB81B18D7F48587388D71EC024 /* thrift.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = thrift.modulemap; sourceTree = "<group>"; };
+		EEC991CE8FDDBA4A8783A91E91FE6906 /* TSocketClient.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TSocketClient.m; path = lib/cocoa/src/transport/TSocketClient.m; sourceTree = "<group>"; };
+		F5B2ECDE80CC4AAF6FBF473485BCCB8A /* TSocketServer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TSocketServer.h; path = lib/cocoa/src/server/TSocketServer.h; sourceTree = "<group>"; };
+		F890E779037BD3178EB5CB11E96E15E0 /* Pods-LightStepTestUI-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-LightStepTestUI-dummy.m"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DCD83637946B39BE0418ED16BE1F02FB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE5C0C29E80236847E0182A4A830366F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DF16837B77FE826D4656A8F06E00002B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				696F74DA55A1DD0998830E6FBE3382B4 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		08498DBE6127796627947F6C84046999 /* thrift */ = {
+			isa = PBXGroup;
+			children = (
+				1D2394D7C85DCD8DCDC915F06659AA7F /* TApplicationException.h */,
+				9642FC3BE633EB1D900227F62E65A268 /* TApplicationException.m */,
+				6C2525B6558902C78CD0F3C4AD5B42B2 /* TBase.h */,
+				2638B24C28CF230C1837915B99FA70F6 /* TBinaryProtocol.h */,
+				1C9F15E4E448F6AAAA7661192C0FC2CB /* TBinaryProtocol.m */,
+				A26ED33FE62C1A68C899EAC6DCA67AE6 /* TException.h */,
+				3B3C40B5D4EFB0D20A8555ACCD372CF8 /* TException.m */,
+				A4CC50102D627E05E78AD199FF092A8A /* TFramedTransport.h */,
+				1FC43BDD19131D6605C0B100C8449006 /* TFramedTransport.m */,
+				2BFC51D0A2FE05ABFE49C4E5736F4366 /* Thrift.h */,
+				81A864FD86DBC27C2CE2AF473A10C583 /* THTTPClient.h */,
+				4877986D8D323CE7DDF819FC613121DD /* THTTPClient.m */,
+				22673C05B699E82E62E20571D20AE8EA /* TMemoryBuffer.h */,
+				7120B0C4018F9CE85E86322A7D5ECAA2 /* TMemoryBuffer.m */,
+				A10AE7A3497955D6D107301875A4C95A /* TMultiplexedProtocol.h */,
+				86A0878720202E82D2AFA3590CE8FF89 /* TMultiplexedProtocol.m */,
+				17462DF948E9DF4433D4D51F35433B64 /* TNSFileHandleTransport.h */,
+				A258FC431C36E1CAEF9A0E1601DD693B /* TNSFileHandleTransport.m */,
+				795403CEB49066E74FC4FB338ED9285A /* TNSStreamTransport.h */,
+				DDE2498D666D880DB07CCCB89148183E /* TNSStreamTransport.m */,
+				77BFA4D372DAE9F147C5CCB00A525543 /* TObjective-C.h */,
+				6987EDBF97747D2F03A0A7887F233BC9 /* TProcessor.h */,
+				7E5AEB319709C6B2D510A5CF9094BC64 /* TProcessorFactory.h */,
+				852B57341860F3F8505F3623F5430FA2 /* TProtocol.h */,
+				CACD2C3F30713F51DC26EF28A1DCD6BE /* TProtocolDecorator.h */,
+				D1D13FFAD9E3BC89A2569039513FAC07 /* TProtocolDecorator.m */,
+				47FF0733BD4BD7A9DC187CECC061899C /* TProtocolException.h */,
+				DB9055CEFF7732FCA8100B125386B6AA /* TProtocolException.m */,
+				0EA0879F2C14D392E2994FA282880EB7 /* TProtocolFactory.h */,
+				C141EAA578C38183D5B105F542BC4032 /* TProtocolUtil.h */,
+				E20368495A4B66E7FA54C8E33D25FBBC /* TProtocolUtil.m */,
+				E8D0E6FF00E78197E35C685BF885ED81 /* TSharedProcessorFactory.h */,
+				4CD096C2FD26C15C24AC88B2C58E7D83 /* TSharedProcessorFactory.m */,
+				5F7AEED1A5A36A590ED073BDD6B01536 /* TSocketClient.h */,
+				EEC991CE8FDDBA4A8783A91E91FE6906 /* TSocketClient.m */,
+				F5B2ECDE80CC4AAF6FBF473485BCCB8A /* TSocketServer.h */,
+				1837C32D7551C1EA87A40ABB3127C564 /* TSocketServer.m */,
+				B24BD5256EB1CE4D9DAF9AD631F4812F /* TSSLSocketClient.h */,
+				C5B681B1F7C58814085F8EE18E849B50 /* TSSLSocketClient.m */,
+				2D1CDE329B3BCC9EC6D1868A9A3AA5D9 /* TSSLSocketException.h */,
+				48D4BAE73C9BEE1A33B780217DFD8A60 /* TSSLSocketException.m */,
+				0453C231921FCCDD05D1BCA578F139F1 /* TTransport.h */,
+				1E9D55EEC6D1F521D6F8FC7B08FB6032 /* TTransportException.h */,
+				8A73138DF857E9576A0F46EBD6E8C7E9 /* TTransportException.m */,
+				380F4F60B43D5BF812ED3CFCD142A19C /* Support Files */,
+			);
+			path = thrift;
+			sourceTree = "<group>";
+		};
+		13BB386E84EA969BA83DA1BFBCE3C09D /* Pods-LightStepTestUI */ = {
+			isa = PBXGroup;
+			children = (
+				77098F18A57CB3499B7F53AAFDB5EC7B /* Info.plist */,
+				515D2F735B7A757416D4BA133E03FF11 /* Pods-LightStepTestUI.modulemap */,
+				11F992A2DA4B474F9D3BF4BBB18D5B67 /* Pods-LightStepTestUI-acknowledgements.markdown */,
+				1A2458AF6E941EFA56ECB62D0238FAE6 /* Pods-LightStepTestUI-acknowledgements.plist */,
+				F890E779037BD3178EB5CB11E96E15E0 /* Pods-LightStepTestUI-dummy.m */,
+				C4DF13CB45368DE1140043C8C8C1C98E /* Pods-LightStepTestUI-frameworks.sh */,
+				2721CDBD04B494102BD797B6A2980B0A /* Pods-LightStepTestUI-resources.sh */,
+				66803D535A364C5D43F9AF052418ADCB /* Pods-LightStepTestUI-umbrella.h */,
+				2AE1737A0F707ADA0D63A4E752BAC3ED /* Pods-LightStepTestUI.debug.xcconfig */,
+				CE2BB5F5657D868A951FE2199A0FF2FC /* Pods-LightStepTestUI.release.xcconfig */,
+			);
+			name = "Pods-LightStepTestUI";
+			path = "Target Support Files/Pods-LightStepTestUI";
+			sourceTree = "<group>";
+		};
+		380F4F60B43D5BF812ED3CFCD142A19C /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				17D87BC36509582CAB4A7EACEFFF0AB0 /* Info.plist */,
+				EE1376EB81B18D7F48587388D71EC024 /* thrift.modulemap */,
+				85A9D2620D70E5F0C7F03CF17B4C6066 /* thrift.xcconfig */,
+				44886E164AE7C380F34F925207D21C0C /* thrift-dummy.m */,
+				4B49DE489EB44C81871CC398BFB37908 /* thrift-prefix.pch */,
+				55686D9473CCC06DBC5A9F7BB35EBE21 /* thrift-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/thrift";
+			sourceTree = "<group>";
+		};
+		42FFBD4F80681465E1E222832D0A991C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0E9C579D460DCE266D36DC204B9CC081 /* Pods_LightStepTestUI.framework */,
+				8EB88BB0D291CD8B976C59E85D4EEBE5 /* thrift.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7DB346D0F39D3F0E887471402A8071AB = {
+			isa = PBXGroup;
+			children = (
+				BA6428E9F66FD5A23C0A2E06ED26CD2F /* Podfile */,
+				BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */,
+				F9865213435253BB338999021BA7839A /* Pods */,
+				42FFBD4F80681465E1E222832D0A991C /* Products */,
+				E0709F63EFEAC9F54FDB5D3DE01909B7 /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BF6342C8B29F4CEEA088EFF7AB4DE362 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BF6342C8B29F4CEEA088EFF7AB4DE362 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				3E4E89230EF59BC255123B67864ACF77 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		E0709F63EFEAC9F54FDB5D3DE01909B7 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				13BB386E84EA969BA83DA1BFBCE3C09D /* Pods-LightStepTestUI */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		F9865213435253BB338999021BA7839A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				08498DBE6127796627947F6C84046999 /* thrift */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		628F91C6670AA3D9D617829143A63C47 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E63684FC35C19741351A55865F6123E2 /* TApplicationException.h in Headers */,
+				54D407180628B719414B3F6C93EA1C7E /* TBase.h in Headers */,
+				536F5BBB43872697E31E7139188AB42A /* TBinaryProtocol.h in Headers */,
+				0DBDE7F25FDE630ED0CF38BEFB6188B3 /* TException.h in Headers */,
+				B378CA73E7332228A331A0DEEF2BDB53 /* TFramedTransport.h in Headers */,
+				10B97E09235EAFDBDCB8FC902C7AD877 /* thrift-umbrella.h in Headers */,
+				86394FE8E7D4075F48071F77190F2747 /* Thrift.h in Headers */,
+				B99CDE288349C6AF3EFCF2A9503C4094 /* THTTPClient.h in Headers */,
+				E0B228199F53BBCB198101A438B8559C /* TMemoryBuffer.h in Headers */,
+				8088A93D60BBD23DF327B5AB3C17AB31 /* TMultiplexedProtocol.h in Headers */,
+				9E606C534401CAF491E57C8A5ADBA379 /* TNSFileHandleTransport.h in Headers */,
+				0161AC9534A6C70187CD82CFE91BADC6 /* TNSStreamTransport.h in Headers */,
+				4F2B4304561334B4BE78F6362D4F5C9F /* TObjective-C.h in Headers */,
+				680D02D3AF288D0B0F6B26FA0549E3CA /* TProcessor.h in Headers */,
+				EC5F0BC54BDBD5AFCCD2B54BA5AE1041 /* TProcessorFactory.h in Headers */,
+				B83317F38106A1F1AA18459978689A7A /* TProtocol.h in Headers */,
+				4E6943A4F46D9ED6EF61A44A17398B41 /* TProtocolDecorator.h in Headers */,
+				86EB1F6A5A8F3A84FD8454FC1BB85D4C /* TProtocolException.h in Headers */,
+				51FF574FCB6540ACF7C948D5B4E2936E /* TProtocolFactory.h in Headers */,
+				A0E3B2564D92EDB047EDCDC65910A12E /* TProtocolUtil.h in Headers */,
+				7F578A93B6EAC2937688A91EBEB13B68 /* TSharedProcessorFactory.h in Headers */,
+				D7EC3366521192FAC8AB54CA2EA3B254 /* TSocketClient.h in Headers */,
+				79906BF8EB45A85735AEA7359DD3BF91 /* TSocketServer.h in Headers */,
+				DC058A939DFCAF7DDF3A0248342249B4 /* TSSLSocketClient.h in Headers */,
+				93D30AD20A7DA8946AE8CBE9244480A6 /* TSSLSocketException.h in Headers */,
+				A58DC45DC0DABA41B9F61AAD8A20E088 /* TTransport.h in Headers */,
+				5888B86A37A7561E794DB40FFEC63251 /* TTransportException.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BBABFFCB69B5E221E64D0F91D69856B6 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA3211E4995F28ED286EB032B782F40B /* Pods-LightStepTestUI-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		53817C03E63DC964502A507E18AC796B /* thrift */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8F4F48FA7A33D7E16D3B2AB1998662BF /* Build configuration list for PBXNativeTarget "thrift" */;
+			buildPhases = (
+				2B6464591AFB79CCB952FD466BF5F27C /* Sources */,
+				DF16837B77FE826D4656A8F06E00002B /* Frameworks */,
+				628F91C6670AA3D9D617829143A63C47 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = thrift;
+			productName = thrift;
+			productReference = 8EB88BB0D291CD8B976C59E85D4EEBE5 /* thrift.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		6C4F8B7069681ADE4B28DB7D6CDDCC0D /* Pods-LightStepTestUI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D12C80C87E3D8B0B774219751CBC6DBE /* Build configuration list for PBXNativeTarget "Pods-LightStepTestUI" */;
+			buildPhases = (
+				970B631DB5A5B9C30A66CDF354EA8444 /* Sources */,
+				DCD83637946B39BE0418ED16BE1F02FB /* Frameworks */,
+				BBABFFCB69B5E221E64D0F91D69856B6 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E475B53FC2CF24B7852154546744411E /* PBXTargetDependency */,
+			);
+			name = "Pods-LightStepTestUI";
+			productName = "Pods-LightStepTestUI";
+			productReference = 0E9C579D460DCE266D36DC204B9CC081 /* Pods_LightStepTestUI.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D41D8CD98F00B204E9800998ECF8427E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
+			};
+			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
+			productRefGroup = 42FFBD4F80681465E1E222832D0A991C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6C4F8B7069681ADE4B28DB7D6CDDCC0D /* Pods-LightStepTestUI */,
+				53817C03E63DC964502A507E18AC796B /* thrift */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2B6464591AFB79CCB952FD466BF5F27C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A530DB5A582E12B59AB60DC8BD3CBA8 /* TApplicationException.m in Sources */,
+				FE7AE1C7D2FE04894ABB90FC9EB18699 /* TBinaryProtocol.m in Sources */,
+				02B9765AEFE57A9EA2D16D1E56213CC2 /* TException.m in Sources */,
+				BA5ADAD44CA368B1D93F48721CD6E574 /* TFramedTransport.m in Sources */,
+				48FE3BCD6A7B382DE801323BD81B0FAA /* thrift-dummy.m in Sources */,
+				B4D383841EAC4A51FAF13FDB4079D0C6 /* THTTPClient.m in Sources */,
+				D102E9129601F52957E87A219042EB93 /* TMemoryBuffer.m in Sources */,
+				F8C0F4D3C3085DD6450427B48453C65B /* TMultiplexedProtocol.m in Sources */,
+				ED85B3D89A016DBC99AF62955A912C63 /* TNSFileHandleTransport.m in Sources */,
+				B9B07F55920702F487A4A054EE21207E /* TNSStreamTransport.m in Sources */,
+				18738F4AA19E9E4A26F4D85BF83F7A89 /* TProtocolDecorator.m in Sources */,
+				37F4C09C344368A49E840573130F2BB6 /* TProtocolException.m in Sources */,
+				21959DD098851ECB9DE7EC5B03E9F74D /* TProtocolUtil.m in Sources */,
+				4D3686CB74C387CAE7F4DFCE990E9CA6 /* TSharedProcessorFactory.m in Sources */,
+				BFD674E36E6CB3FEFD81A0E2EB2F22E1 /* TSocketClient.m in Sources */,
+				7C71F3D286CC9425E0C89EEE97441FCB /* TSocketServer.m in Sources */,
+				BC6FCFE0B9AF56FF951F0423A7444A07 /* TSSLSocketClient.m in Sources */,
+				43E63D70B5B67507FB15AA0488A4FCFE /* TSSLSocketException.m in Sources */,
+				83F73F084E7E5921E6363352E18FE947 /* TTransportException.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		970B631DB5A5B9C30A66CDF354EA8444 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EEA9A2F63833C53D7B92263CEF7DBE8B /* Pods-LightStepTestUI-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E475B53FC2CF24B7852154546744411E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = thrift;
+			target = 53817C03E63DC964502A507E18AC796B /* thrift */;
+			targetProxy = 0A5955596A923DA4E3BEE2F53CE92442 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		3300C92E5CB90A0BD268D3DAC070F916 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2AE1737A0F707ADA0D63A4E752BAC3ED /* Pods-LightStepTestUI.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-LightStepTestUI/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-LightStepTestUI/Pods-LightStepTestUI.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = Pods_LightStepTestUI;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		55B85588D31474DB44F0FDE84B95C5BD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 85A9D2620D70E5F0C7F03CF17B4C6066 /* thrift.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/thrift/thrift-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/thrift/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/thrift/thrift.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = thrift;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		A70CDAD61F90AC503C7D04CC22DA2923 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				ONLY_ACTIVE_ARCH = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		DB9FF6EC301D7E25F4474D5033C2B161 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE2BB5F5657D868A951FE2199A0FF2FC /* Pods-LightStepTestUI.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-LightStepTestUI/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-LightStepTestUI/Pods-LightStepTestUI.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = Pods_LightStepTestUI;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		FB45FFD90572718D82AB9092B750F0CA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = "RELEASE=1";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FF21DB8D37A0924FF1752FB92E5DFE09 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 85A9D2620D70E5F0C7F03CF17B4C6066 /* thrift.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/thrift/thrift-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/thrift/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/thrift/thrift.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = thrift;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A70CDAD61F90AC503C7D04CC22DA2923 /* Debug */,
+				FB45FFD90572718D82AB9092B750F0CA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8F4F48FA7A33D7E16D3B2AB1998662BF /* Build configuration list for PBXNativeTarget "thrift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				55B85588D31474DB44F0FDE84B95C5BD /* Debug */,
+				FF21DB8D37A0924FF1752FB92E5DFE09 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D12C80C87E3D8B0B774219751CBC6DBE /* Build configuration list for PBXNativeTarget "Pods-LightStepTestUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3300C92E5CB90A0BD268D3DAC070F916 /* Debug */,
+				DB9FF6EC301D7E25F4474D5033C2B161 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+}
