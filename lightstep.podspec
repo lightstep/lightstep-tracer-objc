@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   s.summary          = "The LightStep Objective-C OpenTracing library."
 
   s.description      = <<-DESC
-                       This space intentionally left blank.
+                       LightStep bindings for the OpenTracing API.
                        DESC
 
   s.homepage         = "https://github.com/lightstep/lightstep-tracer-objc"
@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '7.0'
   s.requires_arc = true
 
-  s.source_files = 'pod/lightstep/Pod/Classes/**/*'
+  s.source_files = 'Pod/Classes/**/*'
   s.resource_bundles = {
     'lightstep' => ['Pod/Assets/*.png']
   }
