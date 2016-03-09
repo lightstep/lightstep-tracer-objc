@@ -14,10 +14,10 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [LSTracer initGlobalTracer:@"{your_access_token}"];
+    [LSTracer initSharedTracer:@"{your_access_token}"];
 
-    [LSTracer globalTracer].maxLogRecords = 600;
-    [LSTracer globalTracer].maxSpanRecords = 600;
+    [LSTracer sharedTracer].maxLogRecords = 600;
+    [LSTracer sharedTracer].maxSpanRecords = 600;
 
     return YES;
 }

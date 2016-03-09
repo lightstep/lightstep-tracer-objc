@@ -1,4 +1,5 @@
 #import <UIKit/UIKit.h>
+#import "LSVersion.h"
 #import "LSTracer.h"
 #import "LSSpan.h"
 #import "LSUtil.h"
@@ -8,11 +9,11 @@
 #import "TSocketClient.h"
 #import "TTransportException.h"
 
-NSString *const LSFormatSplitText = @"split_text";
+NSString* const LSFormatSplitText = @"split_text";
 
-NSString *const LSFormatBinary = @"binary";
+NSString* const LSFormatBinary = @"binary";
 
-NSString*const LSDefaultLightStepReportingHostport = @"collector.lightstep.com:443";
+NSString* const LSDefaultHostport = @"collector.lightstep.com:443";
 
 static const int kFlushIntervalSeconds = 30;
 static const NSUInteger kDefaultMaxBufferedSpans = 5000;
@@ -46,7 +47,7 @@ static float kFirstRefreshDelay = 0;
 @synthesize maxPayloadJSONLength = m_maxPayloadJSONLength;
 
 - (instancetype) initWithAccessToken:(NSString*)accessToken
-                           groupName:(NSString*)groupName
+                       componentName:(NSString*)componentName
                             hostport:(NSString*)hostport {
 
     if (self = [super init]) {
@@ -54,13 +55,16 @@ static float kFirstRefreshDelay = 0;
         self->m_accessToken = accessToken;
         self->m_runtimeGuid = [LSUtil generateGUID];
         self->m_startTime = [NSDate date];
-        NSMutableArray* runtimeAttrs = @[[[RLKeyValue alloc] initWithKey:@"cruntime_platform" Value:@"cocoa"],
+        NSMutableArray* runtimeAttrs = @[[[RLKeyValue alloc] initWithKey:@"lightstep_tracer_platform" Value:@"ios"],
+                                         [[RLKeyValue alloc] initWithKey:@"lightstep_tracer_version" Value:LS_TRACER_VERSION],
+                                         [[RLKeyValue alloc] initWithKey:@"component_name" Value:componentName],
+                                         [[RLKeyValue alloc] initWithKey:@"component_guid" Value:self->m_runtimeGuid],
                                          [[RLKeyValue alloc] initWithKey:@"ios_version" Value:[[UIDevice currentDevice] systemVersion]],
                                          [[RLKeyValue alloc] initWithKey:@"device_model" Value:[[UIDevice currentDevice] model]]].mutableCopy;
         self->m_runtimeInfo = [[RLRuntime alloc]
                                initWithGuid:self->m_runtimeGuid
                                start_micros:[m_startTime toMicros]
-                               group_name:groupName
+                               group_name:componentName
                                attrs:runtimeAttrs];
 
         self->m_maxLogRecords = kDefaultMaxBufferedLogs;
@@ -71,7 +75,7 @@ static float kFirstRefreshDelay = 0;
         self->m_queue = dispatch_queue_create("com.resonancelabs.signal.rpc", DISPATCH_QUEUE_SERIAL);
         self->m_flushTimer = nil;
         self->m_refreshStubDelaySecs = kFirstRefreshDelay;
-        self->m_enabled = true;  // depends on the remote kill-switch.
+        self->m_enabled = true;  // if false, no longer collect tracing data
         self->m_clockState = [[LSClockState alloc] initWithLSTracer:self];
         self->m_bgTaskId = UIBackgroundTaskInvalid;
         [self _refreshStub];
@@ -79,36 +83,29 @@ static float kFirstRefreshDelay = 0;
     return self;
 }
 
-+ (instancetype) initGlobalTracer:(NSString*)accessToken
-                        groupName:(NSString*)groupName
++ (instancetype) initSharedTracer:(NSString*)accessToken
+                    componentName:(NSString*)componentName
                          hostport:(NSString*)hostport {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        s_sharedInstance = [[super alloc] initWithAccessToken:accessToken groupName:groupName hostport:hostport];
+        s_sharedInstance = [[super alloc] initWithAccessToken:accessToken componentName:componentName hostport:hostport];
     });
     return s_sharedInstance;
 }
 
-+ (instancetype) initGlobalTracer:(NSString*)accessToken
-                        groupName:(NSString*)groupName {
-    return [LSTracer initGlobalTracer:accessToken groupName:groupName hostport:LSDefaultLightStepReportingHostport];
++ (instancetype) initSharedTracer:(NSString*)accessToken
+                    componentName:(NSString*)componentName {
+    return [LSTracer initSharedTracer:accessToken componentName:componentName hostport:LSDefaultHostport];
 }
 
-+ (instancetype) initGlobalTracer:(NSString*)accessToken {
-    NSString* runtimeGroupName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
-    return [LSTracer initGlobalTracer:accessToken groupName:runtimeGroupName];
++ (instancetype) initSharedTracer:(NSString*)accessToken {
+    NSString* bundleName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
+    return [LSTracer initSharedTracer:accessToken componentName:bundleName];
 }
 
-+ (LSTracer*) globalTracer {
++ (LSTracer*) sharedTracer {
     if (s_sharedInstance == nil) {
-        NSLog(@"Must call initGlobalTracer before calling globalTracer!");
-    }
-    return s_sharedInstance;
-}
-
-+ (LSTracer*) sharedInstance {
-    if (s_sharedInstance == nil) {
-        NSLog(@"Must call initGlobalTracer before calling sharedInstance!");
+        NSLog(@"Must call initSharedTracer before calling sharedTracer!");
     }
     return s_sharedInstance;
 }

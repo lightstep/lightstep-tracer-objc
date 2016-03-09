@@ -12,7 +12,7 @@ FOUNDATION_EXPORT NSString *const LSFormatBinary;
  *
  * As early as feasible in the life of the application (e.g., in 
  * `application:didFinishLaunchingWithOptions:`), call one of the static 
- * `+[LSTracer initGlobalTracer...]` methods; `LSTracer` calls made prior to
+ * `+[LSTracer initSharedTracer...]` methods; `LSTracer` calls made prior to
  * that initialization will be dropped.
  *
  * LSTracer is thread-safe.
@@ -22,33 +22,34 @@ FOUNDATION_EXPORT NSString *const LSFormatBinary;
 #pragma mark - Shared instance initialization
 
 /**
- * @see `+[LSTracer initGlobalTracer:groupName:hostport]` for parameter details.
+ * @see `+[LSTracer initSharedTracer:groupName:hostport]` for parameter details.
  *
  * @return An `LSTracer` instance that's ready to create spans and logs.
  */
-+ (instancetype) initGlobalTracer:(NSString*)accessToken;
++ (instancetype) initSharedTracer:(NSString*)accessToken;
 
 /**
- * @see `+[LSTracer initGlobalTracer:groupName:hostport]` for parameter details.
+ * @see `+[LSTracer initSharedTracer:groupName:hostport]` for parameter details.
  *
  * @return An `LSTracer` instance that's ready to create spans and logs.
  */
-+ (instancetype) initGlobalTracer:(NSString*)accessToken
-                        groupName:(NSString*)groupName;
++ (instancetype) initSharedTracer:(NSString*)accessToken
+                    componentName:(NSString*)componentName;
 
 /**
- * Call this early in the application lifecycle (calls to 'globalTracer' will 
+ * Call this early in the application lifecycle (calls to 'sharedTracer' will
  * return nil beforehand).
  *
  * @param accessToken the access token.
  * @param groupName the "group name" to associate with spans from this process; 
  *     e.g., the name of your iOS app or the bundle name.
- * @param hostport the reporting service hostport, defaulting to LSDefaultLightStepReportingHostport.
+ * @param hostport the collector's host and port as a single string (e.g. 
+ *     ""collector.lightstep.com:443").
  *
  * @return An `LSTracer` instance that's ready to create spans and logs.
  */
-+ (instancetype) initGlobalTracer:(NSString*)accessToken
-                        groupName:(NSString*)groupName
++ (instancetype) initSharedTracer:(NSString*)accessToken
+                    componentName:(NSString*)componentName
                          hostport:(NSString*)hostport;
 
 /**
@@ -58,12 +59,7 @@ FOUNDATION_EXPORT NSString *const LSFormatBinary;
  * @return the previously-initialized `LSTracer` instance, or `nil` if called 
  * prior to initialization.
  */
-+ (instancetype) globalTracer;
-
-/**
- * Alias for `globalTracer` based on a common singleton naming convention.
- */
-+ (instancetype) sharedInstance;
++ (instancetype) sharedTracer;
 
 #pragma mark - OpenTracing API
 
@@ -112,27 +108,7 @@ FOUNDATION_EXPORT NSString *const LSFormatBinary;
  */
 - (LSSpan*)join:(NSString*)operationName format:(NSString*)format carrier:(id)carrier;
 
-/**
- * Flush any buffered data to the collector.
- */
-- (void)flush;
-
 #pragma mark - LightStep extensions and internal methods
-
-/**
- * Record a span.
- */
-- (void) _appendSpanRecord:(RLSpanRecord*)spanRecord;
-
-/**
- * Record a log record.
- */
-- (void) _appendLogRecord:(RLLogRecord*)logRecord;
-
-/**
- *
- */
-- (bool) enabled;
 
 /**
  * The remote service URL string (as derived from `sharedInstancWithServiceHostport:token:`).
@@ -159,6 +135,26 @@ FOUNDATION_EXPORT NSString *const LSFormatBinary;
  * Maximum string length of any single JSON payload.
  */
 @property (atomic) NSUInteger maxPayloadJSONLength;
+
+/**
+ * Returns true if the library is currently buffering and reporting data.
+ */
+- (bool) enabled;
+
+/**
+ * Flush any buffered data to the collector.
+ */
+- (void)flush;
+
+/**
+ * Record a span.
+ */
+- (void) _appendSpanRecord:(RLSpanRecord*)spanRecord;
+
+/**
+ * Record a log record.
+ */
+- (void) _appendLogRecord:(RLLogRecord*)logRecord;
 
 
 @end
