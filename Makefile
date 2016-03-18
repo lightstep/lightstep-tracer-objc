@@ -6,7 +6,7 @@ CROUTON_THRIFT=$(GOPATH)/src/crouton/crouton.thrift
 POD_SPEC := lightstep-pod-tmp/lightstep.podspec
 
 .PHONY: build
-build: 
+build:
 	cd examples/LightStepTestUI && xcodebuild clean build \
 		CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ARCHS=arm64 ONLY_ACTIVE_ARCH=NO \
 	    -workspace LightStepTestUI.xcworkspace -scheme LightStepTestUI
@@ -29,7 +29,7 @@ test:
 xcode:
 	cd examples/LightStepTestUI && open LightStepTestUI.xcworkspace
 
-publish: increment_version publish_source publish_pod
+publish: increment_version publish_pod
 
 publish_pod:
 	@echo "Cloning published source and publishing as a pod..."
@@ -47,9 +47,6 @@ publish_pod:
 	@echo "Pushing pod..."
 	# --allow-warnings is needed for the Thrift code
 	pod trunk push --allow-warnings lightstep-pod-tmp/lightstep.podspec
-
-publish_source:
-	node "$(GOPATH)/../node/tools/rpublish"
 
 # Bumps the version number of the Pod
 increment_version:
