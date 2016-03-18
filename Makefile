@@ -6,7 +6,7 @@ CROUTON_THRIFT=$(GOPATH)/src/crouton/crouton.thrift
 POD_SPEC := lightstep-pod-tmp/lightstep.podspec
 
 .PHONY: build
-build: build_thrift
+build: 
 	cd examples/LightStepTestUI && xcodebuild clean build \
 		CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ARCHS=arm64 ONLY_ACTIVE_ARCH=NO \
 	    -workspace LightStepTestUI.xcworkspace -scheme LightStepTestUI

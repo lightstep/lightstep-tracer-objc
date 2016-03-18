@@ -148,7 +148,8 @@
                                           oldest_micros:[m_startTime toMicros]
                                         youngest_micros:[finishTime toMicros]
                                              attributes:tagArray
-                                             error_flag:m_errorFlag];
+                                             error_flag:m_errorFlag
+                                            log_records:nil];
     }
     [m_tracer _appendSpanRecord:record];
 }

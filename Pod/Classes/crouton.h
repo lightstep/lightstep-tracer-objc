@@ -330,6 +330,7 @@
   int64_t __youngest_micros;
   NSMutableArray * __attributes;
   BOOL __error_flag;
+  NSMutableArray * __log_records;
 
   BOOL __span_guid_isset;
   BOOL __runtime_guid_isset;
@@ -339,6 +340,7 @@
   BOOL __youngest_micros_isset;
   BOOL __attributes_isset;
   BOOL __error_flag_isset;
+  BOOL __log_records_isset;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
@@ -358,10 +360,12 @@
 - (void) unsetAttributes;
 @property (nonatomic, getter=error_flag, setter=setError_flag:) BOOL error_flag;
 - (void) unsetError_flag;
+@property (nonatomic, retain, getter=log_records, setter=setLog_records:) NSMutableArray * log_records;
+- (void) unsetLog_records;
 #endif
 
 - (id) init;
-- (id) initWithSpan_guid: (NSString *) span_guid runtime_guid: (NSString *) runtime_guid span_name: (NSString *) span_name join_ids: (NSMutableArray *) join_ids oldest_micros: (int64_t) oldest_micros youngest_micros: (int64_t) youngest_micros attributes: (NSMutableArray *) attributes error_flag: (BOOL) error_flag;
+- (id) initWithSpan_guid: (NSString *) span_guid runtime_guid: (NSString *) runtime_guid span_name: (NSString *) span_name join_ids: (NSMutableArray *) join_ids oldest_micros: (int64_t) oldest_micros youngest_micros: (int64_t) youngest_micros attributes: (NSMutableArray *) attributes error_flag: (BOOL) error_flag log_records: (NSMutableArray *) log_records;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -415,6 +419,12 @@
 - (void) setError_flag: (BOOL) error_flag;
 #endif
 - (BOOL) error_flagIsSet;
+
+#if !__has_feature(objc_arc)
+- (NSMutableArray *) log_records;
+- (void) setLog_records: (NSMutableArray *) log_records;
+#endif
+- (BOOL) log_recordsIsSet;
 
 @end
 

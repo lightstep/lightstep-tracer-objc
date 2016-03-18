@@ -1513,7 +1513,7 @@
   return self;
 }
 
-- (id) initWithSpan_guid: (NSString *) span_guid runtime_guid: (NSString *) runtime_guid span_name: (NSString *) span_name join_ids: (NSMutableArray *) join_ids oldest_micros: (int64_t) oldest_micros youngest_micros: (int64_t) youngest_micros attributes: (NSMutableArray *) attributes error_flag: (BOOL) error_flag
+- (id) initWithSpan_guid: (NSString *) span_guid runtime_guid: (NSString *) runtime_guid span_name: (NSString *) span_name join_ids: (NSMutableArray *) join_ids oldest_micros: (int64_t) oldest_micros youngest_micros: (int64_t) youngest_micros attributes: (NSMutableArray *) attributes error_flag: (BOOL) error_flag log_records: (NSMutableArray *) log_records
 {
   self = [super init];
   __span_guid = [span_guid retain_stub];
@@ -1532,6 +1532,8 @@
   __attributes_isset = YES;
   __error_flag = error_flag;
   __error_flag_isset = YES;
+  __log_records = [log_records retain_stub];
+  __log_records_isset = YES;
   return self;
 }
 
@@ -1578,6 +1580,11 @@
     __error_flag = [decoder decodeBoolForKey: @"error_flag"];
     __error_flag_isset = YES;
   }
+  if ([decoder containsValueForKey: @"log_records"])
+  {
+    __log_records = [[decoder decodeObjectForKey: @"log_records"] retain_stub];
+    __log_records_isset = YES;
+  }
   return self;
 }
 
@@ -1615,6 +1622,10 @@
   {
     [encoder encodeBool: __error_flag forKey: @"error_flag"];
   }
+  if (__log_records_isset)
+  {
+    [encoder encodeObject: __log_records forKey: @"log_records"];
+  }
 }
 
 - (void) dealloc
@@ -1624,6 +1635,7 @@
   [__span_name release_stub];
   [__join_ids release_stub];
   [__attributes release_stub];
+  [__log_records release_stub];
   [super dealloc_stub];
 }
 
@@ -1783,6 +1795,27 @@
   __error_flag_isset = NO;
 }
 
+- (NSMutableArray *) log_records {
+  return [[__log_records retain_stub] autorelease_stub];
+}
+
+- (void) setLog_records: (NSMutableArray *) log_records {
+  [log_records retain_stub];
+  [__log_records release_stub];
+  __log_records = log_records;
+  __log_records_isset = YES;
+}
+
+- (BOOL) log_recordsIsSet {
+  return __log_records_isset;
+}
+
+- (void) unsetLog_records {
+  [__log_records release_stub];
+  __log_records = nil;
+  __log_records_isset = NO;
+}
+
 - (void) read: (id <TProtocol>) inProtocol
 {
   NSString * fieldName;
@@ -1886,6 +1919,26 @@
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
+      case 10:
+        if (fieldType == TType_LIST) {
+          int _size16;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size16];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size16];
+          int _i17;
+          for (_i17 = 0; _i17 < _size16; ++_i17)
+          {
+            RLLogRecord *_elem18 = [[RLLogRecord alloc] init];
+            [_elem18 read: inProtocol];
+            [fieldValue addObject: _elem18];
+            [_elem18 release_stub];
+          }
+          [inProtocol readListEnd];
+          [self setLog_records: fieldValue];
+          [fieldValue release_stub];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
       default:
         [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         break;
@@ -1923,10 +1976,10 @@
       [outProtocol writeFieldBeginWithName: @"join_ids" type: TType_LIST fieldID: 4];
       {
         [outProtocol writeListBeginWithElementType: TType_STRUCT size: (int)[__join_ids count]];
-        int idx17;
-        for (idx17 = 0; idx17 < [__join_ids count]; idx17++)
+        int idx20;
+        for (idx20 = 0; idx20 < [__join_ids count]; idx20++)
         {
-          [[__join_ids objectAtIndex: idx17] write: outProtocol];
+          [[__join_ids objectAtIndex: idx20] write: outProtocol];
         }
         [outProtocol writeListEnd];
       }
@@ -1948,10 +2001,10 @@
       [outProtocol writeFieldBeginWithName: @"attributes" type: TType_LIST fieldID: 8];
       {
         [outProtocol writeListBeginWithElementType: TType_STRUCT size: (int)[__attributes count]];
-        int idx19;
-        for (idx19 = 0; idx19 < [__attributes count]; idx19++)
+        int idx22;
+        for (idx22 = 0; idx22 < [__attributes count]; idx22++)
         {
-          [[__attributes objectAtIndex: idx19] write: outProtocol];
+          [[__attributes objectAtIndex: idx22] write: outProtocol];
         }
         [outProtocol writeListEnd];
       }
@@ -1962,6 +2015,21 @@
     [outProtocol writeFieldBeginWithName: @"error_flag" type: TType_BOOL fieldID: 9];
     [outProtocol writeBool: __error_flag];
     [outProtocol writeFieldEnd];
+  }
+  if (__log_records_isset) {
+    if (__log_records != nil) {
+      [outProtocol writeFieldBeginWithName: @"log_records" type: TType_LIST fieldID: 10];
+      {
+        [outProtocol writeListBeginWithElementType: TType_STRUCT size: (int)[__log_records count]];
+        int idx24;
+        for (idx24 = 0; idx24 < [__log_records count]; idx24++)
+        {
+          [[__log_records objectAtIndex: idx24] write: outProtocol];
+        }
+        [outProtocol writeListEnd];
+      }
+      [outProtocol writeFieldEnd];
+    }
   }
   [outProtocol writeFieldStop];
   [outProtocol writeStructEnd];
@@ -1989,6 +2057,8 @@
   [ms appendFormat: @"%@", __attributes];
   [ms appendString: @",error_flag:"];
   [ms appendFormat: @"%i", __error_flag];
+  [ms appendString: @",log_records:"];
+  [ms appendFormat: @"%@", __log_records];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
@@ -2753,16 +2823,16 @@
         break;
       case 3:
         if (fieldType == TType_LIST) {
-          int _size20;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size20];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size20];
-          int _i21;
-          for (_i21 = 0; _i21 < _size20; ++_i21)
+          int _size25;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size25];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size25];
+          int _i26;
+          for (_i26 = 0; _i26 < _size25; ++_i26)
           {
-            RLSpanRecord *_elem22 = [[RLSpanRecord alloc] init];
-            [_elem22 read: inProtocol];
-            [fieldValue addObject: _elem22];
-            [_elem22 release_stub];
+            RLSpanRecord *_elem27 = [[RLSpanRecord alloc] init];
+            [_elem27 read: inProtocol];
+            [fieldValue addObject: _elem27];
+            [_elem27 release_stub];
           }
           [inProtocol readListEnd];
           [self setSpan_records: fieldValue];
@@ -2773,16 +2843,16 @@
         break;
       case 4:
         if (fieldType == TType_LIST) {
-          int _size23;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size23];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size23];
-          int _i24;
-          for (_i24 = 0; _i24 < _size23; ++_i24)
+          int _size28;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size28];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size28];
+          int _i29;
+          for (_i29 = 0; _i29 < _size28; ++_i29)
           {
-            RLLogRecord *_elem25 = [[RLLogRecord alloc] init];
-            [_elem25 read: inProtocol];
-            [fieldValue addObject: _elem25];
-            [_elem25 release_stub];
+            RLLogRecord *_elem30 = [[RLLogRecord alloc] init];
+            [_elem30 read: inProtocol];
+            [fieldValue addObject: _elem30];
+            [_elem30 release_stub];
           }
           [inProtocol readListEnd];
           [self setLog_records: fieldValue];
@@ -2817,16 +2887,16 @@
         break;
       case 9:
         if (fieldType == TType_LIST) {
-          int _size26;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size26];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size26];
-          int _i27;
-          for (_i27 = 0; _i27 < _size26; ++_i27)
+          int _size31;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size31];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size31];
+          int _i32;
+          for (_i32 = 0; _i32 < _size31; ++_i32)
           {
-            RLNamedCounter *_elem28 = [[RLNamedCounter alloc] init];
-            [_elem28 read: inProtocol];
-            [fieldValue addObject: _elem28];
-            [_elem28 release_stub];
+            RLNamedCounter *_elem33 = [[RLNamedCounter alloc] init];
+            [_elem33 read: inProtocol];
+            [fieldValue addObject: _elem33];
+            [_elem33 release_stub];
           }
           [inProtocol readListEnd];
           [self setCounters: fieldValue];
@@ -2858,10 +2928,10 @@
       [outProtocol writeFieldBeginWithName: @"span_records" type: TType_LIST fieldID: 3];
       {
         [outProtocol writeListBeginWithElementType: TType_STRUCT size: (int)[__span_records count]];
-        int idx30;
-        for (idx30 = 0; idx30 < [__span_records count]; idx30++)
+        int idx35;
+        for (idx35 = 0; idx35 < [__span_records count]; idx35++)
         {
-          [[__span_records objectAtIndex: idx30] write: outProtocol];
+          [[__span_records objectAtIndex: idx35] write: outProtocol];
         }
         [outProtocol writeListEnd];
       }
@@ -2873,10 +2943,10 @@
       [outProtocol writeFieldBeginWithName: @"log_records" type: TType_LIST fieldID: 4];
       {
         [outProtocol writeListBeginWithElementType: TType_STRUCT size: (int)[__log_records count]];
-        int idx32;
-        for (idx32 = 0; idx32 < [__log_records count]; idx32++)
+        int idx37;
+        for (idx37 = 0; idx37 < [__log_records count]; idx37++)
         {
-          [[__log_records objectAtIndex: idx32] write: outProtocol];
+          [[__log_records objectAtIndex: idx37] write: outProtocol];
         }
         [outProtocol writeListEnd];
       }
@@ -2903,10 +2973,10 @@
       [outProtocol writeFieldBeginWithName: @"counters" type: TType_LIST fieldID: 9];
       {
         [outProtocol writeListBeginWithElementType: TType_STRUCT size: (int)[__counters count]];
-        int idx34;
-        for (idx34 = 0; idx34 < [__counters count]; idx34++)
+        int idx39;
+        for (idx39 = 0; idx39 < [__counters count]; idx39++)
         {
-          [[__counters objectAtIndex: idx34] write: outProtocol];
+          [[__counters objectAtIndex: idx39] write: outProtocol];
         }
         [outProtocol writeListEnd];
       }
@@ -3206,16 +3276,16 @@
     {
       case 1:
         if (fieldType == TType_LIST) {
-          int _size35;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size35];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size35];
-          int _i36;
-          for (_i36 = 0; _i36 < _size35; ++_i36)
+          int _size40;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size40];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size40];
+          int _i41;
+          for (_i41 = 0; _i41 < _size40; ++_i41)
           {
-            RLCommand *_elem37 = [[RLCommand alloc] init];
-            [_elem37 read: inProtocol];
-            [fieldValue addObject: _elem37];
-            [_elem37 release_stub];
+            RLCommand *_elem42 = [[RLCommand alloc] init];
+            [_elem42 read: inProtocol];
+            [fieldValue addObject: _elem42];
+            [_elem42 release_stub];
           }
           [inProtocol readListEnd];
           [self setCommands: fieldValue];
@@ -3236,14 +3306,14 @@
         break;
       case 3:
         if (fieldType == TType_LIST) {
-          int _size38;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size38];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size38];
-          int _i39;
-          for (_i39 = 0; _i39 < _size38; ++_i39)
+          int _size43;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size43];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size43];
+          int _i44;
+          for (_i44 = 0; _i44 < _size43; ++_i44)
           {
-            NSString * _elem40 = [inProtocol readString];
-            [fieldValue addObject: _elem40];
+            NSString * _elem45 = [inProtocol readString];
+            [fieldValue addObject: _elem45];
           }
           [inProtocol readListEnd];
           [self setErrors: fieldValue];
@@ -3268,10 +3338,10 @@
       [outProtocol writeFieldBeginWithName: @"commands" type: TType_LIST fieldID: 1];
       {
         [outProtocol writeListBeginWithElementType: TType_STRUCT size: (int)[__commands count]];
-        int idx42;
-        for (idx42 = 0; idx42 < [__commands count]; idx42++)
+        int idx47;
+        for (idx47 = 0; idx47 < [__commands count]; idx47++)
         {
-          [[__commands objectAtIndex: idx42] write: outProtocol];
+          [[__commands objectAtIndex: idx47] write: outProtocol];
         }
         [outProtocol writeListEnd];
       }
@@ -3290,10 +3360,10 @@
       [outProtocol writeFieldBeginWithName: @"errors" type: TType_LIST fieldID: 3];
       {
         [outProtocol writeListBeginWithElementType: TType_STRING size: (int)[__errors count]];
-        int idx44;
-        for (idx44 = 0; idx44 < [__errors count]; idx44++)
+        int idx49;
+        for (idx49 = 0; idx49 < [__errors count]; idx49++)
         {
-          [outProtocol writeString: [__errors objectAtIndex: idx44]];
+          [outProtocol writeString: [__errors objectAtIndex: idx49]];
         }
         [outProtocol writeListEnd];
       }
