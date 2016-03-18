@@ -25,23 +25,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)decrementAction:(id)sender {
-    LSSpan* span = [[LSTracer sharedTracer] startSpan:@"decrement_action"];
-    self.counter--;
-    [span logEvent:@"count_updated" payload:[NSNumber numberWithInt:self.counter]];
-    [self.counterLabel setText:[NSString stringWithFormat:@"%d", self.counter]];
-    [span finish];
-
-    if (self.counter > 0 && self.counter % 5 == 0) {
-        LSSpan* timerSpan = [[LSTracer sharedTracer] startSpan:@"timer_span"];
-        [timerSpan logEvent:@"start" payload:[NSNumber numberWithInt:self.counter]];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, self.counter * 50 * NSEC_PER_MSEC), dispatch_get_main_queue(), ^{
-            [timerSpan logEvent:@"end" payload:[NSNumber numberWithInt:self.counter]];
-            [timerSpan finish];
-        });
-    }
-}
-
 - (IBAction)incrementAction:(id)sender {
     LSSpan* span = [[LSTracer sharedTracer] startSpan:@"increment_action"];
     self.counter++;
@@ -57,4 +40,29 @@
 
     [span finish];
 }
+
+- (IBAction)decrementAction:(id)sender {
+    LSSpan* span = [[LSTracer sharedTracer] startSpan:@"decrement_action"];
+    self.counter--;
+    [span logEvent:@"count_updated" payload:[NSNumber numberWithInt:self.counter]];
+    [self.counterLabel setText:[NSString stringWithFormat:@"%d", self.counter]];
+    [span finish];
+
+    if (self.counter > 0 && self.counter % 5 == 0) {
+        LSSpan* timerSpan = [[LSTracer sharedTracer] startSpan:@"timer_span"];
+        [timerSpan logEvent:@"start" payload:[NSNumber numberWithInt:self.counter]];
+
+        LSSpan* innerSpan = [[LSTracer sharedTracer] startSpan:@"inner_span" parent:timerSpan];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, self.counter * 25 * NSEC_PER_MSEC), dispatch_get_main_queue(), ^{
+            [innerSpan finish];
+        });
+
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, self.counter * 50 * NSEC_PER_MSEC), dispatch_get_main_queue(), ^{
+            [timerSpan logEvent:@"end" payload:[NSNumber numberWithInt:self.counter]];
+            [timerSpan finish];
+        });
+    }
+}
+
+
 @end

@@ -135,10 +135,21 @@ static float kFirstRefreshDelay = 0;
                 tags:(NSDictionary*)tags
            startTime:(NSDate*)startTime {
     // No locking required
+
+    NSString* traceGUID;
+    if (parentSpan != nil) {
+        traceGUID = [parentSpan _getTag:@"join:trace_id"];
+    }
+    if (traceGUID == nil) {
+        traceGUID = [LSUtil generateGUID];
+    }
+    NSMutableDictionary* newTags = [NSMutableDictionary dictionaryWithDictionary:tags];
+    [newTags setObject:traceGUID forKey:@"join:trace_id"];
+
     LSSpan* span = [[LSSpan alloc] initWithTracer:self
                                     operationName:operationName
                                            parent:parentSpan
-                                             tags:tags
+                                             tags:newTags
                                         startTime:startTime];
     return span;
 }

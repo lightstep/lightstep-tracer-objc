@@ -163,6 +163,12 @@
     }
 }
 
+- (NSString*)_getTag:(NSString*)key {
+    @synchronized (self) {
+        return (NSString*)[m_tags objectForKey:key];
+    }
+}
+
 - (LSSpan*)_startChildSpan:(NSString*)operationName
                       tags:(NSDictionary*)tags
                  startTime:(NSDate*)startTime {

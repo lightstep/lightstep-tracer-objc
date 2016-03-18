@@ -95,6 +95,11 @@
 - (void)_addTags:(NSDictionary*)tags;
 
 /**
+ * Get a particular tag.
+ */
+- (NSString*)_getTag:(NSString*)key;
+
+/**
  * Create a new span that is a child of this span, optionally with the given
  * tags and start time.
  */
