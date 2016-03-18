@@ -3,7 +3,7 @@ default:
 	@echo Please specify make target
 
 CROUTON_THRIFT=$(GOPATH)/src/crouton/crouton.thrift
-POD_SPEC := lightstep-pod-tmp/lightstep.podspec
+POD_SPEC := lightstep.podspec
 
 .PHONY: build
 build:
@@ -32,21 +32,17 @@ xcode:
 publish: increment_version publish_pod
 
 publish_pod:
-	@echo "Cloning published source and publishing as a pod..."
-	@echo "You make need to first run:"
+	@echo "Publishing as a pod..."
+	@echo "You may need to first run:"
 	@echo "     pod trunk register communications@lightstep.com 'LightStep' --description='LightStep'"
 	@echo
 	@echo "...to ensure you have publish permissions."
 	@echo
-	rm -rf lightstep-pod-tmp
-	git clone git@github.com:lightstep/lightstep-tracer-objc lightstep-pod-tmp
 	@echo "Updating the version string in the podspec..."
-	sed 's/_VERSION_STRING_/$(shell cat VERSION)/g' $(POD_SPEC) > $(POD_SPEC).tmp
-	cp $(POD_SPEC).tmp $(POD_SPEC)
-	rm $(POD_SPEC).tmp
+	sed 's/_VERSION_STRING_/$(shell cat VERSION)/g' lightstep.src.podspec > lightstep.podspec
 	@echo "Pushing pod..."
 	# --allow-warnings is needed for the Thrift code
-	pod trunk push --allow-warnings lightstep-pod-tmp/lightstep.podspec
+	pod trunk push --allow-warnings lightstep.podspec
 
 # Bumps the version number of the Pod
 increment_version:
@@ -56,4 +52,3 @@ increment_version:
 	@echo Incremented version to `cat VERSION`
 
 clean:
-	rm -rf lightstep-pod-tmp
