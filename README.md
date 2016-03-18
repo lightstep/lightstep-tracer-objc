@@ -28,7 +28,7 @@ pod "lightstep"
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
     // Initialize the LightStep tracer implementation
-    [LSTracer initGlobalTracer:@"{your_access_token}"];
+    [LSTracer initSharedTracer:@"{your_access_token}"];
 
     // <Your normal initialization code here>
 
