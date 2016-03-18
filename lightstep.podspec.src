@@ -1,6 +1,3 @@
-#
-# NOTE: Edit lightstep.src.podspec, not lightstep.podspec!
-#
 Pod::Spec.new do |s|
   s.name             = "lightstep"
   s.version          = "_VERSION_STRING_"
