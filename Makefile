@@ -42,7 +42,7 @@ publish_pod:
 	sed 's/_VERSION_STRING_/$(shell cat VERSION)/g' lightstep.podspec.src > lightstep.podspec
 	@echo "Pushing pod..."
 	# --allow-warnings is needed for the Thrift code
-	pod trunk push --allow-warnings lightstep.podspec
+	pod trunk push --allow-warnings --verbose lightstep.podspec
 
 # Bumps the version number of the Pod
 increment_version:
