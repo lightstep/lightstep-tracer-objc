@@ -7,5 +7,8 @@
 
 @interface ViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UITextField *usernameTextField;
+
+- (IBAction)touchUpInsideGetInfo:(id)sender;
 
 @end
