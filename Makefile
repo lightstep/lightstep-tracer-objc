@@ -38,8 +38,6 @@ publish_pod:
 	@echo
 	@echo "...to ensure you have publish permissions."
 	@echo
-	@echo "Updating the version string in the podspec..."
-	sed 's/_VERSION_STRING_/$(shell cat VERSION)/g' lightstep.podspec.src > lightstep.podspec
 	@echo "Pushing pod..."
 	# --allow-warnings is needed for the Thrift code
 	pod trunk push --allow-warnings --verbose lightstep.podspec
@@ -49,6 +47,8 @@ increment_version:
 	awk 'BEGIN { FS = "." }; { printf("%d.%d.%d", $$1, $$2, $$3+1) }' VERSION > VERSION.incr
 	mv VERSION.incr VERSION
 	echo "// GENERATED FILE: Do not edit directly\n#define LS_TRACER_VERSION @\"$(shell cat VERSION)\"\n" > Pod/Classes/LSVersion.h
+	@echo "Updating the version string in the podspec..."
+	sed 's/_VERSION_STRING_/$(shell cat VERSION)/g' lightstep.podspec.src > lightstep.podspec	
 	git add .
 	git commit -m "Increment version to $(shell cat VERSION)"
 	git tag $(shell cat VERSION)
