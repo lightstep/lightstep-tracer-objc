@@ -42,11 +42,12 @@
                                     <action selector="touchUpInsideGetInfo:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GOe-MS-7F6"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="LY1-zL-2UB">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="LY1-zL-2UB">
                                 <rect key="frame" x="20" y="173" width="560" height="354"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -70,6 +71,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="resultsTextView" destination="LY1-zL-2UB" id="IhK-39-rJM"/>
                         <outlet property="usernameTextField" destination="eXm-M6-7aJ" id="XiF-xL-ZW6"/>
                     </connections>
                 </viewController>
