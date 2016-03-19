@@ -169,6 +169,15 @@
     }
 }
 
+- (NSURL*)_generateTraceURL {
+    int64_t now = [[NSDate date] toMicros];
+    NSString* fmt = @"https://app.lightstep.com/%@/trace?span_guid=%@&at_micros=%@";
+    NSString* accessToken = [[m_tracer accessToken] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString* guid = [m_guid stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString* urlStr = [NSString stringWithFormat:fmt, accessToken, guid, @(now)];
+    return [NSURL URLWithString:urlStr];
+}
+
 - (LSSpan*)_startChildSpan:(NSString*)operationName
                       tags:(NSDictionary*)tags
                  startTime:(NSDate*)startTime {

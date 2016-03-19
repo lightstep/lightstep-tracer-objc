@@ -142,6 +142,11 @@ FOUNDATION_EXPORT NSString *const LSFormatBinary;
 - (bool) enabled;
 
 /**
+ * Returns the Tracer's access token.
+ */
+- (NSString*) accessToken;
+
+/**
  * Flush any buffered data to the collector.
  */
 - (void)flush;

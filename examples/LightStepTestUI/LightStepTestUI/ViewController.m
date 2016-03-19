@@ -53,6 +53,8 @@
         [output appendString:[NSString stringWithFormat:@"\t%@: %@\n", key, eventCount[key]]];
     }
 
+    [output appendString:[NSString stringWithFormat:@"\nView trace at:\n %@\n", [span _generateTraceURL]]];
+
     self.resultsTextView.text = output;
     [span finish];
 }
