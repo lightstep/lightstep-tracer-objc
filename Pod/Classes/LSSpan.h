@@ -107,5 +107,9 @@
                       tags:(NSDictionary*)tags
                  startTime:(NSDate*)startTime;
 
+/**
+ * Generate a URL to the trace containing this span on LightStep.
+ */
+- (NSURL*)_generateTraceURL;
 
 @end

@@ -7,10 +7,6 @@
 #import "LSTracer.h"
 
 @interface ViewController ()
-@property (weak, nonatomic) IBOutlet UILabel *counterLabel;
-@property int counter;
-- (IBAction)incrementAction:(id)sender;
-- (IBAction)decrementAction:(id)sender;
 @end
 
 @implementation ViewController
@@ -25,44 +21,76 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)incrementAction:(id)sender {
-    LSSpan* span = [[LSTracer sharedTracer] startSpan:@"increment_action"];
-    self.counter++;
-    [span logEvent:@"count_updated" payload:[NSNumber numberWithInt:self.counter]];
-    [self.counterLabel setText:[NSString stringWithFormat:@"%d", self.counter]];
+- (IBAction)touchUpInsideGetInfo:(id)sender {
 
-    if (self.counter % 7 == 4) {
-        [span setOperationName:@"increment_action_with_payload"];
-        [NSThread sleepForTimeInterval:.05];
-        [span logEvent:@"payload_test" payload:@{@"one":@1,@"two":@"two",@"three":@[]}];
-        [NSThread sleepForTimeInterval:.05];
+    LSSpan* span = [[LSTracer sharedTracer] startSpan:@"button_pressed"];
+
+    NSString* username = self.usernameTextField.text;
+    NSString* url = [NSString stringWithFormat:@"https://api.github.com/users/%@", username];
+    NSDictionary* user = [self _getHTTP:span url:url];
+
+    NSMutableString* output = [NSMutableString new];
+    [output appendString:[NSString stringWithFormat:@"User: %@\n", user[@"login"]]];
+    [output appendString:[NSString stringWithFormat:@"Type: %@\n", user[@"type"]]];
+
+    NSArray* repoList = [self _getHTTP:span url:user[@"repos_url"]];
+    [output appendString:[NSString stringWithFormat:@"Public repositories: %lu\n", repoList.count]];
+    for (NSDictionary* repo in repoList) {
+        [output appendString:[NSString stringWithFormat:@"\t%@\n", repo[@"name"]]];
     }
 
+    int eventTotal = 0;
+    NSArray* eventList = [self _getHTTP:span url:user[@"received_events_url"]];
+    NSMutableDictionary* eventCount = [NSMutableDictionary new];
+    for (NSDictionary* event in eventList) {
+        NSString* key = event[@"type"];
+        NSNumber* count = [eventCount objectForKey:key] ?: @0;
+        [eventCount setObject:@([count intValue] + 1) forKey:key];
+        eventTotal++;
+    }
+    [output appendString:[NSString stringWithFormat:@"Recent events: %d\n", eventTotal]];
+    for (NSString* key in eventCount) {
+        [output appendString:[NSString stringWithFormat:@"\t%@: %@\n", key, eventCount[key]]];
+    }
+
+    [output appendString:[NSString stringWithFormat:@"\nView trace at:\n %@\n", [span _generateTraceURL]]];
+
+    self.resultsTextView.text = output;
     [span finish];
 }
 
-- (IBAction)decrementAction:(id)sender {
-    LSSpan* span = [[LSTracer sharedTracer] startSpan:@"decrement_action"];
-    self.counter--;
-    [span logEvent:@"count_updated" payload:[NSNumber numberWithInt:self.counter]];
-    [self.counterLabel setText:[NSString stringWithFormat:@"%d", self.counter]];
+/*
+ * Returns either an NSArray* or NSDictionary* depending on the JSON returned
+ * by the URL
+ */
+- (id)_getHTTP:(LSSpan*)parentSpan
+           url:(NSString*)urlString {
+
+    LSSpan* span = [[LSTracer sharedTracer] startSpan:@"NSURLRequest" parent:parentSpan];
+
+    NSURL* url = [NSURL URLWithString:urlString];
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url
+                                                           cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                                                       timeoutInterval:10];
+    [request setHTTPMethod: @"GET"];
+
+    NSMutableDictionary* headers = [NSMutableDictionary dictionaryWithDictionary:[request allHTTPHeaderFields]];
+    [headers setObject:@"LightStep iOS Example" forKey:@"User-Agent"];
+    request.allHTTPHeaderFields = headers;
+
+    NSError *requestError = nil;
+    NSURLResponse *urlResponse = nil;
+    NSData *response = [NSURLConnection sendSynchronousRequest:request
+                                              returningResponse:&urlResponse
+                                                          error:&requestError];
+    NSString *jsonString = [[NSString alloc] initWithData:response
+                                                 encoding:NSUTF8StringEncoding];
+
+    id obj = [NSJSONSerialization JSONObjectWithData:response
+                                             options:NSJSONReadingMutableContainers
+                                               error:nil];
     [span finish];
-
-    if (self.counter > 0 && self.counter % 5 == 0) {
-        LSSpan* timerSpan = [[LSTracer sharedTracer] startSpan:@"timer_span"];
-        [timerSpan logEvent:@"start" payload:[NSNumber numberWithInt:self.counter]];
-
-        LSSpan* innerSpan = [[LSTracer sharedTracer] startSpan:@"inner_span" parent:timerSpan];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, self.counter * 25 * NSEC_PER_MSEC), dispatch_get_main_queue(), ^{
-            [innerSpan finish];
-        });
-
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, self.counter * 50 * NSEC_PER_MSEC), dispatch_get_main_queue(), ^{
-            [timerSpan logEvent:@"end" payload:[NSNumber numberWithInt:self.counter]];
-            [timerSpan finish];
-        });
-    }
+    return obj;
 }
-
 
 @end

@@ -169,6 +169,12 @@ static float kFirstRefreshDelay = 0;
     }
 }
 
+- (NSString*) accessToken {
+    @synchronized(self) {
+        return m_accessToken;
+    }
+}
+
 - (NSString*) runtimeGuid {
     // Immutable after init; no locking required
     return m_runtimeGuid;
