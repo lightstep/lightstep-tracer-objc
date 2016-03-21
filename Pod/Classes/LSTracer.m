@@ -18,7 +18,7 @@ NSString* const LSDefaultHostport = @"collector.lightstep.com:443";
 static const int kFlushIntervalSeconds = 30;
 static const NSUInteger kDefaultMaxBufferedSpans = 5000;
 static const NSUInteger kDefaultMaxBufferedLogs = 10000;
-static const NSUInteger kDefaultMaxPayloadJSONLength = 4096;
+static const NSUInteger kDefaultMaxPayloadJSONLength = 32 * 1024;
 
 static LSTracer* s_sharedInstance = nil;
 static float kFirstRefreshDelay = 0;
