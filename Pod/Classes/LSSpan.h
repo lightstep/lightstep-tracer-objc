@@ -89,6 +89,16 @@
                       startTime:(NSDate*)startTime;
 
 /**
+ * The LightStep span's trace GUID
+ */
+- (NSString*)traceGUID;
+
+/**
+ * The LightStep span instance's GUID
+ */
+- (NSString*)guid;
+
+/**
  * Add a set of tags from the given dictionary. Existing key-value pairs will
  * be overwritten by any new tags.
  */
