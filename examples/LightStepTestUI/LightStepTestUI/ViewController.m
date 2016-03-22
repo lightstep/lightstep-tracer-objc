@@ -48,6 +48,19 @@
     self.callbacksRemaining = 3;
     self->_completionHandler = completionHandler;
 
+    // Set a timeout.  The code currently intentionally does not handle the case
+    // missing usernames correctly and the timeout here will be hit; this is
+    // useful for demonstrating an error trace.
+    dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC * 8.0);
+    dispatch_after(delay, dispatch_get_main_queue(), ^(void){
+        if (self.callbacksRemaining > 0) {
+            NSError* err = [NSError errorWithDomain:@"com.lightstep.example"
+                                               code:408
+                                           userInfo:@{NSLocalizedDescriptionKey:@"Something went wrong!"}];
+            [self _queryInfoStep:err];
+        }
+    });
+
     [self _getHTTP:parentSpan url:url completionHandler:^(id resp, NSError* error) {
         self.login = resp[@"login"];
         self.type  = resp[@"type"];
@@ -78,12 +91,17 @@
  * the full user info onces it is available.
  */
 - (void)_queryInfoStep:(NSError*)error {
-    self.callbacksRemaining--;
-    if (error) {
-        self.callbacksRemaining = 0;
-        (self->_completionHandler)(error.localizedDescription);
-    } else if (self.callbacksRemaining == 0) {
-        (self->_completionHandler)([self _infoString]);
+    NSString* text;
+    if (error != nil) {
+        self.callbacksRemaining -= MAX(self.callbacksRemaining, 1);
+        text = error.localizedDescription;
+    } else {
+        self.callbacksRemaining--;
+        text = [self _infoString];
+    }
+
+    if (self.callbacksRemaining == 0) {
+        (self->_completionHandler)(text);
     }
 }
 
@@ -112,7 +130,7 @@ completionHandler:(void (^)(id response, NSError *error))completionHandler {
     NSURLComponents* urlComponents = [NSURLComponents new];
     urlComponents.scheme = @"http";
     urlComponents.host = @"example-proxy.lightstep.com";
-    urlComponents.port = @(8080);
+    urlComponents.port = @(80);
     urlComponents.path = urlPath;
     NSURL* url = [urlComponents URL];
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url
@@ -123,7 +141,7 @@ completionHandler:(void (^)(id response, NSError *error))completionHandler {
     NSURLSession* session = [NSURLSession sessionWithConfiguration:config];
     NSURLSessionDataTask* task = [session dataTaskWithRequest:request
                                             completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
-                                                id obj;
+                                                id obj = nil;
                                                 if (error == nil) {
 
                                                     obj = [NSJSONSerialization JSONObjectWithData:data
@@ -133,7 +151,12 @@ completionHandler:(void (^)(id response, NSError *error))completionHandler {
                                                 } else {
                                                     [span logEvent:@"error" payload:error.localizedDescription];
                                                 }
-                                                completionHandler(obj, error);
+
+                                                @try {
+                                                    completionHandler(obj, error);
+                                                } @catch(NSException* exception) {
+                                                    [span logError:@"Exception in completion handler" error:exception];
+                                                }
                                                 [span finish];
                                             }];
     [task resume];
@@ -186,7 +209,7 @@ completionHandler:(void (^)(id response, NSError *error))completionHandler {
             completionHandler:^(NSString* text) {
                 [span logEvent:@"query_complete"
                        payload:@{@"main_thread":@([NSThread isMainThread])}];
-                NSString* displayString = [NSString stringWithFormat:@"%@\nView trace at:\n %@\n", text, [span _generateTraceURL]];
+                NSString* displayString = [NSString stringWithFormat:@"%@\n\nView trace at:\n %@\n", text, [span _generateTraceURL]];
 
                 // UI updates need to occur in the main thread
                 dispatch_async(dispatch_get_main_queue(), ^{

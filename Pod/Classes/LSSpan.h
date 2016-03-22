@@ -99,6 +99,11 @@
 - (NSString*)guid;
 
 /**
+ * LightStep specific method for logging an error (or exception).
+ */
+- (void)logError:(NSString*)message error:(NSObject*)errorOrException;
+
+/**
  * Add a set of tags from the given dictionary. Existing key-value pairs will
  * be overwritten by any new tags.
  */

@@ -108,6 +108,53 @@
     [m_tracer _appendLogRecord:logRecord];
 }
 
+//
+// NOTE: logError is a LightStep-specific method
+//
+- (void)logError:(NSString*)message error:(NSObject*)errorOrException {
+    // No locking is requied as all the member variables used below are immutable
+    // after initialization:
+    // - m_tracer
+    // - m_guid
+
+    if (![m_tracer enabled]) {
+        return;
+    }
+
+    NSObject* payload;
+    if ([errorOrException isKindOfClass:[NSException class]]) {
+        NSException* exception = (NSException*)errorOrException;
+        payload = @{@"name":exception.name ?: [NSNull null],
+                    @"reason":exception.reason ?: [NSNull null],
+                    @"userInfo":exception.userInfo ?: [NSNull null],
+                    @"stack":exception.callStackSymbols ?: [NSNull null]};
+    } else if ([errorOrException isKindOfClass:[NSError class]]) {
+        NSError* error = (NSError*)errorOrException;
+        payload = @{@"description":error.localizedDescription,
+                    @"userInfo":error.userInfo ?: [NSNull null]};
+    } else {
+        payload = errorOrException;
+    }
+
+    NSString* payloadJSON = [LSUtil objectToJSONString:payload
+                                             maxLength:[m_tracer maxPayloadJSONLength]];
+    RLLogRecord* logRecord = [[RLLogRecord alloc]
+                              initWithTimestamp_micros:[[NSDate date] toMicros]
+                              runtime_guid:[m_tracer runtimeGuid]
+                              span_guid:m_guid
+                              stable_name:nil
+                              message:message
+                              level:@"E"
+                              thread_id:(int64_t)[NSThread currentThread]
+                              filename:nil
+                              line_number:0
+                              stack_frames:nil
+                              payload_json:payloadJSON
+                              error_flag:true];
+
+    [m_tracer _appendLogRecord:logRecord];
+}
+
 - (void)setBaggageItem:(NSString*)key value:(NSString*)value {
     // TODO: need to check the key/value constraints
     @synchronized(self) {
