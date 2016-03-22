@@ -138,13 +138,13 @@ static float kFirstRefreshDelay = 0;
 
     NSString* traceGUID;
     if (parentSpan != nil) {
-        traceGUID = [parentSpan _getTag:@"join:trace_id"];
+        traceGUID = [parentSpan _getTag:@"join:trace_guid"];
     }
     if (traceGUID == nil) {
         traceGUID = [LSUtil generateGUID];
     }
     NSMutableDictionary* newTags = [NSMutableDictionary dictionaryWithDictionary:tags];
-    [newTags setObject:traceGUID forKey:@"join:trace_id"];
+    [newTags setObject:traceGUID forKey:@"join:trace_guid"];
 
     LSSpan* span = [[LSSpan alloc] initWithTracer:self
                                     operationName:operationName

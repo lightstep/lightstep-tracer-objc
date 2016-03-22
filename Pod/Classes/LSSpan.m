@@ -134,24 +134,34 @@
     RLSpanRecord* record;
     @synchronized(self) {
         NSMutableArray* tagArray;
-        if ([m_tags count] > 0) {
-            tagArray = [[NSMutableArray alloc] initWithCapacity:[m_tags count]];
+        if (m_tags.count > 0) {
+            tagArray = [[NSMutableArray alloc] initWithCapacity:m_tags.count];
             for (NSString* key in m_tags ) {
                 RLKeyValue* pair = [[RLKeyValue alloc] initWithKey:key Value:m_tags[key]];
                 [tagArray addObject:pair];
             }
         }
-        record =[[RLSpanRecord alloc] initWithSpan_guid:m_guid
-                                           runtime_guid:m_tracer.runtimeGuid
-                                              span_name:m_operationName
-                                               join_ids:nil
-                                          oldest_micros:[m_startTime toMicros]
-                                        youngest_micros:[finishTime toMicros]
-                                             attributes:tagArray
-                                             error_flag:m_errorFlag
-                                            log_records:nil];
+
+        record = [[RLSpanRecord alloc] initWithSpan_guid:m_guid
+                                            runtime_guid:m_tracer.runtimeGuid
+                                               span_name:m_operationName
+                                                join_ids:nil
+                                           oldest_micros:[m_startTime toMicros]
+                                         youngest_micros:[finishTime toMicros]
+                                              attributes:tagArray
+                                              error_flag:m_errorFlag
+                                             log_records:nil];
     }
     [m_tracer _appendSpanRecord:record];
+}
+
+- (NSString*)traceGUID {
+    return [m_tags objectForKey:@"join:trace_guid"];
+}
+
+
+- (NSString*)guid {
+    return m_guid;
 }
 
 - (void)_addTags:(NSDictionary*)tags {

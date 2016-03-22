@@ -95,14 +95,26 @@
              url:(NSString*)urlString
 completionHandler:(void (^)(id response, NSError *error))completionHandler {
 
+    // Rewrite the URL to use the LightStep proxy server
+    NSString* gitHubPrefix = @"https://api.github.com/";
+    NSString* urlPath = [urlString substringFromIndex:([gitHubPrefix length] - 1)];
+
     LSSpan* span = [[LSTracer sharedTracer] startSpan:@"NSURLRequest" parent:parentSpan];
 
     NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSMutableDictionary* headers = [NSMutableDictionary dictionaryWithDictionary:[config HTTPAdditionalHeaders]];
     [headers setObject:@"LightStep iOS Example" forKey:@"User-Agent"];
+    [headers setObject:span.tracer.accessToken forKey:@"LightStep-Access-Token"];
+    [headers setObject:span.traceGUID forKey:@"LightStep-Trace-GUID" ];
+    [headers setObject:span.guid forKey:@"LightStep-Parent-GUID"];
     config.HTTPAdditionalHeaders = headers;
 
-    NSURL* url = [NSURL URLWithString:urlString];
+    NSURLComponents* urlComponents = [NSURLComponents new];
+    urlComponents.scheme = @"http";
+    urlComponents.host = @"example-proxy.lightstep.com";
+    urlComponents.port = @(8080);
+    urlComponents.path = urlPath;
+    NSURL* url = [urlComponents URL];
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url
                                                            cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
                                                        timeoutInterval:10];
