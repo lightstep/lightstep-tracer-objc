@@ -15,7 +15,7 @@ NSString* const LSFormatBinary = @"binary";
 
 NSString* const LSDefaultHostport = @"collector.lightstep.com:443";
 
-static const int kFlushIntervalSeconds = 30;
+static const int kDefaultFlushIntervalSeconds = 30;
 static const NSUInteger kDefaultMaxBufferedSpans = 5000;
 static const NSUInteger kDefaultMaxBufferedLogs = 10000;
 static const NSUInteger kDefaultMaxPayloadJSONLength = 32 * 1024;
@@ -42,6 +42,7 @@ static float kFirstRefreshDelay = 0;
     UIBackgroundTaskIdentifier m_bgTaskId;
 }
 
+@synthesize flushIntervalSeconds = m_flushIntervalSeconds;
 @synthesize maxLogRecords = m_maxLogRecords;
 @synthesize maxSpanRecords = m_maxSpanRecords;
 @synthesize maxPayloadJSONLength = m_maxPayloadJSONLength;
@@ -70,6 +71,7 @@ static float kFirstRefreshDelay = 0;
         self->m_maxLogRecords = kDefaultMaxBufferedLogs;
         self->m_maxSpanRecords = kDefaultMaxBufferedSpans;
         self->m_maxPayloadJSONLength = kDefaultMaxPayloadJSONLength;
+        self->m_flushIntervalSeconds = kDefaultFlushIntervalSeconds;
         self->m_pendingSpanRecords = [NSMutableArray array];
         self->m_pendingLogRecords = [NSMutableArray array];
         self->m_queue = dispatch_queue_create("com.resonancelabs.signal.rpc", DISPATCH_QUEUE_SERIAL);
@@ -288,7 +290,7 @@ static float kFirstRefreshDelay = 0;
             return;
         }
 
-        dispatch_source_set_timer(m_flushTimer, DISPATCH_TIME_NOW, kFlushIntervalSeconds * NSEC_PER_SEC, NSEC_PER_SEC);
+        dispatch_source_set_timer(m_flushTimer, DISPATCH_TIME_NOW, self->m_flushIntervalSeconds * NSEC_PER_SEC, NSEC_PER_SEC);
         __weak __typeof__(self) weakSelf = self;
         dispatch_source_set_event_handler(m_flushTimer, ^{
             [weakSelf flush];

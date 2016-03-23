@@ -137,6 +137,11 @@ FOUNDATION_EXPORT NSString *const LSFormatBinary;
 @property (atomic) NSUInteger maxPayloadJSONLength;
 
 /**
+ * Approximate interval to use for reporting buffered data to the collector.
+ */
+@property (atomic) NSUInteger flushIntervalSeconds;
+
+/**
  * Returns true if the library is currently buffering and reporting data.
  */
 - (bool) enabled;

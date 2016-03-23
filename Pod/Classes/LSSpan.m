@@ -121,6 +121,8 @@
         return;
     }
 
+    [self setTag:@"error" value:@"true"];
+
     NSObject* payload;
     if ([errorOrException isKindOfClass:[NSException class]]) {
         NSException* exception = (NSException*)errorOrException;
