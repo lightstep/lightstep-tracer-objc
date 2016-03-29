@@ -10,7 +10,6 @@
 #import "TTransportException.h"
 
 NSString* const OTFormatTextMap = @"text_map";
-
 NSString* const OTFormatBinary = @"binary";
 
 NSString *const OTErrorDomain = @"opentracing.io";
@@ -153,6 +152,7 @@ static float kFirstRefreshDelay = 0;
     return [self inject:span format:format carrier:carrier error:nil];
 }
 
+// These strings are used for TextMap inject and join.
 static NSString* kBasicTracerStatePrefix   = @"ot-tracer-";
 static NSString* kTraceIdKey               = @"ot-tracer-traceid";
 static NSString* kSpanIdKey                = @"ot-tracer-spanid";
@@ -200,18 +200,34 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
                 if ([key isEqualToString:kTraceIdKey]) {
                     foundRequiredFields++;
                     traceId = [LSUtil guidFromHex:[dict objectForKey:key]];
+                    if (traceId == 0) {
+                        if (outError != nil) {
+                            *outError = [NSError errorWithDomain:OTErrorDomain code:OTTraceCorruptedCode userInfo:nil];
+                        }
+                        return nil;
+                    }
                 } else if ([key isEqualToString:kSpanIdKey]) {
                     foundRequiredFields++;
                     spanId = [LSUtil guidFromHex:[dict objectForKey:key]];
+                    if (spanId == 0) {
+                        if (outError != nil) {
+                            *outError = [NSError errorWithDomain:OTErrorDomain code:OTTraceCorruptedCode userInfo:nil];
+                        }
+                        return nil;
+                    }
                 } else if ([key isEqualToString:kSampledKey]) {
                     // TODO: care about sampled status at this layer
                 }
             }
         }
         if (foundRequiredFields == 0) {
-            *outError = [NSError errorWithDomain:OTErrorDomain code:OTTraceCorruptedCode userInfo:nil];
+            // (no error per se, just didn't find a trace to join)
+            return nil;
         }
         if (foundRequiredFields < 2) {
+            if (outError != nil) {
+                *outError = [NSError errorWithDomain:OTErrorDomain code:OTTraceCorruptedCode userInfo:nil];
+            }
             return nil;
         }
 
