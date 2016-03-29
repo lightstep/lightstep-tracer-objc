@@ -123,8 +123,7 @@ completionHandler:(void (^)(id response, NSError *error))completionHandler {
     NSMutableDictionary* headers = [NSMutableDictionary dictionaryWithDictionary:[config HTTPAdditionalHeaders]];
     [headers setObject:@"LightStep iOS Example" forKey:@"User-Agent"];
     [headers setObject:span.tracer.accessToken forKey:@"LightStep-Access-Token"];
-    [headers setObject:span.traceGUID forKey:@"LightStep-Trace-GUID" ];
-    [headers setObject:span.guid forKey:@"LightStep-Parent-GUID"];
+    [[LSTracer sharedTracer] inject:span format:OTFormatTextMap carrier:headers];
     config.HTTPAdditionalHeaders = headers;
 
     NSURLComponents* urlComponents = [NSURLComponents new];
