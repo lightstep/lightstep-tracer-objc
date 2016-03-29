@@ -5,7 +5,9 @@
  */
 @interface LSUtil : NSObject
 
-+ (NSString*)generateGUID;
++ (UInt64)generateGUID;
++ (NSString*)hexGUID:(UInt64)guid;
++ (UInt64)guidFromHex:(NSString*)hexString;
 + (NSString*)objectToJSONString:(id)obj maxLength:(NSUInteger)maxLength;
 
 @end

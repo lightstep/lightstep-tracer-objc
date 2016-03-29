@@ -9,9 +9,14 @@
 #import "TSocketClient.h"
 #import "TTransportException.h"
 
-NSString* const LSFormatSplitText = @"split_text";
+NSString* const OTFormatTextMap = @"text_map";
 
-NSString* const LSFormatBinary = @"binary";
+NSString* const OTFormatBinary = @"binary";
+
+NSString *const OTErrorDomain = @"opentracing.io";
+NSInteger OTUnsupportedFormatCode = 1;
+NSInteger OTInvalidCarrierCode = 2;
+NSInteger OTTraceCorruptedCode = 3;
 
 NSString* const LSDefaultHostport = @"collector.lightstep.com:443";
 
@@ -54,7 +59,7 @@ static float kFirstRefreshDelay = 0;
     if (self = [super init]) {
         self->m_serviceUrl = [NSString stringWithFormat:@"https://%@/_rpc/v1/reports/binary", hostport];
         self->m_accessToken = accessToken;
-        self->m_runtimeGuid = [LSUtil generateGUID];
+        self->m_runtimeGuid = [LSUtil hexGUID:[LSUtil generateGUID]];
         self->m_startTime = [NSDate date];
         NSMutableArray* runtimeAttrs = @[[[RLKeyValue alloc] initWithKey:@"lightstep_tracer_platform" Value:@"ios"],
                                          [[RLKeyValue alloc] initWithKey:@"lightstep_tracer_version" Value:LS_TRACER_VERSION],
@@ -137,32 +142,97 @@ static float kFirstRefreshDelay = 0;
                 tags:(NSDictionary*)tags
            startTime:(NSDate*)startTime {
     // No locking required
-
-    NSString* traceGUID;
-    if (parentSpan != nil) {
-        traceGUID = [parentSpan _getTag:@"join:trace_guid"];
-    }
-    if (traceGUID == nil) {
-        traceGUID = [LSUtil generateGUID];
-    }
-    NSMutableDictionary* newTags = [NSMutableDictionary dictionaryWithDictionary:tags];
-    [newTags setObject:traceGUID forKey:@"join:trace_guid"];
-
-    LSSpan* span = [[LSSpan alloc] initWithTracer:self
-                                    operationName:operationName
-                                           parent:parentSpan
-                                             tags:newTags
-                                        startTime:startTime];
-    return span;
+    return [[LSSpan alloc] initWithTracer:self
+                            operationName:operationName
+                                   parent:parentSpan
+                                     tags:tags
+                                startTime:startTime];
 }
 
-- (void)inject:(LSSpan*)span format:(NSString*)format carrier:(id)carrier {
-    // TODO: implement this
+- (bool)inject:(LSSpan*)span format:(NSString*)format carrier:(id)carrier {
+    return [self inject:span format:format carrier:carrier error:nil];
+}
+
+static NSString* kBasicTracerStatePrefix   = @"ot-tracer-";
+static NSString* kTraceIdKey               = @"ot-tracer-traceid";
+static NSString* kSpanIdKey                = @"ot-tracer-spanid";
+static NSString* kSampledKey               = @"ot-tracer-sampled";
+static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
+
+- (bool)inject:(LSSpan*)span format:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError {
+    if ([format isEqualToString:OTFormatTextMap]) {
+        NSMutableDictionary *dict = carrier;
+        [dict setObject:span.hexTraceId forKey:kTraceIdKey];
+        [dict setObject:span.hexSpanId forKey:kSpanIdKey];
+        [dict setObject:@"true" forKey:kSampledKey];
+        for (NSString* key in span.tags) {
+            [dict setObject:[span.tags objectForKey:key] forKey:[kBasicTracerBaggagePrefix stringByAppendingString:key]];
+        }
+        return true;
+    } else if ([format isEqualToString:OTFormatBinary]) {
+        if (outError != nil) {
+            *outError = [NSError errorWithDomain:OTErrorDomain code:OTUnsupportedFormatCode userInfo:nil];
+        }
+        return false;
+    } else {
+        if (outError != nil) {
+            *outError = [NSError errorWithDomain:OTErrorDomain code:OTUnsupportedFormatCode userInfo:nil];
+        }
+        return false;
+    }
 }
 
 - (LSSpan*)join:(NSString*)operationName format:(NSString*)format carrier:(id)carrier {
-    // TODO: implement this
-    return nil;
+    return [self join:operationName format:format carrier:carrier error:nil];
+}
+
+- (LSSpan*)join:(NSString*)operationName format:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError {
+    if ([format isEqualToString:OTFormatTextMap]) {
+        NSMutableDictionary *dict = carrier;
+        NSMutableDictionary *baggage;
+        int foundRequiredFields = 0;
+        UInt64 traceId = 0;
+        UInt64 spanId = 0;
+        for (NSString* key in dict) {
+            if ([key hasPrefix:kBasicTracerBaggagePrefix]) {
+                [baggage setObject:[dict objectForKey:key] forKey:[key substringFromIndex:kBasicTracerBaggagePrefix.length]];
+            } else if ([key hasPrefix:kBasicTracerStatePrefix]) {
+                if ([key isEqualToString:kTraceIdKey]) {
+                    foundRequiredFields++;
+                    traceId = [LSUtil guidFromHex:[dict objectForKey:key]];
+                } else if ([key isEqualToString:kSpanIdKey]) {
+                    foundRequiredFields++;
+                    spanId = [LSUtil guidFromHex:[dict objectForKey:key]];
+                } else if ([key isEqualToString:kSampledKey]) {
+                    // TODO: care about sampled status at this layer
+                }
+            }
+        }
+        if (foundRequiredFields == 0) {
+            *outError = [NSError errorWithDomain:OTErrorDomain code:OTTraceCorruptedCode userInfo:nil];
+        }
+        if (foundRequiredFields < 2) {
+            return nil;
+        }
+
+        return [[LSSpan alloc] initWithTracer:self
+                                operationName:operationName
+                                      traceId:traceId
+                                     parentId:spanId
+                                         tags:nil
+                                    startTime:[NSDate date]];
+        return nil;
+    } else if ([format isEqualToString:OTFormatBinary]) {
+        if (outError != nil) {
+            *outError = [NSError errorWithDomain:OTErrorDomain code:OTUnsupportedFormatCode userInfo:nil];
+        }
+        return nil;
+    } else {
+        if (outError != nil) {
+            *outError = [NSError errorWithDomain:OTErrorDomain code:OTUnsupportedFormatCode userInfo:nil];
+        }
+        return nil;
+    }
 }
 
 - (NSString*) serviceUrl {

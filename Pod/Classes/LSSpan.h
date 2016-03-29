@@ -88,20 +88,39 @@
                            tags:(NSDictionary*)tags
                       startTime:(NSDate*)startTime;
 
+- (instancetype) initWithTracer:(LSTracer*)tracer
+                  operationName:(NSString*)operationName
+                        traceId:(UInt64)traceId
+                       parentId:(UInt64)parentId
+                           tags:(NSDictionary*)tags
+                      startTime:(NSDate*)startTime;
+
 /**
  * The LightStep span's trace GUID
  */
 - (NSString*)traceGUID;
 
 /**
- * The LightStep span instance's GUID
- */
-- (NSString*)guid;
-
-/**
  * LightStep specific method for logging an error (or exception).
  */
 - (void)logError:(NSString*)message error:(NSObject*)errorOrException;
+
+/**
+ * 
+ */
+@property (nonatomic, strong) NSDictionary* tags;
+
+/**
+ * The LightStep Span's probabilistically unique trace id.
+ */
+@property (nonatomic) UInt64 traceId;
+@property (nonatomic, readonly) NSString* hexTraceId;
+
+/**
+ * The LightStep Span's probabilistically unique (span) id.
+ */
+@property (nonatomic) UInt64 spanId;
+@property (nonatomic, readonly) NSString* hexSpanId;
 
 /**
  * Add a set of tags from the given dictionary. Existing key-value pairs will

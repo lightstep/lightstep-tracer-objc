@@ -3,9 +3,13 @@
 #import "crouton.h"
 #import "LSSpan.h"
 
-FOUNDATION_EXPORT NSString *const LSFormatSplitText;
+FOUNDATION_EXPORT NSString *const OTFormatTextMap;
+FOUNDATION_EXPORT NSString *const OTFormatBinary;
 
-FOUNDATION_EXPORT NSString *const LSFormatBinary;
+FOUNDATION_EXPORT NSString *const OTErrorDomain;
+FOUNDATION_EXPORT NSInteger OTUnsupportedFormatCode;
+FOUNDATION_EXPORT NSInteger OTInvalidCarrierCode;
+FOUNDATION_EXPORT NSInteger OTTraceCorruptedCode;
 
 /**
  * The entrypoint to instrumentation for Cocoa.
@@ -101,7 +105,8 @@ FOUNDATION_EXPORT NSString *const LSFormatBinary;
 /**
  * Transfer the span information into the carrier of the given format.
  */
-- (void)inject:(LSSpan*)span format:(NSString*)format carrier:(id)carrier;
+- (bool)inject:(LSSpan*)span format:(NSString*)format carrier:(id)carrier;
+- (bool)inject:(LSSpan*)span format:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError;
 
 /**
  * Create a new span from the carrier of the given format.
