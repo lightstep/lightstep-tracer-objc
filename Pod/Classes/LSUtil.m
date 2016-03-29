@@ -3,8 +3,21 @@
 
 @implementation LSUtil
 
-+ (NSString*)generateGUID {
-    return [NSString stringWithFormat:@"%x%x", arc4random(), arc4random()];
++ (UInt64)generateGUID {
+    return (((UInt64)arc4random()) << 32) | arc4random();
+}
+
++ (NSString*)hexGUID:(UInt64)guid {
+    return [NSString stringWithFormat:@"%llx", guid];
+}
+
++ (UInt64)guidFromHex:(NSString*)hexString {
+    NSScanner *scanner = [NSScanner scannerWithString:hexString];
+    UInt64 rval;
+    if (![scanner scanHexLongLong:&rval]) {
+        return 0; // what else to do?
+    }
+    return rval;
 }
 
 + (NSString*)objectToJSONString:(id)obj

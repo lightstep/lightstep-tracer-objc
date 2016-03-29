@@ -3,9 +3,15 @@
 #import "crouton.h"
 #import "LSSpan.h"
 
-FOUNDATION_EXPORT NSString *const LSFormatSplitText;
+// Note: using the OT prefix here because these symbols belong in
+// `opentracing-objc` and it will make future migrations a tiny bit easier.
+FOUNDATION_EXPORT NSString *const OTFormatTextMap;
+FOUNDATION_EXPORT NSString *const OTFormatBinary;
 
-FOUNDATION_EXPORT NSString *const LSFormatBinary;
+FOUNDATION_EXPORT NSString *const OTErrorDomain;
+FOUNDATION_EXPORT NSInteger OTUnsupportedFormatCode;
+FOUNDATION_EXPORT NSInteger OTInvalidCarrierCode;
+FOUNDATION_EXPORT NSInteger OTTraceCorruptedCode;
 
 /**
  * The entrypoint to instrumentation for Cocoa.
@@ -100,13 +106,21 @@ FOUNDATION_EXPORT NSString *const LSFormatBinary;
 
 /**
  * Transfer the span information into the carrier of the given format.
+ *
+ * For example:
+ *
+ *     NSMutableDictionary* httpHeaders = ...
+ *     [[LSTracer sharedTracer] inject:span format:OTFormatTextMap carrier:headers];
+ *
  */
-- (void)inject:(LSSpan*)span format:(NSString*)format carrier:(id)carrier;
+- (bool)inject:(LSSpan*)span format:(NSString*)format carrier:(id)carrier;
+- (bool)inject:(LSSpan*)span format:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError;
 
 /**
- * Create a new span from the carrier of the given format.
+ * Create a new span joined to the trace (remotely) injected into the carrier of the given format.
  */
 - (LSSpan*)join:(NSString*)operationName format:(NSString*)format carrier:(id)carrier;
+- (LSSpan*)join:(NSString*)operationName format:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError;
 
 #pragma mark - LightStep extensions and internal methods
 

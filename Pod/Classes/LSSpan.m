@@ -7,13 +7,15 @@
 
 @implementation LSSpan {
     LSTracer* m_tracer;
-    NSString* m_guid;
     NSString* m_operationName;
     NSDate* m_startTime;
     NSMutableDictionary* m_tags;
     NSMutableDictionary* m_baggage;
     bool m_errorFlag;
 }
+
+@synthesize traceId m_traceId;
+@synthesize spanId m_spanId;
 
 - (instancetype) initWithTracer:(LSTracer*)client {
     return [self initWithTracer:client
@@ -23,14 +25,34 @@
                       startTime:nil];
 }
 
-- (instancetype) initWithTracer:(LSTracer*)client
+- (instancetype) initWithTracer:(LSTracer*)tracer
                   operationName:(NSString*)operationName
                          parent:(LSSpan*)parent
                            tags:(NSDictionary*)tags
                       startTime:(NSDate*)startTime {
+    UInt64 traceId = 0;
+    UInt64 parentId = 0;
+    if (parent != nil) {
+        parentId = parent.spanId;
+        traceId = parent.traceId;
+    }
+    return [self initWithTracer:tracer
+                  operationName:operationName
+                        traceId:traceId
+                       parentId:parentId
+                           tags:tags
+                      startTime:startTime];
+}
+
+- (instancetype) initWithTracer:(LSTracer*)tracer
+                  operationName:(NSString*)operationName
+                        traceId:(UInt64)traceId
+                       parentId:(UInt64)parentId
+                           tags:(NSDictionary*)tags
+                      startTime:(NSDate*)startTime {
     if (self = [super init]) {
-        self->m_tracer = client;
-        self->m_guid = [LSUtil generateGUID];
+        self->m_tracer = tracer;
+        self->_spanId = [LSUtil generateGUID];
         self->m_operationName = operationName;
         self->m_startTime = startTime;
         self->m_tags = [NSMutableDictionary dictionary];
@@ -40,9 +62,17 @@
         if (startTime == nil) {
             m_startTime = [NSDate date];
         }
-        if (parent != nil) {
-            [m_tags setObject:parent->m_guid forKey:@"parent_span_guid"];
+        if (parentId != 0) {
+            [m_tags setObject:[LSUtil hexGUID:parentId] forKey:@"parent_span_guid"];
         }
+        if (traceId == 0) {
+            self->m_traceId = [LSUtil generateGUID];
+        } else {
+            self->m_traceId = traceId;
+        }
+
+        [self->m_tags setObject:[LSUtil hexGUID:self->m_traceId] forKey:@"join:trace_guid"];
+
         [self _addTags:tags];
     }
     return self;
@@ -83,7 +113,7 @@
     // No locking is requied as all the member variables used below are immutable
     // after initialization:
     // - m_tracer
-    // - m_guid
+    // - m_spanId
 
     if (![m_tracer enabled]) {
         return;
@@ -94,7 +124,7 @@
     RLLogRecord* logRecord = [[RLLogRecord alloc]
                               initWithTimestamp_micros:[timestamp toMicros]
                               runtime_guid:[m_tracer runtimeGuid]
-                              span_guid:m_guid
+                              span_guid:[LSUtil hexGUID:m_spanId]
                               stable_name:eventName
                               message:nil
                               level:@"I"
@@ -112,10 +142,10 @@
 // NOTE: logError is a LightStep-specific method
 //
 - (void)logError:(NSString*)message error:(NSObject*)errorOrException {
-    // No locking is requied as all the member variables used below are immutable
+    // No locking is required as all the member variables used below are immutable
     // after initialization:
     // - m_tracer
-    // - m_guid
+    // - m_spanId
 
     if (![m_tracer enabled]) {
         return;
@@ -143,7 +173,7 @@
     RLLogRecord* logRecord = [[RLLogRecord alloc]
                               initWithTimestamp_micros:[[NSDate date] toMicros]
                               runtime_guid:[m_tracer runtimeGuid]
-                              span_guid:m_guid
+                              span_guid:[LSUtil hexGUID:m_spanId]
                               stable_name:nil
                               message:message
                               level:@"E"
@@ -186,12 +216,12 @@
         if (m_tags.count > 0) {
             tagArray = [[NSMutableArray alloc] initWithCapacity:m_tags.count];
             for (NSString* key in m_tags ) {
-                RLKeyValue* pair = [[RLKeyValue alloc] initWithKey:key Value:m_tags[key]];
+                RLKeyValue* pair = [[RLKeyValue alloc] initWithKey:key Value:[m_tags[key] description]];
                 [tagArray addObject:pair];
             }
         }
 
-        record = [[RLSpanRecord alloc] initWithSpan_guid:m_guid
+        record = [[RLSpanRecord alloc] initWithSpan_guid:[LSUtil hexGUID:m_spanId]
                                             runtime_guid:m_tracer.runtimeGuid
                                                span_name:m_operationName
                                                 join_ids:nil
@@ -209,10 +239,6 @@
 }
 
 
-- (NSString*)guid {
-    return m_guid;
-}
-
 - (void)_addTags:(NSDictionary*)tags {
     if (tags == nil) {
         return;
@@ -228,11 +254,19 @@
     }
 }
 
+- (NSString*) hexTraceId {
+    return [LSUtil hexGUID:self.traceId];
+}
+
+- (NSString*) hexSpanId {
+    return [LSUtil hexGUID:self.spanId];
+}
+
 - (NSURL*)_generateTraceURL {
     int64_t now = [[NSDate date] toMicros];
     NSString* fmt = @"https://app.lightstep.com/%@/trace?span_guid=%@&at_micros=%@";
     NSString* accessToken = [[m_tracer accessToken] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSString* guid = [m_guid stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString* guid = [[LSUtil hexGUID:m_spanId] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSString* urlStr = [NSString stringWithFormat:fmt, accessToken, guid, @(now)];
     return [NSURL URLWithString:urlStr];
 }
