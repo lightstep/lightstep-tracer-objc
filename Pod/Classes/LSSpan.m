@@ -14,9 +14,6 @@
     bool m_errorFlag;
 }
 
-@synthesize traceId m_traceId;
-@synthesize spanId m_spanId;
-
 - (instancetype) initWithTracer:(LSTracer*)client {
     return [self initWithTracer:client
                   operationName:@""
@@ -66,12 +63,12 @@
             [m_tags setObject:[LSUtil hexGUID:parentId] forKey:@"parent_span_guid"];
         }
         if (traceId == 0) {
-            self->m_traceId = [LSUtil generateGUID];
+            self->_traceId = [LSUtil generateGUID];
         } else {
-            self->m_traceId = traceId;
+            self->_traceId = traceId;
         }
 
-        [self->m_tags setObject:[LSUtil hexGUID:self->m_traceId] forKey:@"join:trace_guid"];
+        [self->m_tags setObject:[LSUtil hexGUID:self->_traceId] forKey:@"join:trace_guid"];
 
         [self _addTags:tags];
     }
@@ -113,7 +110,7 @@
     // No locking is requied as all the member variables used below are immutable
     // after initialization:
     // - m_tracer
-    // - m_spanId
+    // - _spanId
 
     if (![m_tracer enabled]) {
         return;
@@ -124,7 +121,7 @@
     RLLogRecord* logRecord = [[RLLogRecord alloc]
                               initWithTimestamp_micros:[timestamp toMicros]
                               runtime_guid:[m_tracer runtimeGuid]
-                              span_guid:[LSUtil hexGUID:m_spanId]
+                              span_guid:[LSUtil hexGUID:_spanId]
                               stable_name:eventName
                               message:nil
                               level:@"I"
@@ -145,7 +142,7 @@
     // No locking is required as all the member variables used below are immutable
     // after initialization:
     // - m_tracer
-    // - m_spanId
+    // - _spanId
 
     if (![m_tracer enabled]) {
         return;
@@ -173,7 +170,7 @@
     RLLogRecord* logRecord = [[RLLogRecord alloc]
                               initWithTimestamp_micros:[[NSDate date] toMicros]
                               runtime_guid:[m_tracer runtimeGuid]
-                              span_guid:[LSUtil hexGUID:m_spanId]
+                              span_guid:[LSUtil hexGUID:_spanId]
                               stable_name:nil
                               message:message
                               level:@"E"
@@ -221,7 +218,7 @@
             }
         }
 
-        record = [[RLSpanRecord alloc] initWithSpan_guid:[LSUtil hexGUID:m_spanId]
+        record = [[RLSpanRecord alloc] initWithSpan_guid:[LSUtil hexGUID:_spanId]
                                             runtime_guid:m_tracer.runtimeGuid
                                                span_name:m_operationName
                                                 join_ids:nil
@@ -266,7 +263,7 @@
     int64_t now = [[NSDate date] toMicros];
     NSString* fmt = @"https://app.lightstep.com/%@/trace?span_guid=%@&at_micros=%@";
     NSString* accessToken = [[m_tracer accessToken] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSString* guid = [[LSUtil hexGUID:m_spanId] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString* guid = [[LSUtil hexGUID:_spanId] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSString* urlStr = [NSString stringWithFormat:fmt, accessToken, guid, @(now)];
     return [NSURL URLWithString:urlStr];
 }

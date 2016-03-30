@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-#import "crouton.h"
+#import "RLCrouton.h"
 #import "LSSpan.h"
 
 // Note: using the OT prefix here because these symbols belong in

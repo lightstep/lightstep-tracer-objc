@@ -5,9 +5,8 @@
 #import "LSUtil.h"
 #import "LSClockState.h"
 #import "TBinaryProtocol.h"
-#import "THTTPClient.h"
-#import "TSocketClient.h"
-#import "TTransportException.h"
+#import "THTTPTransport.h"
+#import "TTransportError.h"
 
 NSString* const OTFormatTextMap = @"text_map";
 NSString* const OTFormatBinary = @"binary";
@@ -346,6 +345,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
 // main thread (i.e. there are sleep calls in this method).
 //
 - (void) _refreshImp {
+    /* XXX
     @synchronized(self) {
         if (m_flushTimer) {
             dispatch_source_cancel(m_flushTimer);
@@ -383,6 +383,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
         });
         dispatch_resume(m_flushTimer);
     }
+     */
 }
 
 - (void) flush {
@@ -485,7 +486,9 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
 
         // The RPC is blocking. Do not include it in a locked section.
         micros_t originMicros = [LSClockState nowMicros];
-        response = [m_serviceStub Report:auth request:req];
+        NSError *err;
+        response = [m_serviceStub Report:auth request:req error:&err];
+        // XXX: err
         micros_t destinationMicros = [LSClockState nowMicros];
 
         // Process the response info
@@ -507,17 +510,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
             }
         }
     }
-    @catch (TApplicationException* e)
-    {
-        NSLog(@"Thrift RPC exception %@: %@", [e name], [e description]);
-        [self _refreshStub];
-    }
-    @catch (TException* e)
-    {
-        // TTransportException, or unknown type of exception: drop data since "first, [we want to] do no harm."
-        NSLog(@"Unknown Thrift error %@: %@", [e name], [e description]);
-        [self _refreshStub];
-    }
+    // XXX: error-handling!
     @catch (NSException* e)
     {
         // We really don't like catching NSException, but unfortunately

@@ -35,9 +35,9 @@
   self = [super init];
   if (self)  {
     _Key = Key;
-    _KeyIsSet = YES;
+    _keyIsSet = YES;
     _Value = Value;
-    _ValueIsSet = YES;
+    _valueIsSet = YES;
   }
   return self;
 }
@@ -49,12 +49,12 @@
     if ([decoder containsValueForKey: @"Key"])
     {
       _Key = [decoder decodeObjectForKey: @"Key"];
-      _KeyIsSet = YES;
+      _keyIsSet = YES;
     }
     if ([decoder containsValueForKey: @"Value"])
     {
       _Value = [decoder decodeObjectForKey: @"Value"];
-      _ValueIsSet = YES;
+      _valueIsSet = YES;
     }
   }
   return self;
@@ -62,11 +62,11 @@
 
 - (void) encodeWithCoder: (NSCoder *) encoder
 {
-  if (_KeyIsSet)
+  if (_keyIsSet)
   {
     [encoder encodeObject: _Key forKey: @"Key"];
   }
-  if (_ValueIsSet)
+  if (_valueIsSet)
   {
     [encoder encodeObject: _Value forKey: @"Value"];
   }
@@ -75,13 +75,13 @@
 - (NSUInteger) hash
 {
   NSUInteger hash = 17;
-  hash = (hash * 31) ^ _KeyIsSet ? 2654435761 : 0;
-  if (_KeyIsSet)
+  hash = (hash * 31) ^ _keyIsSet ? 2654435761 : 0;
+  if (_keyIsSet)
   {
     hash = (hash * 31) ^ [_Key hash];
   }
-  hash = (hash * 31) ^ _ValueIsSet ? 2654435761 : 0;
-  if (_ValueIsSet)
+  hash = (hash * 31) ^ _valueIsSet ? 2654435761 : 0;
+  if (_valueIsSet)
   {
     hash = (hash * 31) ^ [_Value hash];
   }
@@ -97,12 +97,12 @@
     return NO;
   }
   RLKeyValue *other = (RLKeyValue *)anObject;
-  if ((_KeyIsSet != other->_KeyIsSet) ||
-      (_KeyIsSet && ((_Key || other->_Key) && ![_Key isEqual:other->_Key]))) {
+  if ((_keyIsSet != other->_keyIsSet) ||
+      (_keyIsSet && ((_Key || other->_Key) && ![_Key isEqual:other->_Key]))) {
     return NO;
   }
-  if ((_ValueIsSet != other->_ValueIsSet) ||
-      (_ValueIsSet && ((_Value || other->_Value) && ![_Value isEqual:other->_Value]))) {
+  if ((_valueIsSet != other->_valueIsSet) ||
+      (_valueIsSet && ((_Value || other->_Value) && ![_Value isEqual:other->_Value]))) {
     return NO;
   }
   return YES;
@@ -118,22 +118,22 @@
 
 - (void) setKey: (NSString *) Key {
   _Key = Key;
-  _KeyIsSet = YES;
+  _keyIsSet = YES;
 }
 
 - (void) unsetKey {
   _Key = nil;
-  _KeyIsSet = NO;
+  _keyIsSet = NO;
 }
 
 - (void) setValue: (NSString *) Value {
   _Value = Value;
-  _ValueIsSet = YES;
+  _valueIsSet = YES;
 }
 
 - (void) unsetValue {
   _Value = nil;
-  _ValueIsSet = NO;
+  _valueIsSet = NO;
 }
 
 - (BOOL) read: (id <TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
@@ -181,14 +181,14 @@
 
 - (BOOL) write: (id <TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError {
   if (![outProtocol writeStructBeginWithName: @"KeyValue" error: __thriftError]) return NO;
-  if (_KeyIsSet) {
+  if (_keyIsSet) {
     if (_Key != nil) {
       if (![outProtocol writeFieldBeginWithName: @"Key" type: TTypeSTRING fieldID: 1 error: __thriftError]) return NO;
       if (![outProtocol writeString: _Key error: __thriftError]) return NO;
       if (![outProtocol writeFieldEnd: __thriftError]) return NO;
     }
   }
-  if (_ValueIsSet) {
+  if (_valueIsSet) {
     if (_Value != nil) {
       if (![outProtocol writeFieldBeginWithName: @"Value" type: TTypeSTRING fieldID: 2 error: __thriftError]) return NO;
       if (![outProtocol writeString: _Value error: __thriftError]) return NO;
@@ -202,7 +202,7 @@
 
 - (BOOL) validate: (NSError *__autoreleasing *)__thriftError {
   // check for required fields
-  if (!_KeyIsSet)   {
+  if (!_keyIsSet)   {
     if (__thriftError)     {
       *__thriftError = [NSError errorWithDomain: TProtocolErrorDomain
                                            code: TProtocolErrorUnknown
@@ -210,7 +210,7 @@
                                                    TProtocolErrorFieldNameKey: @"Key"}];
     }
   }
-  if (!_ValueIsSet)   {
+  if (!_valueIsSet)   {
     if (__thriftError)     {
       *__thriftError = [NSError errorWithDomain: TProtocolErrorDomain
                                            code: TProtocolErrorUnknown
@@ -248,9 +248,9 @@
   self = [super init];
   if (self)  {
     _Name = Name;
-    _NameIsSet = YES;
+    _nameIsSet = YES;
     _Value = Value;
-    _ValueIsSet = YES;
+    _valueIsSet = YES;
   }
   return self;
 }
@@ -262,12 +262,12 @@
     if ([decoder containsValueForKey: @"Name"])
     {
       _Name = [decoder decodeObjectForKey: @"Name"];
-      _NameIsSet = YES;
+      _nameIsSet = YES;
     }
     if ([decoder containsValueForKey: @"Value"])
     {
       _Value = [decoder decodeInt64ForKey: @"Value"];
-      _ValueIsSet = YES;
+      _valueIsSet = YES;
     }
   }
   return self;
@@ -275,11 +275,11 @@
 
 - (void) encodeWithCoder: (NSCoder *) encoder
 {
-  if (_NameIsSet)
+  if (_nameIsSet)
   {
     [encoder encodeObject: _Name forKey: @"Name"];
   }
-  if (_ValueIsSet)
+  if (_valueIsSet)
   {
     [encoder encodeInt64: _Value forKey: @"Value"];
   }
@@ -288,13 +288,13 @@
 - (NSUInteger) hash
 {
   NSUInteger hash = 17;
-  hash = (hash * 31) ^ _NameIsSet ? 2654435761 : 0;
-  if (_NameIsSet)
+  hash = (hash * 31) ^ _nameIsSet ? 2654435761 : 0;
+  if (_nameIsSet)
   {
     hash = (hash * 31) ^ [_Name hash];
   }
-  hash = (hash * 31) ^ _ValueIsSet ? 2654435761 : 0;
-  if (_ValueIsSet)
+  hash = (hash * 31) ^ _valueIsSet ? 2654435761 : 0;
+  if (_valueIsSet)
   {
     hash = (hash * 31) ^ [@(_Value) hash];
   }
@@ -310,12 +310,12 @@
     return NO;
   }
   RLNamedCounter *other = (RLNamedCounter *)anObject;
-  if ((_NameIsSet != other->_NameIsSet) ||
-      (_NameIsSet && ((_Name || other->_Name) && ![_Name isEqual:other->_Name]))) {
+  if ((_nameIsSet != other->_nameIsSet) ||
+      (_nameIsSet && ((_Name || other->_Name) && ![_Name isEqual:other->_Name]))) {
     return NO;
   }
-  if ((_ValueIsSet != other->_ValueIsSet) ||
-      (_ValueIsSet && (_Value != other->_Value))) {
+  if ((_valueIsSet != other->_valueIsSet) ||
+      (_valueIsSet && (_Value != other->_Value))) {
     return NO;
   }
   return YES;
@@ -331,21 +331,21 @@
 
 - (void) setName: (NSString *) Name {
   _Name = Name;
-  _NameIsSet = YES;
+  _nameIsSet = YES;
 }
 
 - (void) unsetName {
   _Name = nil;
-  _NameIsSet = NO;
+  _nameIsSet = NO;
 }
 
 - (void) setValue: (SInt64) Value {
   _Value = Value;
-  _ValueIsSet = YES;
+  _valueIsSet = YES;
 }
 
 - (void) unsetValue {
-  _ValueIsSet = NO;
+  _valueIsSet = NO;
 }
 
 - (BOOL) read: (id <TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
@@ -393,14 +393,14 @@
 
 - (BOOL) write: (id <TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError {
   if (![outProtocol writeStructBeginWithName: @"NamedCounter" error: __thriftError]) return NO;
-  if (_NameIsSet) {
+  if (_nameIsSet) {
     if (_Name != nil) {
       if (![outProtocol writeFieldBeginWithName: @"Name" type: TTypeSTRING fieldID: 1 error: __thriftError]) return NO;
       if (![outProtocol writeString: _Name error: __thriftError]) return NO;
       if (![outProtocol writeFieldEnd: __thriftError]) return NO;
     }
   }
-  if (_ValueIsSet) {
+  if (_valueIsSet) {
     if (![outProtocol writeFieldBeginWithName: @"Value" type: TTypeI64 fieldID: 2 error: __thriftError]) return NO;
     if (![outProtocol writeI64: _Value error: __thriftError]) return NO;
     if (![outProtocol writeFieldEnd: __thriftError]) return NO;
@@ -412,7 +412,7 @@
 
 - (BOOL) validate: (NSError *__autoreleasing *)__thriftError {
   // check for required fields
-  if (!_NameIsSet)   {
+  if (!_nameIsSet)   {
     if (__thriftError)     {
       *__thriftError = [NSError errorWithDomain: TProtocolErrorDomain
                                            code: TProtocolErrorUnknown
@@ -420,7 +420,7 @@
                                                    TProtocolErrorFieldNameKey: @"Name"}];
     }
   }
-  if (!_ValueIsSet)   {
+  if (!_valueIsSet)   {
     if (__thriftError)     {
       *__thriftError = [NSError errorWithDomain: TProtocolErrorDomain
                                            code: TProtocolErrorUnknown
@@ -1459,9 +1459,9 @@
   self = [super init];
   if (self)  {
     _TraceKey = TraceKey;
-    _TraceKeyIsSet = YES;
+    _traceKeyIsSet = YES;
     _Value = Value;
-    _ValueIsSet = YES;
+    _valueIsSet = YES;
   }
   return self;
 }
@@ -1473,12 +1473,12 @@
     if ([decoder containsValueForKey: @"TraceKey"])
     {
       _TraceKey = [decoder decodeObjectForKey: @"TraceKey"];
-      _TraceKeyIsSet = YES;
+      _traceKeyIsSet = YES;
     }
     if ([decoder containsValueForKey: @"Value"])
     {
       _Value = [decoder decodeObjectForKey: @"Value"];
-      _ValueIsSet = YES;
+      _valueIsSet = YES;
     }
   }
   return self;
@@ -1486,11 +1486,11 @@
 
 - (void) encodeWithCoder: (NSCoder *) encoder
 {
-  if (_TraceKeyIsSet)
+  if (_traceKeyIsSet)
   {
     [encoder encodeObject: _TraceKey forKey: @"TraceKey"];
   }
-  if (_ValueIsSet)
+  if (_valueIsSet)
   {
     [encoder encodeObject: _Value forKey: @"Value"];
   }
@@ -1499,13 +1499,13 @@
 - (NSUInteger) hash
 {
   NSUInteger hash = 17;
-  hash = (hash * 31) ^ _TraceKeyIsSet ? 2654435761 : 0;
-  if (_TraceKeyIsSet)
+  hash = (hash * 31) ^ _traceKeyIsSet ? 2654435761 : 0;
+  if (_traceKeyIsSet)
   {
     hash = (hash * 31) ^ [_TraceKey hash];
   }
-  hash = (hash * 31) ^ _ValueIsSet ? 2654435761 : 0;
-  if (_ValueIsSet)
+  hash = (hash * 31) ^ _valueIsSet ? 2654435761 : 0;
+  if (_valueIsSet)
   {
     hash = (hash * 31) ^ [_Value hash];
   }
@@ -1521,12 +1521,12 @@
     return NO;
   }
   RLTraceJoinId *other = (RLTraceJoinId *)anObject;
-  if ((_TraceKeyIsSet != other->_TraceKeyIsSet) ||
-      (_TraceKeyIsSet && ((_TraceKey || other->_TraceKey) && ![_TraceKey isEqual:other->_TraceKey]))) {
+  if ((_traceKeyIsSet != other->_traceKeyIsSet) ||
+      (_traceKeyIsSet && ((_TraceKey || other->_TraceKey) && ![_TraceKey isEqual:other->_TraceKey]))) {
     return NO;
   }
-  if ((_ValueIsSet != other->_ValueIsSet) ||
-      (_ValueIsSet && ((_Value || other->_Value) && ![_Value isEqual:other->_Value]))) {
+  if ((_valueIsSet != other->_valueIsSet) ||
+      (_valueIsSet && ((_Value || other->_Value) && ![_Value isEqual:other->_Value]))) {
     return NO;
   }
   return YES;
@@ -1542,22 +1542,22 @@
 
 - (void) setTraceKey: (NSString *) TraceKey {
   _TraceKey = TraceKey;
-  _TraceKeyIsSet = YES;
+  _traceKeyIsSet = YES;
 }
 
 - (void) unsetTraceKey {
   _TraceKey = nil;
-  _TraceKeyIsSet = NO;
+  _traceKeyIsSet = NO;
 }
 
 - (void) setValue: (NSString *) Value {
   _Value = Value;
-  _ValueIsSet = YES;
+  _valueIsSet = YES;
 }
 
 - (void) unsetValue {
   _Value = nil;
-  _ValueIsSet = NO;
+  _valueIsSet = NO;
 }
 
 - (BOOL) read: (id <TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
@@ -1605,14 +1605,14 @@
 
 - (BOOL) write: (id <TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError {
   if (![outProtocol writeStructBeginWithName: @"TraceJoinId" error: __thriftError]) return NO;
-  if (_TraceKeyIsSet) {
+  if (_traceKeyIsSet) {
     if (_TraceKey != nil) {
       if (![outProtocol writeFieldBeginWithName: @"TraceKey" type: TTypeSTRING fieldID: 1 error: __thriftError]) return NO;
       if (![outProtocol writeString: _TraceKey error: __thriftError]) return NO;
       if (![outProtocol writeFieldEnd: __thriftError]) return NO;
     }
   }
-  if (_ValueIsSet) {
+  if (_valueIsSet) {
     if (_Value != nil) {
       if (![outProtocol writeFieldBeginWithName: @"Value" type: TTypeSTRING fieldID: 2 error: __thriftError]) return NO;
       if (![outProtocol writeString: _Value error: __thriftError]) return NO;
@@ -1626,7 +1626,7 @@
 
 - (BOOL) validate: (NSError *__autoreleasing *)__thriftError {
   // check for required fields
-  if (!_TraceKeyIsSet)   {
+  if (!_traceKeyIsSet)   {
     if (__thriftError)     {
       *__thriftError = [NSError errorWithDomain: TProtocolErrorDomain
                                            code: TProtocolErrorUnknown
@@ -1634,7 +1634,7 @@
                                                    TProtocolErrorFieldNameKey: @"TraceKey"}];
     }
   }
-  if (!_ValueIsSet)   {
+  if (!_valueIsSet)   {
     if (__thriftError)     {
       *__thriftError = [NSError errorWithDomain: TProtocolErrorDomain
                                            code: TProtocolErrorUnknown
