@@ -7,15 +7,14 @@
 
 @implementation LSSpan {
     LSTracer* m_tracer;
+    UInt64 m_traceId;
+    UInt64 m_spanId;
     NSString* m_operationName;
     NSDate* m_startTime;
     NSMutableDictionary* m_tags;
     NSMutableDictionary* m_baggage;
     bool m_errorFlag;
 }
-
-@synthesize traceId m_traceId;
-@synthesize spanId m_spanId;
 
 - (instancetype) initWithTracer:(LSTracer*)client {
     return [self initWithTracer:client
@@ -52,7 +51,7 @@
                       startTime:(NSDate*)startTime {
     if (self = [super init]) {
         self->m_tracer = tracer;
-        self->_spanId = [LSUtil generateGUID];
+        self->m_spanId = [LSUtil generateGUID];
         self->m_operationName = operationName;
         self->m_startTime = startTime;
         self->m_tags = [NSMutableDictionary dictionary];
@@ -238,6 +237,21 @@
     return [m_tags objectForKey:@"join:trace_guid"];
 }
 
+- (void)setSpanId:(UInt64)spanId {
+    self->m_spanId = spanId;
+}
+
+- (UInt64)spanId {
+    return self->m_spanId;
+}
+
+- (void)setTraceId:(UInt64)traceId {
+    self->m_traceId = traceId;
+}
+
+- (UInt64)traceId {
+    return self->m_traceId;
+}
 
 - (void)_addTags:(NSDictionary*)tags {
     if (tags == nil) {

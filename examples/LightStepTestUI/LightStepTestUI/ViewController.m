@@ -200,6 +200,9 @@ completionHandler:(void (^)(id response, NSError *error))completionHandler {
 }
 
 - (IBAction)touchUpInsideGetInfo:(id)sender {
+    // Hide the keyboard.
+    [self.view endEditing:YES];
+
     LSSpan* span = [[LSTracer sharedTracer] startSpan:@"button_pressed"];
 
     self.resultsTextView.text = @"Starting query...";
