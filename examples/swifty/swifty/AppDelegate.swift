@@ -8,12 +8,16 @@
 
 import UIKit
 
+import lightstep
+import opentracing
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        opentracing.OTGlobal.initSharedTracer(lightstep.LSTracer.initSharedTracer("DEVELOPMENT_TOKEN_bhs"))
         return true
     }
     

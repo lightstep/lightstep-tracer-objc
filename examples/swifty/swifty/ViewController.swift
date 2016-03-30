@@ -6,7 +6,7 @@
 //  Copyright © 2016 LightStep. All rights reserved.
 //
 
-import lightstep
+import opentracing
 
 class ViewController: UIViewController {
 
@@ -16,7 +16,7 @@ class ViewController: UIViewController {
         // Go through the motions of:
         //
         // 1) Initializing LightStep
-        let rt = lightstep.LSTracer.initSharedTracer("DEVELOPMENT_TOKEN_bhs")
+        let rt = opentracing.OTGlobal.sharedTracer();
         
         // 2) Creating a test span
         let sp = rt.startSpan("parent string")
@@ -29,7 +29,7 @@ class ViewController: UIViewController {
 
         // 5) Make sure that TextMap injection works with an NSMutableDictionary.
         let carrier = NSMutableDictionary()
-        rt.inject(child, format: lightstep.OTFormatTextMap, carrier: carrier)
+        rt.inject(child, format: opentracing.OTFormatTextMap, carrier: carrier)
         child.logEvent("meta-log of injected TextMap contents", payload:carrier)
         
         // 6) Finish both of the spans
