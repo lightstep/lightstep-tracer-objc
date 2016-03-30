@@ -4,16 +4,6 @@
 #import "LSSpan.h"
 #import "opentracing/OTTracer.h"
 
-// Note: using the OT prefix here because these symbols belong in
-// `opentracing-objc` and it will make future migrations a tiny bit easier.
-FOUNDATION_EXPORT NSString *const OTFormatTextMap;
-FOUNDATION_EXPORT NSString *const OTFormatBinary;
-
-FOUNDATION_EXPORT NSString *const OTErrorDomain;
-FOUNDATION_EXPORT NSInteger OTUnsupportedFormatCode;
-FOUNDATION_EXPORT NSInteger OTInvalidCarrierCode;
-FOUNDATION_EXPORT NSInteger OTTraceCorruptedCode;
-
 /**
  * The entrypoint to instrumentation for Cocoa.
  *
