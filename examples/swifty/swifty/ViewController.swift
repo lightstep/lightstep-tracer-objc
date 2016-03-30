@@ -24,8 +24,9 @@ class ViewController: UIViewController {
         // 3) Logging an event with a swifty key:value payload.
         sp.logEvent("event name", payload: ["key": 1234, "nested": [3, 4, 5, 6]])
         
-        // 4) Creating a child span
+        // 4) Creating a child span and set a LightStep join key.
         let child = rt.startSpan("child span", parent: sp)
+        child.setTag("join:testkey", value: "testval");
 
         // 5) Make sure that TextMap injection works with an NSMutableDictionary.
         let carrier = NSMutableDictionary()
@@ -35,9 +36,6 @@ class ViewController: UIViewController {
         // 6) Finish both of the spans
         child.finish()
         sp.finish()
-        
-        // 7) Force a (blocking) flush; not something a normal OT/LS user would do.
-        rt.flush()
     }
 
 }
