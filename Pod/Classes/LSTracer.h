@@ -2,6 +2,7 @@
 
 #import "crouton.h"
 #import "LSSpan.h"
+#import "opentracing/OTTracer.h"
 
 // Note: using the OT prefix here because these symbols belong in
 // `opentracing-objc` and it will make future migrations a tiny bit easier.
@@ -23,7 +24,7 @@ FOUNDATION_EXPORT NSInteger OTTraceCorruptedCode;
  *
  * LSTracer is thread-safe.
  */
-@interface LSTracer : NSObject
+@interface LSTracer : NSObject<OTTracer>
 
 #pragma mark - Shared instance initialization
 
