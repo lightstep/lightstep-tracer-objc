@@ -2,7 +2,7 @@ platform :ios, "8.0"
 use_frameworks!
 
 target 'swifty' do
-  pod 'lightstep', :git => 'https://github.com/lightstep/lightstep-tracer-objc.git', :branch => 'bhs/swift'
+  pod 'lightstep', '~>1.2.0'
 end
 
 target 'swiftyTests' do

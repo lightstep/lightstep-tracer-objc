@@ -1,21 +1,13 @@
 PODS:
-  - lightstep (1.0.39)
+  - lightstep (1.2.0):
+    - thrift (= 0.9.2)
+  - thrift (0.9.2)
 
 DEPENDENCIES:
-  - lightstep (from `https://github.com/lightstep/lightstep-tracer-objc.git`, branch
-    `bhs/swift`)
-
-EXTERNAL SOURCES:
-  lightstep:
-    :branch: bhs/swift
-    :git: https://github.com/lightstep/lightstep-tracer-objc.git
-
-CHECKOUT OPTIONS:
-  lightstep:
-    :commit: cec273a9188a6ce6cd59c8a46fc1f9ba9ff582eb
-    :git: https://github.com/lightstep/lightstep-tracer-objc.git
+  - lightstep (~> 1.2.0)
 
 SPEC CHECKSUMS:
-  lightstep: 535133c812f53e84485671044c9da8878a972a63
+  lightstep: 64c253be696d4b96d3dc76f5e74c09a62adb77b6
+  thrift: 54db2dc6b2918a6d38a866232e329e925471ddd6
 
 COCOAPODS: 0.39.0
