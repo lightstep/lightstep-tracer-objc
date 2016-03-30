@@ -1,0 +1,1 @@
+../../../lightstep/Pod/Classes/thrift/protocol/TBinaryProtocol.h
