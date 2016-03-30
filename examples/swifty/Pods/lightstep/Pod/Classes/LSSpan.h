@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 
 #import "crouton.h"
+#import <opentracing/OTSpan.h>
 
 @class LSTracer;
 
@@ -10,14 +11,14 @@
  *
  * The LSSpan class is thread-safe.
  */
-@interface LSSpan : NSObject
+@interface LSSpan : NSObject<OTSpan>
 
 #pragma mark - OpenTracing API
 
 /**
  * The Tracer instance that created this span.
  */
-- (LSTracer*)tracer;
+- (id<OTTracer>)tracer;
 
 /**
  * Set operation name
