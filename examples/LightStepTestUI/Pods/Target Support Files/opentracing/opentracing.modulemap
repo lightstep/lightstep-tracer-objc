@@ -1,0 +1,6 @@
+framework module opentracing {
+  umbrella header "opentracing-umbrella.h"
+
+  export *
+  module * { export * }
+}
