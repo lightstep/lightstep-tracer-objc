@@ -1513,11 +1513,13 @@
   return self;
 }
 
-- (id) initWithSpan_guid: (NSString *) span_guid runtime_guid: (NSString *) runtime_guid span_name: (NSString *) span_name join_ids: (NSMutableArray *) join_ids oldest_micros: (int64_t) oldest_micros youngest_micros: (int64_t) youngest_micros attributes: (NSMutableArray *) attributes error_flag: (BOOL) error_flag log_records: (NSMutableArray *) log_records
+- (id) initWithSpan_guid: (NSString *) span_guid trace_guid: (NSString *) trace_guid runtime_guid: (NSString *) runtime_guid span_name: (NSString *) span_name join_ids: (NSMutableArray *) join_ids oldest_micros: (int64_t) oldest_micros youngest_micros: (int64_t) youngest_micros attributes: (NSMutableArray *) attributes error_flag: (BOOL) error_flag log_records: (NSMutableArray *) log_records
 {
   self = [super init];
   __span_guid = [span_guid retain_stub];
   __span_guid_isset = YES;
+  __trace_guid = [trace_guid retain_stub];
+  __trace_guid_isset = YES;
   __runtime_guid = [runtime_guid retain_stub];
   __runtime_guid_isset = YES;
   __span_name = [span_name retain_stub];
@@ -1544,6 +1546,11 @@
   {
     __span_guid = [[decoder decodeObjectForKey: @"span_guid"] retain_stub];
     __span_guid_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"trace_guid"])
+  {
+    __trace_guid = [[decoder decodeObjectForKey: @"trace_guid"] retain_stub];
+    __trace_guid_isset = YES;
   }
   if ([decoder containsValueForKey: @"runtime_guid"])
   {
@@ -1594,6 +1601,10 @@
   {
     [encoder encodeObject: __span_guid forKey: @"span_guid"];
   }
+  if (__trace_guid_isset)
+  {
+    [encoder encodeObject: __trace_guid forKey: @"trace_guid"];
+  }
   if (__runtime_guid_isset)
   {
     [encoder encodeObject: __runtime_guid forKey: @"runtime_guid"];
@@ -1631,6 +1642,7 @@
 - (void) dealloc
 {
   [__span_guid release_stub];
+  [__trace_guid release_stub];
   [__runtime_guid release_stub];
   [__span_name release_stub];
   [__join_ids release_stub];
@@ -1658,6 +1670,27 @@
   [__span_guid release_stub];
   __span_guid = nil;
   __span_guid_isset = NO;
+}
+
+- (NSString *) trace_guid {
+  return [[__trace_guid retain_stub] autorelease_stub];
+}
+
+- (void) setTrace_guid: (NSString *) trace_guid {
+  [trace_guid retain_stub];
+  [__trace_guid release_stub];
+  __trace_guid = trace_guid;
+  __trace_guid_isset = YES;
+}
+
+- (BOOL) trace_guidIsSet {
+  return __trace_guid_isset;
+}
+
+- (void) unsetTrace_guid {
+  [__trace_guid release_stub];
+  __trace_guid = nil;
+  __trace_guid_isset = NO;
 }
 
 - (NSString *) runtime_guid {
@@ -1839,6 +1872,14 @@
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
+      case 11:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setTrace_guid: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
       case 2:
         if (fieldType == TType_STRING) {
           NSString * fieldValue = [inProtocol readString];
@@ -1957,6 +1998,13 @@
       [outProtocol writeFieldEnd];
     }
   }
+  if (__trace_guid_isset) {
+    if (__trace_guid != nil) {
+      [outProtocol writeFieldBeginWithName: @"trace_guid" type: TType_STRING fieldID: 11];
+      [outProtocol writeString: __trace_guid];
+      [outProtocol writeFieldEnd];
+    }
+  }
   if (__runtime_guid_isset) {
     if (__runtime_guid != nil) {
       [outProtocol writeFieldBeginWithName: @"runtime_guid" type: TType_STRING fieldID: 2];
@@ -2043,6 +2091,8 @@
   NSMutableString * ms = [NSMutableString stringWithString: @"RLSpanRecord("];
   [ms appendString: @"span_guid:"];
   [ms appendFormat: @"\"%@\"", __span_guid];
+  [ms appendString: @",trace_guid:"];
+  [ms appendFormat: @"\"%@\"", __trace_guid];
   [ms appendString: @",runtime_guid:"];
   [ms appendFormat: @"\"%@\"", __runtime_guid];
   [ms appendString: @",span_name:"];

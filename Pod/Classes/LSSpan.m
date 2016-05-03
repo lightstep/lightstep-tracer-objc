@@ -70,8 +70,6 @@
             self->m_traceId = traceId;
         }
 
-        [self->m_tags setObject:[LSUtil hexGUID:self->m_traceId] forKey:@"join:trace_guid"];
-
         [self _addTags:tags];
     }
     return self;
@@ -221,6 +219,7 @@
         }
 
         record = [[RLSpanRecord alloc] initWithSpan_guid:[LSUtil hexGUID:m_spanId]
+                                              trace_guid:[LSUtil hexGUID:m_traceId]
                                             runtime_guid:m_tracer.runtimeGuid
                                                span_name:m_operationName
                                                 join_ids:nil
@@ -234,7 +233,7 @@
 }
 
 - (NSString*)traceGUID {
-    return [m_tags objectForKey:@"join:trace_guid"];
+    return [LSUtil hexGUID:m_traceId];
 }
 
 - (void)setSpanId:(UInt64)spanId {
