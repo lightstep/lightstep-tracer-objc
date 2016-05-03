@@ -323,6 +323,7 @@
 
 @interface RLSpanRecord : NSObject <TBase, NSCoding> {
   NSString * __span_guid;
+  NSString * __trace_guid;
   NSString * __runtime_guid;
   NSString * __span_name;
   NSMutableArray * __join_ids;
@@ -333,6 +334,7 @@
   NSMutableArray * __log_records;
 
   BOOL __span_guid_isset;
+  BOOL __trace_guid_isset;
   BOOL __runtime_guid_isset;
   BOOL __span_name_isset;
   BOOL __join_ids_isset;
@@ -346,6 +348,8 @@
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, retain, getter=span_guid, setter=setSpan_guid:) NSString * span_guid;
 - (void) unsetSpan_guid;
+@property (nonatomic, retain, getter=trace_guid, setter=setTrace_guid:) NSString * trace_guid;
+- (void) unsetTrace_guid;
 @property (nonatomic, retain, getter=runtime_guid, setter=setRuntime_guid:) NSString * runtime_guid;
 - (void) unsetRuntime_guid;
 @property (nonatomic, retain, getter=span_name, setter=setSpan_name:) NSString * span_name;
@@ -365,7 +369,7 @@
 #endif
 
 - (id) init;
-- (id) initWithSpan_guid: (NSString *) span_guid runtime_guid: (NSString *) runtime_guid span_name: (NSString *) span_name join_ids: (NSMutableArray *) join_ids oldest_micros: (int64_t) oldest_micros youngest_micros: (int64_t) youngest_micros attributes: (NSMutableArray *) attributes error_flag: (BOOL) error_flag log_records: (NSMutableArray *) log_records;
+- (id) initWithSpan_guid: (NSString *) span_guid trace_guid: (NSString *) trace_guid runtime_guid: (NSString *) runtime_guid span_name: (NSString *) span_name join_ids: (NSMutableArray *) join_ids oldest_micros: (int64_t) oldest_micros youngest_micros: (int64_t) youngest_micros attributes: (NSMutableArray *) attributes error_flag: (BOOL) error_flag log_records: (NSMutableArray *) log_records;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -377,6 +381,12 @@
 - (void) setSpan_guid: (NSString *) span_guid;
 #endif
 - (BOOL) span_guidIsSet;
+
+#if !__has_feature(objc_arc)
+- (NSString *) trace_guid;
+- (void) setTrace_guid: (NSString *) trace_guid;
+#endif
+- (BOOL) trace_guidIsSet;
 
 #if !__has_feature(objc_arc)
 - (NSString *) runtime_guid;
