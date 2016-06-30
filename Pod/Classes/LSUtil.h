@@ -1,4 +1,4 @@
-#include <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 /**
  * Shared, generic utility functions used across the library.
