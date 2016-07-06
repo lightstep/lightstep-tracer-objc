@@ -1,6 +1,7 @@
 #import <UIKit/UIKit.h>
 #import "LSVersion.h"
 #import "LSTracer.h"
+#import "LSTracerInternal.h"
 #import "LSSpan.h"
 #import "LSUtil.h"
 #import "LSClockState.h"

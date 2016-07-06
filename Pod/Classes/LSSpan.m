@@ -1,5 +1,6 @@
 #import "LSSpan.h"
 #import "LSTracer.h"
+#import "LSTracerInternal.h"
 #import "LSUtil.h"
 
 #pragma mark - LSSpan

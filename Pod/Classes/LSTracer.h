@@ -1,6 +1,5 @@
 #import <Foundation/Foundation.h>
 
-#import "crouton.h"
 #import "LSSpan.h"
 #import "opentracing/OTTracer.h"
 
@@ -160,16 +159,5 @@
  * Flush any buffered data to the collector.
  */
 - (void)flush;
-
-/**
- * Record a span.
- */
-- (void) _appendSpanRecord:(RLSpanRecord*)spanRecord;
-
-/**
- * Record a log record.
- */
-- (void) _appendLogRecord:(RLLogRecord*)logRecord;
-
 
 @end

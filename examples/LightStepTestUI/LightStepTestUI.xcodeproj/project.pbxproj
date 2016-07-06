@@ -55,6 +55,7 @@
 		8141310B1C8FDC5500E6D12C /* LSUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LSUtil.h; path = ../../../Pod/Classes/LSUtil.h; sourceTree = "<group>"; };
 		8141310C1C8FDC5500E6D12C /* LSUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LSUtil.m; path = ../../../Pod/Classes/LSUtil.m; sourceTree = "<group>"; };
 		814131121C90967200E6D12C /* LSVersion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LSVersion.h; path = ../../../Pod/Classes/LSVersion.h; sourceTree = "<group>"; };
+		816919D21D2DAC08001638A0 /* LSTracerInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LSTracerInternal.h; path = ../../../Pod/Classes/LSTracerInternal.h; sourceTree = "<group>"; };
 		817C861B1C84D0200060C5FD /* LightStepUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LightStepUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		817C861D1C84D0200060C5FD /* LightStepUnitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LightStepUnitTests.m; sourceTree = "<group>"; };
 		817C861F1C84D0200060C5FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -154,6 +155,7 @@
 				814131081C8FDC5500E6D12C /* LSSpan.m */,
 				814131121C90967200E6D12C /* LSVersion.h */,
 				814131091C8FDC5500E6D12C /* LSTracer.h */,
+				816919D21D2DAC08001638A0 /* LSTracerInternal.h */,
 				8141310A1C8FDC5500E6D12C /* LSTracer.m */,
 				8141310B1C8FDC5500E6D12C /* LSUtil.h */,
 				8141310C1C8FDC5500E6D12C /* LSUtil.m */,
