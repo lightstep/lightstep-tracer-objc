@@ -1,6 +1,5 @@
 #import <Foundation/Foundation.h>
 
-#import "crouton.h"
 #import <opentracing/OTSpan.h>
 
 @class LSTracer;
