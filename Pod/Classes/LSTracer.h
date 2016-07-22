@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
 #import "LSSpan.h"
-#import "opentracing/OTTracer.h"
+#import "OTTracer.h"
 
 /**
  * The entrypoint to instrumentation for Cocoa.

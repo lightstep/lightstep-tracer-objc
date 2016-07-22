@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-#import <opentracing/OTSpan.h>
+#import <OTSpan.h>
 
 @class LSTracer;
 

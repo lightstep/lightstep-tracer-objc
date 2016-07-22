@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "opentracing/OTSpanContext.h"
+#import "OTSpanContext.h"
 
 @interface LSSpanContext : OTSpanContext
 
