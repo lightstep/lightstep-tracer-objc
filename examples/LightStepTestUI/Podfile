@@ -2,6 +2,8 @@
 # platform :ios, '8.0'
 # Uncomment this line if you're using Swift
 # use_frameworks!
+#
+source 'https://github.com/bensigelman/tmp-pods.git'
 
 platform :ios, '8.0'
 use_frameworks!
@@ -9,6 +11,5 @@ use_frameworks!
 workspace 'LightStepTestUI'
 
 target 'LightStepTestUI' do
-    pod 'thrift', '0.9.2'
     pod 'opentracing', '~>0.1.0'
 end
