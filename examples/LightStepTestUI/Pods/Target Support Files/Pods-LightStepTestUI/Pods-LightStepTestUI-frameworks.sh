@@ -84,10 +84,10 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "Pods-LightStepTestUI/lightstep.framework"
   install_framework "Pods-LightStepTestUI/opentracing.framework"
-  install_framework "Pods-LightStepTestUI/thrift.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "Pods-LightStepTestUI/lightstep.framework"
   install_framework "Pods-LightStepTestUI/opentracing.framework"
-  install_framework "Pods-LightStepTestUI/thrift.framework"
 fi
