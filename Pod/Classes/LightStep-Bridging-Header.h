@@ -8,6 +8,7 @@
 
 #import "LSClockState.h"
 #import "LSSpan.h"
+#import "LSSpanContext.h"
 #import "LSTracer.h"
 #import "LSUtil.h"
 #import "LSVersion.h"

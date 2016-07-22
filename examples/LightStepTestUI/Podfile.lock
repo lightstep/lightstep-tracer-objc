@@ -1,10 +1,10 @@
 PODS:
-  - opentracing (0.1.9)
+  - opentracing (0.2.0.dev4)
 
 DEPENDENCIES:
-  - opentracing (~> 0.1.0)
+  - opentracing (= 0.2.0.dev4)
 
 SPEC CHECKSUMS:
-  opentracing: 3832b2ca2663153568194dc714013ab636e63ab5
+  opentracing: f8c5f313ad8501772a147ab645eae03bc8ecd632
 
 COCOAPODS: 0.39.0

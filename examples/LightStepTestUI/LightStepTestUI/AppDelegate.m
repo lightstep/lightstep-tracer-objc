@@ -14,9 +14,9 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [LSTracer initSharedTracer:@"{your_access_token}"];
+    [LSTracer initSharedTracer:@"DEVELOPMENT_TOKEN_bhs"];
 
-    [LSTracer sharedTracer].flushIntervalSeconds = 5;
+    [LSTracer sharedTracer].flushIntervalSeconds = 1;
     [LSTracer sharedTracer].maxLogRecords = 600;
     [LSTracer sharedTracer].maxSpanRecords = 600;
 

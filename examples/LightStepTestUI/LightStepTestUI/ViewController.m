@@ -117,13 +117,13 @@ completionHandler:(void (^)(id response, NSError *error))completionHandler {
     NSString* gitHubPrefix = @"https://api.github.com/";
     NSString* urlPath = [urlString substringFromIndex:([gitHubPrefix length] - 1)];
 
-    LSSpan* span = [[LSTracer sharedTracer] startSpan:@"NSURLRequest" parent:parentSpan];
+    LSSpan* span = [[LSTracer sharedTracer] startSpan:@"NSURLRequest" childOf:parentSpan.context];
 
     NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSMutableDictionary* headers = [NSMutableDictionary dictionaryWithDictionary:[config HTTPAdditionalHeaders]];
     [headers setObject:@"LightStep iOS Example" forKey:@"User-Agent"];
     [headers setObject:((LSTracer*)span.tracer).accessToken forKey:@"LightStep-Access-Token"];
-    [[LSTracer sharedTracer] inject:span format:OTFormatTextMap carrier:headers];
+    [[LSTracer sharedTracer] inject:span.context format:OTFormatTextMap carrier:headers];
     config.HTTPAdditionalHeaders = headers;
 
     NSURLComponents* urlComponents = [NSURLComponents new];
