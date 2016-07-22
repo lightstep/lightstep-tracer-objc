@@ -8,8 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-#import "opentracing/OTSpan.h"
+#import "opentracing/OTSpanContext.h"
 
 @interface LSSpanContext : OTSpanContext
+
+#pragma mark - OpenTracing API
+- (void)setBaggageItem:(NSString*)key value:(NSString*)value;
+- (NSString*)getBaggageItem:(NSString*)key;
 
 @end

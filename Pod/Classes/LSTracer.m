@@ -109,39 +109,47 @@ static float kFirstRefreshDelay = 0;
     return s_sharedInstance;
 }
 
-- (LSSpan*)startSpan:(NSString*)operationName {
+- (id<OTSpan>)startSpan:(NSString*)operationName {
     return [self startSpan:operationName parent:nil tags:nil startTime:[NSDate date]];
 }
 
-- (LSSpan*)startSpan:(NSString*)operationName
-                tags:(NSDictionary*)tags {
+- (id<OTSpan>)startSpan:(NSString*)operationName
+                   tags:(NSDictionary*)tags {
     return [self startSpan:operationName parent:nil tags:tags startTime:[NSDate date]];
 }
 
-- (LSSpan*)startSpan:(NSString*)operationName
-              parent:(LSSpan*)parentSpan {
-    return [self startSpan:operationName parent:parentSpan tags:nil  startTime:[NSDate date]];
+- (id<OTSpan>)startSpan:(NSString*)operationName
+                 parent:(id<OTSpanContext>)parent {
+    return [self startSpan:operationName parent:parent tags:nil  startTime:[NSDate date]];
 }
 
-- (LSSpan*)startSpan:(NSString*)operationName
-              parent:(LSSpan*)parentSpan
-                tags:(NSDictionary*)tags {
-    return [self startSpan:operationName parent:parentSpan tags:tags startTime:[NSDate date]];
+- (id<OTSpan>)startSpan:(NSString*)operationName
+                 parent:(id<OTSpanContext>)parent
+                   tags:(NSDictionary*)tags {
+    return [self startSpan:operationName parent:parent tags:tags startTime:[NSDate date]];
 }
 
-- (LSSpan*)startSpan:(NSString*)operationName
-              parent:(LSSpan*)parentSpan
-                tags:(NSDictionary*)tags
-           startTime:(NSDate*)startTime {
+- (id<OTSpan>)startSpan:(NSString*)operationName
+                 parent:(id<OTSpanContext>)parent
+                   tags:(NSDictionary*)tags
+              startTime:(NSDate*)startTime {
     // No locking required
     return [[LSSpan alloc] initWithTracer:self
                             operationName:operationName
-                                   parent:parentSpan
+                                   parent:parent
                                      tags:tags
                                 startTime:startTime];
 }
 
-- (bool)inject:(LSSpan*)span format:(NSString*)format carrier:(id)carrier {
+- (id<OTSpan>)startSpan:(NSString*)operationName
+             references:(NSArray*)references
+                   tags:(NSDictionary*)tags
+              startTime:(NSDate*)startTime {
+    // XXX
+    return nil;
+}
+
+- (bool)inject:(id<OTSpanContext>)span format:(NSString*)format carrier:(id)carrier {
     return [self inject:span format:format carrier:carrier error:nil];
 }
 
@@ -152,14 +160,15 @@ static NSString* kSpanIdKey                = @"ot-tracer-spanid";
 static NSString* kSampledKey               = @"ot-tracer-sampled";
 static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
 
-- (bool)inject:(LSSpan*)span format:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError {
+- (bool)inject:(id<OTSpanContext>)spanContext format:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError {
+    LSSpanContext *ctx = (LSSpanContext*)spanContext;
     if ([format isEqualToString:OTFormatTextMap]) {
         NSMutableDictionary *dict = carrier;
-        [dict setObject:span.hexTraceId forKey:kTraceIdKey];
-        [dict setObject:span.hexSpanId forKey:kSpanIdKey];
+        [dict setObject:ctx.hexTraceId forKey:kTraceIdKey];
+        [dict setObject:ctx.hexSpanId forKey:kSpanIdKey];
         [dict setObject:@"true" forKey:kSampledKey];
-        for (NSString* key in span.tags) {
-            [dict setObject:[span.tags objectForKey:key] forKey:[kBasicTracerBaggagePrefix stringByAppendingString:key]];
+        for (NSString* key in ctx.baggage) {
+            [dict setObject:[ctx.baggage objectForKey:key] forKey:[kBasicTracerBaggagePrefix stringByAppendingString:key]];
         }
         return true;
     } else if ([format isEqualToString:OTFormatBinary]) {
@@ -175,11 +184,11 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     }
 }
 
-- (LSSpan*)join:(NSString*)operationName format:(NSString*)format carrier:(id)carrier {
+- (id<OTSpanContext>)extract:(NSString*):format carrier:(id)carrier {
     return [self join:operationName format:format carrier:carrier error:nil];
 }
 
-- (LSSpan*)join:(NSString*)operationName format:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError {
+- (id<OTSpanContext>)extract:(NSString*):format carrier:(id)carrier error:(NSError* __autoreleasing *)outError {
     if ([format isEqualToString:OTFormatTextMap]) {
         NSMutableDictionary *dict = carrier;
         NSMutableDictionary *baggage;

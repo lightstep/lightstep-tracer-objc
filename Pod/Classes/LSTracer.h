@@ -59,58 +59,33 @@
 
 #pragma mark - OpenTracing API
 
-/**
- * Start a new root span with the given operation name.
- */
-- (LSSpan*)startSpan:(NSString*)operationName;
+- (id<OTSpan>)startSpan:(NSString*)operationName;
 
-/**
- * Start a new root span with the given operation name and tags.
- */
-- (LSSpan*)startSpan:(NSString*)operationName
-                tags:(NSDictionary*)tags;
+- (id<OTSpan>)startSpan:(NSString*)operationName
+		   tags:(NSDictionary*)tags;
 
-/**
- * Start a new root span with the given operation name and other optional
- * parameters.
- */
-- (LSSpan*)startSpan:(NSString*)operationName
-              parent:(LSSpan*)parentSpan;
+- (id<OTSpan>)startSpan:(NSString*)operationName
+		childOf:(id<OTSpanContext>)parentSpan;
 
-/**
- * Start a new root span with the given operation name and other optional
- * parameters.
- */
-- (LSSpan*)startSpan:(NSString*)operationName
-              parent:(LSSpan*)parentSpan
-                tags:(NSDictionary*)tags;
+- (id<OTSpan>)startSpan:(NSString*)operationName
+		childOf:(id<OTSpanContext>)parentSpan
+		   tags:(NSDictionary*)tags;
 
-/**
- * Start a new root span with the given operation name and other optional 
- * parameters.
- */
-- (LSSpan*)startSpan:(NSString*)operationName
-              parent:(LSSpan*)parentSpan
-                tags:(NSDictionary*)tags
-           startTime:(NSDate*)startTime;
+- (id<OTSpan>)startSpan:(NSString*)operationName
+		childOf:(id<OTSpanContext>)parentSpan
+		   tags:(NSDictionary*)tags
+	      startTime:(NSDate*)startTime;
 
-/**
- * Transfer the span information into the carrier of the given format.
- *
- * For example:
- *
- *     NSMutableDictionary* httpHeaders = ...
- *     [[LSTracer sharedTracer] inject:span format:OTFormatTextMap carrier:headers];
- *
- */
-- (bool)inject:(LSSpan*)span format:(NSString*)format carrier:(id)carrier;
-- (bool)inject:(LSSpan*)span format:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError;
+- (id<OTSpan>)startSpan:(NSString*)operationName
+	     references:(NSArray*)references
+		   tags:(NSDictionary*)tags
+	      startTime:(NSDate*)startTime;
 
-/**
- * Create a new span joined to the trace (remotely) injected into the carrier of the given format.
- */
-- (LSSpan*)join:(NSString*)operationName format:(NSString*)format carrier:(id)carrier;
-- (LSSpan*)join:(NSString*)operationName format:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError;
+- (bool)inject:(id<OTSpanContext>)span format:(NSString*)format carrier:(id)carrier;
+- (bool)inject:(id<OTSpanContext>)span format:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError;
+
+- (id<OTSpanContext>)extract:(NSString*)format carrier:(id)carrier;
+- (id<OTSpanContext>)extract:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError;
 
 #pragma mark - LightStep extensions and internal methods
 
