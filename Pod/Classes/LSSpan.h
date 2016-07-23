@@ -48,25 +48,14 @@
  */
 - (instancetype) initWithTracer:(LSTracer*)tracer
                   operationName:(NSString*)operationName
-                         parent:(LSSpan*)parent
+                         parent:(LSSpanContext*)parent
                            tags:(NSDictionary*)tags
-                      startTime:(NSDate*)startTime;
-
-/**
- * Internal function.
- *
- * Creates a new span associated with the given tracer and the other optional
- * parameters.
- */
-- (instancetype) initWithTracer:(LSTracer*)tracer
-                  operationName:(NSString*)operationName
-                        traceId:(UInt64)traceId
-                       parentId:(UInt64)parentId
-                           tags:(NSDictionary*)tags
-                      startTime:(NSDate*)startTime;
+                      startTime:(NSDate*)startTime {
 
 /**
  * The LightStep span's trace GUID
+ *
+ * XXX: remove
  */
 - (NSString*)traceGUID;
 

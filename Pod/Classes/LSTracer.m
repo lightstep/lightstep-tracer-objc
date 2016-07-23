@@ -3,6 +3,7 @@
 #import "LSTracer.h"
 #import "LSTracerInternal.h"
 #import "LSSpan.h"
+#import "LSSpanContext.h"
 #import "LSUtil.h"
 #import "LSClockState.h"
 #import "TBinaryProtocol.h"
@@ -119,18 +120,18 @@ static float kFirstRefreshDelay = 0;
 }
 
 - (id<OTSpan>)startSpan:(NSString*)operationName
-                 parent:(id<OTSpanContext>)parent {
+                childOf:(id<OTSpanContext>)parent {
     return [self startSpan:operationName parent:parent tags:nil  startTime:[NSDate date]];
 }
 
 - (id<OTSpan>)startSpan:(NSString*)operationName
-                 parent:(id<OTSpanContext>)parent
+                childOf:(id<OTSpanContext>)parent
                    tags:(NSDictionary*)tags {
     return [self startSpan:operationName parent:parent tags:tags startTime:[NSDate date]];
 }
 
 - (id<OTSpan>)startSpan:(NSString*)operationName
-                 parent:(id<OTSpanContext>)parent
+                childOf:(id<OTSpanContext>)parent
                    tags:(NSDictionary*)tags
               startTime:(NSDate*)startTime {
     // No locking required
@@ -184,11 +185,11 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     }
 }
 
-- (id<OTSpanContext>)extract:(NSString*):format carrier:(id)carrier {
-    return [self join:operationName format:format carrier:carrier error:nil];
+- (id<OTSpanContext>)extract:(NSString*)format carrier:(id)carrier {
+    return [self extract:format carrier:carrier error:nil];
 }
 
-- (id<OTSpanContext>)extract:(NSString*):format carrier:(id)carrier error:(NSError* __autoreleasing *)outError {
+- (id<OTSpanContext>)extract:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError {
     if ([format isEqualToString:OTFormatTextMap]) {
         NSMutableDictionary *dict = carrier;
         NSMutableDictionary *baggage;
