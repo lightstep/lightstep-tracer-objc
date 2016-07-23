@@ -8,8 +8,9 @@
 
 #import "LSSpanContext.h"
 
+#import "LSUtil.h"
+
 @implementation LSSpanContext {
-    // XXX locks
     NSMutableDictionary* m_baggage;
 }
 
@@ -33,6 +34,14 @@
         id obj = [m_baggage objectForKey:key];
         return (NSString*)obj;
     }
+}
+
+- (NSString*)hexTraceId {
+    return [LSUtil hexGUID:self.traceId];
+}
+
+- (NSString*)hexSpanId {
+    return [LSUtil hexGUID:self.spanId];
 }
 
 @end

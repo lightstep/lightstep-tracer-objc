@@ -111,23 +111,23 @@ static float kFirstRefreshDelay = 0;
 }
 
 - (id<OTSpan>)startSpan:(NSString*)operationName {
-    return [self startSpan:operationName parent:nil tags:nil startTime:[NSDate date]];
+    return [self startSpan:operationName childOf:nil tags:nil startTime:[NSDate date]];
 }
 
 - (id<OTSpan>)startSpan:(NSString*)operationName
                    tags:(NSDictionary*)tags {
-    return [self startSpan:operationName parent:nil tags:tags startTime:[NSDate date]];
+    return [self startSpan:operationName childOf:nil tags:tags startTime:[NSDate date]];
 }
 
 - (id<OTSpan>)startSpan:(NSString*)operationName
                 childOf:(id<OTSpanContext>)parent {
-    return [self startSpan:operationName parent:parent tags:nil  startTime:[NSDate date]];
+    return [self startSpan:operationName childOf:parent tags:nil  startTime:[NSDate date]];
 }
 
 - (id<OTSpan>)startSpan:(NSString*)operationName
                 childOf:(id<OTSpanContext>)parent
                    tags:(NSDictionary*)tags {
-    return [self startSpan:operationName parent:parent tags:tags startTime:[NSDate date]];
+    return [self startSpan:operationName childOf:parent tags:tags startTime:[NSDate date]];
 }
 
 - (id<OTSpan>)startSpan:(NSString*)operationName
@@ -168,9 +168,12 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
         [dict setObject:ctx.hexTraceId forKey:kTraceIdKey];
         [dict setObject:ctx.hexSpanId forKey:kSpanIdKey];
         [dict setObject:@"true" forKey:kSampledKey];
+        // XXX baggage
+        /*
         for (NSString* key in ctx.baggage) {
             [dict setObject:[ctx.baggage objectForKey:key] forKey:[kBasicTracerBaggagePrefix stringByAppendingString:key]];
         }
+        */
         return true;
     } else if ([format isEqualToString:OTFormatBinary]) {
         if (outError != nil) {
@@ -205,7 +208,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
                     traceId = [LSUtil guidFromHex:[dict objectForKey:key]];
                     if (traceId == 0) {
                         if (outError != nil) {
-                            *outError = [NSError errorWithDomain:OTErrorDomain code:OTTraceCorruptedCode userInfo:nil];
+                            *outError = [NSError errorWithDomain:OTErrorDomain code:OTSpanContextCorrupted userInfo:nil];
                         }
                         return nil;
                     }
@@ -214,7 +217,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
                     spanId = [LSUtil guidFromHex:[dict objectForKey:key]];
                     if (spanId == 0) {
                         if (outError != nil) {
-                            *outError = [NSError errorWithDomain:OTErrorDomain code:OTTraceCorruptedCode userInfo:nil];
+                            *outError = [NSError errorWithDomain:OTErrorDomain code:OTSpanContextCorrupted userInfo:nil];
                         }
                         return nil;
                     }
@@ -229,11 +232,12 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
         }
         if (foundRequiredFields < 2) {
             if (outError != nil) {
-                *outError = [NSError errorWithDomain:OTErrorDomain code:OTTraceCorruptedCode userInfo:nil];
+                *outError = [NSError errorWithDomain:OTErrorDomain code:OTSpanContextCorrupted userInfo:nil];
             }
             return nil;
         }
 
+        // XXX baggage
         return [[LSSpanContext alloc] initWithTraceId:traceId spanId:spanId];
     } else if ([format isEqualToString:OTFormatBinary]) {
         if (outError != nil) {

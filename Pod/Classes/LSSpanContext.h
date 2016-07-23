@@ -22,6 +22,9 @@
 @property (nonatomic) UInt64 traceId;
 @property (nonatomic) UInt64 spanId;
 
+@property (nonatomic, readonly) UInt64 hexTraceId;
+@property (nonatomic, readonly) UInt64 hexSpanId;
+
 - (instancetype)initWithTraceId:(UInt64)traceId spanId:(UInt64)spanId;
 
 @end
