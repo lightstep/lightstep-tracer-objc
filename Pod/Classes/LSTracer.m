@@ -1,11 +1,12 @@
 #import <UIKit/UIKit.h>
-#import "LSVersion.h"
-#import "LSTracer.h"
-#import "LSTracerInternal.h"
+#import "OTReference.h"
+#import "LSClockState.h"
 #import "LSSpan.h"
 #import "LSSpanContext.h"
+#import "LSTracer.h"
+#import "LSTracerInternal.h"
 #import "LSUtil.h"
-#import "LSClockState.h"
+#import "LSVersion.h"
 #import "TBinaryProtocol.h"
 #import "THTTPClient.h"
 #import "TSocketClient.h"
@@ -138,7 +139,7 @@ static float kFirstRefreshDelay = 0;
     // No locking required
     return [[LSSpan alloc] initWithTracer:self
                             operationName:operationName
-                                   parent:parent;
+                                   parent:parent
                                      tags:tags
                                 startTime:startTime];
     return nil;
