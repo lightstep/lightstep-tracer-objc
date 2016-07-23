@@ -44,7 +44,7 @@
         if (parent != nil) {
             [m_tags setObject:[LSUtil hexGUID:parent.spanId] forKey:@"parent_span_guid"];
         }
-        m_ctx = [[LSSpanContext alloc] initWithTraceId:traceId spanId:spanId];
+        m_ctx = [[LSSpanContext alloc] initWithTraceId:traceId spanId:spanId baggage:nil];
 
         [self _addTags:tags];
     }

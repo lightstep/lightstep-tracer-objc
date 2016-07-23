@@ -25,6 +25,14 @@
                         baggage:(NSMutableDictionary*)baggage;
 
 /**
+ * An iterator for OTSpanContext baggage.
+ *
+ * If the callback returns false, iteration stops and forEachBaggageItem:
+ * returns early.
+ */
+- (void)forEachBaggageItem:(bool (^) (NSString* key, NSString* value))callback;
+
+/**
  * The LightStep Span's probabilistically unique trace id.
  */
 @property (nonatomic) UInt64 traceId;

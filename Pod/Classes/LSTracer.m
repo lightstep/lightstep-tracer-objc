@@ -171,7 +171,8 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
         [dict setObject:@"true" forKey:kSampledKey];
         // TODO: HTTP headers require special treatment here.
         [ctx forEachBaggageItem:^bool (NSString* key, NSString* val) {
-            [dict setObject:[val] forKey:[key]];
+            [dict setObject:val forKey:key];
+            return true;
         }];
         return true;
     } else if ([format isEqualToString:OTFormatBinary]) {

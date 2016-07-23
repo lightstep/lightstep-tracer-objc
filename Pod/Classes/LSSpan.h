@@ -34,8 +34,6 @@
 
 #pragma mark - LightStep extensions and internal methods
 
-- (void)forEachBaggageItem:(bool (^) (NSString* key, NSString* value))callback;
-
 /**
  * Internal function.
  * 
