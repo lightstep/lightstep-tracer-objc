@@ -40,7 +40,7 @@
  * keep the code simple.
  */
 - (void)queryInfo:(NSString*)username
-       parentSpan:(LSSpan*)parentSpan
+       parentSpan:(id<OTSpan>)parentSpan
     completionHandler:(void(^)(NSString*))completionHandler {
 
     NSString* url = [NSString stringWithFormat:@"https://api.github.com/users/%@", username];
@@ -109,7 +109,7 @@
  * Calls the callback with either an NSArray* or NSDictionary* depending on the
  * JSON returned by the URL.
  */
-- (void)_getHTTP:(LSSpan*)parentSpan
+- (void)_getHTTP:(id<OTSpan>)parentSpan
              url:(NSString*)urlString
 completionHandler:(void (^)(id response, NSError *error))completionHandler {
 
@@ -117,7 +117,7 @@ completionHandler:(void (^)(id response, NSError *error))completionHandler {
     NSString* gitHubPrefix = @"https://api.github.com/";
     NSString* urlPath = [urlString substringFromIndex:([gitHubPrefix length] - 1)];
 
-    LSSpan* span = [[LSTracer sharedTracer] startSpan:@"NSURLRequest" childOf:parentSpan.context];
+    id<OTSpan> span = [[LSTracer sharedTracer] startSpan:@"NSURLRequest" childOf:parentSpan.context];
 
     NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSMutableDictionary* headers = [NSMutableDictionary dictionaryWithDictionary:[config HTTPAdditionalHeaders]];
@@ -154,7 +154,7 @@ completionHandler:(void (^)(id response, NSError *error))completionHandler {
                                                 @try {
                                                     completionHandler(obj, error);
                                                 } @catch(NSException* exception) {
-                                                    [span logError:@"Exception in completion handler" error:exception];
+                                                    [span log:@"Exception in completion handler" timestamp:nil payload:exception];
                                                 }
                                                 [span finish];
                                             }];
@@ -169,11 +169,11 @@ completionHandler:(void (^)(id response, NSError *error))completionHandler {
     [output appendString:[NSString stringWithFormat:@"User: %@\n", self.login]];
     [output appendString:[NSString stringWithFormat:@"Type: %@\n", self.type]];
 
-    [output appendString:[NSString stringWithFormat:@"Public repositories: %lu\n", self.repoNames.count]];
+    [output appendString:[NSString stringWithFormat:@"Public repositories: %@\n", @(self.repoNames.count)]];
     for (NSString* name in self.repoNames) {
         [output appendString:[NSString stringWithFormat:@"\t%@\n", name]];
     }
-    [output appendString:[NSString stringWithFormat:@"Recent events: %ld\n", self.eventTotal]];
+    [output appendString:[NSString stringWithFormat:@"Recent events: %@\n", @(self.eventTotal)]];
     for (NSString* key in self.eventCount) {
         [output appendString:[NSString stringWithFormat:@"\t%@: %@\n", key, self.eventCount[key]]];
     }
@@ -203,7 +203,7 @@ completionHandler:(void (^)(id response, NSError *error))completionHandler {
     // Hide the keyboard.
     [self.view endEditing:YES];
 
-    LSSpan* span = [[LSTracer sharedTracer] startSpan:@"button_pressed"];
+    id<OTSpan> span = [[LSTracer sharedTracer] startSpan:@"button_pressed"];
 
     self.resultsTextView.text = @"Starting query...";
     [[UserInfo new] queryInfo:self.usernameTextField.text
@@ -211,7 +211,7 @@ completionHandler:(void (^)(id response, NSError *error))completionHandler {
             completionHandler:^(NSString* text) {
                 [span logEvent:@"query_complete"
                        payload:@{@"main_thread":@([NSThread isMainThread])}];
-                NSString* displayString = [NSString stringWithFormat:@"%@\n\nView trace at:\n %@\n", text, [span _generateTraceURL]];
+                NSString* displayString = [NSString stringWithFormat:@"%@\n\nView trace at:\n %@\n", text, [(LSSpan*)span _generateTraceURL]];
 
                 // UI updates need to occur in the main thread
                 dispatch_async(dispatch_get_main_queue(), ^{
