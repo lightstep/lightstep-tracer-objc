@@ -208,7 +208,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
                     traceId = [LSUtil guidFromHex:[dict objectForKey:key]];
                     if (traceId == 0) {
                         if (outError != nil) {
-                            *outError = [NSError errorWithDomain:OTErrorDomain code:OTSpanContextCorrupted userInfo:nil];
+                            *outError = [NSError errorWithDomain:OTErrorDomain code:OTSpanContextCorruptedCode userInfo:nil];
                         }
                         return nil;
                     }
@@ -217,7 +217,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
                     spanId = [LSUtil guidFromHex:[dict objectForKey:key]];
                     if (spanId == 0) {
                         if (outError != nil) {
-                            *outError = [NSError errorWithDomain:OTErrorDomain code:OTSpanContextCorrupted userInfo:nil];
+                            *outError = [NSError errorWithDomain:OTErrorDomain code:OTSpanContextCorruptedCode userInfo:nil];
                         }
                         return nil;
                     }
@@ -232,7 +232,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
         }
         if (foundRequiredFields < 2) {
             if (outError != nil) {
-                *outError = [NSError errorWithDomain:OTErrorDomain code:OTSpanContextCorrupted userInfo:nil];
+                *outError = [NSError errorWithDomain:OTErrorDomain code:OTSpanContextCorruptedCode userInfo:nil];
             }
             return nil;
         }
