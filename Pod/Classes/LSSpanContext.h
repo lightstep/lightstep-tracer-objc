@@ -19,12 +19,13 @@
 
 #pragma mark - LightStep API
 
+// XXX baggage
+- (instancetype)initWithTraceId:(UInt64)traceId spanId:(UInt64)spanId;
+
 @property (nonatomic) UInt64 traceId;
 @property (nonatomic) UInt64 spanId;
 
-@property (nonatomic, readonly) UInt64 hexTraceId;
-@property (nonatomic, readonly) UInt64 hexSpanId;
-
-- (instancetype)initWithTraceId:(UInt64)traceId spanId:(UInt64)spanId;
+- (NSString*)hexTraceId;
+- (NSString*)hexSpanId;
 
 @end
