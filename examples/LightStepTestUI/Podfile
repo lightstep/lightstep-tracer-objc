@@ -11,6 +11,5 @@ use_frameworks!
 workspace 'LightStepTestUI'
 
 target 'LightStepTestUI' do
-    pod 'opentracing', '0.2.1'
-    pod 'lightstep', '2.0.0.dev1'
+    pod 'lightstep', '2.0.0.dev13'
 end

@@ -1,10 +1,13 @@
 PODS:
-  - opentracing (0.2.0.dev4)
+  - lightstep (2.0.0.dev13):
+    - opentracing (= 0.2.2)
+  - opentracing (0.2.2)
 
 DEPENDENCIES:
-  - opentracing (= 0.2.0.dev4)
+  - lightstep (= 2.0.0.dev13)
 
 SPEC CHECKSUMS:
-  opentracing: f8c5f313ad8501772a147ab645eae03bc8ecd632
+  lightstep: 338c9308227fc2db868862facfc308b4b8dcfe38
+  opentracing: a6db5273f5adf054608ec35a4d0d4097d7d25fd9
 
 COCOAPODS: 0.39.0

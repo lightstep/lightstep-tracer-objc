@@ -1,0 +1,1 @@
+../../../lightstep/Pod/Classes/LSSpan.h
