@@ -11,5 +11,5 @@ use_frameworks!
 workspace 'LightStepTestUI'
 
 target 'LightStepTestUI' do
-    pod 'lightstep', '2.0.0.dev13'
+    pod 'lightstep', '2.0.0.dev17'
 end
