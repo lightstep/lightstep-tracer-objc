@@ -3,6 +3,8 @@
 #import "LSSpan.h"
 #import "OTTracer.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  * An implementation of the OTTracer protocol.
  *
@@ -17,19 +19,19 @@
 #pragma mark - LSTracer initialization
 
 /**
- * @see `+[LSTracer initWithToken:componentName:hostport]` for parameter details.
+ * @see `-[LSTracer initWithToken:componentName:hostport]` for parameter details.
  *
  * @return An `LSTracer` instance that's ready to create spans and logs.
  */
 - (instancetype) initWithToken:(NSString*)accessToken;
 
 /**
- * @see `+[LSTracer initWithToken:componentName:hostport]` for parameter details.
+ * @see `-[LSTracer initWithToken:componentName:hostport]` for parameter details.
  *
  * @return An `LSTracer` instance that's ready to create spans and logs.
  */
 - (instancetype) initWithToken:(NSString*)accessToken
-                 componentName:(NSString*)componentName;
+                 componentName:(nullable NSString*)componentName;
 
 /**
  * Initialize an LSTracer instance. Either pass the resulting LSTracer* around your application explicitly or use the OTGlobal singleton mechanism.
@@ -43,38 +45,38 @@
  * @see OTGlobal
  */
 - (instancetype) initWithToken:(NSString*)accessToken
-                 componentName:(NSString*)componentName
-                      hostport:(NSString*)hostport;
+                 componentName:(nullable NSString*)componentName
+                      hostport:(nullable NSString*)hostport;
 
 #pragma mark - OpenTracing API
 
 - (id<OTSpan>)startSpan:(NSString*)operationName;
 
 - (id<OTSpan>)startSpan:(NSString*)operationName
-		   tags:(NSDictionary*)tags;
+                   tags:(nullable NSDictionary*)tags;
 
 - (id<OTSpan>)startSpan:(NSString*)operationName
-		childOf:(id<OTSpanContext>)parentSpan;
+                childOf:(nullable id<OTSpanContext>)parentSpan;
 
 - (id<OTSpan>)startSpan:(NSString*)operationName
-		childOf:(id<OTSpanContext>)parentSpan
-		   tags:(NSDictionary*)tags;
+                childOf:(nullable id<OTSpanContext>)parentSpan
+                   tags:(nullable NSDictionary*)tags;
 
 - (id<OTSpan>)startSpan:(NSString*)operationName
-		childOf:(id<OTSpanContext>)parentSpan
-		   tags:(NSDictionary*)tags
-	      startTime:(NSDate*)startTime;
+                childOf:(nullable id<OTSpanContext>)parentSpan
+                   tags:(nullable NSDictionary*)tags
+              startTime:(nullable NSDate*)startTime;
 
 - (id<OTSpan>)startSpan:(NSString*)operationName
-	     references:(NSArray*)references
-		   tags:(NSDictionary*)tags
-	      startTime:(NSDate*)startTime;
+             references:(nullable NSArray*)references
+                   tags:(nullable NSDictionary*)tags
+              startTime:(nullable NSDate*)startTime;
 
 - (bool)inject:(id<OTSpanContext>)span format:(NSString*)format carrier:(id)carrier;
-- (bool)inject:(id<OTSpanContext>)span format:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError;
+- (bool)inject:(id<OTSpanContext>)span format:(NSString*)format carrier:(id)carrier error:(nullable NSError* __autoreleasing *)outError;
 
-- (id<OTSpanContext>)extract:(NSString*)format carrier:(id)carrier;
-- (id<OTSpanContext>)extract:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError;
+- (id<OTSpanContext>)extractWithFormat:(NSString*)format carrier:(id)carrier;
+- (id<OTSpanContext>)extractWithFormat:(NSString*)format carrier:(id)carrier error:(nullable NSError* __autoreleasing *)outError;
 
 #pragma mark - LightStep extensions and internal methods
 
@@ -112,12 +114,12 @@
 /**
  * Returns true if the library is currently buffering and reporting data.
  */
-- (bool) enabled;
+- (bool)enabled;
 
 /**
  * Returns the Tracer's access token.
  */
-- (NSString*) accessToken;
+- (NSString*)accessToken;
 
 /**
  * Flush any buffered data to the collector.
@@ -125,3 +127,5 @@
 - (void)flush;
 
 @end
+
+NS_ASSUME_NONNULL_END

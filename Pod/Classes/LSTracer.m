@@ -130,8 +130,9 @@ static float kFirstRefreshDelay = 0;
     LSSpanContext* parent = nil;
     if (references != nil) {
         for (OTReference* ref in references) {
-            if ([ref.type isEqualToString:OTReferenceChildOf] ||
-                [ref.type isEqualToString:OTReferenceFollowsFrom]) {
+            if (ref != nil &&
+                    ([ref.type isEqualToString:OTReferenceChildOf] ||
+                     [ref.type isEqualToString:OTReferenceFollowsFrom])) {
                 parent = (LSSpanContext*)ref.referencedSpanContext;
             }
         }
@@ -184,11 +185,11 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     }
 }
 
-- (id<OTSpanContext>)extract:(NSString*)format carrier:(id)carrier {
-    return [self extract:format carrier:carrier error:nil];
+- (id<OTSpanContext>)extractWithFormat:(NSString*)format carrier:(id)carrier {
+    return [self extractWithFormat:format carrier:carrier error:nil];
 }
 
-- (id<OTSpanContext>)extract:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError {
+- (id<OTSpanContext>)extractWithFormat:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError {
     if ([format isEqualToString:OTFormatTextMap]) {
         NSMutableDictionary *dict = carrier;
         NSMutableDictionary *baggage;
