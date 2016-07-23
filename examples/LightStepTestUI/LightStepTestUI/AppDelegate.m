@@ -5,6 +5,7 @@
 
 #import "AppDelegate.h"
 #import "LSTracer.h"
+#import "OTGlobal.h"
 
 @interface AppDelegate ()
 
@@ -14,11 +15,11 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [LSTracer initSharedTracer:@"DEVELOPMENT_TOKEN_bhs"];
-
-    [LSTracer sharedTracer].flushIntervalSeconds = 1;
-    [LSTracer sharedTracer].maxLogRecords = 600;
-    [LSTracer sharedTracer].maxSpanRecords = 600;
+    LSTracer* tracer = [[LSTracer alloc] initWithToken:@"DEVELOPMENT_TOKEN_bhs"];
+    tracer.flushIntervalSeconds = 1;
+    tracer.maxLogRecords = 600;
+    tracer.maxSpanRecords = 600;
+    [OTGlobal initSharedTracer:tracer];
 
     return YES;
 }

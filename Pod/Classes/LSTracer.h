@@ -4,58 +4,47 @@
 #import "OTTracer.h"
 
 /**
- * The entrypoint to instrumentation for Cocoa.
+ * An implementation of the OTTracer protocol.
  *
- * As early as feasible in the life of the application (e.g., in 
- * `application:didFinishLaunchingWithOptions:`), call one of the static 
- * `+[LSTracer initSharedTracer...]` methods; `LSTracer` calls made prior to
- * that initialization will be dropped.
+ * Either pass the resulting id<OTTracer> around your application explicitly or use the OTGlobal singleton mechanism.
  *
  * LSTracer is thread-safe.
+ *
+ * @see OTGlobal
  */
 @interface LSTracer : NSObject<OTTracer>
 
-#pragma mark - Shared instance initialization
+#pragma mark - LSTracer initialization
 
 /**
- * @see `+[LSTracer initSharedTracer:groupName:hostport]` for parameter details.
+ * @see `+[LSTracer initWithToken:componentName:hostport]` for parameter details.
  *
  * @return An `LSTracer` instance that's ready to create spans and logs.
  */
-+ (instancetype) initSharedTracer:(NSString*)accessToken;
+- (instancetype) initWithToken:(NSString*)accessToken;
 
 /**
- * @see `+[LSTracer initSharedTracer:groupName:hostport]` for parameter details.
+ * @see `+[LSTracer initWithToken:componentName:hostport]` for parameter details.
  *
  * @return An `LSTracer` instance that's ready to create spans and logs.
  */
-+ (instancetype) initSharedTracer:(NSString*)accessToken
-                    componentName:(NSString*)componentName;
+- (instancetype) initWithToken:(NSString*)accessToken
+                 componentName:(NSString*)componentName;
 
 /**
- * Call this early in the application lifecycle (calls to 'sharedTracer' will
- * return nil beforehand).
+ * Initialize an LSTracer instance. Either pass the resulting LSTracer* around your application explicitly or use the OTGlobal singleton mechanism.
  *
  * @param accessToken the access token.
- * @param groupName the "group name" to associate with spans from this process; 
- *     e.g., the name of your iOS app or the bundle name.
- * @param hostport the collector's host and port as a single string (e.g. 
- *     ""collector.lightstep.com:443").
+ * @param componentName the "component name" to associate with spans from this process; e.g., the name of your iOS app or the bundle name.
+ * @param hostport the collector's host and (TLS) port as a single string (e.g.  @"collector.lightstep.com:443").
  *
  * @return An `LSTracer` instance that's ready to create spans and logs.
- */
-+ (instancetype) initSharedTracer:(NSString*)accessToken
-                    componentName:(NSString*)componentName
-                         hostport:(NSString*)hostport;
-
-/**
- * Call this to get the shared `LSTracer` singleton instance 
- * post-initialization. Calls prior to initialization will return `nil`.
  *
- * @return the previously-initialized `LSTracer` instance, or `nil` if called 
- * prior to initialization.
+ * @see OTGlobal
  */
-+ (instancetype) sharedTracer;
+- (instancetype) initWithToken:(NSString*)accessToken
+                 componentName:(NSString*)componentName
+                      hostport:(NSString*)hostport;
 
 #pragma mark - OpenTracing API
 

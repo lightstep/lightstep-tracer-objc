@@ -45,10 +45,9 @@ static float kFirstRefreshDelay = 0;
 @synthesize maxSpanRecords = m_maxSpanRecords;
 @synthesize maxPayloadJSONLength = m_maxPayloadJSONLength;
 
-- (instancetype) initWithAccessToken:(NSString*)accessToken
-                       componentName:(NSString*)componentName
-                            hostport:(NSString*)hostport {
-
+- (instancetype) initWithToken:(NSString*)accessToken
+                 componentName:(NSString*)componentName
+                      hostport:(NSString*)hostport {
     if (self = [super init]) {
         self->m_serviceUrl = [NSString stringWithFormat:@"https://%@/_rpc/v1/reports/binary", hostport];
         self->m_accessToken = accessToken;
@@ -83,31 +82,14 @@ static float kFirstRefreshDelay = 0;
     return self;
 }
 
-+ (instancetype) initSharedTracer:(NSString*)accessToken
-                    componentName:(NSString*)componentName
-                         hostport:(NSString*)hostport {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        s_sharedInstance = [[super alloc] initWithAccessToken:accessToken componentName:componentName hostport:hostport];
-    });
-    return s_sharedInstance;
-}
-
-+ (instancetype) initSharedTracer:(NSString*)accessToken
+- (instancetype) initWithToken:(NSString*)accessToken
                     componentName:(NSString*)componentName {
-    return [LSTracer initSharedTracer:accessToken componentName:componentName hostport:LSDefaultHostport];
+    return [self initWithToken:accessToken componentName:componentName hostport:LSDefaultHostport];
 }
 
-+ (instancetype) initSharedTracer:(NSString*)accessToken {
+- (instancetype) initWithToken:(NSString*)accessToken {
     NSString* bundleName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
-    return [LSTracer initSharedTracer:accessToken componentName:bundleName];
-}
-
-+ (LSTracer*) sharedTracer {
-    if (s_sharedInstance == nil) {
-        NSLog(@"Must call initSharedTracer before calling sharedTracer!");
-    }
-    return s_sharedInstance;
+    return [self initWithToken:accessToken componentName:bundleName];
 }
 
 - (id<OTSpan>)startSpan:(NSString*)operationName {
@@ -134,19 +116,31 @@ static float kFirstRefreshDelay = 0;
                 childOf:(id<OTSpanContext>)parent
                    tags:(NSDictionary*)tags
               startTime:(NSDate*)startTime {
-    // No locking required
-    return [[LSSpan alloc] initWithTracer:self
-                            operationName:operationName
-                                   parent:(LSSpanContext*)parent
-                                     tags:tags
-                                startTime:startTime];
+    return [self startSpan:operationName
+                references:@[[OTReference childOf:parent]]
+                      tags:tags
+                 startTime:startTime];
 }
 
 - (id<OTSpan>)startSpan:(NSString*)operationName
              references:(NSArray*)references
                    tags:(NSDictionary*)tags
               startTime:(NSDate*)startTime {
-    // XXX
+    LSSpanContext* parent = nil;
+    if (references != nil) {
+        for (OTReference* ref in references) {
+            if ([ref.type isEqualToString:OTReferenceChildOf] ||
+                [ref.type isEqualToString:OTReferenceFollowsFrom]) {
+                parent = (LSSpanContext*)ref.referencedSpanContext;
+            }
+        }
+    }
+    // No locking required
+    return [[LSSpan alloc] initWithTracer:self
+                            operationName:operationName
+                                   parent:parent;
+                                     tags:tags
+                                startTime:startTime];
     return nil;
 }
 

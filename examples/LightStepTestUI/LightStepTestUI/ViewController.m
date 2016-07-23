@@ -5,6 +5,7 @@
 
 #import "ViewController.h"
 #import "LSTracer.h"
+#import "OTGlobal.h"
 
 @interface UserInfo : NSObject {
     void (^_completionHandler)(NSString* text);
@@ -117,13 +118,13 @@ completionHandler:(void (^)(id response, NSError *error))completionHandler {
     NSString* gitHubPrefix = @"https://api.github.com/";
     NSString* urlPath = [urlString substringFromIndex:([gitHubPrefix length] - 1)];
 
-    id<OTSpan> span = [[LSTracer sharedTracer] startSpan:@"NSURLRequest" childOf:parentSpan.context];
+    id<OTSpan> span = [[OTGlobal sharedTracer] startSpan:@"NSURLRequest" childOf:parentSpan.context];
 
     NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSMutableDictionary* headers = [NSMutableDictionary dictionaryWithDictionary:[config HTTPAdditionalHeaders]];
     [headers setObject:@"LightStep iOS Example" forKey:@"User-Agent"];
     [headers setObject:((LSTracer*)span.tracer).accessToken forKey:@"LightStep-Access-Token"];
-    [[LSTracer sharedTracer] inject:span.context format:OTFormatTextMap carrier:headers];
+    [[OTGlobal sharedTracer] inject:span.context format:OTFormatTextMap carrier:headers];
     config.HTTPAdditionalHeaders = headers;
 
     NSURLComponents* urlComponents = [NSURLComponents new];
@@ -203,7 +204,13 @@ completionHandler:(void (^)(id response, NSError *error))completionHandler {
     // Hide the keyboard.
     [self.view endEditing:YES];
 
-    id<OTSpan> span = [[LSTracer sharedTracer] startSpan:@"button_pressed"];
+    id<OTSpan> span = [[OTGlobal sharedTracer] startSpan:@"button_pressed"];
+    
+    NSMutableDictionary *carrier = [NSMutableDictionary dictionary];
+    [[OTGlobal sharedTracer] inject:span.context format:OTFormatTextMap carrier:carrier];
+    id<OTSpanContext> extracted = [[OTGlobal sharedTracer] extract:OTFormatTextMap carrier:carrier];
+    id<OTSpan> chi = [[OTGlobal sharedTracer] startSpan:@"fake_child" childOf:extracted];
+    [chi finish];
 
     self.resultsTextView.text = @"Starting query...";
     [[UserInfo new] queryInfo:self.usernameTextField.text
