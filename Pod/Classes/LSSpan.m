@@ -12,8 +12,6 @@
     NSString* m_operationName;
     NSDate* m_startTime;
     NSMutableDictionary* m_tags;
-    NSMutableDictionary* m_baggage;
-    bool m_errorFlag;
 }
 
 - (instancetype) initWithTracer:(LSTracer*)client {
@@ -34,7 +32,6 @@
         self->m_operationName = operationName;
         self->m_startTime = startTime;
         self->m_tags = [NSMutableDictionary dictionary];
-        self->m_errorFlag = false;
 
         if (startTime == nil) {
             m_startTime = [NSDate date];
@@ -186,7 +183,7 @@
                                            oldest_micros:[m_startTime toMicros]
                                          youngest_micros:[finishTime toMicros]
                                               attributes:tagArray
-                                              error_flag:m_errorFlag
+                                              error_flag:false
                                              log_records:nil];
     }
     [m_tracer _appendSpanRecord:record];
