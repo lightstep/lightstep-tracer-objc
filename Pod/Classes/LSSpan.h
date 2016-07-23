@@ -112,14 +112,6 @@
 - (NSString*)_getTag:(NSString*)key;
 
 /**
- * Create a new span that is a child of this span, optionally with the given
- * tags and start time.
- */
-- (LSSpan*)_startChildSpan:(NSString*)operationName
-                      tags:(NSDictionary*)tags
-                 startTime:(NSDate*)startTime;
-
-/**
  * Generate a URL to the trace containing this span on LightStep.
  */
 - (NSURL*)_generateTraceURL;

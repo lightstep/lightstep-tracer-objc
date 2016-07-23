@@ -19,8 +19,8 @@
 
 #pragma mark - LightStep API
 
-@property (strong, nonatomic) UInt64 traceId;
-@property (strong, nonatomic) UInt64 spanId;
+@property (nonatomic) UInt64 traceId;
+@property (nonatomic) UInt64 spanId;
 
 - (instancetype)initWithTraceId:(UInt64)traceId spanId:(UInt64)spanId;
 

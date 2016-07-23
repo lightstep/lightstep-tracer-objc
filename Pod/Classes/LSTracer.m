@@ -136,7 +136,7 @@ static float kFirstRefreshDelay = 0;
     // No locking required
     return [[LSSpan alloc] initWithTracer:self
                             operationName:operationName
-                                   parent:parent
+                                   parent:(LSSpanContext*)parent
                                      tags:tags
                                 startTime:startTime];
 }
@@ -233,13 +233,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
             return nil;
         }
 
-        return [[LSSpan alloc] initWithTracer:self
-                                operationName:operationName
-                                      traceId:traceId
-                                     parentId:spanId
-                                         tags:nil
-                                    startTime:[NSDate date]];
-        return nil;
+        return [[LSSpanContext alloc] initWithTraceId:traceId spanId:spanId];
     } else if ([format isEqualToString:OTFormatBinary]) {
         if (outError != nil) {
             *outError = [NSError errorWithDomain:OTErrorDomain code:OTUnsupportedFormatCode userInfo:nil];

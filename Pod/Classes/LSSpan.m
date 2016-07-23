@@ -26,25 +26,6 @@
 
 - (instancetype) initWithTracer:(LSTracer*)tracer
                   operationName:(NSString*)operationName
-                         parent:(LSSpan*)parent
-                           tags:(NSDictionary*)tags
-                      startTime:(NSDate*)startTime {
-    UInt64 traceId = 0;
-    UInt64 parentId = 0;
-    if (parent != nil) {
-        parentId = parent.spanId;
-        traceId = parent.traceId;
-    }
-    return [self initWithTracer:tracer
-                  operationName:operationName
-                        traceId:traceId
-                       parentId:parentId
-                           tags:tags
-                      startTime:startTime];
-}
-
-- (instancetype) initWithTracer:(LSTracer*)tracer
-                  operationName:(NSString*)operationName
                          parent:(LSSpanContext*)parent
                            tags:(NSDictionary*)tags
                       startTime:(NSDate*)startTime {
@@ -261,17 +242,6 @@
     NSString* guid = [[LSUtil hexGUID:m_ctx.spanId] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSString* urlStr = [NSString stringWithFormat:fmt, accessToken, guid, @(now)];
     return [NSURL URLWithString:urlStr];
-}
-
-- (LSSpan*)_startChildSpan:(NSString*)operationName
-                      tags:(NSDictionary*)tags
-                 startTime:(NSDate*)startTime {
-
-    return [[LSSpan alloc] initWithTracer:m_tracer
-                            operationName:operationName
-                                   parent:nil
-                                     tags:tags
-                                startTime:startTime];
 }
 
 @end
