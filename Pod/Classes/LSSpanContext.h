@@ -10,7 +10,7 @@
 
 #import "OTSpanContext.h"
 
-@interface LSSpanContext : OTSpanContext
+@interface LSSpanContext : NSObject<OTSpanContext>
 
 #pragma mark - OpenTracing API
 - (void)setBaggageItem:(NSString*)key value:(NSString*)value;

@@ -7,6 +7,7 @@
 
 @implementation LSSpan {
     LSTracer* m_tracer;
+    LSSpanContext* m_ctx;
     UInt64 m_traceId;
     UInt64 m_spanId;
     NSString* m_operationName;
@@ -51,6 +52,7 @@
                       startTime:(NSDate*)startTime {
     if (self = [super init]) {
         self->m_tracer = tracer;
+        self->m_ctx = nil; // XXX
         self->m_spanId = [LSUtil generateGUID];
         self->m_operationName = operationName;
         self->m_startTime = startTime;
@@ -78,7 +80,12 @@
 - (void) dealloc {
 }
 
-- (LSTracer*) tracer {
+- (id<OTSpanContext>) context {
+    // The m_ctx pointer is immutable after initialization; no locking required.
+    return m_ctx;
+}
+
+- (id<OTTracer>) tracer {
     // The m_tracer pointer is immutable after initialization; no locking required.
     return m_tracer;
 }
