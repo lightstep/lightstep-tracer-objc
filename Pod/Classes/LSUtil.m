@@ -24,7 +24,7 @@
                       maxLength:(NSUInteger)maxLength {
     NSString* json = [LSUtil _objectToJSONString:obj];
     if ([json length] > maxLength) {
-        NSLog(@"Dropping excessively large payload: length=%ld", [json length]);
+        NSLog(@"Dropping excessively large payload: length=%@", @([json length]));
         json = nil;
     }
     return json;

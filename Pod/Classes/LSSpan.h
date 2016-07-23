@@ -2,6 +2,7 @@
 
 #import "OTSpan.h"
 
+@class LSSpanContext;
 @class LSTracer;
 
 /**
@@ -50,7 +51,7 @@
                   operationName:(NSString*)operationName
                          parent:(LSSpanContext*)parent
                            tags:(NSDictionary*)tags
-                      startTime:(NSDate*)startTime {
+                      startTime:(NSDate*)startTime;
 
 /**
  * The LightStep span's trace GUID
