@@ -19,13 +19,29 @@
 
 #pragma mark - LightStep API
 
-// XXX baggage
-- (instancetype)initWithTraceId:(UInt64)traceId spanId:(UInt64)spanId;
+// The LSSpanContext instance takes ownership over `baggage`.
+- (instancetype)initWithTraceId:(UInt64)traceId
+                         spanId:(UInt64)spanId
+                        baggage:(NSMutableDictionary*)baggage;
 
+/**
+ * The LightStep Span's probabilistically unique trace id.
+ */
 @property (nonatomic) UInt64 traceId;
+
+/**
+ * The LightStep Span's probabilistically unique (span) id.
+ */
 @property (nonatomic) UInt64 spanId;
 
+/**
+ * The trace id as a hexadecimal string.
+ */
 - (NSString*)hexTraceId;
+
+/**
+ * The span id as a hexadecimal string.
+ */
 - (NSString*)hexSpanId;
 
 @end

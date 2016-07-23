@@ -163,19 +163,19 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
 
 - (bool)inject:(id<OTSpanContext>)spanContext format:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError {
     LSSpanContext *ctx = (LSSpanContext*)spanContext;
-    if ([format isEqualToString:OTFormatTextMap]) {
+    if ([format isEqualToString:OTFormatTextMap] ||
+        [format isEqualToString:OTFormatHTTPHeaders]) {
         NSMutableDictionary *dict = carrier;
         [dict setObject:ctx.hexTraceId forKey:kTraceIdKey];
         [dict setObject:ctx.hexSpanId forKey:kSpanIdKey];
         [dict setObject:@"true" forKey:kSampledKey];
-        // XXX baggage
-        /*
-        for (NSString* key in ctx.baggage) {
-            [dict setObject:[ctx.baggage objectForKey:key] forKey:[kBasicTracerBaggagePrefix stringByAppendingString:key]];
-        }
-        */
+        // TODO: HTTP headers require special treatment here.
+        [ctx forEachBaggageItem:^bool (NSString* key, NSString* val) {
+            [dict setObject:[val] forKey:[key]];
+        }];
         return true;
     } else if ([format isEqualToString:OTFormatBinary]) {
+        // TODO: support the binary carrier here.
         if (outError != nil) {
             *outError = [NSError errorWithDomain:OTErrorDomain code:OTUnsupportedFormatCode userInfo:nil];
         }
@@ -237,8 +237,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
             return nil;
         }
 
-        // XXX baggage
-        return [[LSSpanContext alloc] initWithTraceId:traceId spanId:spanId];
+        return [[LSSpanContext alloc] initWithTraceId:traceId spanId:spanId baggage:baggage];
     } else if ([format isEqualToString:OTFormatBinary]) {
         if (outError != nil) {
             *outError = [NSError errorWithDomain:OTErrorDomain code:OTUnsupportedFormatCode userInfo:nil];

@@ -34,6 +34,8 @@
 
 #pragma mark - LightStep extensions and internal methods
 
+- (void)forEachBaggageItem:(bool (^) (NSString* key, NSString* value))callback;
+
 /**
  * Internal function.
  * 
@@ -54,13 +56,6 @@
                       startTime:(NSDate*)startTime;
 
 /**
- * The LightStep span's trace GUID
- *
- * XXX: remove
- */
-- (NSString*)traceGUID;
-
-/**
  * LightStep specific method for logging an error (or exception).
  */
 - (void)logError:(NSString*)message error:(NSObject*)errorOrException;
@@ -69,26 +64,6 @@
  * 
  */
 @property (nonatomic, strong) NSDictionary* tags;
-
-/**
- * The LightStep Span's probabilistically unique trace id.
- */
-@property (nonatomic) UInt64 traceId;
-
-/**
- * The trace id as a hexadecimal string.
- */
-@property (nonatomic, readonly) NSString* hexTraceId;
-
-/**
- * The LightStep Span's probabilistically unique (span) id.
- */
-@property (nonatomic) UInt64 spanId;
-
-/**
- * The span id as a hexadecimal string.
- */
-@property (nonatomic, readonly) NSString* hexSpanId;
 
 /**
  * Add a set of tags from the given dictionary. Existing key-value pairs will

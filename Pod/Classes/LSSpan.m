@@ -192,26 +192,6 @@
     [m_tracer _appendSpanRecord:record];
 }
 
-- (NSString*)traceGUID {
-    return [LSUtil hexGUID:m_ctx.traceId];
-}
-
-- (void)setSpanId:(UInt64)spanId {
-    self->m_ctx.spanId = spanId;
-}
-
-- (UInt64)spanId {
-    return self->m_ctx.spanId;
-}
-
-- (void)setTraceId:(UInt64)traceId {
-    self->m_ctx.traceId = traceId;
-}
-
-- (UInt64)traceId {
-    return self->m_ctx.traceId;
-}
-
 - (void)_addTags:(NSDictionary*)tags {
     if (tags == nil) {
         return;
@@ -225,14 +205,6 @@
     @synchronized (self) {
         return (NSString*)[m_tags objectForKey:key];
     }
-}
-
-- (NSString*) hexTraceId {
-    return [LSUtil hexGUID:self.traceId];
-}
-
-- (NSString*) hexSpanId {
-    return [LSUtil hexGUID:self.spanId];
 }
 
 - (NSURL*)_generateTraceURL {
