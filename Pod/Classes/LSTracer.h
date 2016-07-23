@@ -73,10 +73,10 @@ NS_ASSUME_NONNULL_BEGIN
               startTime:(nullable NSDate*)startTime;
 
 - (bool)inject:(id<OTSpanContext>)span format:(NSString*)format carrier:(id)carrier;
-- (bool)inject:(id<OTSpanContext>)span format:(NSString*)format carrier:(id)carrier error:(nullable NSError* __autoreleasing *)outError;
+- (bool)inject:(id<OTSpanContext>)span format:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError;
 
 - (id<OTSpanContext>)extractWithFormat:(NSString*)format carrier:(id)carrier;
-- (id<OTSpanContext>)extractWithFormat:(NSString*)format carrier:(id)carrier error:(nullable NSError* __autoreleasing *)outError;
+- (id<OTSpanContext>)extractWithFormat:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError;
 
 #pragma mark - LightStep extensions and internal methods
 
