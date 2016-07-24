@@ -21,5 +21,5 @@ Pod::Spec.new do |s|
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
-  s.dependency 'opentracing', '~>0.2.6'
+  s.dependency 'opentracing', '~>0.2.7'
 end
