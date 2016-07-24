@@ -14,11 +14,6 @@
 		811B5ED11C7E80F90076110E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 811B5ECF1C7E80F90076110E /* Main.storyboard */; };
 		811B5ED31C7E80F90076110E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 811B5ED21C7E80F90076110E /* Assets.xcassets */; };
 		811B5ED61C7E80F90076110E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 811B5ED41C7E80F90076110E /* LaunchScreen.storyboard */; };
-		8141310D1C8FDC5500E6D12C /* crouton.m in Sources */ = {isa = PBXBuildFile; fileRef = 814131041C8FDC5500E6D12C /* crouton.m */; };
-		8141310E1C8FDC5500E6D12C /* LSClockState.m in Sources */ = {isa = PBXBuildFile; fileRef = 814131061C8FDC5500E6D12C /* LSClockState.m */; };
-		8141310F1C8FDC5500E6D12C /* LSSpan.m in Sources */ = {isa = PBXBuildFile; fileRef = 814131081C8FDC5500E6D12C /* LSSpan.m */; };
-		814131101C8FDC5500E6D12C /* LSTracer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8141310A1C8FDC5500E6D12C /* LSTracer.m */; };
-		814131111C8FDC5500E6D12C /* LSUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 8141310C1C8FDC5500E6D12C /* LSUtil.m */; };
 		817C861E1C84D0200060C5FD /* LightStepUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 817C861D1C84D0200060C5FD /* LightStepUnitTests.m */; };
 /* End PBXBuildFile section */
 
@@ -44,18 +39,6 @@
 		811B5ED21C7E80F90076110E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		811B5ED51C7E80F90076110E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		811B5ED71C7E80F90076110E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		814131031C8FDC5500E6D12C /* crouton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = crouton.h; path = ../../../Pod/Classes/crouton.h; sourceTree = "<group>"; };
-		814131041C8FDC5500E6D12C /* crouton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = crouton.m; path = ../../../Pod/Classes/crouton.m; sourceTree = "<group>"; };
-		814131051C8FDC5500E6D12C /* LSClockState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LSClockState.h; path = ../../../Pod/Classes/LSClockState.h; sourceTree = "<group>"; };
-		814131061C8FDC5500E6D12C /* LSClockState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LSClockState.m; path = ../../../Pod/Classes/LSClockState.m; sourceTree = "<group>"; };
-		814131071C8FDC5500E6D12C /* LSSpan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LSSpan.h; path = ../../../Pod/Classes/LSSpan.h; sourceTree = "<group>"; };
-		814131081C8FDC5500E6D12C /* LSSpan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LSSpan.m; path = ../../../Pod/Classes/LSSpan.m; sourceTree = "<group>"; };
-		814131091C8FDC5500E6D12C /* LSTracer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LSTracer.h; path = ../../../Pod/Classes/LSTracer.h; sourceTree = "<group>"; };
-		8141310A1C8FDC5500E6D12C /* LSTracer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LSTracer.m; path = ../../../Pod/Classes/LSTracer.m; sourceTree = "<group>"; };
-		8141310B1C8FDC5500E6D12C /* LSUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LSUtil.h; path = ../../../Pod/Classes/LSUtil.h; sourceTree = "<group>"; };
-		8141310C1C8FDC5500E6D12C /* LSUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LSUtil.m; path = ../../../Pod/Classes/LSUtil.m; sourceTree = "<group>"; };
-		814131121C90967200E6D12C /* LSVersion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LSVersion.h; path = ../../../Pod/Classes/LSVersion.h; sourceTree = "<group>"; };
-		816919D21D2DAC08001638A0 /* LSTracerInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LSTracerInternal.h; path = ../../../Pod/Classes/LSTracerInternal.h; sourceTree = "<group>"; };
 		817C861B1C84D0200060C5FD /* LightStepUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LightStepUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		817C861D1C84D0200060C5FD /* LightStepUnitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LightStepUnitTests.m; sourceTree = "<group>"; };
 		817C861F1C84D0200060C5FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -122,7 +105,6 @@
 		811B5EC51C7E80F90076110E /* LightStepTestUI */ = {
 			isa = PBXGroup;
 			children = (
-				8146F8B11C7F77EC002D8812 /* LightStep */,
 				811B5EC91C7E80F90076110E /* AppDelegate.h */,
 				811B5ECA1C7E80F90076110E /* AppDelegate.m */,
 				811B5ECC1C7E80F90076110E /* ViewController.h */,
@@ -142,25 +124,6 @@
 				811B5EC71C7E80F90076110E /* main.m */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		8146F8B11C7F77EC002D8812 /* LightStep */ = {
-			isa = PBXGroup;
-			children = (
-				814131031C8FDC5500E6D12C /* crouton.h */,
-				814131041C8FDC5500E6D12C /* crouton.m */,
-				814131051C8FDC5500E6D12C /* LSClockState.h */,
-				814131061C8FDC5500E6D12C /* LSClockState.m */,
-				814131071C8FDC5500E6D12C /* LSSpan.h */,
-				814131081C8FDC5500E6D12C /* LSSpan.m */,
-				814131121C90967200E6D12C /* LSVersion.h */,
-				814131091C8FDC5500E6D12C /* LSTracer.h */,
-				816919D21D2DAC08001638A0 /* LSTracerInternal.h */,
-				8141310A1C8FDC5500E6D12C /* LSTracer.m */,
-				8141310B1C8FDC5500E6D12C /* LSUtil.h */,
-				8141310C1C8FDC5500E6D12C /* LSUtil.m */,
-			);
-			name = LightStep;
 			sourceTree = "<group>";
 		};
 		817C861C1C84D0200060C5FD /* LightStepUnitTests */ = {
@@ -323,13 +286,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				814131111C8FDC5500E6D12C /* LSUtil.m in Sources */,
 				811B5ECE1C7E80F90076110E /* ViewController.m in Sources */,
 				811B5ECB1C7E80F90076110E /* AppDelegate.m in Sources */,
-				8141310E1C8FDC5500E6D12C /* LSClockState.m in Sources */,
-				8141310D1C8FDC5500E6D12C /* crouton.m in Sources */,
-				8141310F1C8FDC5500E6D12C /* LSSpan.m in Sources */,
-				814131101C8FDC5500E6D12C /* LSTracer.m in Sources */,
 				811B5EC81C7E80F90076110E /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

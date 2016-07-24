@@ -1,13 +1,13 @@
 PODS:
-  - opentracing (0.1.7)
-  - thrift (0.9.2)
+  - lightstep (2.0.0.dev17):
+    - opentracing (= 0.2.2)
+  - opentracing (0.2.2)
 
 DEPENDENCIES:
-  - opentracing (~> 0.1.0)
-  - thrift (= 0.9.2)
+  - lightstep (= 2.0.0.dev17)
 
 SPEC CHECKSUMS:
-  opentracing: d78fe7c5053a14ed9379a9319d441352d4b7a4ee
-  thrift: 54db2dc6b2918a6d38a866232e329e925471ddd6
+  lightstep: e8532b2ceae6a2e5ed916384bac64e5bdcad1aa4
+  opentracing: a6db5273f5adf054608ec35a4d0d4097d7d25fd9
 
 COCOAPODS: 0.39.0

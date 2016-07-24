@@ -1,10 +1,12 @@
 #import <UIKit/UIKit.h>
-#import "LSVersion.h"
+#import "OTReference.h"
+#import "LSClockState.h"
+#import "LSSpan.h"
+#import "LSSpanContext.h"
 #import "LSTracer.h"
 #import "LSTracerInternal.h"
-#import "LSSpan.h"
 #import "LSUtil.h"
-#import "LSClockState.h"
+#import "LSVersion.h"
 #import "TBinaryProtocol.h"
 #import "THTTPClient.h"
 #import "TSocketClient.h"
@@ -44,10 +46,9 @@ static float kFirstRefreshDelay = 0;
 @synthesize maxSpanRecords = m_maxSpanRecords;
 @synthesize maxPayloadJSONLength = m_maxPayloadJSONLength;
 
-- (instancetype) initWithAccessToken:(NSString*)accessToken
-                       componentName:(NSString*)componentName
-                            hostport:(NSString*)hostport {
-
+- (instancetype) initWithToken:(NSString*)accessToken
+                 componentName:(NSString*)componentName
+                      hostport:(NSString*)hostport {
     if (self = [super init]) {
         self->m_serviceUrl = [NSString stringWithFormat:@"https://%@/_rpc/v1/reports/binary", hostport];
         self->m_accessToken = accessToken;
@@ -82,66 +83,70 @@ static float kFirstRefreshDelay = 0;
     return self;
 }
 
-+ (instancetype) initSharedTracer:(NSString*)accessToken
-                    componentName:(NSString*)componentName
-                         hostport:(NSString*)hostport {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        s_sharedInstance = [[super alloc] initWithAccessToken:accessToken componentName:componentName hostport:hostport];
-    });
-    return s_sharedInstance;
-}
-
-+ (instancetype) initSharedTracer:(NSString*)accessToken
+- (instancetype) initWithToken:(NSString*)accessToken
                     componentName:(NSString*)componentName {
-    return [LSTracer initSharedTracer:accessToken componentName:componentName hostport:LSDefaultHostport];
+    return [self initWithToken:accessToken componentName:componentName hostport:LSDefaultHostport];
 }
 
-+ (instancetype) initSharedTracer:(NSString*)accessToken {
+- (instancetype) initWithToken:(NSString*)accessToken {
     NSString* bundleName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
-    return [LSTracer initSharedTracer:accessToken componentName:bundleName];
+    return [self initWithToken:accessToken componentName:bundleName];
 }
 
-+ (LSTracer*) sharedTracer {
-    if (s_sharedInstance == nil) {
-        NSLog(@"Must call initSharedTracer before calling sharedTracer!");
+- (id<OTSpan>)startSpan:(NSString*)operationName {
+    return [self startSpan:operationName childOf:nil tags:nil startTime:[NSDate date]];
+}
+
+- (id<OTSpan>)startSpan:(NSString*)operationName
+                   tags:(NSDictionary*)tags {
+    return [self startSpan:operationName childOf:nil tags:tags startTime:[NSDate date]];
+}
+
+- (id<OTSpan>)startSpan:(NSString*)operationName
+                childOf:(id<OTSpanContext>)parent {
+    return [self startSpan:operationName childOf:parent tags:nil  startTime:[NSDate date]];
+}
+
+- (id<OTSpan>)startSpan:(NSString*)operationName
+                childOf:(id<OTSpanContext>)parent
+                   tags:(NSDictionary*)tags {
+    return [self startSpan:operationName childOf:parent tags:tags startTime:[NSDate date]];
+}
+
+- (id<OTSpan>)startSpan:(NSString*)operationName
+                childOf:(id<OTSpanContext>)parent
+                   tags:(NSDictionary*)tags
+              startTime:(NSDate*)startTime {
+    return [self startSpan:operationName
+                references:@[[OTReference childOf:parent]]
+                      tags:tags
+                 startTime:startTime];
+}
+
+- (id<OTSpan>)startSpan:(NSString*)operationName
+             references:(NSArray*)references
+                   tags:(NSDictionary*)tags
+              startTime:(NSDate*)startTime {
+    LSSpanContext* parent = nil;
+    if (references != nil) {
+        for (OTReference* ref in references) {
+            if (ref != nil &&
+                    ([ref.type isEqualToString:OTReferenceChildOf] ||
+                     [ref.type isEqualToString:OTReferenceFollowsFrom])) {
+                parent = (LSSpanContext*)ref.referencedSpanContext;
+            }
+        }
     }
-    return s_sharedInstance;
-}
-
-- (LSSpan*)startSpan:(NSString*)operationName {
-    return [self startSpan:operationName parent:nil tags:nil startTime:[NSDate date]];
-}
-
-- (LSSpan*)startSpan:(NSString*)operationName
-                tags:(NSDictionary*)tags {
-    return [self startSpan:operationName parent:nil tags:tags startTime:[NSDate date]];
-}
-
-- (LSSpan*)startSpan:(NSString*)operationName
-              parent:(LSSpan*)parentSpan {
-    return [self startSpan:operationName parent:parentSpan tags:nil  startTime:[NSDate date]];
-}
-
-- (LSSpan*)startSpan:(NSString*)operationName
-              parent:(LSSpan*)parentSpan
-                tags:(NSDictionary*)tags {
-    return [self startSpan:operationName parent:parentSpan tags:tags startTime:[NSDate date]];
-}
-
-- (LSSpan*)startSpan:(NSString*)operationName
-              parent:(LSSpan*)parentSpan
-                tags:(NSDictionary*)tags
-           startTime:(NSDate*)startTime {
     // No locking required
     return [[LSSpan alloc] initWithTracer:self
                             operationName:operationName
-                                   parent:parentSpan
+                                   parent:parent
                                      tags:tags
                                 startTime:startTime];
+    return nil;
 }
 
-- (bool)inject:(LSSpan*)span format:(NSString*)format carrier:(id)carrier {
+- (bool)inject:(id<OTSpanContext>)span format:(NSString*)format carrier:(id)carrier {
     return [self inject:span format:format carrier:carrier error:nil];
 }
 
@@ -152,17 +157,22 @@ static NSString* kSpanIdKey                = @"ot-tracer-spanid";
 static NSString* kSampledKey               = @"ot-tracer-sampled";
 static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
 
-- (bool)inject:(LSSpan*)span format:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError {
-    if ([format isEqualToString:OTFormatTextMap]) {
+- (bool)inject:(id<OTSpanContext>)spanContext format:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError {
+    LSSpanContext *ctx = (LSSpanContext*)spanContext;
+    if ([format isEqualToString:OTFormatTextMap] ||
+        [format isEqualToString:OTFormatHTTPHeaders]) {
         NSMutableDictionary *dict = carrier;
-        [dict setObject:span.hexTraceId forKey:kTraceIdKey];
-        [dict setObject:span.hexSpanId forKey:kSpanIdKey];
+        [dict setObject:ctx.hexTraceId forKey:kTraceIdKey];
+        [dict setObject:ctx.hexSpanId forKey:kSpanIdKey];
         [dict setObject:@"true" forKey:kSampledKey];
-        for (NSString* key in span.tags) {
-            [dict setObject:[span.tags objectForKey:key] forKey:[kBasicTracerBaggagePrefix stringByAppendingString:key]];
-        }
+        // TODO: HTTP headers require special treatment here.
+        [ctx forEachBaggageItem:^bool (NSString* key, NSString* val) {
+            [dict setObject:val forKey:key];
+            return true;
+        }];
         return true;
     } else if ([format isEqualToString:OTFormatBinary]) {
+        // TODO: support the binary carrier here.
         if (outError != nil) {
             *outError = [NSError errorWithDomain:OTErrorDomain code:OTUnsupportedFormatCode userInfo:nil];
         }
@@ -175,11 +185,11 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     }
 }
 
-- (LSSpan*)join:(NSString*)operationName format:(NSString*)format carrier:(id)carrier {
-    return [self join:operationName format:format carrier:carrier error:nil];
+- (id<OTSpanContext>)extractWithFormat:(NSString*)format carrier:(id)carrier {
+    return [self extractWithFormat:format carrier:carrier error:nil];
 }
 
-- (LSSpan*)join:(NSString*)operationName format:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError {
+- (id<OTSpanContext>)extractWithFormat:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError {
     if ([format isEqualToString:OTFormatTextMap]) {
         NSMutableDictionary *dict = carrier;
         NSMutableDictionary *baggage;
@@ -195,7 +205,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
                     traceId = [LSUtil guidFromHex:[dict objectForKey:key]];
                     if (traceId == 0) {
                         if (outError != nil) {
-                            *outError = [NSError errorWithDomain:OTErrorDomain code:OTTraceCorruptedCode userInfo:nil];
+                            *outError = [NSError errorWithDomain:OTErrorDomain code:OTSpanContextCorruptedCode userInfo:nil];
                         }
                         return nil;
                     }
@@ -204,7 +214,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
                     spanId = [LSUtil guidFromHex:[dict objectForKey:key]];
                     if (spanId == 0) {
                         if (outError != nil) {
-                            *outError = [NSError errorWithDomain:OTErrorDomain code:OTTraceCorruptedCode userInfo:nil];
+                            *outError = [NSError errorWithDomain:OTErrorDomain code:OTSpanContextCorruptedCode userInfo:nil];
                         }
                         return nil;
                     }
@@ -219,18 +229,12 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
         }
         if (foundRequiredFields < 2) {
             if (outError != nil) {
-                *outError = [NSError errorWithDomain:OTErrorDomain code:OTTraceCorruptedCode userInfo:nil];
+                *outError = [NSError errorWithDomain:OTErrorDomain code:OTSpanContextCorruptedCode userInfo:nil];
             }
             return nil;
         }
 
-        return [[LSSpan alloc] initWithTracer:self
-                                operationName:operationName
-                                      traceId:traceId
-                                     parentId:spanId
-                                         tags:nil
-                                    startTime:[NSDate date]];
-        return nil;
+        return [[LSSpanContext alloc] initWithTraceId:traceId spanId:spanId baggage:baggage];
     } else if ([format isEqualToString:OTFormatBinary]) {
         if (outError != nil) {
             *outError = [NSError errorWithDomain:OTErrorDomain code:OTUnsupportedFormatCode userInfo:nil];
