@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "lightstep"
-  s.version          = "2.0.3"
+  s.version          = "2.0.4"
   s.summary          = "The LightStep Objective-C OpenTracing library."
 
   s.description      = <<-DESC
@@ -21,5 +21,5 @@ Pod::Spec.new do |s|
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
-  s.dependency 'opentracing', '~>0.2.0'
+  s.dependency 'opentracing', '~>0.1.0'
 end
