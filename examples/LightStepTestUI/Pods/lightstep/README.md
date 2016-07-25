@@ -1,12 +1,10 @@
-# LightStep iOS
+# LightStep OpenTracing Implementation in Objective-C
 
 [![Version](https://img.shields.io/cocoapods/v/lightstep.svg?style=flat)](http://cocoapods.org/pods/lightstep)
 [![License](https://img.shields.io/cocoapods/l/lightstep.svg?style=flat)](http://cocoapods.org/pods/lightstep)
 [![Platform](https://img.shields.io/cocoapods/p/lightstep.svg?style=flat)](http://cocoapods.org/pods/lightstep)
 
-The LightStep implementation of the [OpenTracing API](http://opentracing.io/) for iOS.
-
-*Note: OpenTracing does not yet have an official iOS library. The LightStep implementation mirrors the OpenTracing API signatures so it can be used directly.*
+The LightStep implementation of the [OpenTracing API for Objective-C](https://github.com/opentracing/opentracing-objc).
 
 ## Installation (CocoaPods)
 
@@ -14,7 +12,7 @@ The LightStep implementation of the [OpenTracing API](http://opentracing.io/) fo
 2. Create a `Podfile` in your Xcode project and add the following line:
 
 ```ruby
-pod "lightstep"
+pod 'lightstep', '~>2.0'
 ```
 
 3. Run `pod install` in your project directory. Open the newly created workspace file in Xcode.
@@ -23,16 +21,28 @@ pod "lightstep"
 
 ```objectivec
 #import "LSTracer.h"
+#import "OTGlobal.h"
 
 - (BOOL)application:(UIApplication *)application
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
     // Initialize the LightStep tracer implementation
-    [LSTracer initSharedTracer:@"{your_access_token}"];
+    LSTracer* tracer = [[LSTracer alloc] initWithToken:@"{your_access_token}"];
+    [OTGlobal initSharedTracer:tracer];
 
     // <Your normal initialization code here>
 
     return YES;
+}
+
+// Elsewhere:
+- (void)someFunction:... {
+
+    id<OTSpan> span = [[OTGlobal sharedTracer] startSpan:@"an operation name"];
+
+    ...
+
+    [span finish];
 }
 ```
 
