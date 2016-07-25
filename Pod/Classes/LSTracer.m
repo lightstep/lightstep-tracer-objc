@@ -133,7 +133,7 @@ static float kFirstRefreshDelay = 0;
             if (ref != nil &&
                     ([ref.type isEqualToString:OTReferenceChildOf] ||
                      [ref.type isEqualToString:OTReferenceFollowsFrom])) {
-                parent = (LSSpanContext*)ref.referencedSpanContext;
+                parent = (LSSpanContext*)ref.referencedContext;
             }
         }
     }
