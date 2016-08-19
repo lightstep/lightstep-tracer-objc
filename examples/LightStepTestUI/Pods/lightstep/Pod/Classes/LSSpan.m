@@ -11,6 +11,7 @@
     LSSpanContext* m_ctx;
     NSString* m_operationName;
     NSDate* m_startTime;
+    NSMutableArray* m_logs;
     NSMutableDictionary* m_tags;
 }
 
@@ -32,6 +33,7 @@
         self->m_operationName = operationName;
         self->m_startTime = startTime;
         self->m_tags = [NSMutableDictionary dictionary];
+        self->m_logs = nil;
 
         if (startTime == nil) {
             m_startTime = [NSDate date];
@@ -104,8 +106,16 @@
                               stack_frames:nil
                               payload_json:payloadJSON
                               error_flag:false];
+    [self _appendLogRecord:logRecord];
+}
 
-    [m_tracer _appendLogRecord:logRecord];
+- (void)_appendLogRecord:(RLLogRecord*)logRecord {
+    @synchronized(self) {
+        if (m_logs == nil) {
+            m_logs = [NSMutableArray array];
+        }
+        [m_logs addObject:logRecord];
+    }
 }
 
 //
@@ -151,8 +161,7 @@
                               stack_frames:nil
                               payload_json:payloadJSON
                               error_flag:true];
-
-    [m_tracer _appendLogRecord:logRecord];
+    [self _appendLogRecord:logRecord];
 }
 
 - (void) finish {
@@ -184,7 +193,7 @@
                                          youngest_micros:[finishTime toMicros]
                                               attributes:tagArray
                                               error_flag:false
-                                             log_records:nil];
+                                             log_records:m_logs];
     }
     [m_tracer _appendSpanRecord:record];
 }
