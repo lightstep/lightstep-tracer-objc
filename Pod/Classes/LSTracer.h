@@ -34,11 +34,21 @@ NS_ASSUME_NONNULL_BEGIN
                  componentName:(nullable NSString*)componentName;
 
 /**
+ * @see `-[LSTracer initWithToken:componentName:hostport:flushIntervalSeconds:]` for parameter details.
+ *
+ * @return An `LSTracer` instance that's ready to create spans and logs.
+ */
+- (instancetype) initWithToken:(NSString*)accessToken
+                 componentName:(nullable NSString*)componentName
+          flushIntervalSeconds:(NSUInteger)flushIntervalSeconds;
+
+/**
  * Initialize an LSTracer instance. Either pass the resulting LSTracer* around your application explicitly or use the OTGlobal singleton mechanism.
  *
  * @param accessToken the access token.
  * @param componentName the "component name" to associate with spans from this process; e.g., the name of your iOS app or the bundle name.
  * @param hostport the collector's host and (TLS) port as a single string (e.g.  @"collector.lightstep.com:443").
+ * @param flushIntervalSeconds the flush interval, or 0 for no automatic background flushing (see LSTracer.flushIntervalSeconds)
  *
  * @return An `LSTracer` instance that's ready to create spans and logs.
  *
@@ -46,7 +56,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype) initWithToken:(NSString*)accessToken
                  componentName:(nullable NSString*)componentName
-                      hostport:(nullable NSString*)hostport;
+                      hostport:(nullable NSString*)hostport
+          flushIntervalSeconds:(NSUInteger)flushIntervalSeconds;
 
 #pragma mark - OpenTracing API
 
@@ -108,8 +119,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Approximate interval to use for reporting buffered data to the collector.
+ *
+ * If set to 0, disable the automatic flush loop entirely (and call flush() explicitly).
  */
-@property (atomic) NSUInteger flushIntervalSeconds;
+@property (readonly) NSUInteger flushIntervalSeconds;
 
 /**
  * Returns true if the library is currently buffering and reporting data.
@@ -122,9 +135,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString*)accessToken;
 
 /**
- * Flush any buffered data to the collector.
+ * Flush any buffered data to the collector. Returns without blocking.
+ *
+ * If non-nil, doneCallback will be invoked once the flush() completes.
  */
-- (void)flush;
+- (void) flush:(void (^)(bool success))doneCallback;
 
 @end
 
