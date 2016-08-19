@@ -10,9 +10,4 @@
  */
 - (void) _appendSpanRecord:(RLSpanRecord*)spanRecord;
 
-/**
- * Record a log record.
- */
-- (void) _appendLogRecord:(RLLogRecord*)logRecord;
-
 @end
