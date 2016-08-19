@@ -46,9 +46,11 @@ static float kFirstRefreshDelaySecs = 2;
 
 - (instancetype) initWithToken:(NSString*)accessToken
                  componentName:(NSString*)componentName
-                      hostport:(NSString*)hostport {
+                      hostport:(NSString*)hostport
+          flushIntervalSeconds:(NSUInteger)flushIntervalSeconds
+{
     if (self = [super init]) {
-        self->m_serviceUrl = [NSString stringWithFormat:@"https://%@/_rpc/v1/reports/binary", hostport];
+        self->m_serviceUrl = [NSString stringWithFormat:@"http://%@/_rpc/v1/reports/binary", hostport];
         self->m_accessToken = accessToken;
         self->m_runtimeGuid = [LSUtil hexGUID:[LSUtil generateGUID]];
         self->m_startTime = [NSDate date];
@@ -66,9 +68,9 @@ static float kFirstRefreshDelaySecs = 2;
 
         self->m_maxSpanRecords = kDefaultMaxBufferedSpans;
         self->m_maxPayloadJSONLength = kDefaultMaxPayloadJSONLength;
-        self->m_flushIntervalSeconds = kDefaultFlushIntervalSeconds;
+        self->m_flushIntervalSeconds = flushIntervalSeconds;
         self->m_pendingSpanRecords = [NSMutableArray array];
-        self->m_queue = dispatch_queue_create("com.lightstep.signal.rpc", DISPATCH_QUEUE_SERIAL);
+        self->m_queue = dispatch_queue_create("com.lightstep.flush_queue", DISPATCH_QUEUE_SERIAL);
         self->m_flushTimer = nil;
         self->m_refreshStubDelaySecs = kFirstRefreshDelaySecs;
         self->m_enabled = true;  // if false, no longer collect tracing data
@@ -80,8 +82,14 @@ static float kFirstRefreshDelaySecs = 2;
 }
 
 - (instancetype) initWithToken:(NSString*)accessToken
+                 componentName:(nullable NSString*)componentName
+          flushIntervalSeconds:(NSUInteger)flushIntervalSeconds {
+    return [self initWithToken:accessToken componentName:componentName hostport:LSDefaultHostport flushIntervalSeconds:flushIntervalSeconds];
+}
+
+- (instancetype) initWithToken:(NSString*)accessToken
                     componentName:(NSString*)componentName {
-    return [self initWithToken:accessToken componentName:componentName hostport:LSDefaultHostport];
+    return [self initWithToken:accessToken componentName:componentName hostport:LSDefaultHostport flushIntervalSeconds:kDefaultFlushIntervalSeconds];
 }
 
 - (instancetype) initWithToken:(NSString*)accessToken {
@@ -326,7 +334,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
             sleepSecs = m_refreshStubDelaySecs;
         }
         // Exponential backoff with a 5-minute max.
-        m_refreshStubDelaySecs = MIN(60*5, m_refreshStubDelaySecs * 1.5);
+        m_refreshStubDelaySecs = MIN(60*5, m_refreshStubDelaySecs * 2);
     }
     if (sleepSecs > 0) {
         NSLog(@"LSTracer backing off for %@ seconds", @(sleepSecs));
@@ -340,25 +348,23 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
             return;
         }
 
-        // Restart the backoff.
-        m_refreshStubDelaySecs = 5;
-
-        // Initialize and "resume" (i.e., "start") the m_flushTimer.
-        m_flushTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, m_queue);
-        if (!m_flushTimer) {
-            return;
+        if (self->m_flushIntervalSeconds > 0) {
+            // Initialize and "resume" (i.e., "start") the m_flushTimer.
+            m_flushTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, m_queue);
+            if (!m_flushTimer) {
+                return;
+            }
+            dispatch_source_set_timer(m_flushTimer, DISPATCH_TIME_NOW, self->m_flushIntervalSeconds * NSEC_PER_SEC, NSEC_PER_SEC);
+            __weak __typeof__(self) weakSelf = self;
+            dispatch_source_set_event_handler(m_flushTimer, ^{
+                [weakSelf flush:nil];
+            });
+            dispatch_resume(m_flushTimer);
         }
-
-        dispatch_source_set_timer(m_flushTimer, DISPATCH_TIME_NOW, self->m_flushIntervalSeconds * NSEC_PER_SEC, NSEC_PER_SEC);
-        __weak __typeof__(self) weakSelf = self;
-        dispatch_source_set_event_handler(m_flushTimer, ^{
-            [weakSelf flush];
-        });
-        dispatch_resume(m_flushTimer);
     }
 }
 
-- (void) flush {
+- (void) flush:(void (^)(bool success))doneCallback {
     __weak __typeof__(self) weakSelf = self;
     @synchronized(self) {
         micros_t tsCorrection = m_clockState.offsetMicros;
@@ -398,6 +404,9 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
         // task id in m_bgTaskId.
         void (^revertBlock)() = ^{
             [weakSelf _revertRecords:spansToFlush];
+            if (doneCallback) {
+                doneCallback(false);
+            }
         };
         m_bgTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithName:@"lightstep_flush"
                                                                   expirationHandler:revertBlock];
@@ -418,7 +427,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
                                 counters:nil];
 
         dispatch_async(m_queue, ^{
-            [weakSelf _flushReport:auth request:req];
+            [weakSelf _flushReport:auth request:req revertBlock:revertBlock doneCallback:doneCallback];
         });
     }
 }
@@ -444,7 +453,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
 }
 
 // Note: do not call directly from outside flush()
-- (void) _flushReport:(RLAuth*) auth request:(RLReportRequest*)req {
+- (void) _flushReport:(RLAuth*) auth request:(RLReportRequest*)req revertBlock:(void (^)())revertBlock doneCallback:(void (^)(bool success))doneCallback {
     // On any exception, start from scratch with _refreshStub. Don't
     // call revertBlock() to avoid a client feedback loop if the data
     // itself caused the exception.
@@ -454,10 +463,6 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
         // The RPC is blocking. Do not include it in a locked section.
         micros_t originMicros = [LSClockState nowMicros];
         response = [m_serviceStub Report:auth request:req];
-        @synchronized (self) {
-            // Call was successful: reset m_refreshStubDelaySecs.
-            m_refreshStubDelaySecs = kFirstRefreshDelaySecs;
-        }
         micros_t destinationMicros = [LSClockState nowMicros];
 
         // Process the response info
@@ -478,16 +483,25 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
                                       destinationMicros:destinationMicros];
             }
         }
+        @synchronized (self) {
+            // Call was successful: reset m_refreshStubDelaySecs.
+            m_refreshStubDelaySecs = kFirstRefreshDelaySecs;
+        }
+        if (doneCallback) {
+            doneCallback(true);
+        }
     }
     @catch (TApplicationException* e)
     {
         NSLog(@"Thrift RPC exception %@: %@", [e name], [e description]);
+        revertBlock();
         [self _refreshStub];
     }
     @catch (TException* e)
     {
         // TTransportException, or unknown type of exception: drop data since "first, [we want to] do no harm."
-        NSLog(@"Unknown Thrift error %@: %@", [e name], [e description]);
+        NSLog(@"Generic Thrift error %@: %@", [e name], [e description]);
+        revertBlock();
         [self _refreshStub];
     }
     @catch (NSException* e)
@@ -496,6 +510,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
         // Thrift is sufficiently flaky that we will sleep better here
         // if we do.
         NSLog(@"Unexpected exception %@: %@", [e name], [e description]);
+        revertBlock();
         [self _refreshStub];
     }
 
