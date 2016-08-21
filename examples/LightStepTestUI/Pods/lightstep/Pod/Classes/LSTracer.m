@@ -50,7 +50,7 @@ static float kFirstRefreshDelaySecs = 2;
           flushIntervalSeconds:(NSUInteger)flushIntervalSeconds
 {
     if (self = [super init]) {
-        self->m_serviceUrl = [NSString stringWithFormat:@"http://%@/_rpc/v1/reports/binary", hostport];
+        self->m_serviceUrl = [NSString stringWithFormat:@"https://%@/_rpc/v1/reports/binary", hostport];
         self->m_accessToken = accessToken;
         self->m_runtimeGuid = [LSUtil hexGUID:[LSUtil generateGUID]];
         self->m_startTime = [NSDate date];
