@@ -15,8 +15,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    LSTracer* tracer = [[LSTracer alloc] initWithToken:@"{YOUR_ACCESS_TOKEN_HERE}"];
-    tracer.flushIntervalSeconds = 1;
+    LSTracer* tracer = [[LSTracer alloc] initWithToken:@"{YOUR_ACCESS_TOKEN_HERE}" componentName:@"LightStepTestUI" flushIntervalSeconds:2];
     tracer.maxLogRecords = 600;
     tracer.maxSpanRecords = 600;
     [OTGlobal initSharedTracer:tracer];
