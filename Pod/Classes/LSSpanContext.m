@@ -42,7 +42,7 @@
     }
 }
 
-- (void)forEachBaggageItem:(bool (^) (NSString* key, NSString* value))callback {
+- (void)forEachBaggageItem:(BOOL (^) (NSString* key, NSString* value))callback {
     @synchronized(self) {
         for (NSString* key in m_baggage) {
             if (!callback(key, [m_baggage objectForKey:key])) {
