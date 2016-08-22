@@ -83,8 +83,8 @@ NS_ASSUME_NONNULL_BEGIN
                    tags:(nullable NSDictionary*)tags
               startTime:(nullable NSDate*)startTime;
 
-- (bool)inject:(id<OTSpanContext>)span format:(NSString*)format carrier:(id)carrier;
-- (bool)inject:(id<OTSpanContext>)span format:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError;
+- (BOOL)inject:(id<OTSpanContext>)span format:(NSString*)format carrier:(id)carrier;
+- (BOOL)inject:(id<OTSpanContext>)span format:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError;
 
 - (id<OTSpanContext>)extractWithFormat:(NSString*)format carrier:(id)carrier;
 - (id<OTSpanContext>)extractWithFormat:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError;
@@ -127,7 +127,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Returns true if the library is currently buffering and reporting data.
  */
-- (bool)enabled;
+- (BOOL)enabled;
 
 /**
  * Returns the Tracer's access token.
@@ -139,7 +139,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * If non-nil, doneCallback will be invoked once the flush() completes.
  */
-- (void) flush:(void (^)(bool success))doneCallback;
+- (void) flush:(void (^)(BOOL success))doneCallback;
 
 @end
 

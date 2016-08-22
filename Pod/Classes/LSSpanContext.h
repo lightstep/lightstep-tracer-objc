@@ -30,7 +30,7 @@
  * If the callback returns false, iteration stops and forEachBaggageItem:
  * returns early.
  */
-- (void)forEachBaggageItem:(bool (^) (NSString* key, NSString* value))callback;
+- (void)forEachBaggageItem:(BOOL (^) (NSString* key, NSString* value))callback;
 
 /**
  * The LightStep Span's probabilistically unique trace id.

@@ -30,7 +30,7 @@ static float kFirstRefreshDelaySecs = 2;
 
     NSString* m_serviceUrl;
     RLReportingServiceClient* m_serviceStub;
-    bool m_enabled;
+    BOOL m_enabled;
     // if kFirstRefreshDelaySecs, we've never tried to refresh.
     float m_refreshStubDelaySecs;
     NSMutableArray* m_pendingSpanRecords;
@@ -150,7 +150,7 @@ static float kFirstRefreshDelaySecs = 2;
     return nil;
 }
 
-- (bool)inject:(id<OTSpanContext>)span format:(NSString*)format carrier:(id)carrier {
+- (BOOL)inject:(id<OTSpanContext>)span format:(NSString*)format carrier:(id)carrier {
     return [self inject:span format:format carrier:carrier error:nil];
 }
 
@@ -161,7 +161,7 @@ static NSString* kSpanIdKey                = @"ot-tracer-spanid";
 static NSString* kSampledKey               = @"ot-tracer-sampled";
 static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
 
-- (bool)inject:(id<OTSpanContext>)spanContext format:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError {
+- (BOOL)inject:(id<OTSpanContext>)spanContext format:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError {
     LSSpanContext *ctx = (LSSpanContext*)spanContext;
     if ([format isEqualToString:OTFormatTextMap] ||
         [format isEqualToString:OTFormatHTTPHeaders]) {
@@ -170,7 +170,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
         [dict setObject:ctx.hexSpanId forKey:kSpanIdKey];
         [dict setObject:@"true" forKey:kSampledKey];
         // TODO: HTTP headers require special treatment here.
-        [ctx forEachBaggageItem:^bool (NSString* key, NSString* val) {
+        [ctx forEachBaggageItem:^BOOL (NSString* key, NSString* val) {
             [dict setObject:val forKey:key];
             return true;
         }];
@@ -282,7 +282,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
 }
 
 
-- (bool) enabled {
+- (BOOL) enabled {
     @synchronized(self) {
         return m_enabled;
     }
@@ -364,7 +364,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     }
 }
 
-- (void) flush:(void (^)(bool success))doneCallback {
+- (void) flush:(void (^)(BOOL success))doneCallback {
     __weak __typeof__(self) weakSelf = self;
     @synchronized(self) {
         micros_t tsCorrection = m_clockState.offsetMicros;
@@ -453,7 +453,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
 }
 
 // Note: do not call directly from outside flush()
-- (void) _flushReport:(RLAuth*) auth request:(RLReportRequest*)req revertBlock:(void (^)())revertBlock doneCallback:(void (^)(bool success))doneCallback {
+- (void) _flushReport:(RLAuth*) auth request:(RLReportRequest*)req revertBlock:(void (^)())revertBlock doneCallback:(void (^)(BOOL success))doneCallback {
     // On any exception, start from scratch with _refreshStub. Don't
     // call revertBlock() to avoid a client feedback loop if the data
     // itself caused the exception.
