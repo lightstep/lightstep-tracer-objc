@@ -1,3694 +1,1054 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>archiveVersion</key>
-	<string>1</string>
-	<key>classes</key>
-	<dict/>
-	<key>objectVersion</key>
-	<string>46</string>
-	<key>objects</key>
-	<dict>
-		<key>01B4BB8202250FF76495A7B130BCC669</key>
-		<dict>
-			<key>fileRef</key>
-			<string>66483B4F9279BC69A351C524015EDA75</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>02D672D61C033253BE1D0FCE584A1685</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>lightstep.modulemap</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>0336583684F483AD2CBD1803736258C6</key>
-		<dict>
-			<key>fileRef</key>
-			<string>EEE9EC876006C0998812049216B426DD</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>03C31CC866086721B5CA7A7EAC0D2841</key>
-		<dict>
-			<key>fileRef</key>
-			<string>D2EEEC1FF81AB0ACA2FAC58E7ECF6842</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>05006373405704B027353F17212958A6</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>TSharedProcessorFactory.m</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/TSharedProcessorFactory.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>05B44CBB0697C23BA2A1BE6CB90824E8</key>
-		<dict>
-			<key>fileRef</key>
-			<string>05D0B87D666AB8488B865CBF16BC5BEF</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>05D0B87D666AB8488B865CBF16BC5BEF</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>opentracing-umbrella.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>06DC95C9D9049DFFCD329AC6322BAEBF</key>
-		<dict>
-			<key>fileRef</key>
-			<string>5D0CF147E85C24FF3D54A1AF93C26B9F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>0731059517A744FF5BBCA3758DD24479</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>opentracing.modulemap</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>083244BC22398F865CEA97D8C3518003</key>
-		<dict>
-			<key>fileRef</key>
-			<string>6C2AED76CB961080EAD8E839C09EB640</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>087B1BB19D99C9471F4A5F8A2260CD7D</key>
-		<dict>
-			<key>fileRef</key>
-			<string>79F2033E73120906121FA0550B7F8B9F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>08B26D60E171D8AB8A3B7A6D6779541F</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>OTSpanContext.h</string>
-			<key>path</key>
-			<string>Pod/Classes/OTSpanContext.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>0A4FFADF8BD9A585D2C017F6ED6922FB</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>wrapper.framework</string>
-			<key>includeInIndex</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>name</key>
-			<string>opentracing.framework</string>
-			<key>path</key>
-			<string>opentracing.framework</string>
-			<key>sourceTree</key>
-			<string>BUILT_PRODUCTS_DIR</string>
-		</dict>
-		<key>0BCA56D48D1752767BDEEF539B29898B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>4205CA75A6CE39FAD2CC0B947949AAD5</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>113A8DD818ECE4E1D8BE4F06CBEF103C</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>E06D1D0F596F52A7DF28BF3DD90FFF0F</string>
-				<string>02D672D61C033253BE1D0FCE584A1685</string>
-				<string>3AAD9966D053FF492ECAE931598C5C8C</string>
-				<string>6BBF8C57197F86C1D3D2CAC33D7971C4</string>
-				<string>AEE8F3AD531466295F9A0331253E42B5</string>
-				<string>96D99F85D2676C13EACF83D4B1AE1453</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Support Files</string>
-			<key>path</key>
-			<string>../Target Support Files/lightstep</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>1163DA9038AACF9F664FFAC455B5171D</key>
-		<dict>
-			<key>containerPortal</key>
-			<string>D41D8CD98F00B204E9800998ECF8427E</string>
-			<key>isa</key>
-			<string>PBXContainerItemProxy</string>
-			<key>proxyType</key>
-			<string>1</string>
-			<key>remoteGlobalIDString</key>
-			<string>B5F645B83AD2849F2D08D9B31D13479B</string>
-			<key>remoteInfo</key>
-			<string>opentracing-opentracing</string>
-		</dict>
-		<key>11F992A2DA4B474F9D3BF4BBB18D5B67</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text</string>
-			<key>path</key>
-			<string>Pods-LightStepTestUI-acknowledgements.markdown</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>1380B77765F3081CF79666EDF1CA1A9D</key>
-		<dict>
-			<key>baseConfigurationReference</key>
-			<string>739B0A8258BCD7BAA1EA53ED44A12AEA</string>
-			<key>buildSettings</key>
-			<dict>
-				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
-				<string>iPhone Developer</string>
-				<key>CURRENT_PROJECT_VERSION</key>
-				<string>1</string>
-				<key>DEFINES_MODULE</key>
-				<string>YES</string>
-				<key>DYLIB_COMPATIBILITY_VERSION</key>
-				<string>1</string>
-				<key>DYLIB_CURRENT_VERSION</key>
-				<string>1</string>
-				<key>DYLIB_INSTALL_NAME_BASE</key>
-				<string>@rpath</string>
-				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
-				<string>YES</string>
-				<key>GCC_PREFIX_HEADER</key>
-				<string>Target Support Files/opentracing/opentracing-prefix.pch</string>
-				<key>INFOPLIST_FILE</key>
-				<string>Target Support Files/opentracing/Info.plist</string>
-				<key>INSTALL_PATH</key>
-				<string>$(LOCAL_LIBRARY_DIR)/Frameworks</string>
-				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>8.0</string>
-				<key>LD_RUNPATH_SEARCH_PATHS</key>
-				<array>
-					<string>$(inherited)</string>
-					<string>@executable_path/Frameworks</string>
-					<string>@loader_path/Frameworks</string>
-				</array>
-				<key>MODULEMAP_FILE</key>
-				<string>Target Support Files/opentracing/opentracing.modulemap</string>
-				<key>MTL_ENABLE_DEBUG_INFO</key>
-				<string>NO</string>
-				<key>PRODUCT_NAME</key>
-				<string>opentracing</string>
-				<key>SDKROOT</key>
-				<string>iphoneos</string>
-				<key>SKIP_INSTALL</key>
-				<string>YES</string>
-				<key>TARGETED_DEVICE_FAMILY</key>
-				<string>1,2</string>
-				<key>VERSIONING_SYSTEM</key>
-				<string>apple-generic</string>
-				<key>VERSION_INFO_PREFIX</key>
-				<string></string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Release</string>
-		</dict>
-		<key>13BB386E84EA969BA83DA1BFBCE3C09D</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>77098F18A57CB3499B7F53AAFDB5EC7B</string>
-				<string>515D2F735B7A757416D4BA133E03FF11</string>
-				<string>11F992A2DA4B474F9D3BF4BBB18D5B67</string>
-				<string>1A2458AF6E941EFA56ECB62D0238FAE6</string>
-				<string>F890E779037BD3178EB5CB11E96E15E0</string>
-				<string>C4DF13CB45368DE1140043C8C8C1C98E</string>
-				<string>2721CDBD04B494102BD797B6A2980B0A</string>
-				<string>66803D535A364C5D43F9AF052418ADCB</string>
-				<string>2AE1737A0F707ADA0D63A4E752BAC3ED</string>
-				<string>CE2BB5F5657D868A951FE2199A0FF2FC</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Pods-LightStepTestUI</string>
-			<key>path</key>
-			<string>Target Support Files/Pods-LightStepTestUI</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>13FAB80BA374ACE009FD1F014EF5501A</key>
-		<dict>
-			<key>fileRef</key>
-			<string>D89E305121AAFA751476EA4584962DF4</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>15179FCE6E2321639EE5F9CA22741164</key>
-		<dict>
-			<key>fileRef</key>
-			<string>255107A9DBB58168903BC4FE508EE406</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>168CA622AA6DE8771B32727E604C6C9E</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>LightStep-Bridging-Header.h</string>
-			<key>path</key>
-			<string>Pod/Classes/LightStep-Bridging-Header.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>16C239A1627613C5A697AF95D115630B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>1C012549E258F0B26CA0B71CA448AADF</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>180F4D5C2C33CCDF364AE58C4543EECF</key>
-		<dict>
-			<key>fileRef</key>
-			<string>A507D9B96AC89F08AB2991385CB16293</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>193FD82410028B0C9009B8A31066D563</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>LSSpan.m</string>
-			<key>path</key>
-			<string>Pod/Classes/LSSpan.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>1A2458AF6E941EFA56ECB62D0238FAE6</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.plist.xml</string>
-			<key>path</key>
-			<string>Pods-LightStepTestUI-acknowledgements.plist</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>1AD81C86C19A4AEAE7AB9C15D4B20069</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>D2EEEC1FF81AB0ACA2FAC58E7ECF6842</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>iOS</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>1B22F362BE5C20E160531EADC33364B4</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>TSocketServer.m</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/server/TSocketServer.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>1C012549E258F0B26CA0B71CA448AADF</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>TException.h</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/TException.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>1D6E6EADD13F97FD9429B77CE8C06A0E</key>
-		<dict>
-			<key>fileRef</key>
-			<string>4E2A4A7B8E13A8F403B6A81AFE2AB6F7</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>1F25AE83B6848218991EAE2B570202CA</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>TFramedTransport.h</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/transport/TFramedTransport.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>1F93287DA19F3FA52D90F720CB7BE0BE</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>OTTracer.h</string>
-			<key>path</key>
-			<string>Pod/Classes/OTTracer.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>2167EA7C387E03D9BB7CE81CCD377FE8</key>
-		<dict>
-			<key>fileRef</key>
-			<string>FFF54EAADFCB18F31D97718D69434861</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>223A992B80418ED6527D4C508ED73529</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>B07FB04B12C3346C2EC580C025EECDDF</string>
-			</array>
-			<key>isa</key>
-			<string>PBXFrameworksBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>23098C1798B40F432AD1C0D9DFFE4993</key>
-		<dict>
-			<key>fileRef</key>
-			<string>1F93287DA19F3FA52D90F720CB7BE0BE</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>24C6287784874E2ED7850EDFEC9AC4D2</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>TProtocolDecorator.m</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/protocol/TProtocolDecorator.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>255107A9DBB58168903BC4FE508EE406</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>TTransportException.h</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/transport/TTransportException.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>2721CDBD04B494102BD797B6A2980B0A</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.script.sh</string>
-			<key>path</key>
-			<string>Pods-LightStepTestUI-resources.sh</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>2AE1737A0F707ADA0D63A4E752BAC3ED</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.xcconfig</string>
-			<key>path</key>
-			<string>Pods-LightStepTestUI.debug.xcconfig</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>2B31C3D799E43896992EDBCF313DC2B6</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXTargetDependency</string>
-			<key>name</key>
-			<string>opentracing</string>
-			<key>target</key>
-			<string>559DA7EB33D52E1F7923E9FDCB082B51</string>
-			<key>targetProxy</key>
-			<string>F7DF6C67F7098541250DB582DF5D04CD</string>
-		</dict>
-		<key>2C6C195AA2AEFD7FC2B871B5EF962C30</key>
-		<dict>
-			<key>buildConfigurationList</key>
-			<string>CB261C8C678C31F49DE626A849CD42B8</string>
-			<key>buildPhases</key>
-			<array>
-				<string>3DD572F402E56EF1C54751DF9E3B8D08</string>
-				<string>4C7117FAB3E265B61764D2AB75A28580</string>
-				<string>C3421519365D9DF340ACF089228A4C11</string>
-			</array>
-			<key>buildRules</key>
-			<array/>
-			<key>dependencies</key>
-			<array>
-				<string>2B31C3D799E43896992EDBCF313DC2B6</string>
-			</array>
-			<key>isa</key>
-			<string>PBXNativeTarget</string>
-			<key>name</key>
-			<string>lightstep</string>
-			<key>productName</key>
-			<string>lightstep</string>
-			<key>productReference</key>
-			<string>8A7DE43A43E58932CB4A6704589B7688</string>
-			<key>productType</key>
-			<string>com.apple.product-type.framework</string>
-		</dict>
-		<key>2D8E8EC45A3A1A1D94AE762CB5028504</key>
-		<dict>
-			<key>buildConfigurations</key>
-			<array>
-				<string>A70CDAD61F90AC503C7D04CC22DA2923</string>
-				<string>FB45FFD90572718D82AB9092B750F0CA</string>
-			</array>
-			<key>defaultConfigurationIsVisible</key>
-			<string>0</string>
-			<key>defaultConfigurationName</key>
-			<string>Release</string>
-			<key>isa</key>
-			<string>XCConfigurationList</string>
-		</dict>
-		<key>2E894DA0B3DCE4A77B4A8437454F9977</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>TProcessorFactory.h</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/TProcessorFactory.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>2FD9B32995E80FA01AE5B12A4BA78BC0</key>
-		<dict>
-			<key>baseConfigurationReference</key>
-			<string>3AAD9966D053FF492ECAE931598C5C8C</string>
-			<key>buildSettings</key>
-			<dict>
-				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
-				<string>iPhone Developer</string>
-				<key>CURRENT_PROJECT_VERSION</key>
-				<string>1</string>
-				<key>DEFINES_MODULE</key>
-				<string>YES</string>
-				<key>DYLIB_COMPATIBILITY_VERSION</key>
-				<string>1</string>
-				<key>DYLIB_CURRENT_VERSION</key>
-				<string>1</string>
-				<key>DYLIB_INSTALL_NAME_BASE</key>
-				<string>@rpath</string>
-				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
-				<string>YES</string>
-				<key>GCC_PREFIX_HEADER</key>
-				<string>Target Support Files/lightstep/lightstep-prefix.pch</string>
-				<key>INFOPLIST_FILE</key>
-				<string>Target Support Files/lightstep/Info.plist</string>
-				<key>INSTALL_PATH</key>
-				<string>$(LOCAL_LIBRARY_DIR)/Frameworks</string>
-				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>8.0</string>
-				<key>LD_RUNPATH_SEARCH_PATHS</key>
-				<array>
-					<string>$(inherited)</string>
-					<string>@executable_path/Frameworks</string>
-					<string>@loader_path/Frameworks</string>
-				</array>
-				<key>MODULEMAP_FILE</key>
-				<string>Target Support Files/lightstep/lightstep.modulemap</string>
-				<key>MTL_ENABLE_DEBUG_INFO</key>
-				<string>YES</string>
-				<key>PRODUCT_NAME</key>
-				<string>lightstep</string>
-				<key>SDKROOT</key>
-				<string>iphoneos</string>
-				<key>SKIP_INSTALL</key>
-				<string>YES</string>
-				<key>TARGETED_DEVICE_FAMILY</key>
-				<string>1,2</string>
-				<key>VERSIONING_SYSTEM</key>
-				<string>apple-generic</string>
-				<key>VERSION_INFO_PREFIX</key>
-				<string></string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Debug</string>
-		</dict>
-		<key>2FE8147659429230B3A832086C7F9391</key>
-		<dict>
-			<key>fileRef</key>
-			<string>A2D018E497A96C06730473751B940F67</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>313BDA0426EEDD11C9F04C896E4CBEBC</key>
-		<dict>
-			<key>fileRef</key>
-			<string>723221234C21316B43450738DAB8E31F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>31A0E8C59DEF4B2B918E1EE4F66A0FC1</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>C7B90262DE3D6B43A43AA522376EE723</string>
-			</array>
-			<key>isa</key>
-			<string>PBXFrameworksBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>31E2307F7C16B534CBBE6596BCED48F0</key>
-		<dict>
-			<key>fileRef</key>
-			<string>CA038F908A0696F6E73EF5D8B04559E2</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>3491E152B08B6ABF00226FE4FAE895E7</key>
-		<dict>
-			<key>baseConfigurationReference</key>
-			<string>739B0A8258BCD7BAA1EA53ED44A12AEA</string>
-			<key>buildSettings</key>
-			<dict>
-				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
-				<string>YES</string>
-				<key>PRODUCT_NAME</key>
-				<string>opentracing</string>
-				<key>SDKROOT</key>
-				<string>iphoneos</string>
-				<key>SKIP_INSTALL</key>
-				<string>YES</string>
-				<key>WRAPPER_EXTENSION</key>
-				<string>bundle</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Debug</string>
-		</dict>
-		<key>349CB6D80DB8FF8FB9F89D30494E600B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>4A56E5082134DB925B24F92339A58998</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>368A76AEBC00E5AF716A3D0CDF4E1DAE</key>
-		<dict>
-			<key>fileRef</key>
-			<string>1F25AE83B6848218991EAE2B570202CA</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>370B6B35A5114F279D8993D3D4E8C6C3</key>
-		<dict>
-			<key>buildConfigurations</key>
-			<array>
-				<string>A5561F696B6C3A6EE5B9EE12860B5971</string>
-				<string>B6C714575661B63BC7160F4AA57F2BFF</string>
-			</array>
-			<key>defaultConfigurationIsVisible</key>
-			<string>0</string>
-			<key>defaultConfigurationName</key>
-			<string>Release</string>
-			<key>isa</key>
-			<string>XCConfigurationList</string>
-		</dict>
-		<key>37D267B2049DD97A73E52503DF1A6BE5</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F5F3D6CA6B9EF82867FE41EE4CA00847</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>3A10A263124E7956C5AF66A6514B551A</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>TTransport.h</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/transport/TTransport.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>3AAD9966D053FF492ECAE931598C5C8C</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.xcconfig</string>
-			<key>path</key>
-			<string>lightstep.xcconfig</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>3BABEFB108CEE2D8E2F412C3367E55C4</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>TProtocolDecorator.h</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/protocol/TProtocolDecorator.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>3BFC68BC3EBDF0252FB5CAE6D2B679EE</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C7DC682400EC35D94C40B6D9A0FC6E16</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>3C96BD1370E3D129ED07A58199795D1E</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>THTTPClient.h</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/transport/THTTPClient.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>3DD572F402E56EF1C54751DF9E3B8D08</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>87516918B914486A32B1801F11B774F8</string>
-				<string>7B0D866AD0214EAB96540EF8A3764782</string>
-				<string>E271F716DA8CBBA9B1CB1BA1E334D863</string>
-				<string>B502B4BB87BC8F699ECFB7118401E973</string>
-				<string>01B4BB8202250FF76495A7B130BCC669</string>
-				<string>AFE92921CEB984CDA8BEAF30EB030F02</string>
-				<string>5DA5049EA17FE6790C4D3246BBBFA870</string>
-				<string>AB510EEAD60527AC71F3A5A07F50013E</string>
-				<string>3BFC68BC3EBDF0252FB5CAE6D2B679EE</string>
-				<string>6D21FCAFD7B762F23DD5A0CCD4306D1E</string>
-				<string>2FE8147659429230B3A832086C7F9391</string>
-				<string>1D6E6EADD13F97FD9429B77CE8C06A0E</string>
-				<string>7D9549A3C4967F55BCF5BD2AF53B25FE</string>
-				<string>732BC56F1EA1BD0D93907E0293E1047B</string>
-				<string>0BCA56D48D1752767BDEEF539B29898B</string>
-				<string>EDCF7A78699CA37CF5073A522C1A009B</string>
-				<string>43E16ED1731E26070ABA8AED48771000</string>
-				<string>CFBFD480F204D8A798ECE7338F137F33</string>
-				<string>97A3064211987FCBDE8D72AB7F89D638</string>
-				<string>97DE7F4293E2C71B30F4287296D68F26</string>
-				<string>13FAB80BA374ACE009FD1F014EF5501A</string>
-				<string>DB92D6140ED1E8D2CBB7E0FA5C68D737</string>
-				<string>06DC95C9D9049DFFCD329AC6322BAEBF</string>
-				<string>8904884750ED0B90E6347F4F0EDFAB72</string>
-				<string>BBDFC3712BCA9BA6E72092CCAC9A1A1E</string>
-			</array>
-			<key>isa</key>
-			<string>PBXSourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>3E4A76159DB8EBF0BE6C16F00F827C27</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>TNSStreamTransport.h</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/transport/TNSStreamTransport.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>3FA22D4C398C309320986352BE4829EA</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXTargetDependency</string>
-			<key>name</key>
-			<string>opentracing-opentracing</string>
-			<key>target</key>
-			<string>B5F645B83AD2849F2D08D9B31D13479B</string>
-			<key>targetProxy</key>
-			<string>1163DA9038AACF9F664FFAC455B5171D</string>
-		</dict>
-		<key>3FB458DF6F6D891B611A6659EDCE2963</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>A507D9B96AC89F08AB2991385CB16293</string>
-				<string>F29A5D5E5AE907824BC07284AC760F35</string>
-				<string>4A56E5082134DB925B24F92339A58998</string>
-				<string>723221234C21316B43450738DAB8E31F</string>
-				<string>E6D2AF94DE2123F9117F2FB35CE9C5D8</string>
-				<string>74D32574903E34E0E52603833F6B0C63</string>
-				<string>5AA0631AE57F4ACBA2C53E21F85D6FE4</string>
-				<string>DEED524EE3B0E2A79B17CFBAFF9A8C7B</string>
-				<string>08B26D60E171D8AB8A3B7A6D6779541F</string>
-				<string>1F93287DA19F3FA52D90F720CB7BE0BE</string>
-				<string>C1516F1EA39574F20C2543DCE81727D0</string>
-				<string>772821D85F0AF0B9B820CC7CDF1E98CF</string>
-				<string>C78D0DD470FFBB1AFE0E96A92874A30D</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>opentracing</string>
-			<key>path</key>
-			<string>opentracing</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>40F1A822761B47CB7E860B6FE072A159</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>92F5A9D29B82229055A9DFCAC5ACCB0A</string>
-			</array>
-			<key>isa</key>
-			<string>PBXSourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>4205CA75A6CE39FAD2CC0B947949AAD5</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>TNSFileHandleTransport.m</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/transport/TNSFileHandleTransport.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>43E16ED1731E26070ABA8AED48771000</key>
-		<dict>
-			<key>fileRef</key>
-			<string>24C6287784874E2ED7850EDFEC9AC4D2</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>45AFB2595AB573D8EBBEA6D17BE1CB06</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>TBase.h</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/protocol/TBase.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>4733E3027884516AF6D1CF6903D75162</key>
-		<dict>
-			<key>fileRef</key>
-			<string>7123381BF9E8F100F511997D8FB7A53A</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>48CEB9A9103FF54D06E321B71E981873</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>A76598725D55D9392791D0369523B29E</string>
-				<string>3FB458DF6F6D891B611A6659EDCE2963</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Pods</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>49FBB3800164C31B6A3F816300B89992</key>
-		<dict>
-			<key>fileRef</key>
-			<string>7075BFB1904364B4D52008EACA175E78</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>4A21EFBAD1907F6E8C017A709B8B8F37</key>
-		<dict>
-			<key>baseConfigurationReference</key>
-			<string>739B0A8258BCD7BAA1EA53ED44A12AEA</string>
-			<key>buildSettings</key>
-			<dict>
-				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
-				<string>YES</string>
-				<key>PRODUCT_NAME</key>
-				<string>opentracing</string>
-				<key>SDKROOT</key>
-				<string>iphoneos</string>
-				<key>SKIP_INSTALL</key>
-				<string>YES</string>
-				<key>WRAPPER_EXTENSION</key>
-				<string>bundle</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Release</string>
-		</dict>
-		<key>4A56E5082134DB925B24F92339A58998</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>OTGlobal.m</string>
-			<key>path</key>
-			<string>Pod/Classes/OTGlobal.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>4C7117FAB3E265B61764D2AB75A28580</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>03C31CC866086721B5CA7A7EAC0D2841</string>
-				<string>CD7DDCC1D027273D059B58A4CEA12D56</string>
-			</array>
-			<key>isa</key>
-			<string>PBXFrameworksBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>4E2A4A7B8E13A8F403B6A81AFE2AB6F7</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>THTTPClient.m</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/transport/THTTPClient.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>4F35F110A10423A01D123D346B1DB605</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>crouton.m</string>
-			<key>path</key>
-			<string>Pod/Classes/crouton.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>4F401E2FC57929117F2525A551AACE0D</key>
-		<dict>
-			<key>fileRef</key>
-			<string>3A10A263124E7956C5AF66A6514B551A</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>506B0ABF76CFB2B6B0B8258ECAB9CC06</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C05865D573858664884E66F6AB779340</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>515D2F735B7A757416D4BA133E03FF11</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>Pods-LightStepTestUI.modulemap</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>51EB0B0AD08AA2E38DA197A2A0267A90</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.plist.xml</string>
-			<key>path</key>
-			<string>Info.plist</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>559DA7EB33D52E1F7923E9FDCB082B51</key>
-		<dict>
-			<key>buildConfigurationList</key>
-			<string>FC27D055D22BBFF2B3DBEC59495EC3C2</string>
-			<key>buildPhases</key>
-			<array>
-				<string>A57B6403BC1EA3DF63FE7B53B9B59E67</string>
-				<string>223A992B80418ED6527D4C508ED73529</string>
-				<string>8C551B820B494B82956506C559BF3D0E</string>
-				<string>A8952049BAA295B71533D124EC6A2034</string>
-			</array>
-			<key>buildRules</key>
-			<array/>
-			<key>dependencies</key>
-			<array>
-				<string>3FA22D4C398C309320986352BE4829EA</string>
-			</array>
-			<key>isa</key>
-			<string>PBXNativeTarget</string>
-			<key>name</key>
-			<string>opentracing</string>
-			<key>productName</key>
-			<string>opentracing</string>
-			<key>productReference</key>
-			<string>0A4FFADF8BD9A585D2C017F6ED6922FB</string>
-			<key>productType</key>
-			<string>com.apple.product-type.framework</string>
-		</dict>
-		<key>5644A4D78CCFF6ED229E90BEF8536BC4</key>
-		<dict>
-			<key>buildConfigurationList</key>
-			<string>370B6B35A5114F279D8993D3D4E8C6C3</string>
-			<key>buildPhases</key>
-			<array>
-				<string>40F1A822761B47CB7E860B6FE072A159</string>
-				<string>31A0E8C59DEF4B2B918E1EE4F66A0FC1</string>
-				<string>91393E7C310C1816D587DE5FE72DF99C</string>
-			</array>
-			<key>buildRules</key>
-			<array/>
-			<key>dependencies</key>
-			<array>
-				<string>E3AC6ED6F37DCB47866DFA40FAAA01DE</string>
-				<string>733BA70AFAD78FB7282A7A5959C547B3</string>
-			</array>
-			<key>isa</key>
-			<string>PBXNativeTarget</string>
-			<key>name</key>
-			<string>Pods-LightStepTestUI</string>
-			<key>productName</key>
-			<string>Pods-LightStepTestUI</string>
-			<key>productReference</key>
-			<string>A303D81EBCDAAE966F57C171ECE235BE</string>
-			<key>productType</key>
-			<string>com.apple.product-type.framework</string>
-		</dict>
-		<key>5AA0631AE57F4ACBA2C53E21F85D6FE4</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>OTReference.m</string>
-			<key>path</key>
-			<string>Pod/Classes/OTReference.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>5D0CF147E85C24FF3D54A1AF93C26B9F</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>TSSLSocketClient.m</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/transport/TSSLSocketClient.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>5DA5049EA17FE6790C4D3246BBBFA870</key>
-		<dict>
-			<key>fileRef</key>
-			<string>AD7375091A4EF220041123B03CBA543B</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>61DB1D73D7296C2405CABF5F4AD44903</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>TMemoryBuffer.m</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/transport/TMemoryBuffer.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>621C8690F3E932E6B97789027FC8831F</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXFrameworksBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>66483B4F9279BC69A351C524015EDA75</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>LSSpanContext.m</string>
-			<key>path</key>
-			<string>Pod/Classes/LSSpanContext.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>66803D535A364C5D43F9AF052418ADCB</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>Pods-LightStepTestUI-umbrella.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>67AF33DDC83A8C3A6DA9786BB455269D</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXResourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>67DA5CE5A64475EA23B8BF42F56437D3</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>TProtocolException.m</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/protocol/TProtocolException.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>67FB313F4969F334E025DCA8CACD5AE2</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>LSClockState.h</string>
-			<key>path</key>
-			<string>Pod/Classes/LSClockState.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>698C3628BA8084F49263371B3067CEC3</key>
-		<dict>
-			<key>fileRef</key>
-			<string>BF8A7CA56C9495A090FD71A3251D2B58</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>6BBF8C57197F86C1D3D2CAC33D7971C4</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>lightstep-dummy.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>6C2AED76CB961080EAD8E839C09EB640</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>LSUtil.h</string>
-			<key>path</key>
-			<string>Pod/Classes/LSUtil.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>6D21FCAFD7B762F23DD5A0CCD4306D1E</key>
-		<dict>
-			<key>fileRef</key>
-			<string>D63A377EF4A1401565EAF322398F1757</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>6E114F40A3FB963D64ADC34FA97DF04E</key>
-		<dict>
-			<key>fileRef</key>
-			<string>E05CF01FAAD51BC5243206D112009530</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>6F97A186E798F177E3700CCAC823C297</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>F45C84DA7019FD98FA5BEDBF74378E3C</string>
-				<string>1AD81C86C19A4AEAE7AB9C15D4B20069</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Frameworks</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>7075BFB1904364B4D52008EACA175E78</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>TProtocolUtil.h</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/protocol/TProtocolUtil.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>7123381BF9E8F100F511997D8FB7A53A</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>TMemoryBuffer.h</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/transport/TMemoryBuffer.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>71D186B97473383095FFB360AE3D13C2</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>wrapper.cfbundle</string>
-			<key>includeInIndex</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>name</key>
-			<string>opentracing.bundle</string>
-			<key>path</key>
-			<string>opentracing.bundle</string>
-			<key>sourceTree</key>
-			<string>BUILT_PRODUCTS_DIR</string>
-		</dict>
-		<key>723221234C21316B43450738DAB8E31F</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>OTNoop.h</string>
-			<key>path</key>
-			<string>Pod/Classes/OTNoop.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>732BC56F1EA1BD0D93907E0293E1047B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>E5AA1CC733C3989659B2FA4EE7424BB2</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>733BA70AFAD78FB7282A7A5959C547B3</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXTargetDependency</string>
-			<key>name</key>
-			<string>opentracing</string>
-			<key>target</key>
-			<string>559DA7EB33D52E1F7923E9FDCB082B51</string>
-			<key>targetProxy</key>
-			<string>919A07FAAC0F6BC84DD976743AA5B5EE</string>
-		</dict>
-		<key>737EA9680F32723F8137B7F7068EBF1D</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>TSSLSocketClient.h</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/transport/TSSLSocketClient.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>739B0A8258BCD7BAA1EA53ED44A12AEA</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.xcconfig</string>
-			<key>path</key>
-			<string>opentracing.xcconfig</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>73AE55B3606CEC93C0F98F6DBFC5FAD0</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>LSClockState.m</string>
-			<key>path</key>
-			<string>Pod/Classes/LSClockState.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>74D32574903E34E0E52603833F6B0C63</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>OTReference.h</string>
-			<key>path</key>
-			<string>Pod/Classes/OTReference.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>77098F18A57CB3499B7F53AAFDB5EC7B</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.plist.xml</string>
-			<key>path</key>
-			<string>Info.plist</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>772821D85F0AF0B9B820CC7CDF1E98CF</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>OTVersion.h</string>
-			<key>path</key>
-			<string>Pod/Classes/OTVersion.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>797A88EB058407682DE4DA4B311EC1DC</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F3AD59B52A9B3BCDD120B479BD0ABD85</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>79F2033E73120906121FA0550B7F8B9F</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>TMultiplexedProtocol.h</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/protocol/TMultiplexedProtocol.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>7B0D866AD0214EAB96540EF8A3764782</key>
-		<dict>
-			<key>fileRef</key>
-			<string>6BBF8C57197F86C1D3D2CAC33D7971C4</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>7D9549A3C4967F55BCF5BD2AF53B25FE</key>
-		<dict>
-			<key>fileRef</key>
-			<string>61DB1D73D7296C2405CABF5F4AD44903</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>7DB346D0F39D3F0E887471402A8071AB</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>BA6428E9F66FD5A23C0A2E06ED26CD2F</string>
-				<string>6F97A186E798F177E3700CCAC823C297</string>
-				<string>48CEB9A9103FF54D06E321B71E981873</string>
-				<string>C3A4E43C6FAC74CFE4999D1A255336FB</string>
-				<string>E0709F63EFEAC9F54FDB5D3DE01909B7</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>7E278F066E800E470C52A3E5E3FF5043</key>
-		<dict>
-			<key>fileRef</key>
-			<string>8949FCD6C7AC1FDDAD3C0C14C5887DD7</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>821B2FD4247FEC5ABC842A2D051642AF</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>TNSStreamTransport.m</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/transport/TNSStreamTransport.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>837A22D73EDD8275AA56A5B6E630BA04</key>
-		<dict>
-			<key>fileRef</key>
-			<string>74D32574903E34E0E52603833F6B0C63</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>84E9270368B0A98F4D5A6A4C9F519849</key>
-		<dict>
-			<key>fileRef</key>
-			<string>EBFE08D465E3F3A42C9CB95038B77CB5</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>850A0680A82215B2BEE676AD5D5EB811</key>
-		<dict>
-			<key>fileRef</key>
-			<string>A15AC303D6B2C1723D662CB99800C6E9</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>86C609D163D97D3B4CFC243C33D71FC3</key>
-		<dict>
-			<key>buildConfigurations</key>
-			<array>
-				<string>3491E152B08B6ABF00226FE4FAE895E7</string>
-				<string>4A21EFBAD1907F6E8C017A709B8B8F37</string>
-			</array>
-			<key>defaultConfigurationIsVisible</key>
-			<string>0</string>
-			<key>defaultConfigurationName</key>
-			<string>Release</string>
-			<key>isa</key>
-			<string>XCConfigurationList</string>
-		</dict>
-		<key>87516918B914486A32B1801F11B774F8</key>
-		<dict>
-			<key>fileRef</key>
-			<string>4F35F110A10423A01D123D346B1DB605</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>8904884750ED0B90E6347F4F0EDFAB72</key>
-		<dict>
-			<key>fileRef</key>
-			<string>E3C557436CC96758EAA24886095C81C5</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>8949FCD6C7AC1FDDAD3C0C14C5887DD7</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>TProtocol.h</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/protocol/TProtocol.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>89622AC0F2FB0639F3B878B7D66A96F1</key>
-		<dict>
-			<key>fileRef</key>
-			<string>DEED524EE3B0E2A79B17CFBAFF9A8C7B</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>8A401882C16F2B88CE48227B2CBEA735</key>
-		<dict>
-			<key>fileRef</key>
-			<string>772821D85F0AF0B9B820CC7CDF1E98CF</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>8A7DE43A43E58932CB4A6704589B7688</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>wrapper.framework</string>
-			<key>includeInIndex</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>name</key>
-			<string>lightstep.framework</string>
-			<key>path</key>
-			<string>lightstep.framework</string>
-			<key>sourceTree</key>
-			<string>BUILT_PRODUCTS_DIR</string>
-		</dict>
-		<key>8C0A0026A7F8BF66F2F365C259022A55</key>
-		<dict>
-			<key>fileRef</key>
-			<string>974C844E55C76C15C18A5758EDE425B3</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>8C551B820B494B82956506C559BF3D0E</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>E94B3B3B8C0428C014A7DD482577269E</string>
-			</array>
-			<key>isa</key>
-			<string>PBXResourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>8FAABFB2C29EEC5E6C9A245C480D2F77</key>
-		<dict>
-			<key>fileRef</key>
-			<string>920AF2F06C43E519B9128C80D77E52E8</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>91393E7C310C1816D587DE5FE72DF99C</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>B0488F2F628F3BB1699C8125AC6CA364</string>
-			</array>
-			<key>isa</key>
-			<string>PBXHeadersBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>918FAF4700367B1B7F07DF008970FF24</key>
-		<dict>
-			<key>baseConfigurationReference</key>
-			<string>3AAD9966D053FF492ECAE931598C5C8C</string>
-			<key>buildSettings</key>
-			<dict>
-				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
-				<string>iPhone Developer</string>
-				<key>CURRENT_PROJECT_VERSION</key>
-				<string>1</string>
-				<key>DEFINES_MODULE</key>
-				<string>YES</string>
-				<key>DYLIB_COMPATIBILITY_VERSION</key>
-				<string>1</string>
-				<key>DYLIB_CURRENT_VERSION</key>
-				<string>1</string>
-				<key>DYLIB_INSTALL_NAME_BASE</key>
-				<string>@rpath</string>
-				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
-				<string>YES</string>
-				<key>GCC_PREFIX_HEADER</key>
-				<string>Target Support Files/lightstep/lightstep-prefix.pch</string>
-				<key>INFOPLIST_FILE</key>
-				<string>Target Support Files/lightstep/Info.plist</string>
-				<key>INSTALL_PATH</key>
-				<string>$(LOCAL_LIBRARY_DIR)/Frameworks</string>
-				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>8.0</string>
-				<key>LD_RUNPATH_SEARCH_PATHS</key>
-				<array>
-					<string>$(inherited)</string>
-					<string>@executable_path/Frameworks</string>
-					<string>@loader_path/Frameworks</string>
-				</array>
-				<key>MODULEMAP_FILE</key>
-				<string>Target Support Files/lightstep/lightstep.modulemap</string>
-				<key>MTL_ENABLE_DEBUG_INFO</key>
-				<string>NO</string>
-				<key>PRODUCT_NAME</key>
-				<string>lightstep</string>
-				<key>SDKROOT</key>
-				<string>iphoneos</string>
-				<key>SKIP_INSTALL</key>
-				<string>YES</string>
-				<key>TARGETED_DEVICE_FAMILY</key>
-				<string>1,2</string>
-				<key>VERSIONING_SYSTEM</key>
-				<string>apple-generic</string>
-				<key>VERSION_INFO_PREFIX</key>
-				<string></string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Release</string>
-		</dict>
-		<key>919A07FAAC0F6BC84DD976743AA5B5EE</key>
-		<dict>
-			<key>containerPortal</key>
-			<string>D41D8CD98F00B204E9800998ECF8427E</string>
-			<key>isa</key>
-			<string>PBXContainerItemProxy</string>
-			<key>proxyType</key>
-			<string>1</string>
-			<key>remoteGlobalIDString</key>
-			<string>559DA7EB33D52E1F7923E9FDCB082B51</string>
-			<key>remoteInfo</key>
-			<string>opentracing</string>
-		</dict>
-		<key>920AF2F06C43E519B9128C80D77E52E8</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>TSharedProcessorFactory.h</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/TSharedProcessorFactory.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>92F5A9D29B82229055A9DFCAC5ACCB0A</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F890E779037BD3178EB5CB11E96E15E0</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>935678CD4C8E536848F2ADD4572BC3AE</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXSourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>96D99F85D2676C13EACF83D4B1AE1453</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>lightstep-umbrella.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>974C844E55C76C15C18A5758EDE425B3</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>TSocketClient.h</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/transport/TSocketClient.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>97A3064211987FCBDE8D72AB7F89D638</key>
-		<dict>
-			<key>fileRef</key>
-			<string>EA6079DEC61E96BEF6D3950D024827A9</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>97DE7F4293E2C71B30F4287296D68F26</key>
-		<dict>
-			<key>fileRef</key>
-			<string>05006373405704B027353F17212958A6</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>98BB4BD544059AFEEB83355D3F30FC87</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>TProtocolException.h</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/protocol/TProtocolException.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>99BC5EA72D65C86B76C5D0EC8125A57E</key>
-		<dict>
-			<key>fileRef</key>
-			<string>3BABEFB108CEE2D8E2F412C3367E55C4</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>9C85304FA885372B3BEC020C1457C609</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>LSTracer.h</string>
-			<key>path</key>
-			<string>Pod/Classes/LSTracer.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9EA4B0BDC49534802142DED8DB32FC4E</key>
-		<dict>
-			<key>fileRef</key>
-			<string>5AA0631AE57F4ACBA2C53E21F85D6FE4</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>A15AC303D6B2C1723D662CB99800C6E9</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>Thrift.h</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/Thrift.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>A1A60A54E8B4E1A445D22DDEE7C662CB</key>
-		<dict>
-			<key>fileRef</key>
-			<string>A35AF905A8B0035736EF08EB3EB163B3</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>A2A6ABB79E5877DC13B9CA6233BF31D9</key>
-		<dict>
-			<key>fileRef</key>
-			<string>E2E578F8E054F329C70CF99F39B06129</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>A2D018E497A96C06730473751B940F67</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>TFramedTransport.m</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/transport/TFramedTransport.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>A303D81EBCDAAE966F57C171ECE235BE</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>wrapper.framework</string>
-			<key>includeInIndex</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>name</key>
-			<string>Pods_LightStepTestUI.framework</string>
-			<key>path</key>
-			<string>Pods_LightStepTestUI.framework</string>
-			<key>sourceTree</key>
-			<string>BUILT_PRODUCTS_DIR</string>
-		</dict>
-		<key>A35AF905A8B0035736EF08EB3EB163B3</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>TObjective-C.h</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/TObjective-C.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>A3BDBED51136E56BD502C64AC5AA5732</key>
-		<dict>
-			<key>fileRef</key>
-			<string>45AFB2595AB573D8EBBEA6D17BE1CB06</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>A507D9B96AC89F08AB2991385CB16293</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>OpenTracing-Bridging-Header.h</string>
-			<key>path</key>
-			<string>Pod/Classes/OpenTracing-Bridging-Header.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>A5561F696B6C3A6EE5B9EE12860B5971</key>
-		<dict>
-			<key>baseConfigurationReference</key>
-			<string>2AE1737A0F707ADA0D63A4E752BAC3ED</string>
-			<key>buildSettings</key>
-			<dict>
-				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
-				<string>iPhone Developer</string>
-				<key>CURRENT_PROJECT_VERSION</key>
-				<string>1</string>
-				<key>DEFINES_MODULE</key>
-				<string>YES</string>
-				<key>DYLIB_COMPATIBILITY_VERSION</key>
-				<string>1</string>
-				<key>DYLIB_CURRENT_VERSION</key>
-				<string>1</string>
-				<key>DYLIB_INSTALL_NAME_BASE</key>
-				<string>@rpath</string>
-				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
-				<string>YES</string>
-				<key>INFOPLIST_FILE</key>
-				<string>Target Support Files/Pods-LightStepTestUI/Info.plist</string>
-				<key>INSTALL_PATH</key>
-				<string>$(LOCAL_LIBRARY_DIR)/Frameworks</string>
-				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>8.0</string>
-				<key>LD_RUNPATH_SEARCH_PATHS</key>
-				<array>
-					<string>$(inherited)</string>
-					<string>@executable_path/Frameworks</string>
-					<string>@loader_path/Frameworks</string>
-				</array>
-				<key>MACH_O_TYPE</key>
-				<string>staticlib</string>
-				<key>MODULEMAP_FILE</key>
-				<string>Target Support Files/Pods-LightStepTestUI/Pods-LightStepTestUI.modulemap</string>
-				<key>MTL_ENABLE_DEBUG_INFO</key>
-				<string>YES</string>
-				<key>OTHER_LDFLAGS</key>
-				<string></string>
-				<key>OTHER_LIBTOOLFLAGS</key>
-				<string></string>
-				<key>PODS_ROOT</key>
-				<string>$(SRCROOT)</string>
-				<key>PRODUCT_NAME</key>
-				<string>Pods_LightStepTestUI</string>
-				<key>SDKROOT</key>
-				<string>iphoneos</string>
-				<key>SKIP_INSTALL</key>
-				<string>YES</string>
-				<key>TARGETED_DEVICE_FAMILY</key>
-				<string>1,2</string>
-				<key>VERSIONING_SYSTEM</key>
-				<string>apple-generic</string>
-				<key>VERSION_INFO_PREFIX</key>
-				<string></string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Debug</string>
-		</dict>
-		<key>A56BB6E43D166FEA4AEC44218091C1A7</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>crouton.h</string>
-			<key>path</key>
-			<string>Pod/Classes/crouton.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>A57B6403BC1EA3DF63FE7B53B9B59E67</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>84E9270368B0A98F4D5A6A4C9F519849</string>
-				<string>349CB6D80DB8FF8FB9F89D30494E600B</string>
-				<string>F45DB16A726FFA9B518D630E71713471</string>
-				<string>9EA4B0BDC49534802142DED8DB32FC4E</string>
-				<string>C4E5F4A4B868B31C6E43FDE8F7F7AE9B</string>
-			</array>
-			<key>isa</key>
-			<string>PBXSourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>A62BBA375A6E5C9C24E0CE3A54F4CAB2</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>LSSpan.h</string>
-			<key>path</key>
-			<string>Pod/Classes/LSSpan.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>A70CDAD61F90AC503C7D04CC22DA2923</key>
-		<dict>
-			<key>buildSettings</key>
-			<dict>
-				<key>ALWAYS_SEARCH_USER_PATHS</key>
-				<string>NO</string>
-				<key>CLANG_CXX_LANGUAGE_STANDARD</key>
-				<string>gnu++0x</string>
-				<key>CLANG_CXX_LIBRARY</key>
-				<string>libc++</string>
-				<key>CLANG_ENABLE_MODULES</key>
-				<string>YES</string>
-				<key>CLANG_ENABLE_OBJC_ARC</key>
-				<string>YES</string>
-				<key>CLANG_WARN_BOOL_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_CONSTANT_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_DIRECT_OBJC_ISA_USAGE</key>
-				<string>YES</string>
-				<key>CLANG_WARN_EMPTY_BODY</key>
-				<string>YES</string>
-				<key>CLANG_WARN_ENUM_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_INT_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_OBJC_ROOT_CLASS</key>
-				<string>YES</string>
-				<key>CLANG_WARN_UNREACHABLE_CODE</key>
-				<string>YES</string>
-				<key>CLANG_WARN__DUPLICATE_METHOD_MATCH</key>
-				<string>YES</string>
-				<key>COPY_PHASE_STRIP</key>
-				<string>NO</string>
-				<key>GCC_C_LANGUAGE_STANDARD</key>
-				<string>gnu99</string>
-				<key>GCC_DYNAMIC_NO_PIC</key>
-				<string>NO</string>
-				<key>GCC_OPTIMIZATION_LEVEL</key>
-				<string>0</string>
-				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
-				<array>
-					<string>DEBUG=1</string>
-					<string>$(inherited)</string>
-				</array>
-				<key>GCC_SYMBOLS_PRIVATE_EXTERN</key>
-				<string>NO</string>
-				<key>GCC_WARN_64_TO_32_BIT_CONVERSION</key>
-				<string>YES</string>
-				<key>GCC_WARN_ABOUT_RETURN_TYPE</key>
-				<string>YES</string>
-				<key>GCC_WARN_UNDECLARED_SELECTOR</key>
-				<string>YES</string>
-				<key>GCC_WARN_UNINITIALIZED_AUTOS</key>
-				<string>YES</string>
-				<key>GCC_WARN_UNUSED_FUNCTION</key>
-				<string>YES</string>
-				<key>GCC_WARN_UNUSED_VARIABLE</key>
-				<string>YES</string>
-				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>8.0</string>
-				<key>ONLY_ACTIVE_ARCH</key>
-				<string>YES</string>
-				<key>STRIP_INSTALLED_PRODUCT</key>
-				<string>NO</string>
-				<key>SYMROOT</key>
-				<string>${SRCROOT}/../build</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Debug</string>
-		</dict>
-		<key>A76598725D55D9392791D0369523B29E</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>A56BB6E43D166FEA4AEC44218091C1A7</string>
-				<string>4F35F110A10423A01D123D346B1DB605</string>
-				<string>168CA622AA6DE8771B32727E604C6C9E</string>
-				<string>67FB313F4969F334E025DCA8CACD5AE2</string>
-				<string>73AE55B3606CEC93C0F98F6DBFC5FAD0</string>
-				<string>A62BBA375A6E5C9C24E0CE3A54F4CAB2</string>
-				<string>193FD82410028B0C9009B8A31066D563</string>
-				<string>FFF54EAADFCB18F31D97718D69434861</string>
-				<string>66483B4F9279BC69A351C524015EDA75</string>
-				<string>9C85304FA885372B3BEC020C1457C609</string>
-				<string>D6060AA46C221DFD935742DCC48B3F80</string>
-				<string>EEE9EC876006C0998812049216B426DD</string>
-				<string>6C2AED76CB961080EAD8E839C09EB640</string>
-				<string>AD7375091A4EF220041123B03CBA543B</string>
-				<string>F5F3D6CA6B9EF82867FE41EE4CA00847</string>
-				<string>CA038F908A0696F6E73EF5D8B04559E2</string>
-				<string>F47C07EA6EBD2AEE5673B49F8266F4BE</string>
-				<string>45AFB2595AB573D8EBBEA6D17BE1CB06</string>
-				<string>C05865D573858664884E66F6AB779340</string>
-				<string>C7DC682400EC35D94C40B6D9A0FC6E16</string>
-				<string>1C012549E258F0B26CA0B71CA448AADF</string>
-				<string>D63A377EF4A1401565EAF322398F1757</string>
-				<string>1F25AE83B6848218991EAE2B570202CA</string>
-				<string>A2D018E497A96C06730473751B940F67</string>
-				<string>A15AC303D6B2C1723D662CB99800C6E9</string>
-				<string>3C96BD1370E3D129ED07A58199795D1E</string>
-				<string>4E2A4A7B8E13A8F403B6A81AFE2AB6F7</string>
-				<string>7123381BF9E8F100F511997D8FB7A53A</string>
-				<string>61DB1D73D7296C2405CABF5F4AD44903</string>
-				<string>79F2033E73120906121FA0550B7F8B9F</string>
-				<string>E5AA1CC733C3989659B2FA4EE7424BB2</string>
-				<string>BF8A7CA56C9495A090FD71A3251D2B58</string>
-				<string>4205CA75A6CE39FAD2CC0B947949AAD5</string>
-				<string>3E4A76159DB8EBF0BE6C16F00F827C27</string>
-				<string>821B2FD4247FEC5ABC842A2D051642AF</string>
-				<string>A35AF905A8B0035736EF08EB3EB163B3</string>
-				<string>F3AD59B52A9B3BCDD120B479BD0ABD85</string>
-				<string>2E894DA0B3DCE4A77B4A8437454F9977</string>
-				<string>8949FCD6C7AC1FDDAD3C0C14C5887DD7</string>
-				<string>3BABEFB108CEE2D8E2F412C3367E55C4</string>
-				<string>24C6287784874E2ED7850EDFEC9AC4D2</string>
-				<string>98BB4BD544059AFEEB83355D3F30FC87</string>
-				<string>67DA5CE5A64475EA23B8BF42F56437D3</string>
-				<string>EEA56FCE6C5311B51DEF36DED80AFCD8</string>
-				<string>7075BFB1904364B4D52008EACA175E78</string>
-				<string>EA6079DEC61E96BEF6D3950D024827A9</string>
-				<string>920AF2F06C43E519B9128C80D77E52E8</string>
-				<string>05006373405704B027353F17212958A6</string>
-				<string>974C844E55C76C15C18A5758EDE425B3</string>
-				<string>D89E305121AAFA751476EA4584962DF4</string>
-				<string>E2E578F8E054F329C70CF99F39B06129</string>
-				<string>1B22F362BE5C20E160531EADC33364B4</string>
-				<string>737EA9680F32723F8137B7F7068EBF1D</string>
-				<string>5D0CF147E85C24FF3D54A1AF93C26B9F</string>
-				<string>E05CF01FAAD51BC5243206D112009530</string>
-				<string>E3C557436CC96758EAA24886095C81C5</string>
-				<string>3A10A263124E7956C5AF66A6514B551A</string>
-				<string>255107A9DBB58168903BC4FE508EE406</string>
-				<string>DDBAC485354A3ECA05584E66E797089B</string>
-				<string>113A8DD818ECE4E1D8BE4F06CBEF103C</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>lightstep</string>
-			<key>path</key>
-			<string>lightstep</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>A8952049BAA295B71533D124EC6A2034</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>180F4D5C2C33CCDF364AE58C4543EECF</string>
-				<string>05B44CBB0697C23BA2A1BE6CB90824E8</string>
-				<string>A8B8E6B17DF1848C4C4A9F46C12FD44E</string>
-				<string>313BDA0426EEDD11C9F04C896E4CBEBC</string>
-				<string>837A22D73EDD8275AA56A5B6E630BA04</string>
-				<string>89622AC0F2FB0639F3B878B7D66A96F1</string>
-				<string>E6C382ECE241F686660AE1F2ADD3EF1D</string>
-				<string>23098C1798B40F432AD1C0D9DFFE4993</string>
-				<string>8A401882C16F2B88CE48227B2CBEA735</string>
-			</array>
-			<key>isa</key>
-			<string>PBXHeadersBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>A8B8E6B17DF1848C4C4A9F46C12FD44E</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F29A5D5E5AE907824BC07284AC760F35</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>AB510EEAD60527AC71F3A5A07F50013E</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F47C07EA6EBD2AEE5673B49F8266F4BE</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>ACE1F6C4FC421E496870FC6C14AB83DA</key>
-		<dict>
-			<key>fileRef</key>
-			<string>2E894DA0B3DCE4A77B4A8437454F9977</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>AD7375091A4EF220041123B03CBA543B</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>LSUtil.m</string>
-			<key>path</key>
-			<string>Pod/Classes/LSUtil.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>AEE8F3AD531466295F9A0331253E42B5</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>lightstep-prefix.pch</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>AFE92921CEB984CDA8BEAF30EB030F02</key>
-		<dict>
-			<key>fileRef</key>
-			<string>D6060AA46C221DFD935742DCC48B3F80</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>B0488F2F628F3BB1699C8125AC6CA364</key>
-		<dict>
-			<key>fileRef</key>
-			<string>66803D535A364C5D43F9AF052418ADCB</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>B07FB04B12C3346C2EC580C025EECDDF</key>
-		<dict>
-			<key>fileRef</key>
-			<string>D2EEEC1FF81AB0ACA2FAC58E7ECF6842</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>B502B4BB87BC8F699ECFB7118401E973</key>
-		<dict>
-			<key>fileRef</key>
-			<string>193FD82410028B0C9009B8A31066D563</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>B522D90E2361AF8AABDF9A8C4E459045</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>opentracing-prefix.pch</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>B5F645B83AD2849F2D08D9B31D13479B</key>
-		<dict>
-			<key>buildConfigurationList</key>
-			<string>86C609D163D97D3B4CFC243C33D71FC3</string>
-			<key>buildPhases</key>
-			<array>
-				<string>935678CD4C8E536848F2ADD4572BC3AE</string>
-				<string>621C8690F3E932E6B97789027FC8831F</string>
-				<string>67AF33DDC83A8C3A6DA9786BB455269D</string>
-			</array>
-			<key>buildRules</key>
-			<array/>
-			<key>dependencies</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXNativeTarget</string>
-			<key>name</key>
-			<string>opentracing-opentracing</string>
-			<key>productName</key>
-			<string>opentracing-opentracing</string>
-			<key>productReference</key>
-			<string>71D186B97473383095FFB360AE3D13C2</string>
-			<key>productType</key>
-			<string>com.apple.product-type.bundle</string>
-		</dict>
-		<key>B6C714575661B63BC7160F4AA57F2BFF</key>
-		<dict>
-			<key>baseConfigurationReference</key>
-			<string>CE2BB5F5657D868A951FE2199A0FF2FC</string>
-			<key>buildSettings</key>
-			<dict>
-				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
-				<string>iPhone Developer</string>
-				<key>CURRENT_PROJECT_VERSION</key>
-				<string>1</string>
-				<key>DEFINES_MODULE</key>
-				<string>YES</string>
-				<key>DYLIB_COMPATIBILITY_VERSION</key>
-				<string>1</string>
-				<key>DYLIB_CURRENT_VERSION</key>
-				<string>1</string>
-				<key>DYLIB_INSTALL_NAME_BASE</key>
-				<string>@rpath</string>
-				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
-				<string>YES</string>
-				<key>INFOPLIST_FILE</key>
-				<string>Target Support Files/Pods-LightStepTestUI/Info.plist</string>
-				<key>INSTALL_PATH</key>
-				<string>$(LOCAL_LIBRARY_DIR)/Frameworks</string>
-				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>8.0</string>
-				<key>LD_RUNPATH_SEARCH_PATHS</key>
-				<array>
-					<string>$(inherited)</string>
-					<string>@executable_path/Frameworks</string>
-					<string>@loader_path/Frameworks</string>
-				</array>
-				<key>MACH_O_TYPE</key>
-				<string>staticlib</string>
-				<key>MODULEMAP_FILE</key>
-				<string>Target Support Files/Pods-LightStepTestUI/Pods-LightStepTestUI.modulemap</string>
-				<key>MTL_ENABLE_DEBUG_INFO</key>
-				<string>NO</string>
-				<key>OTHER_LDFLAGS</key>
-				<string></string>
-				<key>OTHER_LIBTOOLFLAGS</key>
-				<string></string>
-				<key>PODS_ROOT</key>
-				<string>$(SRCROOT)</string>
-				<key>PRODUCT_NAME</key>
-				<string>Pods_LightStepTestUI</string>
-				<key>SDKROOT</key>
-				<string>iphoneos</string>
-				<key>SKIP_INSTALL</key>
-				<string>YES</string>
-				<key>TARGETED_DEVICE_FAMILY</key>
-				<string>1,2</string>
-				<key>VERSIONING_SYSTEM</key>
-				<string>apple-generic</string>
-				<key>VERSION_INFO_PREFIX</key>
-				<string></string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Release</string>
-		</dict>
-		<key>B815DE712224B14161F6CE5EFCAC6986</key>
-		<dict>
-			<key>fileRef</key>
-			<string>168CA622AA6DE8771B32727E604C6C9E</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>B87966012A1D2A1B652A55ED6F852594</key>
-		<dict>
-			<key>containerPortal</key>
-			<string>D41D8CD98F00B204E9800998ECF8427E</string>
-			<key>isa</key>
-			<string>PBXContainerItemProxy</string>
-			<key>proxyType</key>
-			<string>1</string>
-			<key>remoteGlobalIDString</key>
-			<string>2C6C195AA2AEFD7FC2B871B5EF962C30</string>
-			<key>remoteInfo</key>
-			<string>lightstep</string>
-		</dict>
-		<key>BA6428E9F66FD5A23C0A2E06ED26CD2F</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text</string>
-			<key>name</key>
-			<string>Podfile</string>
-			<key>path</key>
-			<string>../Podfile</string>
-			<key>sourceTree</key>
-			<string>SOURCE_ROOT</string>
-			<key>xcLanguageSpecificationIdentifier</key>
-			<string>xcode.lang.ruby</string>
-		</dict>
-		<key>BB1123D809326F74ACDF2DBB76CFDB32</key>
-		<dict>
-			<key>fileRef</key>
-			<string>3E4A76159DB8EBF0BE6C16F00F827C27</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>BBDFC3712BCA9BA6E72092CCAC9A1A1E</key>
-		<dict>
-			<key>fileRef</key>
-			<string>DDBAC485354A3ECA05584E66E797089B</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>BD1849A8CE199D7CC8693F70F476F0C0</key>
-		<dict>
-			<key>fileRef</key>
-			<string>A62BBA375A6E5C9C24E0CE3A54F4CAB2</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>BF8A7CA56C9495A090FD71A3251D2B58</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>TNSFileHandleTransport.h</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/transport/TNSFileHandleTransport.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C05865D573858664884E66F6AB779340</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>TBinaryProtocol.h</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/protocol/TBinaryProtocol.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C1516F1EA39574F20C2543DCE81727D0</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>OTTracer.m</string>
-			<key>path</key>
-			<string>Pod/Classes/OTTracer.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C3421519365D9DF340ACF089228A4C11</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>CBB2C6FCD4B13B3F060DBE95118C085E</string>
-				<string>B815DE712224B14161F6CE5EFCAC6986</string>
-				<string>FA5321520E6CDD6353DD2D4554E18643</string>
-				<string>F6F9A37DA6F5C27234454AB4253B286D</string>
-				<string>BD1849A8CE199D7CC8693F70F476F0C0</string>
-				<string>2167EA7C387E03D9BB7CE81CCD377FE8</string>
-				<string>E82A88C68430FF468CF41B432BE92890</string>
-				<string>0336583684F483AD2CBD1803736258C6</string>
-				<string>083244BC22398F865CEA97D8C3518003</string>
-				<string>37D267B2049DD97A73E52503DF1A6BE5</string>
-				<string>31E2307F7C16B534CBBE6596BCED48F0</string>
-				<string>A3BDBED51136E56BD502C64AC5AA5732</string>
-				<string>506B0ABF76CFB2B6B0B8258ECAB9CC06</string>
-				<string>16C239A1627613C5A697AF95D115630B</string>
-				<string>368A76AEBC00E5AF716A3D0CDF4E1DAE</string>
-				<string>850A0680A82215B2BEE676AD5D5EB811</string>
-				<string>D1FBF1A9D8826CC0B0DC50898E51633A</string>
-				<string>4733E3027884516AF6D1CF6903D75162</string>
-				<string>087B1BB19D99C9471F4A5F8A2260CD7D</string>
-				<string>698C3628BA8084F49263371B3067CEC3</string>
-				<string>BB1123D809326F74ACDF2DBB76CFDB32</string>
-				<string>A1A60A54E8B4E1A445D22DDEE7C662CB</string>
-				<string>797A88EB058407682DE4DA4B311EC1DC</string>
-				<string>ACE1F6C4FC421E496870FC6C14AB83DA</string>
-				<string>7E278F066E800E470C52A3E5E3FF5043</string>
-				<string>99BC5EA72D65C86B76C5D0EC8125A57E</string>
-				<string>CD7E8B133FF6E324DDD3C910EE7D0833</string>
-				<string>F69A8632E0A733DEAFFA13F3B5666D9A</string>
-				<string>49FBB3800164C31B6A3F816300B89992</string>
-				<string>8FAABFB2C29EEC5E6C9A245C480D2F77</string>
-				<string>8C0A0026A7F8BF66F2F365C259022A55</string>
-				<string>A2A6ABB79E5877DC13B9CA6233BF31D9</string>
-				<string>D767523439AA98EA3D89F2D181531B5B</string>
-				<string>6E114F40A3FB963D64ADC34FA97DF04E</string>
-				<string>4F401E2FC57929117F2525A551AACE0D</string>
-				<string>15179FCE6E2321639EE5F9CA22741164</string>
-			</array>
-			<key>isa</key>
-			<string>PBXHeadersBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>C3A4E43C6FAC74CFE4999D1A255336FB</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>8A7DE43A43E58932CB4A6704589B7688</string>
-				<string>71D186B97473383095FFB360AE3D13C2</string>
-				<string>0A4FFADF8BD9A585D2C017F6ED6922FB</string>
-				<string>A303D81EBCDAAE966F57C171ECE235BE</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Products</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C4DF13CB45368DE1140043C8C8C1C98E</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.script.sh</string>
-			<key>path</key>
-			<string>Pods-LightStepTestUI-frameworks.sh</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C4E5F4A4B868B31C6E43FDE8F7F7AE9B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C1516F1EA39574F20C2543DCE81727D0</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C78D0DD470FFBB1AFE0E96A92874A30D</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>51EB0B0AD08AA2E38DA197A2A0267A90</string>
-				<string>0731059517A744FF5BBCA3758DD24479</string>
-				<string>739B0A8258BCD7BAA1EA53ED44A12AEA</string>
-				<string>EBFE08D465E3F3A42C9CB95038B77CB5</string>
-				<string>B522D90E2361AF8AABDF9A8C4E459045</string>
-				<string>05D0B87D666AB8488B865CBF16BC5BEF</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Support Files</string>
-			<key>path</key>
-			<string>../Target Support Files/opentracing</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C7B90262DE3D6B43A43AA522376EE723</key>
-		<dict>
-			<key>fileRef</key>
-			<string>D2EEEC1FF81AB0ACA2FAC58E7ECF6842</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C7DC682400EC35D94C40B6D9A0FC6E16</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>TBinaryProtocol.m</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/protocol/TBinaryProtocol.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>CA038F908A0696F6E73EF5D8B04559E2</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>TApplicationException.h</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/TApplicationException.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>CB261C8C678C31F49DE626A849CD42B8</key>
-		<dict>
-			<key>buildConfigurations</key>
-			<array>
-				<string>2FD9B32995E80FA01AE5B12A4BA78BC0</string>
-				<string>918FAF4700367B1B7F07DF008970FF24</string>
-			</array>
-			<key>defaultConfigurationIsVisible</key>
-			<string>0</string>
-			<key>defaultConfigurationName</key>
-			<string>Release</string>
-			<key>isa</key>
-			<string>XCConfigurationList</string>
-		</dict>
-		<key>CBB2C6FCD4B13B3F060DBE95118C085E</key>
-		<dict>
-			<key>fileRef</key>
-			<string>A56BB6E43D166FEA4AEC44218091C1A7</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>CD7DDCC1D027273D059B58A4CEA12D56</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F45C84DA7019FD98FA5BEDBF74378E3C</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>CD7E8B133FF6E324DDD3C910EE7D0833</key>
-		<dict>
-			<key>fileRef</key>
-			<string>98BB4BD544059AFEEB83355D3F30FC87</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>CE2BB5F5657D868A951FE2199A0FF2FC</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.xcconfig</string>
-			<key>path</key>
-			<string>Pods-LightStepTestUI.release.xcconfig</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>CFBFD480F204D8A798ECE7338F137F33</key>
-		<dict>
-			<key>fileRef</key>
-			<string>67DA5CE5A64475EA23B8BF42F56437D3</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>D1FBF1A9D8826CC0B0DC50898E51633A</key>
-		<dict>
-			<key>fileRef</key>
-			<string>3C96BD1370E3D129ED07A58199795D1E</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>D2EEEC1FF81AB0ACA2FAC58E7ECF6842</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>wrapper.framework</string>
-			<key>name</key>
-			<string>Foundation.framework</string>
-			<key>path</key>
-			<string>Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/Foundation.framework</string>
-			<key>sourceTree</key>
-			<string>DEVELOPER_DIR</string>
-		</dict>
-		<key>D41D8CD98F00B204E9800998ECF8427E</key>
-		<dict>
-			<key>attributes</key>
-			<dict>
-				<key>LastSwiftUpdateCheck</key>
-				<string>0700</string>
-				<key>LastUpgradeCheck</key>
-				<string>0700</string>
-			</dict>
-			<key>buildConfigurationList</key>
-			<string>2D8E8EC45A3A1A1D94AE762CB5028504</string>
-			<key>compatibilityVersion</key>
-			<string>Xcode 3.2</string>
-			<key>developmentRegion</key>
-			<string>English</string>
-			<key>hasScannedForEncodings</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXProject</string>
-			<key>knownRegions</key>
-			<array>
-				<string>en</string>
-			</array>
-			<key>mainGroup</key>
-			<string>7DB346D0F39D3F0E887471402A8071AB</string>
-			<key>productRefGroup</key>
-			<string>C3A4E43C6FAC74CFE4999D1A255336FB</string>
-			<key>projectDirPath</key>
-			<string></string>
-			<key>projectReferences</key>
-			<array/>
-			<key>projectRoot</key>
-			<string></string>
-			<key>targets</key>
-			<array>
-				<string>2C6C195AA2AEFD7FC2B871B5EF962C30</string>
-				<string>559DA7EB33D52E1F7923E9FDCB082B51</string>
-				<string>B5F645B83AD2849F2D08D9B31D13479B</string>
-				<string>5644A4D78CCFF6ED229E90BEF8536BC4</string>
-			</array>
-		</dict>
-		<key>D58E38469AED1B2F219C4DF7CAFBC936</key>
-		<dict>
-			<key>baseConfigurationReference</key>
-			<string>739B0A8258BCD7BAA1EA53ED44A12AEA</string>
-			<key>buildSettings</key>
-			<dict>
-				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
-				<string>iPhone Developer</string>
-				<key>CURRENT_PROJECT_VERSION</key>
-				<string>1</string>
-				<key>DEFINES_MODULE</key>
-				<string>YES</string>
-				<key>DYLIB_COMPATIBILITY_VERSION</key>
-				<string>1</string>
-				<key>DYLIB_CURRENT_VERSION</key>
-				<string>1</string>
-				<key>DYLIB_INSTALL_NAME_BASE</key>
-				<string>@rpath</string>
-				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
-				<string>YES</string>
-				<key>GCC_PREFIX_HEADER</key>
-				<string>Target Support Files/opentracing/opentracing-prefix.pch</string>
-				<key>INFOPLIST_FILE</key>
-				<string>Target Support Files/opentracing/Info.plist</string>
-				<key>INSTALL_PATH</key>
-				<string>$(LOCAL_LIBRARY_DIR)/Frameworks</string>
-				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>8.0</string>
-				<key>LD_RUNPATH_SEARCH_PATHS</key>
-				<array>
-					<string>$(inherited)</string>
-					<string>@executable_path/Frameworks</string>
-					<string>@loader_path/Frameworks</string>
-				</array>
-				<key>MODULEMAP_FILE</key>
-				<string>Target Support Files/opentracing/opentracing.modulemap</string>
-				<key>MTL_ENABLE_DEBUG_INFO</key>
-				<string>YES</string>
-				<key>PRODUCT_NAME</key>
-				<string>opentracing</string>
-				<key>SDKROOT</key>
-				<string>iphoneos</string>
-				<key>SKIP_INSTALL</key>
-				<string>YES</string>
-				<key>TARGETED_DEVICE_FAMILY</key>
-				<string>1,2</string>
-				<key>VERSIONING_SYSTEM</key>
-				<string>apple-generic</string>
-				<key>VERSION_INFO_PREFIX</key>
-				<string></string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Debug</string>
-		</dict>
-		<key>D6060AA46C221DFD935742DCC48B3F80</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>LSTracer.m</string>
-			<key>path</key>
-			<string>Pod/Classes/LSTracer.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>D63A377EF4A1401565EAF322398F1757</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>TException.m</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/TException.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>D767523439AA98EA3D89F2D181531B5B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>737EA9680F32723F8137B7F7068EBF1D</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>D89E305121AAFA751476EA4584962DF4</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>TSocketClient.m</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/transport/TSocketClient.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>DB92D6140ED1E8D2CBB7E0FA5C68D737</key>
-		<dict>
-			<key>fileRef</key>
-			<string>1B22F362BE5C20E160531EADC33364B4</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>DDBAC485354A3ECA05584E66E797089B</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>TTransportException.m</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/transport/TTransportException.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>DEED524EE3B0E2A79B17CFBAFF9A8C7B</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>OTSpan.h</string>
-			<key>path</key>
-			<string>Pod/Classes/OTSpan.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>E05CF01FAAD51BC5243206D112009530</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>TSSLSocketException.h</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/transport/TSSLSocketException.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>E06D1D0F596F52A7DF28BF3DD90FFF0F</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.plist.xml</string>
-			<key>path</key>
-			<string>Info.plist</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>E0709F63EFEAC9F54FDB5D3DE01909B7</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>13BB386E84EA969BA83DA1BFBCE3C09D</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Targets Support Files</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>E271F716DA8CBBA9B1CB1BA1E334D863</key>
-		<dict>
-			<key>fileRef</key>
-			<string>73AE55B3606CEC93C0F98F6DBFC5FAD0</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>E2E578F8E054F329C70CF99F39B06129</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>TSocketServer.h</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/server/TSocketServer.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>E3AC6ED6F37DCB47866DFA40FAAA01DE</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXTargetDependency</string>
-			<key>name</key>
-			<string>lightstep</string>
-			<key>target</key>
-			<string>2C6C195AA2AEFD7FC2B871B5EF962C30</string>
-			<key>targetProxy</key>
-			<string>B87966012A1D2A1B652A55ED6F852594</string>
-		</dict>
-		<key>E3C557436CC96758EAA24886095C81C5</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>TSSLSocketException.m</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/transport/TSSLSocketException.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>E5AA1CC733C3989659B2FA4EE7424BB2</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>TMultiplexedProtocol.m</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/protocol/TMultiplexedProtocol.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>E6C382ECE241F686660AE1F2ADD3EF1D</key>
-		<dict>
-			<key>fileRef</key>
-			<string>08B26D60E171D8AB8A3B7A6D6779541F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>E6D2AF94DE2123F9117F2FB35CE9C5D8</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>OTNoop.m</string>
-			<key>path</key>
-			<string>Pod/Classes/OTNoop.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>E82A88C68430FF468CF41B432BE92890</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9C85304FA885372B3BEC020C1457C609</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>E94B3B3B8C0428C014A7DD482577269E</key>
-		<dict>
-			<key>fileRef</key>
-			<string>71D186B97473383095FFB360AE3D13C2</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>EA6079DEC61E96BEF6D3950D024827A9</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>TProtocolUtil.m</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/protocol/TProtocolUtil.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>EBFE08D465E3F3A42C9CB95038B77CB5</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>opentracing-dummy.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>EDCF7A78699CA37CF5073A522C1A009B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>821B2FD4247FEC5ABC842A2D051642AF</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>EEA56FCE6C5311B51DEF36DED80AFCD8</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>TProtocolFactory.h</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/protocol/TProtocolFactory.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>EEE9EC876006C0998812049216B426DD</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>LSTracerInternal.h</string>
-			<key>path</key>
-			<string>Pod/Classes/LSTracerInternal.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F29A5D5E5AE907824BC07284AC760F35</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>OTGlobal.h</string>
-			<key>path</key>
-			<string>Pod/Classes/OTGlobal.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F3AD59B52A9B3BCDD120B479BD0ABD85</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>TProcessor.h</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/TProcessor.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F45C84DA7019FD98FA5BEDBF74378E3C</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>wrapper.framework</string>
-			<key>includeInIndex</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>opentracing.framework</string>
-			<key>sourceTree</key>
-			<string>BUILT_PRODUCTS_DIR</string>
-		</dict>
-		<key>F45DB16A726FFA9B518D630E71713471</key>
-		<dict>
-			<key>fileRef</key>
-			<string>E6D2AF94DE2123F9117F2FB35CE9C5D8</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F47C07EA6EBD2AEE5673B49F8266F4BE</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>TApplicationException.m</string>
-			<key>path</key>
-			<string>Pod/Classes/thrift/TApplicationException.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F5F3D6CA6B9EF82867FE41EE4CA00847</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>LSVersion.h</string>
-			<key>path</key>
-			<string>Pod/Classes/LSVersion.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F69A8632E0A733DEAFFA13F3B5666D9A</key>
-		<dict>
-			<key>fileRef</key>
-			<string>EEA56FCE6C5311B51DEF36DED80AFCD8</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>F6F9A37DA6F5C27234454AB4253B286D</key>
-		<dict>
-			<key>fileRef</key>
-			<string>67FB313F4969F334E025DCA8CACD5AE2</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>F7DF6C67F7098541250DB582DF5D04CD</key>
-		<dict>
-			<key>containerPortal</key>
-			<string>D41D8CD98F00B204E9800998ECF8427E</string>
-			<key>isa</key>
-			<string>PBXContainerItemProxy</string>
-			<key>proxyType</key>
-			<string>1</string>
-			<key>remoteGlobalIDString</key>
-			<string>559DA7EB33D52E1F7923E9FDCB082B51</string>
-			<key>remoteInfo</key>
-			<string>opentracing</string>
-		</dict>
-		<key>F890E779037BD3178EB5CB11E96E15E0</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>Pods-LightStepTestUI-dummy.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>FA5321520E6CDD6353DD2D4554E18643</key>
-		<dict>
-			<key>fileRef</key>
-			<string>96D99F85D2676C13EACF83D4B1AE1453</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>FB45FFD90572718D82AB9092B750F0CA</key>
-		<dict>
-			<key>buildSettings</key>
-			<dict>
-				<key>ALWAYS_SEARCH_USER_PATHS</key>
-				<string>NO</string>
-				<key>CLANG_CXX_LANGUAGE_STANDARD</key>
-				<string>gnu++0x</string>
-				<key>CLANG_CXX_LIBRARY</key>
-				<string>libc++</string>
-				<key>CLANG_ENABLE_MODULES</key>
-				<string>YES</string>
-				<key>CLANG_ENABLE_OBJC_ARC</key>
-				<string>YES</string>
-				<key>CLANG_WARN_BOOL_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_CONSTANT_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_DIRECT_OBJC_ISA_USAGE</key>
-				<string>YES</string>
-				<key>CLANG_WARN_EMPTY_BODY</key>
-				<string>YES</string>
-				<key>CLANG_WARN_ENUM_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_INT_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_OBJC_ROOT_CLASS</key>
-				<string>YES</string>
-				<key>CLANG_WARN_UNREACHABLE_CODE</key>
-				<string>YES</string>
-				<key>CLANG_WARN__DUPLICATE_METHOD_MATCH</key>
-				<string>YES</string>
-				<key>COPY_PHASE_STRIP</key>
-				<string>YES</string>
-				<key>ENABLE_NS_ASSERTIONS</key>
-				<string>NO</string>
-				<key>GCC_C_LANGUAGE_STANDARD</key>
-				<string>gnu99</string>
-				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
-				<array>
-					<string>RELEASE=1</string>
-				</array>
-				<key>GCC_WARN_64_TO_32_BIT_CONVERSION</key>
-				<string>YES</string>
-				<key>GCC_WARN_ABOUT_RETURN_TYPE</key>
-				<string>YES</string>
-				<key>GCC_WARN_UNDECLARED_SELECTOR</key>
-				<string>YES</string>
-				<key>GCC_WARN_UNINITIALIZED_AUTOS</key>
-				<string>YES</string>
-				<key>GCC_WARN_UNUSED_FUNCTION</key>
-				<string>YES</string>
-				<key>GCC_WARN_UNUSED_VARIABLE</key>
-				<string>YES</string>
-				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>8.0</string>
-				<key>STRIP_INSTALLED_PRODUCT</key>
-				<string>NO</string>
-				<key>SYMROOT</key>
-				<string>${SRCROOT}/../build</string>
-				<key>VALIDATE_PRODUCT</key>
-				<string>YES</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Release</string>
-		</dict>
-		<key>FC27D055D22BBFF2B3DBEC59495EC3C2</key>
-		<dict>
-			<key>buildConfigurations</key>
-			<array>
-				<string>D58E38469AED1B2F219C4DF7CAFBC936</string>
-				<string>1380B77765F3081CF79666EDF1CA1A9D</string>
-			</array>
-			<key>defaultConfigurationIsVisible</key>
-			<string>0</string>
-			<key>defaultConfigurationName</key>
-			<string>Release</string>
-			<key>isa</key>
-			<string>XCConfigurationList</string>
-		</dict>
-		<key>FFF54EAADFCB18F31D97718D69434861</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>LSSpanContext.h</string>
-			<key>path</key>
-			<string>Pod/Classes/LSSpanContext.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-	</dict>
-	<key>rootObject</key>
-	<string>D41D8CD98F00B204E9800998ECF8427E</string>
-</dict>
-</plist>
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		01B4BB8202250FF76495A7B130BCC669 /* LSSpanContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 66483B4F9279BC69A351C524015EDA75 /* LSSpanContext.m */; };
+		0336583684F483AD2CBD1803736258C6 /* LSTracerInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = EEE9EC876006C0998812049216B426DD /* LSTracerInternal.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		03C31CC866086721B5CA7A7EAC0D2841 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2EEEC1FF81AB0ACA2FAC58E7ECF6842 /* Foundation.framework */; };
+		05B44CBB0697C23BA2A1BE6CB90824E8 /* opentracing-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 05D0B87D666AB8488B865CBF16BC5BEF /* opentracing-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		06DC95C9D9049DFFCD329AC6322BAEBF /* TSSLSocketClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0CF147E85C24FF3D54A1AF93C26B9F /* TSSLSocketClient.m */; };
+		083244BC22398F865CEA97D8C3518003 /* LSUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 6C2AED76CB961080EAD8E839C09EB640 /* LSUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		087B1BB19D99C9471F4A5F8A2260CD7D /* TMultiplexedProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 79F2033E73120906121FA0550B7F8B9F /* TMultiplexedProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0BCA56D48D1752767BDEEF539B29898B /* TNSFileHandleTransport.m in Sources */ = {isa = PBXBuildFile; fileRef = 4205CA75A6CE39FAD2CC0B947949AAD5 /* TNSFileHandleTransport.m */; };
+		13FAB80BA374ACE009FD1F014EF5501A /* TSocketClient.m in Sources */ = {isa = PBXBuildFile; fileRef = D89E305121AAFA751476EA4584962DF4 /* TSocketClient.m */; };
+		15179FCE6E2321639EE5F9CA22741164 /* TTransportException.h in Headers */ = {isa = PBXBuildFile; fileRef = 255107A9DBB58168903BC4FE508EE406 /* TTransportException.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		16C239A1627613C5A697AF95D115630B /* TException.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C012549E258F0B26CA0B71CA448AADF /* TException.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		180F4D5C2C33CCDF364AE58C4543EECF /* OpenTracing-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = A507D9B96AC89F08AB2991385CB16293 /* OpenTracing-Bridging-Header.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1D6E6EADD13F97FD9429B77CE8C06A0E /* THTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A4A7B8E13A8F403B6A81AFE2AB6F7 /* THTTPClient.m */; };
+		2167EA7C387E03D9BB7CE81CCD377FE8 /* LSSpanContext.h in Headers */ = {isa = PBXBuildFile; fileRef = FFF54EAADFCB18F31D97718D69434861 /* LSSpanContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		23098C1798B40F432AD1C0D9DFFE4993 /* OTTracer.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F93287DA19F3FA52D90F720CB7BE0BE /* OTTracer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2FE8147659429230B3A832086C7F9391 /* TFramedTransport.m in Sources */ = {isa = PBXBuildFile; fileRef = A2D018E497A96C06730473751B940F67 /* TFramedTransport.m */; };
+		313BDA0426EEDD11C9F04C896E4CBEBC /* OTNoop.h in Headers */ = {isa = PBXBuildFile; fileRef = 723221234C21316B43450738DAB8E31F /* OTNoop.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		31E2307F7C16B534CBBE6596BCED48F0 /* TApplicationException.h in Headers */ = {isa = PBXBuildFile; fileRef = CA038F908A0696F6E73EF5D8B04559E2 /* TApplicationException.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		349CB6D80DB8FF8FB9F89D30494E600B /* OTGlobal.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A56E5082134DB925B24F92339A58998 /* OTGlobal.m */; };
+		368A76AEBC00E5AF716A3D0CDF4E1DAE /* TFramedTransport.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F25AE83B6848218991EAE2B570202CA /* TFramedTransport.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		37D267B2049DD97A73E52503DF1A6BE5 /* LSVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = F5F3D6CA6B9EF82867FE41EE4CA00847 /* LSVersion.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3BFC68BC3EBDF0252FB5CAE6D2B679EE /* TBinaryProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = C7DC682400EC35D94C40B6D9A0FC6E16 /* TBinaryProtocol.m */; };
+		43E16ED1731E26070ABA8AED48771000 /* TProtocolDecorator.m in Sources */ = {isa = PBXBuildFile; fileRef = 24C6287784874E2ED7850EDFEC9AC4D2 /* TProtocolDecorator.m */; };
+		4733E3027884516AF6D1CF6903D75162 /* TMemoryBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7123381BF9E8F100F511997D8FB7A53A /* TMemoryBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		49FBB3800164C31B6A3F816300B89992 /* TProtocolUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 7075BFB1904364B4D52008EACA175E78 /* TProtocolUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4F401E2FC57929117F2525A551AACE0D /* TTransport.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A10A263124E7956C5AF66A6514B551A /* TTransport.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		506B0ABF76CFB2B6B0B8258ECAB9CC06 /* TBinaryProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = C05865D573858664884E66F6AB779340 /* TBinaryProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5DA5049EA17FE6790C4D3246BBBFA870 /* LSUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7375091A4EF220041123B03CBA543B /* LSUtil.m */; };
+		698C3628BA8084F49263371B3067CEC3 /* TNSFileHandleTransport.h in Headers */ = {isa = PBXBuildFile; fileRef = BF8A7CA56C9495A090FD71A3251D2B58 /* TNSFileHandleTransport.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6D21FCAFD7B762F23DD5A0CCD4306D1E /* TException.m in Sources */ = {isa = PBXBuildFile; fileRef = D63A377EF4A1401565EAF322398F1757 /* TException.m */; };
+		6E114F40A3FB963D64ADC34FA97DF04E /* TSSLSocketException.h in Headers */ = {isa = PBXBuildFile; fileRef = E05CF01FAAD51BC5243206D112009530 /* TSSLSocketException.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		732BC56F1EA1BD0D93907E0293E1047B /* TMultiplexedProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = E5AA1CC733C3989659B2FA4EE7424BB2 /* TMultiplexedProtocol.m */; };
+		797A88EB058407682DE4DA4B311EC1DC /* TProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AD59B52A9B3BCDD120B479BD0ABD85 /* TProcessor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7B0D866AD0214EAB96540EF8A3764782 /* lightstep-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF8C57197F86C1D3D2CAC33D7971C4 /* lightstep-dummy.m */; };
+		7D9549A3C4967F55BCF5BD2AF53B25FE /* TMemoryBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 61DB1D73D7296C2405CABF5F4AD44903 /* TMemoryBuffer.m */; };
+		7E278F066E800E470C52A3E5E3FF5043 /* TProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 8949FCD6C7AC1FDDAD3C0C14C5887DD7 /* TProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		837A22D73EDD8275AA56A5B6E630BA04 /* OTReference.h in Headers */ = {isa = PBXBuildFile; fileRef = 74D32574903E34E0E52603833F6B0C63 /* OTReference.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		84E9270368B0A98F4D5A6A4C9F519849 /* opentracing-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = EBFE08D465E3F3A42C9CB95038B77CB5 /* opentracing-dummy.m */; };
+		850A0680A82215B2BEE676AD5D5EB811 /* Thrift.h in Headers */ = {isa = PBXBuildFile; fileRef = A15AC303D6B2C1723D662CB99800C6E9 /* Thrift.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		87516918B914486A32B1801F11B774F8 /* crouton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F35F110A10423A01D123D346B1DB605 /* crouton.m */; };
+		8904884750ED0B90E6347F4F0EDFAB72 /* TSSLSocketException.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C557436CC96758EAA24886095C81C5 /* TSSLSocketException.m */; };
+		89622AC0F2FB0639F3B878B7D66A96F1 /* OTSpan.h in Headers */ = {isa = PBXBuildFile; fileRef = DEED524EE3B0E2A79B17CFBAFF9A8C7B /* OTSpan.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8A401882C16F2B88CE48227B2CBEA735 /* OTVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 772821D85F0AF0B9B820CC7CDF1E98CF /* OTVersion.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8C0A0026A7F8BF66F2F365C259022A55 /* TSocketClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 974C844E55C76C15C18A5758EDE425B3 /* TSocketClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8FAABFB2C29EEC5E6C9A245C480D2F77 /* TSharedProcessorFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 920AF2F06C43E519B9128C80D77E52E8 /* TSharedProcessorFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		92F5A9D29B82229055A9DFCAC5ACCB0A /* Pods-LightStepTestUI-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F890E779037BD3178EB5CB11E96E15E0 /* Pods-LightStepTestUI-dummy.m */; };
+		97A3064211987FCBDE8D72AB7F89D638 /* TProtocolUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EA6079DEC61E96BEF6D3950D024827A9 /* TProtocolUtil.m */; };
+		97DE7F4293E2C71B30F4287296D68F26 /* TSharedProcessorFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 05006373405704B027353F17212958A6 /* TSharedProcessorFactory.m */; };
+		99BC5EA72D65C86B76C5D0EC8125A57E /* TProtocolDecorator.h in Headers */ = {isa = PBXBuildFile; fileRef = 3BABEFB108CEE2D8E2F412C3367E55C4 /* TProtocolDecorator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9EA4B0BDC49534802142DED8DB32FC4E /* OTReference.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA0631AE57F4ACBA2C53E21F85D6FE4 /* OTReference.m */; };
+		A1A60A54E8B4E1A445D22DDEE7C662CB /* TObjective-C.h in Headers */ = {isa = PBXBuildFile; fileRef = A35AF905A8B0035736EF08EB3EB163B3 /* TObjective-C.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A2A6ABB79E5877DC13B9CA6233BF31D9 /* TSocketServer.h in Headers */ = {isa = PBXBuildFile; fileRef = E2E578F8E054F329C70CF99F39B06129 /* TSocketServer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A3BDBED51136E56BD502C64AC5AA5732 /* TBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 45AFB2595AB573D8EBBEA6D17BE1CB06 /* TBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A8B8E6B17DF1848C4C4A9F46C12FD44E /* OTGlobal.h in Headers */ = {isa = PBXBuildFile; fileRef = F29A5D5E5AE907824BC07284AC760F35 /* OTGlobal.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AB510EEAD60527AC71F3A5A07F50013E /* TApplicationException.m in Sources */ = {isa = PBXBuildFile; fileRef = F47C07EA6EBD2AEE5673B49F8266F4BE /* TApplicationException.m */; };
+		ACE1F6C4FC421E496870FC6C14AB83DA /* TProcessorFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E894DA0B3DCE4A77B4A8437454F9977 /* TProcessorFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AFE92921CEB984CDA8BEAF30EB030F02 /* LSTracer.m in Sources */ = {isa = PBXBuildFile; fileRef = D6060AA46C221DFD935742DCC48B3F80 /* LSTracer.m */; };
+		B0488F2F628F3BB1699C8125AC6CA364 /* Pods-LightStepTestUI-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 66803D535A364C5D43F9AF052418ADCB /* Pods-LightStepTestUI-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B07FB04B12C3346C2EC580C025EECDDF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2EEEC1FF81AB0ACA2FAC58E7ECF6842 /* Foundation.framework */; };
+		B502B4BB87BC8F699ECFB7118401E973 /* LSSpan.m in Sources */ = {isa = PBXBuildFile; fileRef = 193FD82410028B0C9009B8A31066D563 /* LSSpan.m */; };
+		B815DE712224B14161F6CE5EFCAC6986 /* LightStep-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = 168CA622AA6DE8771B32727E604C6C9E /* LightStep-Bridging-Header.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BB1123D809326F74ACDF2DBB76CFDB32 /* TNSStreamTransport.h in Headers */ = {isa = PBXBuildFile; fileRef = 3E4A76159DB8EBF0BE6C16F00F827C27 /* TNSStreamTransport.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BBDFC3712BCA9BA6E72092CCAC9A1A1E /* TTransportException.m in Sources */ = {isa = PBXBuildFile; fileRef = DDBAC485354A3ECA05584E66E797089B /* TTransportException.m */; };
+		BD1849A8CE199D7CC8693F70F476F0C0 /* LSSpan.h in Headers */ = {isa = PBXBuildFile; fileRef = A62BBA375A6E5C9C24E0CE3A54F4CAB2 /* LSSpan.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C4E5F4A4B868B31C6E43FDE8F7F7AE9B /* OTTracer.m in Sources */ = {isa = PBXBuildFile; fileRef = C1516F1EA39574F20C2543DCE81727D0 /* OTTracer.m */; };
+		C7B90262DE3D6B43A43AA522376EE723 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2EEEC1FF81AB0ACA2FAC58E7ECF6842 /* Foundation.framework */; };
+		CBB2C6FCD4B13B3F060DBE95118C085E /* crouton.h in Headers */ = {isa = PBXBuildFile; fileRef = A56BB6E43D166FEA4AEC44218091C1A7 /* crouton.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CD7DDCC1D027273D059B58A4CEA12D56 /* opentracing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F45C84DA7019FD98FA5BEDBF74378E3C /* opentracing.framework */; };
+		CD7E8B133FF6E324DDD3C910EE7D0833 /* TProtocolException.h in Headers */ = {isa = PBXBuildFile; fileRef = 98BB4BD544059AFEEB83355D3F30FC87 /* TProtocolException.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CFBFD480F204D8A798ECE7338F137F33 /* TProtocolException.m in Sources */ = {isa = PBXBuildFile; fileRef = 67DA5CE5A64475EA23B8BF42F56437D3 /* TProtocolException.m */; };
+		D1FBF1A9D8826CC0B0DC50898E51633A /* THTTPClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C96BD1370E3D129ED07A58199795D1E /* THTTPClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D767523439AA98EA3D89F2D181531B5B /* TSSLSocketClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 737EA9680F32723F8137B7F7068EBF1D /* TSSLSocketClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DB92D6140ED1E8D2CBB7E0FA5C68D737 /* TSocketServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B22F362BE5C20E160531EADC33364B4 /* TSocketServer.m */; };
+		E271F716DA8CBBA9B1CB1BA1E334D863 /* LSClockState.m in Sources */ = {isa = PBXBuildFile; fileRef = 73AE55B3606CEC93C0F98F6DBFC5FAD0 /* LSClockState.m */; };
+		E6C382ECE241F686660AE1F2ADD3EF1D /* OTSpanContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 08B26D60E171D8AB8A3B7A6D6779541F /* OTSpanContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E82A88C68430FF468CF41B432BE92890 /* LSTracer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9C85304FA885372B3BEC020C1457C609 /* LSTracer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E94B3B3B8C0428C014A7DD482577269E /* opentracing.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 71D186B97473383095FFB360AE3D13C2 /* opentracing.bundle */; };
+		EDCF7A78699CA37CF5073A522C1A009B /* TNSStreamTransport.m in Sources */ = {isa = PBXBuildFile; fileRef = 821B2FD4247FEC5ABC842A2D051642AF /* TNSStreamTransport.m */; };
+		F45DB16A726FFA9B518D630E71713471 /* OTNoop.m in Sources */ = {isa = PBXBuildFile; fileRef = E6D2AF94DE2123F9117F2FB35CE9C5D8 /* OTNoop.m */; };
+		F69A8632E0A733DEAFFA13F3B5666D9A /* TProtocolFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = EEA56FCE6C5311B51DEF36DED80AFCD8 /* TProtocolFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F6F9A37DA6F5C27234454AB4253B286D /* LSClockState.h in Headers */ = {isa = PBXBuildFile; fileRef = 67FB313F4969F334E025DCA8CACD5AE2 /* LSClockState.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FA5321520E6CDD6353DD2D4554E18643 /* lightstep-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 96D99F85D2676C13EACF83D4B1AE1453 /* lightstep-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1163DA9038AACF9F664FFAC455B5171D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B5F645B83AD2849F2D08D9B31D13479B;
+			remoteInfo = "opentracing-opentracing";
+		};
+		919A07FAAC0F6BC84DD976743AA5B5EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 559DA7EB33D52E1F7923E9FDCB082B51;
+			remoteInfo = opentracing;
+		};
+		B87966012A1D2A1B652A55ED6F852594 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2C6C195AA2AEFD7FC2B871B5EF962C30;
+			remoteInfo = lightstep;
+		};
+		F7DF6C67F7098541250DB582DF5D04CD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 559DA7EB33D52E1F7923E9FDCB082B51;
+			remoteInfo = opentracing;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		02D672D61C033253BE1D0FCE584A1685 /* lightstep.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = lightstep.modulemap; sourceTree = "<group>"; };
+		05006373405704B027353F17212958A6 /* TSharedProcessorFactory.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TSharedProcessorFactory.m; path = Pod/Classes/thrift/TSharedProcessorFactory.m; sourceTree = "<group>"; };
+		05D0B87D666AB8488B865CBF16BC5BEF /* opentracing-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "opentracing-umbrella.h"; sourceTree = "<group>"; };
+		0731059517A744FF5BBCA3758DD24479 /* opentracing.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = opentracing.modulemap; sourceTree = "<group>"; };
+		08B26D60E171D8AB8A3B7A6D6779541F /* OTSpanContext.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OTSpanContext.h; path = Pod/Classes/OTSpanContext.h; sourceTree = "<group>"; };
+		0A4FFADF8BD9A585D2C017F6ED6922FB /* opentracing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = opentracing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		11F992A2DA4B474F9D3BF4BBB18D5B67 /* Pods-LightStepTestUI-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-LightStepTestUI-acknowledgements.markdown"; sourceTree = "<group>"; };
+		168CA622AA6DE8771B32727E604C6C9E /* LightStep-Bridging-Header.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "LightStep-Bridging-Header.h"; path = "Pod/Classes/LightStep-Bridging-Header.h"; sourceTree = "<group>"; };
+		193FD82410028B0C9009B8A31066D563 /* LSSpan.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = LSSpan.m; path = Pod/Classes/LSSpan.m; sourceTree = "<group>"; };
+		1A2458AF6E941EFA56ECB62D0238FAE6 /* Pods-LightStepTestUI-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-LightStepTestUI-acknowledgements.plist"; sourceTree = "<group>"; };
+		1B22F362BE5C20E160531EADC33364B4 /* TSocketServer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TSocketServer.m; path = Pod/Classes/thrift/server/TSocketServer.m; sourceTree = "<group>"; };
+		1C012549E258F0B26CA0B71CA448AADF /* TException.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TException.h; path = Pod/Classes/thrift/TException.h; sourceTree = "<group>"; };
+		1F25AE83B6848218991EAE2B570202CA /* TFramedTransport.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TFramedTransport.h; path = Pod/Classes/thrift/transport/TFramedTransport.h; sourceTree = "<group>"; };
+		1F93287DA19F3FA52D90F720CB7BE0BE /* OTTracer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OTTracer.h; path = Pod/Classes/OTTracer.h; sourceTree = "<group>"; };
+		24C6287784874E2ED7850EDFEC9AC4D2 /* TProtocolDecorator.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TProtocolDecorator.m; path = Pod/Classes/thrift/protocol/TProtocolDecorator.m; sourceTree = "<group>"; };
+		255107A9DBB58168903BC4FE508EE406 /* TTransportException.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TTransportException.h; path = Pod/Classes/thrift/transport/TTransportException.h; sourceTree = "<group>"; };
+		2721CDBD04B494102BD797B6A2980B0A /* Pods-LightStepTestUI-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-LightStepTestUI-resources.sh"; sourceTree = "<group>"; };
+		2AE1737A0F707ADA0D63A4E752BAC3ED /* Pods-LightStepTestUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-LightStepTestUI.debug.xcconfig"; sourceTree = "<group>"; };
+		2E894DA0B3DCE4A77B4A8437454F9977 /* TProcessorFactory.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TProcessorFactory.h; path = Pod/Classes/thrift/TProcessorFactory.h; sourceTree = "<group>"; };
+		3A10A263124E7956C5AF66A6514B551A /* TTransport.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TTransport.h; path = Pod/Classes/thrift/transport/TTransport.h; sourceTree = "<group>"; };
+		3AAD9966D053FF492ECAE931598C5C8C /* lightstep.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = lightstep.xcconfig; sourceTree = "<group>"; };
+		3BABEFB108CEE2D8E2F412C3367E55C4 /* TProtocolDecorator.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TProtocolDecorator.h; path = Pod/Classes/thrift/protocol/TProtocolDecorator.h; sourceTree = "<group>"; };
+		3C96BD1370E3D129ED07A58199795D1E /* THTTPClient.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = THTTPClient.h; path = Pod/Classes/thrift/transport/THTTPClient.h; sourceTree = "<group>"; };
+		3E4A76159DB8EBF0BE6C16F00F827C27 /* TNSStreamTransport.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TNSStreamTransport.h; path = Pod/Classes/thrift/transport/TNSStreamTransport.h; sourceTree = "<group>"; };
+		4205CA75A6CE39FAD2CC0B947949AAD5 /* TNSFileHandleTransport.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TNSFileHandleTransport.m; path = Pod/Classes/thrift/transport/TNSFileHandleTransport.m; sourceTree = "<group>"; };
+		45AFB2595AB573D8EBBEA6D17BE1CB06 /* TBase.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TBase.h; path = Pod/Classes/thrift/protocol/TBase.h; sourceTree = "<group>"; };
+		4A56E5082134DB925B24F92339A58998 /* OTGlobal.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OTGlobal.m; path = Pod/Classes/OTGlobal.m; sourceTree = "<group>"; };
+		4E2A4A7B8E13A8F403B6A81AFE2AB6F7 /* THTTPClient.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = THTTPClient.m; path = Pod/Classes/thrift/transport/THTTPClient.m; sourceTree = "<group>"; };
+		4F35F110A10423A01D123D346B1DB605 /* crouton.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = crouton.m; path = Pod/Classes/crouton.m; sourceTree = "<group>"; };
+		515D2F735B7A757416D4BA133E03FF11 /* Pods-LightStepTestUI.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-LightStepTestUI.modulemap"; sourceTree = "<group>"; };
+		51EB0B0AD08AA2E38DA197A2A0267A90 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5AA0631AE57F4ACBA2C53E21F85D6FE4 /* OTReference.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OTReference.m; path = Pod/Classes/OTReference.m; sourceTree = "<group>"; };
+		5D0CF147E85C24FF3D54A1AF93C26B9F /* TSSLSocketClient.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TSSLSocketClient.m; path = Pod/Classes/thrift/transport/TSSLSocketClient.m; sourceTree = "<group>"; };
+		61DB1D73D7296C2405CABF5F4AD44903 /* TMemoryBuffer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TMemoryBuffer.m; path = Pod/Classes/thrift/transport/TMemoryBuffer.m; sourceTree = "<group>"; };
+		66483B4F9279BC69A351C524015EDA75 /* LSSpanContext.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = LSSpanContext.m; path = Pod/Classes/LSSpanContext.m; sourceTree = "<group>"; };
+		66803D535A364C5D43F9AF052418ADCB /* Pods-LightStepTestUI-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-LightStepTestUI-umbrella.h"; sourceTree = "<group>"; };
+		67DA5CE5A64475EA23B8BF42F56437D3 /* TProtocolException.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TProtocolException.m; path = Pod/Classes/thrift/protocol/TProtocolException.m; sourceTree = "<group>"; };
+		67FB313F4969F334E025DCA8CACD5AE2 /* LSClockState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = LSClockState.h; path = Pod/Classes/LSClockState.h; sourceTree = "<group>"; };
+		6BBF8C57197F86C1D3D2CAC33D7971C4 /* lightstep-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "lightstep-dummy.m"; sourceTree = "<group>"; };
+		6C2AED76CB961080EAD8E839C09EB640 /* LSUtil.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = LSUtil.h; path = Pod/Classes/LSUtil.h; sourceTree = "<group>"; };
+		7075BFB1904364B4D52008EACA175E78 /* TProtocolUtil.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TProtocolUtil.h; path = Pod/Classes/thrift/protocol/TProtocolUtil.h; sourceTree = "<group>"; };
+		7123381BF9E8F100F511997D8FB7A53A /* TMemoryBuffer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TMemoryBuffer.h; path = Pod/Classes/thrift/transport/TMemoryBuffer.h; sourceTree = "<group>"; };
+		71D186B97473383095FFB360AE3D13C2 /* opentracing.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = opentracing.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		723221234C21316B43450738DAB8E31F /* OTNoop.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OTNoop.h; path = Pod/Classes/OTNoop.h; sourceTree = "<group>"; };
+		737EA9680F32723F8137B7F7068EBF1D /* TSSLSocketClient.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TSSLSocketClient.h; path = Pod/Classes/thrift/transport/TSSLSocketClient.h; sourceTree = "<group>"; };
+		739B0A8258BCD7BAA1EA53ED44A12AEA /* opentracing.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = opentracing.xcconfig; sourceTree = "<group>"; };
+		73AE55B3606CEC93C0F98F6DBFC5FAD0 /* LSClockState.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = LSClockState.m; path = Pod/Classes/LSClockState.m; sourceTree = "<group>"; };
+		74D32574903E34E0E52603833F6B0C63 /* OTReference.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OTReference.h; path = Pod/Classes/OTReference.h; sourceTree = "<group>"; };
+		77098F18A57CB3499B7F53AAFDB5EC7B /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		772821D85F0AF0B9B820CC7CDF1E98CF /* OTVersion.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OTVersion.h; path = Pod/Classes/OTVersion.h; sourceTree = "<group>"; };
+		79F2033E73120906121FA0550B7F8B9F /* TMultiplexedProtocol.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TMultiplexedProtocol.h; path = Pod/Classes/thrift/protocol/TMultiplexedProtocol.h; sourceTree = "<group>"; };
+		821B2FD4247FEC5ABC842A2D051642AF /* TNSStreamTransport.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TNSStreamTransport.m; path = Pod/Classes/thrift/transport/TNSStreamTransport.m; sourceTree = "<group>"; };
+		8949FCD6C7AC1FDDAD3C0C14C5887DD7 /* TProtocol.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TProtocol.h; path = Pod/Classes/thrift/protocol/TProtocol.h; sourceTree = "<group>"; };
+		8A7DE43A43E58932CB4A6704589B7688 /* lightstep.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = lightstep.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		920AF2F06C43E519B9128C80D77E52E8 /* TSharedProcessorFactory.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TSharedProcessorFactory.h; path = Pod/Classes/thrift/TSharedProcessorFactory.h; sourceTree = "<group>"; };
+		96D99F85D2676C13EACF83D4B1AE1453 /* lightstep-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "lightstep-umbrella.h"; sourceTree = "<group>"; };
+		974C844E55C76C15C18A5758EDE425B3 /* TSocketClient.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TSocketClient.h; path = Pod/Classes/thrift/transport/TSocketClient.h; sourceTree = "<group>"; };
+		98BB4BD544059AFEEB83355D3F30FC87 /* TProtocolException.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TProtocolException.h; path = Pod/Classes/thrift/protocol/TProtocolException.h; sourceTree = "<group>"; };
+		9C85304FA885372B3BEC020C1457C609 /* LSTracer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = LSTracer.h; path = Pod/Classes/LSTracer.h; sourceTree = "<group>"; };
+		A15AC303D6B2C1723D662CB99800C6E9 /* Thrift.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Thrift.h; path = Pod/Classes/thrift/Thrift.h; sourceTree = "<group>"; };
+		A2D018E497A96C06730473751B940F67 /* TFramedTransport.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TFramedTransport.m; path = Pod/Classes/thrift/transport/TFramedTransport.m; sourceTree = "<group>"; };
+		A303D81EBCDAAE966F57C171ECE235BE /* Pods_LightStepTestUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LightStepTestUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A35AF905A8B0035736EF08EB3EB163B3 /* TObjective-C.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "TObjective-C.h"; path = "Pod/Classes/thrift/TObjective-C.h"; sourceTree = "<group>"; };
+		A507D9B96AC89F08AB2991385CB16293 /* OpenTracing-Bridging-Header.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "OpenTracing-Bridging-Header.h"; path = "Pod/Classes/OpenTracing-Bridging-Header.h"; sourceTree = "<group>"; };
+		A56BB6E43D166FEA4AEC44218091C1A7 /* crouton.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = crouton.h; path = Pod/Classes/crouton.h; sourceTree = "<group>"; };
+		A62BBA375A6E5C9C24E0CE3A54F4CAB2 /* LSSpan.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = LSSpan.h; path = Pod/Classes/LSSpan.h; sourceTree = "<group>"; };
+		AD7375091A4EF220041123B03CBA543B /* LSUtil.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = LSUtil.m; path = Pod/Classes/LSUtil.m; sourceTree = "<group>"; };
+		AEE8F3AD531466295F9A0331253E42B5 /* lightstep-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "lightstep-prefix.pch"; sourceTree = "<group>"; };
+		B522D90E2361AF8AABDF9A8C4E459045 /* opentracing-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "opentracing-prefix.pch"; sourceTree = "<group>"; };
+		BA6428E9F66FD5A23C0A2E06ED26CD2F /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		BF8A7CA56C9495A090FD71A3251D2B58 /* TNSFileHandleTransport.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TNSFileHandleTransport.h; path = Pod/Classes/thrift/transport/TNSFileHandleTransport.h; sourceTree = "<group>"; };
+		C05865D573858664884E66F6AB779340 /* TBinaryProtocol.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TBinaryProtocol.h; path = Pod/Classes/thrift/protocol/TBinaryProtocol.h; sourceTree = "<group>"; };
+		C1516F1EA39574F20C2543DCE81727D0 /* OTTracer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OTTracer.m; path = Pod/Classes/OTTracer.m; sourceTree = "<group>"; };
+		C4DF13CB45368DE1140043C8C8C1C98E /* Pods-LightStepTestUI-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-LightStepTestUI-frameworks.sh"; sourceTree = "<group>"; };
+		C7DC682400EC35D94C40B6D9A0FC6E16 /* TBinaryProtocol.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TBinaryProtocol.m; path = Pod/Classes/thrift/protocol/TBinaryProtocol.m; sourceTree = "<group>"; };
+		CA038F908A0696F6E73EF5D8B04559E2 /* TApplicationException.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TApplicationException.h; path = Pod/Classes/thrift/TApplicationException.h; sourceTree = "<group>"; };
+		CE2BB5F5657D868A951FE2199A0FF2FC /* Pods-LightStepTestUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-LightStepTestUI.release.xcconfig"; sourceTree = "<group>"; };
+		D2EEEC1FF81AB0ACA2FAC58E7ECF6842 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		D6060AA46C221DFD935742DCC48B3F80 /* LSTracer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = LSTracer.m; path = Pod/Classes/LSTracer.m; sourceTree = "<group>"; };
+		D63A377EF4A1401565EAF322398F1757 /* TException.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TException.m; path = Pod/Classes/thrift/TException.m; sourceTree = "<group>"; };
+		D89E305121AAFA751476EA4584962DF4 /* TSocketClient.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TSocketClient.m; path = Pod/Classes/thrift/transport/TSocketClient.m; sourceTree = "<group>"; };
+		DDBAC485354A3ECA05584E66E797089B /* TTransportException.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TTransportException.m; path = Pod/Classes/thrift/transport/TTransportException.m; sourceTree = "<group>"; };
+		DEED524EE3B0E2A79B17CFBAFF9A8C7B /* OTSpan.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OTSpan.h; path = Pod/Classes/OTSpan.h; sourceTree = "<group>"; };
+		E05CF01FAAD51BC5243206D112009530 /* TSSLSocketException.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TSSLSocketException.h; path = Pod/Classes/thrift/transport/TSSLSocketException.h; sourceTree = "<group>"; };
+		E06D1D0F596F52A7DF28BF3DD90FFF0F /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E2E578F8E054F329C70CF99F39B06129 /* TSocketServer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TSocketServer.h; path = Pod/Classes/thrift/server/TSocketServer.h; sourceTree = "<group>"; };
+		E3C557436CC96758EAA24886095C81C5 /* TSSLSocketException.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TSSLSocketException.m; path = Pod/Classes/thrift/transport/TSSLSocketException.m; sourceTree = "<group>"; };
+		E5AA1CC733C3989659B2FA4EE7424BB2 /* TMultiplexedProtocol.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TMultiplexedProtocol.m; path = Pod/Classes/thrift/protocol/TMultiplexedProtocol.m; sourceTree = "<group>"; };
+		E6D2AF94DE2123F9117F2FB35CE9C5D8 /* OTNoop.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OTNoop.m; path = Pod/Classes/OTNoop.m; sourceTree = "<group>"; };
+		EA6079DEC61E96BEF6D3950D024827A9 /* TProtocolUtil.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TProtocolUtil.m; path = Pod/Classes/thrift/protocol/TProtocolUtil.m; sourceTree = "<group>"; };
+		EBFE08D465E3F3A42C9CB95038B77CB5 /* opentracing-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "opentracing-dummy.m"; sourceTree = "<group>"; };
+		EEA56FCE6C5311B51DEF36DED80AFCD8 /* TProtocolFactory.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TProtocolFactory.h; path = Pod/Classes/thrift/protocol/TProtocolFactory.h; sourceTree = "<group>"; };
+		EEE9EC876006C0998812049216B426DD /* LSTracerInternal.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = LSTracerInternal.h; path = Pod/Classes/LSTracerInternal.h; sourceTree = "<group>"; };
+		F29A5D5E5AE907824BC07284AC760F35 /* OTGlobal.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OTGlobal.h; path = Pod/Classes/OTGlobal.h; sourceTree = "<group>"; };
+		F3AD59B52A9B3BCDD120B479BD0ABD85 /* TProcessor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TProcessor.h; path = Pod/Classes/thrift/TProcessor.h; sourceTree = "<group>"; };
+		F45C84DA7019FD98FA5BEDBF74378E3C /* opentracing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = opentracing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F47C07EA6EBD2AEE5673B49F8266F4BE /* TApplicationException.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TApplicationException.m; path = Pod/Classes/thrift/TApplicationException.m; sourceTree = "<group>"; };
+		F5F3D6CA6B9EF82867FE41EE4CA00847 /* LSVersion.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = LSVersion.h; path = Pod/Classes/LSVersion.h; sourceTree = "<group>"; };
+		F890E779037BD3178EB5CB11E96E15E0 /* Pods-LightStepTestUI-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-LightStepTestUI-dummy.m"; sourceTree = "<group>"; };
+		FFF54EAADFCB18F31D97718D69434861 /* LSSpanContext.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = LSSpanContext.h; path = Pod/Classes/LSSpanContext.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		223A992B80418ED6527D4C508ED73529 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B07FB04B12C3346C2EC580C025EECDDF /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		31A0E8C59DEF4B2B918E1EE4F66A0FC1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C7B90262DE3D6B43A43AA522376EE723 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C7117FAB3E265B61764D2AB75A28580 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				03C31CC866086721B5CA7A7EAC0D2841 /* Foundation.framework in Frameworks */,
+				CD7DDCC1D027273D059B58A4CEA12D56 /* opentracing.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		621C8690F3E932E6B97789027FC8831F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		113A8DD818ECE4E1D8BE4F06CBEF103C /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				E06D1D0F596F52A7DF28BF3DD90FFF0F /* Info.plist */,
+				02D672D61C033253BE1D0FCE584A1685 /* lightstep.modulemap */,
+				3AAD9966D053FF492ECAE931598C5C8C /* lightstep.xcconfig */,
+				6BBF8C57197F86C1D3D2CAC33D7971C4 /* lightstep-dummy.m */,
+				AEE8F3AD531466295F9A0331253E42B5 /* lightstep-prefix.pch */,
+				96D99F85D2676C13EACF83D4B1AE1453 /* lightstep-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/lightstep";
+			sourceTree = "<group>";
+		};
+		13BB386E84EA969BA83DA1BFBCE3C09D /* Pods-LightStepTestUI */ = {
+			isa = PBXGroup;
+			children = (
+				77098F18A57CB3499B7F53AAFDB5EC7B /* Info.plist */,
+				515D2F735B7A757416D4BA133E03FF11 /* Pods-LightStepTestUI.modulemap */,
+				11F992A2DA4B474F9D3BF4BBB18D5B67 /* Pods-LightStepTestUI-acknowledgements.markdown */,
+				1A2458AF6E941EFA56ECB62D0238FAE6 /* Pods-LightStepTestUI-acknowledgements.plist */,
+				F890E779037BD3178EB5CB11E96E15E0 /* Pods-LightStepTestUI-dummy.m */,
+				C4DF13CB45368DE1140043C8C8C1C98E /* Pods-LightStepTestUI-frameworks.sh */,
+				2721CDBD04B494102BD797B6A2980B0A /* Pods-LightStepTestUI-resources.sh */,
+				66803D535A364C5D43F9AF052418ADCB /* Pods-LightStepTestUI-umbrella.h */,
+				2AE1737A0F707ADA0D63A4E752BAC3ED /* Pods-LightStepTestUI.debug.xcconfig */,
+				CE2BB5F5657D868A951FE2199A0FF2FC /* Pods-LightStepTestUI.release.xcconfig */,
+			);
+			name = "Pods-LightStepTestUI";
+			path = "Target Support Files/Pods-LightStepTestUI";
+			sourceTree = "<group>";
+		};
+		1AD81C86C19A4AEAE7AB9C15D4B20069 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				D2EEEC1FF81AB0ACA2FAC58E7ECF6842 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		3FB458DF6F6D891B611A6659EDCE2963 /* opentracing */ = {
+			isa = PBXGroup;
+			children = (
+				A507D9B96AC89F08AB2991385CB16293 /* OpenTracing-Bridging-Header.h */,
+				F29A5D5E5AE907824BC07284AC760F35 /* OTGlobal.h */,
+				4A56E5082134DB925B24F92339A58998 /* OTGlobal.m */,
+				723221234C21316B43450738DAB8E31F /* OTNoop.h */,
+				E6D2AF94DE2123F9117F2FB35CE9C5D8 /* OTNoop.m */,
+				74D32574903E34E0E52603833F6B0C63 /* OTReference.h */,
+				5AA0631AE57F4ACBA2C53E21F85D6FE4 /* OTReference.m */,
+				DEED524EE3B0E2A79B17CFBAFF9A8C7B /* OTSpan.h */,
+				08B26D60E171D8AB8A3B7A6D6779541F /* OTSpanContext.h */,
+				1F93287DA19F3FA52D90F720CB7BE0BE /* OTTracer.h */,
+				C1516F1EA39574F20C2543DCE81727D0 /* OTTracer.m */,
+				772821D85F0AF0B9B820CC7CDF1E98CF /* OTVersion.h */,
+				C78D0DD470FFBB1AFE0E96A92874A30D /* Support Files */,
+			);
+			path = opentracing;
+			sourceTree = "<group>";
+		};
+		48CEB9A9103FF54D06E321B71E981873 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A76598725D55D9392791D0369523B29E /* lightstep */,
+				3FB458DF6F6D891B611A6659EDCE2963 /* opentracing */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		6F97A186E798F177E3700CCAC823C297 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F45C84DA7019FD98FA5BEDBF74378E3C /* opentracing.framework */,
+				1AD81C86C19A4AEAE7AB9C15D4B20069 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7DB346D0F39D3F0E887471402A8071AB = {
+			isa = PBXGroup;
+			children = (
+				BA6428E9F66FD5A23C0A2E06ED26CD2F /* Podfile */,
+				6F97A186E798F177E3700CCAC823C297 /* Frameworks */,
+				48CEB9A9103FF54D06E321B71E981873 /* Pods */,
+				C3A4E43C6FAC74CFE4999D1A255336FB /* Products */,
+				E0709F63EFEAC9F54FDB5D3DE01909B7 /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		A76598725D55D9392791D0369523B29E /* lightstep */ = {
+			isa = PBXGroup;
+			children = (
+				A56BB6E43D166FEA4AEC44218091C1A7 /* crouton.h */,
+				4F35F110A10423A01D123D346B1DB605 /* crouton.m */,
+				168CA622AA6DE8771B32727E604C6C9E /* LightStep-Bridging-Header.h */,
+				67FB313F4969F334E025DCA8CACD5AE2 /* LSClockState.h */,
+				73AE55B3606CEC93C0F98F6DBFC5FAD0 /* LSClockState.m */,
+				A62BBA375A6E5C9C24E0CE3A54F4CAB2 /* LSSpan.h */,
+				193FD82410028B0C9009B8A31066D563 /* LSSpan.m */,
+				FFF54EAADFCB18F31D97718D69434861 /* LSSpanContext.h */,
+				66483B4F9279BC69A351C524015EDA75 /* LSSpanContext.m */,
+				9C85304FA885372B3BEC020C1457C609 /* LSTracer.h */,
+				D6060AA46C221DFD935742DCC48B3F80 /* LSTracer.m */,
+				EEE9EC876006C0998812049216B426DD /* LSTracerInternal.h */,
+				6C2AED76CB961080EAD8E839C09EB640 /* LSUtil.h */,
+				AD7375091A4EF220041123B03CBA543B /* LSUtil.m */,
+				F5F3D6CA6B9EF82867FE41EE4CA00847 /* LSVersion.h */,
+				CA038F908A0696F6E73EF5D8B04559E2 /* TApplicationException.h */,
+				F47C07EA6EBD2AEE5673B49F8266F4BE /* TApplicationException.m */,
+				45AFB2595AB573D8EBBEA6D17BE1CB06 /* TBase.h */,
+				C05865D573858664884E66F6AB779340 /* TBinaryProtocol.h */,
+				C7DC682400EC35D94C40B6D9A0FC6E16 /* TBinaryProtocol.m */,
+				1C012549E258F0B26CA0B71CA448AADF /* TException.h */,
+				D63A377EF4A1401565EAF322398F1757 /* TException.m */,
+				1F25AE83B6848218991EAE2B570202CA /* TFramedTransport.h */,
+				A2D018E497A96C06730473751B940F67 /* TFramedTransport.m */,
+				A15AC303D6B2C1723D662CB99800C6E9 /* Thrift.h */,
+				3C96BD1370E3D129ED07A58199795D1E /* THTTPClient.h */,
+				4E2A4A7B8E13A8F403B6A81AFE2AB6F7 /* THTTPClient.m */,
+				7123381BF9E8F100F511997D8FB7A53A /* TMemoryBuffer.h */,
+				61DB1D73D7296C2405CABF5F4AD44903 /* TMemoryBuffer.m */,
+				79F2033E73120906121FA0550B7F8B9F /* TMultiplexedProtocol.h */,
+				E5AA1CC733C3989659B2FA4EE7424BB2 /* TMultiplexedProtocol.m */,
+				BF8A7CA56C9495A090FD71A3251D2B58 /* TNSFileHandleTransport.h */,
+				4205CA75A6CE39FAD2CC0B947949AAD5 /* TNSFileHandleTransport.m */,
+				3E4A76159DB8EBF0BE6C16F00F827C27 /* TNSStreamTransport.h */,
+				821B2FD4247FEC5ABC842A2D051642AF /* TNSStreamTransport.m */,
+				A35AF905A8B0035736EF08EB3EB163B3 /* TObjective-C.h */,
+				F3AD59B52A9B3BCDD120B479BD0ABD85 /* TProcessor.h */,
+				2E894DA0B3DCE4A77B4A8437454F9977 /* TProcessorFactory.h */,
+				8949FCD6C7AC1FDDAD3C0C14C5887DD7 /* TProtocol.h */,
+				3BABEFB108CEE2D8E2F412C3367E55C4 /* TProtocolDecorator.h */,
+				24C6287784874E2ED7850EDFEC9AC4D2 /* TProtocolDecorator.m */,
+				98BB4BD544059AFEEB83355D3F30FC87 /* TProtocolException.h */,
+				67DA5CE5A64475EA23B8BF42F56437D3 /* TProtocolException.m */,
+				EEA56FCE6C5311B51DEF36DED80AFCD8 /* TProtocolFactory.h */,
+				7075BFB1904364B4D52008EACA175E78 /* TProtocolUtil.h */,
+				EA6079DEC61E96BEF6D3950D024827A9 /* TProtocolUtil.m */,
+				920AF2F06C43E519B9128C80D77E52E8 /* TSharedProcessorFactory.h */,
+				05006373405704B027353F17212958A6 /* TSharedProcessorFactory.m */,
+				974C844E55C76C15C18A5758EDE425B3 /* TSocketClient.h */,
+				D89E305121AAFA751476EA4584962DF4 /* TSocketClient.m */,
+				E2E578F8E054F329C70CF99F39B06129 /* TSocketServer.h */,
+				1B22F362BE5C20E160531EADC33364B4 /* TSocketServer.m */,
+				737EA9680F32723F8137B7F7068EBF1D /* TSSLSocketClient.h */,
+				5D0CF147E85C24FF3D54A1AF93C26B9F /* TSSLSocketClient.m */,
+				E05CF01FAAD51BC5243206D112009530 /* TSSLSocketException.h */,
+				E3C557436CC96758EAA24886095C81C5 /* TSSLSocketException.m */,
+				3A10A263124E7956C5AF66A6514B551A /* TTransport.h */,
+				255107A9DBB58168903BC4FE508EE406 /* TTransportException.h */,
+				DDBAC485354A3ECA05584E66E797089B /* TTransportException.m */,
+				113A8DD818ECE4E1D8BE4F06CBEF103C /* Support Files */,
+			);
+			path = lightstep;
+			sourceTree = "<group>";
+		};
+		C3A4E43C6FAC74CFE4999D1A255336FB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8A7DE43A43E58932CB4A6704589B7688 /* lightstep.framework */,
+				71D186B97473383095FFB360AE3D13C2 /* opentracing.bundle */,
+				0A4FFADF8BD9A585D2C017F6ED6922FB /* opentracing.framework */,
+				A303D81EBCDAAE966F57C171ECE235BE /* Pods_LightStepTestUI.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C78D0DD470FFBB1AFE0E96A92874A30D /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				51EB0B0AD08AA2E38DA197A2A0267A90 /* Info.plist */,
+				0731059517A744FF5BBCA3758DD24479 /* opentracing.modulemap */,
+				739B0A8258BCD7BAA1EA53ED44A12AEA /* opentracing.xcconfig */,
+				EBFE08D465E3F3A42C9CB95038B77CB5 /* opentracing-dummy.m */,
+				B522D90E2361AF8AABDF9A8C4E459045 /* opentracing-prefix.pch */,
+				05D0B87D666AB8488B865CBF16BC5BEF /* opentracing-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/opentracing";
+			sourceTree = "<group>";
+		};
+		E0709F63EFEAC9F54FDB5D3DE01909B7 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				13BB386E84EA969BA83DA1BFBCE3C09D /* Pods-LightStepTestUI */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		91393E7C310C1816D587DE5FE72DF99C /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B0488F2F628F3BB1699C8125AC6CA364 /* Pods-LightStepTestUI-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8952049BAA295B71533D124EC6A2034 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				180F4D5C2C33CCDF364AE58C4543EECF /* OpenTracing-Bridging-Header.h in Headers */,
+				05B44CBB0697C23BA2A1BE6CB90824E8 /* opentracing-umbrella.h in Headers */,
+				A8B8E6B17DF1848C4C4A9F46C12FD44E /* OTGlobal.h in Headers */,
+				313BDA0426EEDD11C9F04C896E4CBEBC /* OTNoop.h in Headers */,
+				837A22D73EDD8275AA56A5B6E630BA04 /* OTReference.h in Headers */,
+				89622AC0F2FB0639F3B878B7D66A96F1 /* OTSpan.h in Headers */,
+				E6C382ECE241F686660AE1F2ADD3EF1D /* OTSpanContext.h in Headers */,
+				23098C1798B40F432AD1C0D9DFFE4993 /* OTTracer.h in Headers */,
+				8A401882C16F2B88CE48227B2CBEA735 /* OTVersion.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C3421519365D9DF340ACF089228A4C11 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CBB2C6FCD4B13B3F060DBE95118C085E /* crouton.h in Headers */,
+				B815DE712224B14161F6CE5EFCAC6986 /* LightStep-Bridging-Header.h in Headers */,
+				FA5321520E6CDD6353DD2D4554E18643 /* lightstep-umbrella.h in Headers */,
+				F6F9A37DA6F5C27234454AB4253B286D /* LSClockState.h in Headers */,
+				BD1849A8CE199D7CC8693F70F476F0C0 /* LSSpan.h in Headers */,
+				2167EA7C387E03D9BB7CE81CCD377FE8 /* LSSpanContext.h in Headers */,
+				E82A88C68430FF468CF41B432BE92890 /* LSTracer.h in Headers */,
+				0336583684F483AD2CBD1803736258C6 /* LSTracerInternal.h in Headers */,
+				083244BC22398F865CEA97D8C3518003 /* LSUtil.h in Headers */,
+				37D267B2049DD97A73E52503DF1A6BE5 /* LSVersion.h in Headers */,
+				31E2307F7C16B534CBBE6596BCED48F0 /* TApplicationException.h in Headers */,
+				A3BDBED51136E56BD502C64AC5AA5732 /* TBase.h in Headers */,
+				506B0ABF76CFB2B6B0B8258ECAB9CC06 /* TBinaryProtocol.h in Headers */,
+				16C239A1627613C5A697AF95D115630B /* TException.h in Headers */,
+				368A76AEBC00E5AF716A3D0CDF4E1DAE /* TFramedTransport.h in Headers */,
+				850A0680A82215B2BEE676AD5D5EB811 /* Thrift.h in Headers */,
+				D1FBF1A9D8826CC0B0DC50898E51633A /* THTTPClient.h in Headers */,
+				4733E3027884516AF6D1CF6903D75162 /* TMemoryBuffer.h in Headers */,
+				087B1BB19D99C9471F4A5F8A2260CD7D /* TMultiplexedProtocol.h in Headers */,
+				698C3628BA8084F49263371B3067CEC3 /* TNSFileHandleTransport.h in Headers */,
+				BB1123D809326F74ACDF2DBB76CFDB32 /* TNSStreamTransport.h in Headers */,
+				A1A60A54E8B4E1A445D22DDEE7C662CB /* TObjective-C.h in Headers */,
+				797A88EB058407682DE4DA4B311EC1DC /* TProcessor.h in Headers */,
+				ACE1F6C4FC421E496870FC6C14AB83DA /* TProcessorFactory.h in Headers */,
+				7E278F066E800E470C52A3E5E3FF5043 /* TProtocol.h in Headers */,
+				99BC5EA72D65C86B76C5D0EC8125A57E /* TProtocolDecorator.h in Headers */,
+				CD7E8B133FF6E324DDD3C910EE7D0833 /* TProtocolException.h in Headers */,
+				F69A8632E0A733DEAFFA13F3B5666D9A /* TProtocolFactory.h in Headers */,
+				49FBB3800164C31B6A3F816300B89992 /* TProtocolUtil.h in Headers */,
+				8FAABFB2C29EEC5E6C9A245C480D2F77 /* TSharedProcessorFactory.h in Headers */,
+				8C0A0026A7F8BF66F2F365C259022A55 /* TSocketClient.h in Headers */,
+				A2A6ABB79E5877DC13B9CA6233BF31D9 /* TSocketServer.h in Headers */,
+				D767523439AA98EA3D89F2D181531B5B /* TSSLSocketClient.h in Headers */,
+				6E114F40A3FB963D64ADC34FA97DF04E /* TSSLSocketException.h in Headers */,
+				4F401E2FC57929117F2525A551AACE0D /* TTransport.h in Headers */,
+				15179FCE6E2321639EE5F9CA22741164 /* TTransportException.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		2C6C195AA2AEFD7FC2B871B5EF962C30 /* lightstep */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CB261C8C678C31F49DE626A849CD42B8 /* Build configuration list for PBXNativeTarget "lightstep" */;
+			buildPhases = (
+				3DD572F402E56EF1C54751DF9E3B8D08 /* Sources */,
+				4C7117FAB3E265B61764D2AB75A28580 /* Frameworks */,
+				C3421519365D9DF340ACF089228A4C11 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2B31C3D799E43896992EDBCF313DC2B6 /* PBXTargetDependency */,
+			);
+			name = lightstep;
+			productName = lightstep;
+			productReference = 8A7DE43A43E58932CB4A6704589B7688 /* lightstep.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		559DA7EB33D52E1F7923E9FDCB082B51 /* opentracing */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FC27D055D22BBFF2B3DBEC59495EC3C2 /* Build configuration list for PBXNativeTarget "opentracing" */;
+			buildPhases = (
+				A57B6403BC1EA3DF63FE7B53B9B59E67 /* Sources */,
+				223A992B80418ED6527D4C508ED73529 /* Frameworks */,
+				8C551B820B494B82956506C559BF3D0E /* Resources */,
+				A8952049BAA295B71533D124EC6A2034 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3FA22D4C398C309320986352BE4829EA /* PBXTargetDependency */,
+			);
+			name = opentracing;
+			productName = opentracing;
+			productReference = 0A4FFADF8BD9A585D2C017F6ED6922FB /* opentracing.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		5644A4D78CCFF6ED229E90BEF8536BC4 /* Pods-LightStepTestUI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 370B6B35A5114F279D8993D3D4E8C6C3 /* Build configuration list for PBXNativeTarget "Pods-LightStepTestUI" */;
+			buildPhases = (
+				40F1A822761B47CB7E860B6FE072A159 /* Sources */,
+				31A0E8C59DEF4B2B918E1EE4F66A0FC1 /* Frameworks */,
+				91393E7C310C1816D587DE5FE72DF99C /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E3AC6ED6F37DCB47866DFA40FAAA01DE /* PBXTargetDependency */,
+				733BA70AFAD78FB7282A7A5959C547B3 /* PBXTargetDependency */,
+			);
+			name = "Pods-LightStepTestUI";
+			productName = "Pods-LightStepTestUI";
+			productReference = A303D81EBCDAAE966F57C171ECE235BE /* Pods_LightStepTestUI.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		B5F645B83AD2849F2D08D9B31D13479B /* opentracing-opentracing */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 86C609D163D97D3B4CFC243C33D71FC3 /* Build configuration list for PBXNativeTarget "opentracing-opentracing" */;
+			buildPhases = (
+				935678CD4C8E536848F2ADD4572BC3AE /* Sources */,
+				621C8690F3E932E6B97789027FC8831F /* Frameworks */,
+				67AF33DDC83A8C3A6DA9786BB455269D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "opentracing-opentracing";
+			productName = "opentracing-opentracing";
+			productReference = 71D186B97473383095FFB360AE3D13C2 /* opentracing.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D41D8CD98F00B204E9800998ECF8427E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
+			};
+			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
+			productRefGroup = C3A4E43C6FAC74CFE4999D1A255336FB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2C6C195AA2AEFD7FC2B871B5EF962C30 /* lightstep */,
+				559DA7EB33D52E1F7923E9FDCB082B51 /* opentracing */,
+				B5F645B83AD2849F2D08D9B31D13479B /* opentracing-opentracing */,
+				5644A4D78CCFF6ED229E90BEF8536BC4 /* Pods-LightStepTestUI */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		67AF33DDC83A8C3A6DA9786BB455269D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8C551B820B494B82956506C559BF3D0E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E94B3B3B8C0428C014A7DD482577269E /* opentracing.bundle in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3DD572F402E56EF1C54751DF9E3B8D08 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87516918B914486A32B1801F11B774F8 /* crouton.m in Sources */,
+				7B0D866AD0214EAB96540EF8A3764782 /* lightstep-dummy.m in Sources */,
+				E271F716DA8CBBA9B1CB1BA1E334D863 /* LSClockState.m in Sources */,
+				B502B4BB87BC8F699ECFB7118401E973 /* LSSpan.m in Sources */,
+				01B4BB8202250FF76495A7B130BCC669 /* LSSpanContext.m in Sources */,
+				AFE92921CEB984CDA8BEAF30EB030F02 /* LSTracer.m in Sources */,
+				5DA5049EA17FE6790C4D3246BBBFA870 /* LSUtil.m in Sources */,
+				AB510EEAD60527AC71F3A5A07F50013E /* TApplicationException.m in Sources */,
+				3BFC68BC3EBDF0252FB5CAE6D2B679EE /* TBinaryProtocol.m in Sources */,
+				6D21FCAFD7B762F23DD5A0CCD4306D1E /* TException.m in Sources */,
+				2FE8147659429230B3A832086C7F9391 /* TFramedTransport.m in Sources */,
+				1D6E6EADD13F97FD9429B77CE8C06A0E /* THTTPClient.m in Sources */,
+				7D9549A3C4967F55BCF5BD2AF53B25FE /* TMemoryBuffer.m in Sources */,
+				732BC56F1EA1BD0D93907E0293E1047B /* TMultiplexedProtocol.m in Sources */,
+				0BCA56D48D1752767BDEEF539B29898B /* TNSFileHandleTransport.m in Sources */,
+				EDCF7A78699CA37CF5073A522C1A009B /* TNSStreamTransport.m in Sources */,
+				43E16ED1731E26070ABA8AED48771000 /* TProtocolDecorator.m in Sources */,
+				CFBFD480F204D8A798ECE7338F137F33 /* TProtocolException.m in Sources */,
+				97A3064211987FCBDE8D72AB7F89D638 /* TProtocolUtil.m in Sources */,
+				97DE7F4293E2C71B30F4287296D68F26 /* TSharedProcessorFactory.m in Sources */,
+				13FAB80BA374ACE009FD1F014EF5501A /* TSocketClient.m in Sources */,
+				DB92D6140ED1E8D2CBB7E0FA5C68D737 /* TSocketServer.m in Sources */,
+				06DC95C9D9049DFFCD329AC6322BAEBF /* TSSLSocketClient.m in Sources */,
+				8904884750ED0B90E6347F4F0EDFAB72 /* TSSLSocketException.m in Sources */,
+				BBDFC3712BCA9BA6E72092CCAC9A1A1E /* TTransportException.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		40F1A822761B47CB7E860B6FE072A159 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				92F5A9D29B82229055A9DFCAC5ACCB0A /* Pods-LightStepTestUI-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		935678CD4C8E536848F2ADD4572BC3AE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A57B6403BC1EA3DF63FE7B53B9B59E67 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84E9270368B0A98F4D5A6A4C9F519849 /* opentracing-dummy.m in Sources */,
+				349CB6D80DB8FF8FB9F89D30494E600B /* OTGlobal.m in Sources */,
+				F45DB16A726FFA9B518D630E71713471 /* OTNoop.m in Sources */,
+				9EA4B0BDC49534802142DED8DB32FC4E /* OTReference.m in Sources */,
+				C4E5F4A4B868B31C6E43FDE8F7F7AE9B /* OTTracer.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2B31C3D799E43896992EDBCF313DC2B6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = opentracing;
+			target = 559DA7EB33D52E1F7923E9FDCB082B51 /* opentracing */;
+			targetProxy = F7DF6C67F7098541250DB582DF5D04CD /* PBXContainerItemProxy */;
+		};
+		3FA22D4C398C309320986352BE4829EA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "opentracing-opentracing";
+			target = B5F645B83AD2849F2D08D9B31D13479B /* opentracing-opentracing */;
+			targetProxy = 1163DA9038AACF9F664FFAC455B5171D /* PBXContainerItemProxy */;
+		};
+		733BA70AFAD78FB7282A7A5959C547B3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = opentracing;
+			target = 559DA7EB33D52E1F7923E9FDCB082B51 /* opentracing */;
+			targetProxy = 919A07FAAC0F6BC84DD976743AA5B5EE /* PBXContainerItemProxy */;
+		};
+		E3AC6ED6F37DCB47866DFA40FAAA01DE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = lightstep;
+			target = 2C6C195AA2AEFD7FC2B871B5EF962C30 /* lightstep */;
+			targetProxy = B87966012A1D2A1B652A55ED6F852594 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1380B77765F3081CF79666EDF1CA1A9D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 739B0A8258BCD7BAA1EA53ED44A12AEA /* opentracing.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/opentracing/opentracing-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/opentracing/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/opentracing/opentracing.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = opentracing;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		2FD9B32995E80FA01AE5B12A4BA78BC0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3AAD9966D053FF492ECAE931598C5C8C /* lightstep.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/lightstep/lightstep-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/lightstep/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/lightstep/lightstep.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = lightstep;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		3491E152B08B6ABF00226FE4FAE895E7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 739B0A8258BCD7BAA1EA53ED44A12AEA /* opentracing.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				PRODUCT_NAME = opentracing;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		4A21EFBAD1907F6E8C017A709B8B8F37 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 739B0A8258BCD7BAA1EA53ED44A12AEA /* opentracing.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				PRODUCT_NAME = opentracing;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		918FAF4700367B1B7F07DF008970FF24 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3AAD9966D053FF492ECAE931598C5C8C /* lightstep.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/lightstep/lightstep-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/lightstep/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/lightstep/lightstep.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = lightstep;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		A5561F696B6C3A6EE5B9EE12860B5971 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2AE1737A0F707ADA0D63A4E752BAC3ED /* Pods-LightStepTestUI.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-LightStepTestUI/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-LightStepTestUI/Pods-LightStepTestUI.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = Pods_LightStepTestUI;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		A70CDAD61F90AC503C7D04CC22DA2923 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				ONLY_ACTIVE_ARCH = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		B6C714575661B63BC7160F4AA57F2BFF /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE2BB5F5657D868A951FE2199A0FF2FC /* Pods-LightStepTestUI.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-LightStepTestUI/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-LightStepTestUI/Pods-LightStepTestUI.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = Pods_LightStepTestUI;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		D58E38469AED1B2F219C4DF7CAFBC936 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 739B0A8258BCD7BAA1EA53ED44A12AEA /* opentracing.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/opentracing/opentracing-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/opentracing/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/opentracing/opentracing.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = opentracing;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		FB45FFD90572718D82AB9092B750F0CA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = "RELEASE=1";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A70CDAD61F90AC503C7D04CC22DA2923 /* Debug */,
+				FB45FFD90572718D82AB9092B750F0CA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		370B6B35A5114F279D8993D3D4E8C6C3 /* Build configuration list for PBXNativeTarget "Pods-LightStepTestUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A5561F696B6C3A6EE5B9EE12860B5971 /* Debug */,
+				B6C714575661B63BC7160F4AA57F2BFF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		86C609D163D97D3B4CFC243C33D71FC3 /* Build configuration list for PBXNativeTarget "opentracing-opentracing" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3491E152B08B6ABF00226FE4FAE895E7 /* Debug */,
+				4A21EFBAD1907F6E8C017A709B8B8F37 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CB261C8C678C31F49DE626A849CD42B8 /* Build configuration list for PBXNativeTarget "lightstep" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2FD9B32995E80FA01AE5B12A4BA78BC0 /* Debug */,
+				918FAF4700367B1B7F07DF008970FF24 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FC27D055D22BBFF2B3DBEC59495EC3C2 /* Build configuration list for PBXNativeTarget "opentracing" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D58E38469AED1B2F219C4DF7CAFBC936 /* Debug */,
+				1380B77765F3081CF79666EDF1CA1A9D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+}
