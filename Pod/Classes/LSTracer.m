@@ -338,30 +338,39 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     }
     if (sleepSecs > 0) {
         NSLog(@"LSTracer backing off for %@ seconds", @(sleepSecs));
-        [NSThread sleepForTimeInterval:sleepSecs];
     }
-    @synchronized(self) {
-        NSObject<TTransport>* transport = [[THTTPClient alloc] initWithURL:[NSURL URLWithString:m_serviceUrl] userAgent:nil timeout:10];
-        TBinaryProtocol* protocol = [[TBinaryProtocol alloc] initWithTransport:transport strictRead:YES strictWrite:YES];
-        m_serviceStub = [[RLReportingServiceClient alloc] initWithProtocol:protocol];
-        if (!m_serviceStub) {
+    
+    __weak __typeof__(self) weakSelf = self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(sleepSecs * NSEC_PER_SEC)), m_queue, ^{
+        __typeof__(self) strongSelf = weakSelf;
+        if (strongSelf == nil) {
+            // This probably can never happen, but just in case...
             return;
         }
-
-        if (self->m_flushIntervalSeconds > 0) {
-            // Initialize and "resume" (i.e., "start") the m_flushTimer.
-            m_flushTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, m_queue);
-            if (!m_flushTimer) {
+        @synchronized(strongSelf) {
+            NSObject<TTransport>* transport = [[THTTPClient alloc] initWithURL:[NSURL URLWithString:strongSelf->m_serviceUrl] userAgent:nil timeout:10];
+            TBinaryProtocol* protocol = [[TBinaryProtocol alloc] initWithTransport:transport strictRead:YES strictWrite:YES];
+            strongSelf->m_serviceStub = [[RLReportingServiceClient alloc] initWithProtocol:protocol];
+            if (!strongSelf->m_serviceStub) {
                 return;
             }
-            dispatch_source_set_timer(m_flushTimer, DISPATCH_TIME_NOW, self->m_flushIntervalSeconds * NSEC_PER_SEC, NSEC_PER_SEC);
-            __weak __typeof__(self) weakSelf = self;
-            dispatch_source_set_event_handler(m_flushTimer, ^{
-                [weakSelf flush:nil];
-            });
-            dispatch_resume(m_flushTimer);
+            
+            if (strongSelf->m_flushIntervalSeconds > 0) {
+                // Initialize and "resume" (i.e., "start") the m_flushTimer.
+                strongSelf->m_flushTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, strongSelf->m_queue);
+                if (!strongSelf->m_flushTimer) {
+                    return;
+                }
+                dispatch_source_set_timer(strongSelf->m_flushTimer, DISPATCH_TIME_NOW,
+                                          strongSelf->m_flushIntervalSeconds * NSEC_PER_SEC,
+                                          NSEC_PER_SEC);
+                dispatch_source_set_event_handler(strongSelf->m_flushTimer, ^{
+                    [weakSelf flush:nil];
+                });
+                dispatch_resume(strongSelf->m_flushTimer);
+            }
         }
-    }
+    });
 }
 
 - (void) flush:(void (^)(BOOL success))doneCallback {
