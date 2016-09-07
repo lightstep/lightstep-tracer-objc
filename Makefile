@@ -16,6 +16,17 @@ build_thrift:
 	thrift -r --gen cocoa -out Pod/Classes $(CROUTON_THRIFT)
 	bash ./patch_thrift.sh
 
+.PHONY: build_protobuf
+build_protobuf:
+	mkdir -p Pod/Classes/protobuf
+	cd PodInstallTarget && pod install
+	PodInstallTarget/Pods/\!ProtoCompiler/protoc \
+	    --plugin=protoc-gen-grpc=PodInstallTarget/Pods/\!ProtoCompiler-gRPCPlugin/grpc_objective_c_plugin \
+	    --objc_out=Pod/Classes/protobuf \
+	    --grpc_out=Pod/Classes/protobuf \
+	    -I lightstep-tracer-common \
+	    lightstep-tracer-common/collector.proto
+
 # NOTE: this can be appear to hang if you don't have the simulator for the given
 # OS and platform. I believe it's downloading them in the background? Or maybe
 # XCode is just hanging without any messages? Who knows?
