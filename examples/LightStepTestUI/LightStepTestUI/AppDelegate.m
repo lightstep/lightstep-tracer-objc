@@ -4,8 +4,12 @@
 //
 
 #import "AppDelegate.h"
-#import "LSTracer.h"
 #import "OTGlobal.h"
+#import "LSTracer.h"
+
+#import <GRPCClient/GRPCCall+ChannelArg.h>
+#import <GRPCClient/GRPCCall+Tests.h>
+#import <lightstep/Collector.pbrpc.h>
 
 @interface AppDelegate ()
 
@@ -13,11 +17,29 @@
 
 @implementation AppDelegate
 
+static NSString* kHostAddress = @"localhost:9997";
+
+- (void)makeSomeGRPCRequest {
+    // TODO: remove this. Just making sure that everything builds and links.
+    [GRPCCall useInsecureConnectionsForHost:kHostAddress];
+    [GRPCCall setUserAgentPrefix:@"HelloWorld/1.0" forHost:kHostAddress];
+    
+    LTSCollectorService *client = [[LTSCollectorService alloc] initWithHost:kHostAddress];
+    
+    LTSReportRequest *req = [LTSReportRequest message];
+    req.auth = [[LTSAuth alloc] init];
+    req.auth.accessToken = @"{your_access_token}";
+    
+    [client reportWithRequest:req handler:^(LTSReportResponse * _Nullable response, NSError * _Nullable error) {
+        NSLog(@"RESPONSE: %@, ERROR: %@", response, error);
+    }];
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     LSTracer* tracer = [[LSTracer alloc] initWithToken:@"{your_access_token}" componentName:@"LightStepTestUI" flushIntervalSeconds:2];
     tracer.maxLogRecords = 600;
     tracer.maxSpanRecords = 600;
+
     [OTGlobal initSharedTracer:tracer];
 
     return YES;
