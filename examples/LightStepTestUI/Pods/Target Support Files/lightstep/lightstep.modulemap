@@ -1,6 +1,0 @@
-framework module lightstep {
-  umbrella header "lightstep-umbrella.h"
-
-  export *
-  module * { export * }
-}

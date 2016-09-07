@@ -1,6 +1,8 @@
-GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
-OTHER_CFLAGS = $(inherited) -iquote "$CONFIGURATION_BUILD_DIR/lightstep.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/opentracing.framework/Headers"
-OTHER_LDFLAGS = $(inherited) -framework "lightstep" -framework "opentracing"
-PODS_FRAMEWORK_BUILD_PATH = $(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Pods-LightStepTestUI
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1 $(inherited) GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/BoringSSL" "${PODS_ROOT}/Headers/Public/Protobuf" "${PODS_ROOT}/Headers/Public/gRPC" "${PODS_ROOT}/Headers/Public/gRPC-Core" "${PODS_ROOT}/Headers/Public/gRPC-ProtoRPC" "${PODS_ROOT}/Headers/Public/gRPC-RxLibrary" "${PODS_ROOT}/Headers/Public/lightstep" "${PODS_ROOT}/Headers/Public/opentracing"
+LIBRARY_SEARCH_PATHS = $(inherited) "$PODS_CONFIGURATION_BUILD_DIR/BoringSSL" "$PODS_CONFIGURATION_BUILD_DIR/Protobuf" "$PODS_CONFIGURATION_BUILD_DIR/gRPC" "$PODS_CONFIGURATION_BUILD_DIR/gRPC-Core" "$PODS_CONFIGURATION_BUILD_DIR/gRPC-ProtoRPC" "$PODS_CONFIGURATION_BUILD_DIR/gRPC-RxLibrary" "$PODS_CONFIGURATION_BUILD_DIR/lightstep" "$PODS_CONFIGURATION_BUILD_DIR/opentracing"
+OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/BoringSSL" -isystem "${PODS_ROOT}/Headers/Public/Protobuf" -isystem "${PODS_ROOT}/Headers/Public/gRPC" -isystem "${PODS_ROOT}/Headers/Public/gRPC-Core" -isystem "${PODS_ROOT}/Headers/Public/gRPC-ProtoRPC" -isystem "${PODS_ROOT}/Headers/Public/gRPC-RxLibrary" -isystem "${PODS_ROOT}/Headers/Public/lightstep" -isystem "${PODS_ROOT}/Headers/Public/opentracing"
+OTHER_LDFLAGS = $(inherited) -ObjC -l"BoringSSL" -l"Protobuf" -l"gRPC" -l"gRPC-Core" -l"gRPC-ProtoRPC" -l"gRPC-RxLibrary" -l"lightstep" -l"opentracing" -l"z"
+PODS_BUILD_DIR = $BUILD_DIR
+PODS_CONFIGURATION_BUILD_DIR = $PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
 PODS_ROOT = ${SRCROOT}/Pods
