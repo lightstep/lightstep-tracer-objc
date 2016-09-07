@@ -36,3 +36,8 @@ Carthage
 # LightStep specific
 tmp-publish/
 lightstep-pod-tmp/
+
+# genproto-hack-specific
+PodInstallTarget/Podfile.lock
+PodInstallTarget/Pods
+PodInstallTarget/PodInstallTarget.xcworkspace
