@@ -1,13 +1,56 @@
 PODS:
-  - lightstep (2.0.10):
+  - BoringSSL (6.0):
+    - BoringSSL/Implementation (= 6.0)
+    - BoringSSL/Interface (= 6.0)
+  - BoringSSL/Implementation (6.0):
+    - BoringSSL/Interface (= 6.0)
+  - BoringSSL/Interface (6.0)
+  - gRPC (1.0.0):
+    - gRPC-Core (= 1.0.0)
+    - gRPC-RxLibrary (= 1.0.0)
+  - gRPC-Core (1.0.0):
+    - gRPC-Core/Implementation (= 1.0.0)
+    - gRPC-Core/Interface (= 1.0.0)
+  - gRPC-Core/Implementation (1.0.0):
+    - BoringSSL (~> 6.0)
+    - gRPC-Core/Interface (= 1.0.0)
+  - gRPC-Core/Interface (1.0.0)
+  - gRPC-ProtoRPC (1.0.0):
+    - gRPC (= 1.0.0)
+    - gRPC-RxLibrary (= 1.0.0)
+    - Protobuf (~> 3.0)
+  - gRPC-RxLibrary (1.0.0)
+  - lightstep (2.0.16):
+    - lightstep/Core (= 2.0.16)
+    - lightstep/Messages (= 2.0.16)
+    - lightstep/Services (= 2.0.16)
+  - lightstep/Core (2.0.16):
     - opentracing (~> 0.2.0)
+  - lightstep/Messages (2.0.16):
+    - Protobuf
+  - lightstep/Services (2.0.16):
+    - gRPC-ProtoRPC
+    - lightstep/Messages
   - opentracing (0.2.10)
+  - Protobuf (3.0.0)
 
 DEPENDENCIES:
-  - lightstep (~> 2.0)
+  - lightstep (from `../..`)
+
+EXTERNAL SOURCES:
+  lightstep:
+    :path: "../.."
 
 SPEC CHECKSUMS:
-  lightstep: 3755c208d07500d855ae1ffdd7a2a304c31213b0
+  BoringSSL: 8de34f3100d671c9cbc494e1a462004c486d7e34
+  gRPC: 2d6b82f7a8773f933465bcbdf519a7cf8ebef41c
+  gRPC-Core: 7ce9d18a7fb9fffc0f57646608d0741782b16996
+  gRPC-ProtoRPC: 51745b5ebe4a844dc6e1ecf767d74ae3d124ea1e
+  gRPC-RxLibrary: 3a8c5543115fb2183ed5624678e7ecbac5e9e4ad
+  lightstep: fe316980035e8ac5b58aa54e31b5a774362eac20
   opentracing: fce6e41e67b57749710e353ccd7460fb03fdb800
+  Protobuf: c032ce1bdf7a266acfd640fbfd8bdb166127c7f5
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: b5270b760bd521f155e721b810f90f32c5a587d7
+
+COCOAPODS: 1.0.1

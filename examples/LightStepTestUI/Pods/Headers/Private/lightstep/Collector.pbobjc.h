@@ -1,0 +1,1 @@
+../../../../../../Pod/Classes/protobuf/Collector.pbobjc.h
