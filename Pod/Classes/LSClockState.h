@@ -1,7 +1,5 @@
 #import <Foundation/Foundation.h>
 
-typedef int64_t micros_t;
-
 @class LSTracer;
 
 /** 
@@ -11,7 +9,7 @@ typedef int64_t micros_t;
 @interface LSClockState : NSObject
 
 // A helper that returns the local timestamp in microseconds (since the unix epoch).
-+ (micros_t) nowMicros;
++ (UInt64) nowMicros;
 
 - (id) initWithLSTracer:(LSTracer*)tracer;
 
@@ -30,10 +28,10 @@ typedef int64_t micros_t;
  *
  * All timestamps are in microseconds.
  */
-- (void) addSampleWithOriginMicros:(micros_t)originMicros
-                     receiveMicros:(micros_t)receiveMicros
-                    transmitMicros:(micros_t)transmitMicros
-                 destinationMicros:(micros_t)destinationMicros;
+- (void) addSampleWithOriginMicros:(UInt64)originMicros
+                     receiveMicros:(UInt64)receiveMicros
+                    transmitMicros:(UInt64)transmitMicros
+                 destinationMicros:(UInt64)destinationMicros;
 
 /** 
  * Force an update of the internal clock-skew machinery.
@@ -45,6 +43,6 @@ typedef int64_t micros_t;
  * client in microseconds. This should be *added* to any local timestamps before
  * sending to the server.
  */
-- (micros_t) offsetMicros;
+- (UInt64) offsetMicros;
 
 @end

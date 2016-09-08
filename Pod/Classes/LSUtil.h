@@ -13,6 +13,7 @@
 + (NSString*)objectToJSONString:(id)obj maxLength:(NSUInteger)maxLength;
 + (GPBTimestamp*)protoTimestampFromMicros:(UInt64)micros;
 + (GPBTimestamp*)protoTimestampFromDate:(NSDate*)date;
++ (UInt64)microsFromProtoTimestamp:(GPBTimestamp*)protoTimestamp;
 
 @end
 

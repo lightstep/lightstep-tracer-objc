@@ -5,6 +5,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ * The error domain for all OpenTracing-related NSErrors.
+ */
+FOUNDATION_EXPORT NSString *const LTSErrorDomain;
+/**
+ * OTUnsupportedFormat should be used by `OTTracer#inject:format:carrier:` and
+ * `OTTracer#extractWithFormat:carrier:` implementations that don't support the
+ * requested carrier format.
+ */
+FOUNDATION_EXPORT NSInteger LTSBackgroundTaskError;
+
 @class LTSSpan;
 
 /**
@@ -113,12 +124,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (atomic) NSUInteger maxPayloadJSONLength;
 
-/**
- * Approximate interval to use for reporting buffered data to the collector.
- *
- * If set to 0, disable the automatic flush loop entirely (and call flush() explicitly).
- */
-@property (readonly) NSUInteger flushIntervalSeconds;
 
 /**
  * Returns true if the library is currently buffering and reporting data.

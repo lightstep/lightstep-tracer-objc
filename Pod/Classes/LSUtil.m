@@ -93,6 +93,10 @@
     return rval;
 }
 
++ (UInt64)microsFromProtoTimestamp:(GPBTimestamp*)protoTimestamp {
+    return (1000000 * protoTimestamp.seconds) + (protoTimestamp.nanos / 1000);
+}
+
 @end
 
 @implementation NSDate(LSSpan)
