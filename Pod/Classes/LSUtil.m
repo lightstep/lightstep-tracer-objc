@@ -1,6 +1,8 @@
 #import "LSUtil.h"
 #import <stdlib.h>  // arc4random_uniform()
 
+#import <Protobuf/GPBProtocolBuffers.h>
+
 @implementation LSUtil
 
 + (UInt64)generateGUID {
@@ -74,6 +76,21 @@
         return nil;
     }
     return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+}
+
++ (GPBTimestamp*)protoTimestampFromMicros:(UInt64)micros {
+    GPBTimestamp* rval = [[GPBTimestamp alloc] init];
+    rval.seconds = micros / 1000000;
+    rval.nanos = 1000 * (micros % 1000000);
+    return rval;
+}
+
++ (GPBTimestamp*)protoTimestampFromDate:(NSDate*)date {
+    GPBTimestamp* rval = [[GPBTimestamp alloc] init];
+    NSTimeInterval epochSecs = [date timeIntervalSince1970];
+    rval.seconds = (int64_t)floor(epochSecs);
+    rval.nanos = 1000000000 * (epochSecs - (NSTimeInterval)rval.seconds);
+    return rval;
 }
 
 @end

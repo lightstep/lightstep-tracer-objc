@@ -61,7 +61,8 @@ static NSString* kOffsetKey = @"offset";
 }
 
 - (NSString*)_userDefaultsKey {
-    return [@"LSClockState:" stringByAppendingString:m_tracer.serviceUrl];
+    // XXX: FIX THIS
+    return [@"LSClockState:" stringByAppendingString:@"FOO XXX"];
 }
 
 static NSString* kTimestampMicrosKey = @"timestamp_micros";

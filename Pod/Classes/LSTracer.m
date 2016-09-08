@@ -1,16 +1,17 @@
 #import <UIKit/UIKit.h>
-#import "OTReference.h"
+#import <GRPCClient/GRPCCall+ChannelArg.h>
+#import <GRPCClient/GRPCCall+Tests.h>
+#import <opentracing/OTReference.h>
+
 #import "LSClockState.h"
 #import "LSSpan.h"
 #import "LSSpanContext.h"
 #import "LSTracer.h"
-#import "LSTracerInternal.h"
 #import "LSUtil.h"
 #import "LSVersion.h"
-#import "TBinaryProtocol.h"
-#import "THTTPClient.h"
-#import "TSocketClient.h"
-#import "TTransportException.h"
+#import "Collector.pbrpc.h"
+
+static NSString* kHostAddress = @"localhost:9997";
 
 NSString* const LSDefaultHostport = @"collector.lightstep.com:443";
 
@@ -22,19 +23,17 @@ static LSTracer* s_sharedInstance = nil;
 static float kFirstRefreshDelaySecs = 2;
 
 @implementation LSTracer {
-    NSDate* m_startTime;
     NSString* m_accessToken;
-    NSString* m_runtimeGuid;
-    RLRuntime* m_runtimeInfo;
+    UInt64 m_runtimeGuid;
+    LTSTracer* m_protoTracer;
     LSClockState* m_clockState;
 
-    NSString* m_serviceUrl;
-    RLReportingServiceClient* m_serviceStub;
+    LTSCollectorService* m_collectorStub;
     BOOL m_enabled;
     // if kFirstRefreshDelaySecs, we've never tried to refresh.
     float m_refreshStubDelaySecs;
-    NSMutableArray* m_pendingSpanRecords;
-    dispatch_queue_t m_queue;
+    NSMutableArray<LTSSpan*>* m_pendingProtoSpans;
+    dispatch_queue_t m_flushQueue;
     dispatch_source_t m_flushTimer;
 
     UIBackgroundTaskIdentifier m_bgTaskId;
@@ -50,27 +49,42 @@ static float kFirstRefreshDelaySecs = 2;
           flushIntervalSeconds:(NSUInteger)flushIntervalSeconds
 {
     if (self = [super init]) {
-        self->m_serviceUrl = [NSString stringWithFormat:@"https://%@/_rpc/v1/reports/binary", hostport];
         self->m_accessToken = accessToken;
-        self->m_runtimeGuid = [LSUtil hexGUID:[LSUtil generateGUID]];
-        self->m_startTime = [NSDate date];
-        NSMutableArray* runtimeAttrs = @[[[RLKeyValue alloc] initWithKey:@"lightstep.tracer_platform" Value:@"ios"],
-                                         [[RLKeyValue alloc] initWithKey:@"lightstep.tracer_platform_version" Value:[[UIDevice currentDevice] systemVersion]],
-                                         [[RLKeyValue alloc] initWithKey:@"lightstep.tracer_version" Value:LS_TRACER_VERSION],
-                                         [[RLKeyValue alloc] initWithKey:@"lightstep.component_name" Value:componentName],
-                                         [[RLKeyValue alloc] initWithKey:@"lightstep.guid" Value:self->m_runtimeGuid],
-                                         [[RLKeyValue alloc] initWithKey:@"device_model" Value:[[UIDevice currentDevice] model]]].mutableCopy;
-        self->m_runtimeInfo = [[RLRuntime alloc]
-                               initWithGuid:self->m_runtimeGuid
-                               start_micros:[m_startTime toMicros]
-                               group_name:componentName
-                               attrs:runtimeAttrs];
+        self->m_runtimeGuid = [LSUtil generateGUID];
+        
+        // Populate m_protoTracer. Start with the tracerTags.
+        NSMutableArray<LTSKeyValue*>* tracerTags = [NSMutableArray<LTSKeyValue*> array];
+        {
+            // All string-valued tags.
+            NSDictionary* tracerStringTags = @{@"lightstep.tracer_platform": @"ios",
+                                               @"lightstep.tracer_platform_version": [[UIDevice currentDevice] systemVersion],
+                                               @"lightstep.tracer_version": LS_TRACER_VERSION,
+                                               @"lightstep.component_name": componentName,
+                                               @"device_model": [[UIDevice currentDevice] model]};
+            for (NSString* key in tracerStringTags) {
+                LTSKeyValue* elt = [[LTSKeyValue alloc] init];
+                elt.key = key;
+                elt.stringValue = [tracerStringTags objectForKey:key];
+                [tracerTags addObject:elt];
+            }
+        }
+        {
+            // The lone int-valued tag.
+            LTSKeyValue* elt = [[LTSKeyValue alloc] init];
+            elt.key = @"lightstep.guid";
+            elt.intValue = self->m_runtimeGuid;
+            [tracerTags addObject:elt];
+        }
+        LTSTracer* protoTracer = [[LTSTracer alloc] init];
+        protoTracer.tracerId = self->m_runtimeGuid;
+        protoTracer.tagsArray = tracerTags;
+        self->m_protoTracer = protoTracer;
 
         self->m_maxSpanRecords = kDefaultMaxBufferedSpans;
         self->m_maxPayloadJSONLength = kDefaultMaxPayloadJSONLength;
         self->m_flushIntervalSeconds = flushIntervalSeconds;
-        self->m_pendingSpanRecords = [NSMutableArray array];
-        self->m_queue = dispatch_queue_create("com.lightstep.flush_queue", DISPATCH_QUEUE_SERIAL);
+        self->m_pendingProtoSpans = [NSMutableArray<LTSSpan*> array];
+        self->m_flushQueue = dispatch_queue_create("com.lightstep.flush_queue", DISPATCH_QUEUE_SERIAL);
         self->m_flushTimer = nil;
         self->m_refreshStubDelaySecs = kFirstRefreshDelaySecs;
         self->m_enabled = true;  // if false, no longer collect tracing data
@@ -252,21 +266,10 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     }
 }
 
-- (NSString*) serviceUrl {
-    @synchronized(self) {
-        return m_serviceUrl;
-    }
-}
-
 - (NSString*) accessToken {
     @synchronized(self) {
         return m_accessToken;
     }
-}
-
-- (NSString*) runtimeGuid {
-    // Immutable after init; no locking required
-    return m_runtimeGuid;
 }
 
 - (NSUInteger) maxSpanRecords {
@@ -288,14 +291,14 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     }
 }
 
-- (void) _appendSpanRecord:(RLSpanRecord*)sr {
+- (void) _appendSpanRecord:(LTSSpan*)span {
     @synchronized(self) {
         if (!m_enabled) {
             return;
         }
 
-        if (m_pendingSpanRecords.count < m_maxSpanRecords) {
-            [m_pendingSpanRecords addObject:sr];
+        if (m_pendingProtoSpans.count < m_maxSpanRecords) {
+            [m_pendingProtoSpans addObject:span];
         }
     }
 }
@@ -307,71 +310,42 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
             // Noop.
             return;
         }
-        if (m_serviceUrl == nil || m_serviceUrl.length == 0) {
-            // Better safe than sorry (we don't think this should ever actually happen).
-            NSLog(@"No service URL provided");
-            return;
-        }
         __weak __typeof__(self) weakSelf = self;
-        dispatch_async(m_queue, ^{
-            [weakSelf _refreshImp];
-        });
-    }
-}
-
-// Note: this method is intended to be invoked only by _refreshStub and off the
-// main thread (i.e., there are sleep calls in this method).
-- (void) _refreshImp {
-    float sleepSecs = 0;
-    @synchronized(self) {
-        if (m_flushTimer) {
-            dispatch_source_cancel(m_flushTimer);
-            m_flushTimer = 0;
-        }
-
-        // Don't actually sleep the first time we try to initiate m_serviceStub.
-        if (m_refreshStubDelaySecs != kFirstRefreshDelaySecs) {
-            sleepSecs = m_refreshStubDelaySecs;
-        }
-        // Exponential backoff with a 5-minute max.
-        m_refreshStubDelaySecs = MIN(60*5, m_refreshStubDelaySecs * 2);
-    }
-    if (sleepSecs > 0) {
-        NSLog(@"LSTracer backing off for %@ seconds", @(sleepSecs));
-    }
-    
-    __weak __typeof__(self) weakSelf = self;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(sleepSecs * NSEC_PER_SEC)), m_queue, ^{
-        __typeof__(self) strongSelf = weakSelf;
-        if (strongSelf == nil) {
-            // This probably can never happen, but just in case...
+        m_flushTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, m_flushQueue);
+        if (!m_flushTimer) {
             return;
         }
-        @synchronized(strongSelf) {
-            NSObject<TTransport>* transport = [[THTTPClient alloc] initWithURL:[NSURL URLWithString:strongSelf->m_serviceUrl] userAgent:nil timeout:10];
-            TBinaryProtocol* protocol = [[TBinaryProtocol alloc] initWithTransport:transport strictRead:YES strictWrite:YES];
-            strongSelf->m_serviceStub = [[RLReportingServiceClient alloc] initWithProtocol:protocol];
-            if (!strongSelf->m_serviceStub) {
-                return;
-            }
-            
-            if (strongSelf->m_flushIntervalSeconds > 0) {
-                // Initialize and "resume" (i.e., "start") the m_flushTimer.
-                strongSelf->m_flushTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, strongSelf->m_queue);
-                if (!strongSelf->m_flushTimer) {
-                    return;
-                }
-                dispatch_source_set_timer(strongSelf->m_flushTimer, DISPATCH_TIME_NOW,
-                                          strongSelf->m_flushIntervalSeconds * NSEC_PER_SEC,
-                                          NSEC_PER_SEC);
-                dispatch_source_set_event_handler(strongSelf->m_flushTimer, ^{
-                    [weakSelf flush:nil];
-                });
-                dispatch_resume(strongSelf->m_flushTimer);
-            }
-        }
-    });
+        dispatch_source_set_timer(m_flushTimer, DISPATCH_TIME_NOW,
+                                  m_flushIntervalSeconds * NSEC_PER_SEC,
+                                  NSEC_PER_SEC);
+        dispatch_source_set_event_handler(m_flushTimer, ^{
+            [weakSelf flush];
+        });
+        dispatch_resume(m_flushTimer);
+    }
 }
+
+- (void)flush {
+    [GRPCCall useInsecureConnectionsForHost:kHostAddress];
+    [GRPCCall setUserAgentPrefix:@"LightStepTracer/1.0" forHost:kHostAddress];
+
+    LTSCollectorService *client = [[LTSCollectorService alloc] initWithHost:kHostAddress];
+    
+    LTSReportRequest *req = [LTSReportRequest message];
+    req.auth = [[LTSAuth alloc] init];
+    req.auth.accessToken = @"XXX";
+    req.tracer = m_protoTracer; // XXX deep copy?
+    req.spansArray = m_pendingProtoSpans;
+    m_pendingProtoSpans = [NSMutableArray<LTSSpan*> array];
+
+    [client reportWithRequest:req handler:^(LTSReportResponse * _Nullable response, NSError * _Nullable error) {
+        NSLog(@"RESPONSE: %@, ERROR: %@", response, error);
+    }];
+}
+
+#if 0
+
+
 
 - (void) flush:(void (^)(BOOL success))doneCallback {
     __weak __typeof__(self) weakSelf = self;
@@ -529,5 +503,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
         m_bgTaskId = UIBackgroundTaskInvalid;
     }
 }
+
+#endif
 
 @end

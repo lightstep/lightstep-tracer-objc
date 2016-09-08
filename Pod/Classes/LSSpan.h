@@ -54,11 +54,6 @@
                       startTime:(NSDate*)startTime;
 
 /**
- * LightStep specific method for logging an error (or exception).
- */
-- (void)logError:(NSString*)message error:(NSObject*)errorOrException;
-
-/**
  * 
  */
 @property (nonatomic, strong) NSDictionary* tags;

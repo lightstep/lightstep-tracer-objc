@@ -5,6 +5,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class LTSSpan;
+
 /**
  * An implementation of the OTTracer protocol.
  *
@@ -101,12 +103,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readonly) NSString* runtimeGuid;
 
-
-/**
- * The `LSTracer` instance's maximum number of records to buffer between reports.
- */
-@property (atomic) NSUInteger maxLogRecords;
-
 /**
  * The `LSTracer` instance's maximum number of records to buffer between reports.
  */
@@ -133,6 +129,11 @@ NS_ASSUME_NONNULL_BEGIN
  * Returns the Tracer's access token.
  */
 - (NSString*)accessToken;
+
+/**
+ * Record a span.
+ */
+- (void) _appendSpanRecord:(LTSSpan*)spanRecord;
 
 /**
  * Flush any buffered data to the collector. Returns without blocking.

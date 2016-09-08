@@ -1,17 +1,19 @@
 #import "LSSpan.h"
 #import "LSSpanContext.h"
 #import "LSTracer.h"
-#import "LSTracerInternal.h"
 #import "LSUtil.h"
+
+#import "Collector.pbobjc.h"
 
 #pragma mark - LSSpan
 
 @implementation LSSpan {
     LSTracer* m_tracer;
     LSSpanContext* m_ctx;
+    LSSpanContext* m_parent;
     NSString* m_operationName;
     NSDate* m_startTime;
-    NSMutableArray* m_logs;
+    NSMutableArray<LTSLog*>* m_logs;
     NSMutableDictionary* m_tags;
 }
 
@@ -41,9 +43,10 @@
         UInt64 traceId = (parent == nil) ? [LSUtil generateGUID] : parent.traceId;
         UInt64 spanId = [LSUtil generateGUID];
         if (parent != nil) {
-            [m_tags setObject:[LSUtil hexGUID:parent.spanId] forKey:@"parent_span_guid"];
+            self->m_parent = parent;
         }
-        m_ctx = [[LSSpanContext alloc] initWithTraceId:traceId spanId:spanId baggage:nil];
+        // XXX: baggage
+        self->m_ctx = [[LSSpanContext alloc] initWithTraceId:traceId spanId:spanId baggage:nil];
 
         [self _addTags:tags];
     }
@@ -93,75 +96,32 @@
 
     NSString* payloadJSON = [LSUtil objectToJSONString:payload
                                              maxLength:[m_tracer maxPayloadJSONLength]];
-    RLLogRecord* logRecord = [[RLLogRecord alloc]
-                              initWithTimestamp_micros:[timestamp toMicros]
-                              runtime_guid:[m_tracer runtimeGuid]
-                              span_guid:[LSUtil hexGUID:m_ctx.spanId]
-                              stable_name:eventName
-                              message:nil
-                              level:@"I"
-                              thread_id:(int64_t)[NSThread currentThread]
-                              filename:nil
-                              line_number:0
-                              stack_frames:nil
-                              payload_json:payloadJSON
-                              error_flag:false];
-    [self _appendLogRecord:logRecord];
+    LTSLog* logRecord = [[LTSLog alloc] init];
+    logRecord.timestamp = [LSUtil protoTimestampFromDate:timestamp];
+    NSMutableArray<LTSKeyValue*>* logKeyValues = [NSMutableArray<LTSKeyValue*> array];
+    {
+        LTSKeyValue* val = [[LTSKeyValue alloc] init];
+        val.key = @"event";
+        val.stringValue = eventName;
+        [logKeyValues addObject:val];
+    }
+    if (payloadJSON != nil) {
+        LTSKeyValue* val = [[LTSKeyValue alloc] init];
+        val.key = @"payload_json";
+        val.stringValue = payloadJSON;
+        [logKeyValues addObject:val];
+    }
+    logRecord.keyvaluesArray = logKeyValues;
+    [self _appendLog:logRecord];
 }
 
-- (void)_appendLogRecord:(RLLogRecord*)logRecord {
+- (void)_appendLog:(LTSLog*)log {
     @synchronized(self) {
         if (m_logs == nil) {
-            m_logs = [NSMutableArray array];
+            m_logs = [NSMutableArray<LTSLog*> array];
         }
-        [m_logs addObject:logRecord];
+        [m_logs addObject:log];
     }
-}
-
-//
-// NOTE: logError is a LightStep-specific method
-//
-- (void)logError:(NSString*)message error:(NSObject*)errorOrException {
-    // No locking is required as all the member variables used below are immutable
-    // after initialization.
-
-    if (![m_tracer enabled]) {
-        return;
-    }
-
-    [self setTag:@"error" value:@"true"];
-
-    NSObject* payload;
-    if ([errorOrException isKindOfClass:[NSException class]]) {
-        NSException* exception = (NSException*)errorOrException;
-        payload = @{@"name":exception.name ?: [NSNull null],
-                    @"reason":exception.reason ?: [NSNull null],
-                    @"userInfo":exception.userInfo ?: [NSNull null],
-                    @"stack":exception.callStackSymbols ?: [NSNull null]};
-    } else if ([errorOrException isKindOfClass:[NSError class]]) {
-        NSError* error = (NSError*)errorOrException;
-        payload = @{@"description":error.localizedDescription,
-                    @"userInfo":error.userInfo ?: [NSNull null]};
-    } else {
-        payload = errorOrException;
-    }
-
-    NSString* payloadJSON = [LSUtil objectToJSONString:payload
-                                             maxLength:[m_tracer maxPayloadJSONLength]];
-    RLLogRecord* logRecord = [[RLLogRecord alloc]
-                              initWithTimestamp_micros:[[NSDate date] toMicros]
-                              runtime_guid:[m_tracer runtimeGuid]
-                              span_guid:[LSUtil hexGUID:m_ctx.spanId]
-                              stable_name:nil
-                              message:message
-                              level:@"E"
-                              thread_id:(int64_t)[NSThread currentThread]
-                              filename:nil
-                              line_number:0
-                              stack_frames:nil
-                              payload_json:payloadJSON
-                              error_flag:true];
-    [self _appendLogRecord:logRecord];
 }
 
 - (void) finish {
@@ -173,27 +133,35 @@
         finishTime = [NSDate date];
     }
 
-    RLSpanRecord* record;
+    LTSSpan* record = [[LTSSpan alloc] init];
     @synchronized(self) {
-        NSMutableArray* tagArray;
+        NSMutableArray* tagsArray;
         if (m_tags.count > 0) {
-            tagArray = [[NSMutableArray alloc] initWithCapacity:m_tags.count];
+            tagsArray = [[NSMutableArray<LTSKeyValue*> alloc] initWithCapacity:m_tags.count];
             for (NSString* key in m_tags ) {
-                RLKeyValue* pair = [[RLKeyValue alloc] initWithKey:key Value:[m_tags[key] description]];
-                [tagArray addObject:pair];
+                LTSKeyValue* pair = [[LTSKeyValue alloc] init];
+                pair.key = key;
+                // XXX: we should support the different tag value types
+                pair.stringValue = [m_tags[key] description];
+                [tagsArray addObject:pair];
             }
         }
 
-        record = [[RLSpanRecord alloc] initWithSpan_guid:[LSUtil hexGUID:m_ctx.spanId]
-                                              trace_guid:[LSUtil hexGUID:m_ctx.traceId]
-                                            runtime_guid:m_tracer.runtimeGuid
-                                               span_name:m_operationName
-                                                join_ids:nil
-                                           oldest_micros:[m_startTime toMicros]
-                                         youngest_micros:[finishTime toMicros]
-                                              attributes:tagArray
-                                              error_flag:false
-                                             log_records:m_logs];
+        record.operationName = m_operationName;
+        record.spanContext = [m_ctx toProto];
+        LTSReference* parent = nil;
+        if (m_parent) {
+            parent = [[LTSReference alloc] init];
+            parent.relationship = LTSReference_Relationship_ChildOf;
+            parent.spanContext = [m_parent toProto];
+            [record.referencesArray addObject:parent];
+        }
+        record.startTimestamp = [LSUtil protoTimestampFromDate:m_startTime];
+        record.durationMicros = [finishTime toMicros] - [m_startTime toMicros];
+        if (tagsArray != nil) {
+            record.tagsArray = tagsArray;
+        }
+        record.logsArray = m_logs;
     }
     [m_tracer _appendSpanRecord:record];
 }

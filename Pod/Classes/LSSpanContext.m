@@ -9,6 +9,7 @@
 #import "LSSpanContext.h"
 
 #import "LSUtil.h"
+#import "Collector.pbobjc.h"
 
 @implementation LSSpanContext {
     NSMutableDictionary* m_baggage;
@@ -50,6 +51,13 @@
             }
         }
     }
+}
+
+- (LTSSpanContext*)toProto {
+    LTSSpanContext* rval = [[LTSSpanContext alloc] init];
+    rval.traceId = self.traceId;
+    rval.spanId = self.spanId;
+    return rval;
 }
 
 - (NSString*)hexTraceId {

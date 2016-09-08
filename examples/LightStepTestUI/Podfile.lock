@@ -47,7 +47,7 @@ SPEC CHECKSUMS:
   gRPC-Core: 7ce9d18a7fb9fffc0f57646608d0741782b16996
   gRPC-ProtoRPC: 51745b5ebe4a844dc6e1ecf767d74ae3d124ea1e
   gRPC-RxLibrary: 3a8c5543115fb2183ed5624678e7ecbac5e9e4ad
-  lightstep: fe316980035e8ac5b58aa54e31b5a774362eac20
+  lightstep: e2f940b689c06aec03211dc54b5eb99d9193ab94
   opentracing: fce6e41e67b57749710e353ccd7460fb03fdb800
   Protobuf: c032ce1bdf7a266acfd640fbfd8bdb166127c7f5
 
