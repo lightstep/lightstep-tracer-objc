@@ -29,7 +29,7 @@ test:
 	cd examples/LightStepTestUI && xcodebuild test \
 	CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO \
 	-workspace LightStepTestUI.xcworkspace -scheme LightStepTestUI \
-	-destination 'platform=iOS Simulator,name=iPhone 6,OS=9.2'
+	-destination 'platform=iOS Simulator,name=iPhone 6,OS=9.3'
 
 xcode:
 	cd examples/LightStepTestUI && open LightStepTestUI.xcworkspace

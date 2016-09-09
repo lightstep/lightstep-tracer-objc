@@ -1,5 +1,5 @@
 #import <XCTest/XCTest.h>
-#import "LSUtil.h"
+#import <lightstep/LSUtil.h>
 
 const NSUInteger kMaxLength = 8192;
 
