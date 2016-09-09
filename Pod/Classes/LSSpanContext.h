@@ -10,6 +10,8 @@
 
 #import "OTSpanContext.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class LTSSpanContext;
 
 @interface LSSpanContext : NSObject<OTSpanContext>
@@ -60,3 +62,5 @@
 - (NSString*)hexSpanId;
 
 @end
+
+NS_ASSUME_NONNULL_END

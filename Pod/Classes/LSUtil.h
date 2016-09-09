@@ -1,5 +1,7 @@
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class GPBTimestamp;
 
 /**
@@ -20,3 +22,5 @@
 @interface NSDate (LSSpan)
 - (int64_t) toMicros;
 @end
+
+NS_ASSUME_NONNULL_END

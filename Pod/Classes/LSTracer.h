@@ -70,7 +70,8 @@ FOUNDATION_EXPORT NSInteger LTSBackgroundTaskError;
 - (instancetype) initWithToken:(NSString*)accessToken
                  componentName:(nullable NSString*)componentName
                       hostport:(nullable NSString*)hostport
-          flushIntervalSeconds:(NSUInteger)flushIntervalSeconds;
+          flushIntervalSeconds:(NSUInteger)flushIntervalSeconds
+                  insecureGRPC:(BOOL)insecureGRPC;
 
 #pragma mark - OpenTracing API
 

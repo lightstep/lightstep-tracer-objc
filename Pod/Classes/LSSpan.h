@@ -2,6 +2,8 @@
 
 #import "OTSpan.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class LSSpanContext;
 @class LSTracer;
 
@@ -75,3 +77,5 @@
 - (NSURL*)_generateTraceURL;
 
 @end
+
+NS_ASSUME_NONNULL_END

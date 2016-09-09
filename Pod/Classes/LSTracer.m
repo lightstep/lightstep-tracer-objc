@@ -47,6 +47,7 @@ static LSTracer* s_sharedInstance = nil;
                  componentName:(NSString*)componentName
                       hostport:(NSString*)hostport
           flushIntervalSeconds:(NSUInteger)flushIntervalSeconds
+                  insecureGRPC:(BOOL)insecureGRPC
 {
     if (self = [super init]) {
         self->m_accessToken = accessToken;
@@ -83,10 +84,11 @@ static LSTracer* s_sharedInstance = nil;
         self->m_lastFlush = [NSDate date];
         self->m_bgTaskId = UIBackgroundTaskInvalid;
 
-        // XXX: remove insecure bit or make it an explicit option
-        [GRPCCall useInsecureConnectionsForHost:kHostAddress];
-        [GRPCCall setUserAgentPrefix:@"LightStepTracer/1.0" forHost:kHostAddress];
-        m_collectorStub = [[LTSCollectorService alloc] initWithHost:kHostAddress];
+        if (insecureGRPC) {
+            [GRPCCall useInsecureConnectionsForHost:hostport];
+        }
+        [GRPCCall setUserAgentPrefix:@"LightStepTracer/1.0" forHost:hostport];
+        m_collectorStub = [[LTSCollectorService alloc] initWithHost:hostport];
 
         [self _forkFlushLoop:flushIntervalSeconds];
     }
@@ -96,12 +98,20 @@ static LSTracer* s_sharedInstance = nil;
 - (instancetype) initWithToken:(NSString*)accessToken
                  componentName:(nullable NSString*)componentName
           flushIntervalSeconds:(NSUInteger)flushIntervalSeconds {
-    return [self initWithToken:accessToken componentName:componentName hostport:LSDefaultHostport flushIntervalSeconds:flushIntervalSeconds];
+    return [self initWithToken:accessToken
+                 componentName:componentName
+                      hostport:LSDefaultHostport
+          flushIntervalSeconds:flushIntervalSeconds
+                  insecureGRPC:false];
 }
 
 - (instancetype) initWithToken:(NSString*)accessToken
                     componentName:(NSString*)componentName {
-    return [self initWithToken:accessToken componentName:componentName hostport:LSDefaultHostport flushIntervalSeconds:kDefaultFlushIntervalSeconds];
+    return [self initWithToken:accessToken
+                 componentName:componentName
+                      hostport:LSDefaultHostport
+          flushIntervalSeconds:kDefaultFlushIntervalSeconds
+                  insecureGRPC:false];
 }
 
 - (instancetype) initWithToken:(NSString*)accessToken {
@@ -328,6 +338,11 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
 }
 
 - (void)flush:(void (^)(NSError * _Nullable error))doneCallback {
+    if (!m_enabled) {
+        // Short-circuit.
+        return;
+    }
+
     LTSReportRequest *req = [LTSReportRequest message];
     req.auth = [[LTSAuth alloc] init];
     req.auth.accessToken = m_accessToken;
@@ -374,14 +389,20 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     }
 
     UInt64 originMicros = [LSClockState nowMicros];
-    NSLog(@"BHS10");
     [m_collectorStub reportWithRequest:req handler:^(LTSReportResponse * _Nullable response, NSError * _Nullable error) {
-        NSLog(@"BHS11", error);
         UInt64 destinationMicros = [LSClockState nowMicros];
         cleanupBlock(error);
         __typeof__(self) strongSelf = weakSelf;
         if (response != nil && strongSelf != nil) {
             @synchronized(strongSelf) {
+                if (response.commandsArray_Count > 0) {
+                    for (LTSCommand* comm in response.commandsArray) {
+                        if (comm.disable == true) {
+                            // Irrevocably disable this client.
+                            m_enabled = false;
+                        }
+                    }
+                }
                 // Update our local NTP-lite clock state with the latest measurements.
                 [strongSelf->m_clockState addSampleWithOriginMicros:originMicros
                                                       receiveMicros:[LSUtil microsFromProtoTimestamp:response.receiveTimestamp]
