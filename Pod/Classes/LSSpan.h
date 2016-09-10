@@ -77,12 +77,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSURL*)_generateTraceURL;
 
-/**
- * Generate a protocol message representation. Return value must not be modified.
- *
- * Caller *must* be in a @synchronized(self) block.
- */
+
+// For testing only
 - (LTSSpan*)_toProto:(NSDate*)finishTime;
+@property (nonatomic, readonly) NSDate* _startTime;
 
 @end
 

@@ -175,8 +175,16 @@
         for (NSString* key in m_tags ) {
             LTSKeyValue* pair = [[LTSKeyValue alloc] init];
             pair.key = key;
-            // XXX: we should support the different tag value types
-            pair.stringValue = [m_tags[key] description];
+            NSObject* val = m_tags[key];
+            if ([val isKindOfClass:[NSNumber class]]) {
+                // NOTE: we cannot distinguish between int and boolean tag values 
+                pair.intValue = ((NSNumber*)val).longLongValue;
+            } else if ([val isKindOfClass:[NSString class]]) {
+                pair.stringValue = (NSString*)val;
+            } else {
+                // Fallback for unexpected value types
+                pair.stringValue = [val description];
+            }
             [tagsArray addObject:pair];
         }
     }
@@ -197,6 +205,10 @@
     }
     record.logsArray = m_logs;
     return record;
+}
+
+- (NSDate*)_startTime {
+    return m_startTime;
 }
 
 @end
