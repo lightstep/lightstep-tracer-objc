@@ -133,35 +133,9 @@
         finishTime = [NSDate date];
     }
 
-    LTSSpan* record = [[LTSSpan alloc] init];
+    LTSSpan* record;
     @synchronized(self) {
-        NSMutableArray* tagsArray;
-        if (m_tags.count > 0) {
-            tagsArray = [[NSMutableArray<LTSKeyValue*> alloc] initWithCapacity:m_tags.count];
-            for (NSString* key in m_tags ) {
-                LTSKeyValue* pair = [[LTSKeyValue alloc] init];
-                pair.key = key;
-                // XXX: we should support the different tag value types
-                pair.stringValue = [m_tags[key] description];
-                [tagsArray addObject:pair];
-            }
-        }
-
-        record.operationName = m_operationName;
-        record.spanContext = [m_ctx toProto];
-        LTSReference* parent = nil;
-        if (m_parent) {
-            parent = [[LTSReference alloc] init];
-            parent.relationship = LTSReference_Relationship_ChildOf;
-            parent.spanContext = [m_parent toProto];
-            [record.referencesArray addObject:parent];
-        }
-        record.startTimestamp = [LSUtil protoTimestampFromDate:m_startTime];
-        record.durationMicros = [finishTime toMicros] - [m_startTime toMicros];
-        if (tagsArray != nil) {
-            record.tagsArray = tagsArray;
-        }
-        record.logsArray = m_logs;
+        record = [self _toProto:finishTime];
     }
     [m_tracer _appendSpanRecord:record];
 }
@@ -188,6 +162,41 @@
     NSString* guid = [[LSUtil hexGUID:m_ctx.spanId] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSString* urlStr = [NSString stringWithFormat:fmt, accessToken, guid, @(now)];
     return [NSURL URLWithString:urlStr];
+}
+
+/**
+ * Generate a protocol message representation. Return value must not be modified.
+ */
+- (LTSSpan*)_toProto:(NSDate*)finishTime {
+    LTSSpan* record = [[LTSSpan alloc] init];
+    NSMutableArray* tagsArray;
+    if (m_tags.count > 0) {
+        tagsArray = [[NSMutableArray<LTSKeyValue*> alloc] initWithCapacity:m_tags.count];
+        for (NSString* key in m_tags ) {
+            LTSKeyValue* pair = [[LTSKeyValue alloc] init];
+            pair.key = key;
+            // XXX: we should support the different tag value types
+            pair.stringValue = [m_tags[key] description];
+            [tagsArray addObject:pair];
+        }
+    }
+    
+    record.operationName = m_operationName;
+    record.spanContext = [m_ctx toProto];
+    LTSReference* parent = nil;
+    if (m_parent) {
+        parent = [[LTSReference alloc] init];
+        parent.relationship = LTSReference_Relationship_ChildOf;
+        parent.spanContext = [m_parent toProto];
+        [record.referencesArray addObject:parent];
+    }
+    record.startTimestamp = [LSUtil protoTimestampFromDate:m_startTime];
+    record.durationMicros = [finishTime toMicros] - [m_startTime toMicros];
+    if (tagsArray != nil) {
+        record.tagsArray = tagsArray;
+    }
+    record.logsArray = m_logs;
+    return record;
 }
 
 @end

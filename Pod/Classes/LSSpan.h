@@ -6,6 +6,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class LSSpanContext;
 @class LSTracer;
+@class LTSSpan;
 
 /**
  * An `LSSpan` represents a logical unit of work done by the service. One or
@@ -75,6 +76,13 @@ NS_ASSUME_NONNULL_BEGIN
  * Generate a URL to the trace containing this span on LightStep.
  */
 - (NSURL*)_generateTraceURL;
+
+/**
+ * Generate a protocol message representation. Return value must not be modified.
+ *
+ * Caller *must* be in a @synchronized(self) block.
+ */
+- (LTSSpan*)_toProto:(NSDate*)finishTime;
 
 @end
 
