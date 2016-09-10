@@ -61,8 +61,7 @@ static NSString* kOffsetKey = @"offset";
 }
 
 - (NSString*)_userDefaultsKey {
-    // XXX: FIX THIS
-    return [@"LSClockState:" stringByAppendingString:@"FOO XXX"];
+    return @"com.lightstep.clock_state";
 }
 
 static NSString* kTimestampMicrosKey = @"timestamp_micros";

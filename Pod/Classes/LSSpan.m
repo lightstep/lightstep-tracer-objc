@@ -45,7 +45,6 @@
         if (parent != nil) {
             self->m_parent = parent;
         }
-        // XXX: baggage
         self->m_ctx = [[LSSpanContext alloc] initWithTraceId:traceId spanId:spanId baggage:nil];
 
         [self _addTags:tags];

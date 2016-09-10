@@ -87,7 +87,7 @@ static LSTracer* s_sharedInstance = nil;
         if (insecureGRPC) {
             [GRPCCall useInsecureConnectionsForHost:hostport];
         }
-        [GRPCCall setUserAgentPrefix:@"LightStepTracer/1.0" forHost:hostport];
+        [GRPCCall setUserAgentPrefix:@"LightStepTracerObjC/1.0" forHost:hostport];
         m_collectorStub = [[LTSCollectorService alloc] initWithHost:hostport];
 
         [self _forkFlushLoop:flushIntervalSeconds];

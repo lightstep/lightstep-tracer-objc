@@ -8,8 +8,8 @@
 
 #import "LSSpanContext.h"
 
-#import "LSUtil.h"
 #import "Collector.pbobjc.h"
+#import "LSUtil.h"
 
 @implementation LSSpanContext {
     NSMutableDictionary* m_baggage;
