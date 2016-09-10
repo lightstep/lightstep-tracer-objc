@@ -52,12 +52,12 @@
       }
     },
     {
-      "name": "Core",
+      "name": "Tracer",
       "source_files": "Pod/Classes/*",
       "requires_arc": true,
       "dependencies": {
         "opentracing": [
-          "~>0.2.0"
+          "~>0.3.0"
         ]
       }
     }
