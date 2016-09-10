@@ -36,11 +36,11 @@ Pod::Spec.new do |s|
     ss.dependency "#{s.name}/Messages"
   end
 
-  s.subspec "Core" do |cs|
+  s.subspec "Tracer" do |cs|
     # Do not include the gRPC/protobuf files which are handled by the subspecs below.
     cs.source_files = 'Pod/Classes/*'
     cs.requires_arc = true
-    cs.dependency 'opentracing', '~>0.2.0'
+    cs.dependency 'opentracing', '~>0.3.0'
   end
 
   s.pod_target_xcconfig = {

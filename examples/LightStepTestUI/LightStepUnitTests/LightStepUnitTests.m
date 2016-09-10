@@ -92,7 +92,7 @@ const NSUInteger kMaxLength = 8192;
         XCTAssertEqual(spanProto.durationMicros, [parentFinish toMicros] - [parent._startTime toMicros]);
         XCTAssertEqual(spanProto.operationName, @"parent");
     }
-
+    
     // Additionally test span context inheritance, tags, and logs.
     LSSpan* child = [m_tracer startSpan:@"child" childOf:parent.context tags:@{@"string": @"abc", @"int": @(42), @"bool": @(true)}];
     NSDate* logTime = [NSDate date];
@@ -126,6 +126,19 @@ const NSUInteger kMaxLength = 8192;
         XCTAssert([[[spanProto.logsArray objectAtIndex:1].keyvaluesArray objectAtIndex:0].key isEqualToString:@"event"]);
         XCTAssert([[[spanProto.logsArray objectAtIndex:1].keyvaluesArray objectAtIndex:0].stringValue isEqualToString:@"log2"]);
     }
+}
+
+- (void)testBaggage {
+    // Test timestamps, span context basics, and operation names.
+    LSSpan* parent = [m_tracer startSpan:@"parent"];
+    [parent setBaggageItem:@"suitcase" value:@"brown"];
+    LSSpan* child1 = [m_tracer startSpan:@"child" childOf:parent.context];
+    [parent setBaggageItem:@"backpack" value:@"gray"];
+    LSSpan* child2 = [m_tracer startSpan:@"child" childOf:parent.context];
+    XCTAssert([[child1 getBaggageItem:@"suitcase"] isEqualToString:@"brown"]);
+    XCTAssertNil([child1 getBaggageItem:@"backpack"]);
+    XCTAssert([[child2 getBaggageItem:@"suitcase"] isEqualToString:@"brown"]);
+    XCTAssert([[child2 getBaggageItem:@"backpack"] isEqualToString:@"gray"]);
 }
 
 @end

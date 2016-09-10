@@ -14,8 +14,7 @@ static OTNoopSpanContext* g_defaultNoopSpanContext;
 @end
 
 @implementation OTNoopSpanContext
-- (void)setBaggageItem:(NSString*)key value:(NSString*)value {}
-- (NSString*)getBaggageItem:(NSString*)key { return nil; }
+- (void)forEachBaggageItem:(bool (^) (NSString* key, NSString* value))callback {}
 @end
 
 @interface OTNoopSpan : NSObject<OTSpan>
@@ -29,6 +28,8 @@ static OTNoopSpanContext* g_defaultNoopSpanContext;
 - (void)logEvent:(NSString*)eventName {}
 - (void)logEvent:(NSString*)eventName payload:(NSObject*)payload {}
 - (void)log:(NSString*)eventName timestamp:(NSDate*)timestamp payload:(NSObject*)payload {}
+- (id<OTSpan>)setBaggageItem:(NSString*)key value:(NSString*)value { return self; }
+- (NSString*)getBaggageItem:(NSString*)key { return nil; }
 - (void)finish {}
 - (void)finishWithTime:(NSDate*)finishTime {}
 @end
@@ -48,8 +49,8 @@ static OTNoopSpanContext* g_defaultNoopSpanContext;
 - (id<OTSpan>)startSpan:(NSString*)operationName childOf:(id<OTSpanContext>)parent tags:(NSDictionary*)tags startTime:(NSDate*)startTime { return g_defaultNoopSpan; }
 - (id<OTSpan>)startSpan:(NSString*)operationName references:(NSArray*)references tags:(NSDictionary*)tags startTime:(NSDate*)startTime { return g_defaultNoopSpan; }
 
-- (bool)inject:(id<OTSpanContext>)span format:(NSString*)format carrier:(id)carrier { return true; }
-- (bool)inject:(id<OTSpanContext>)span format:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError { return true; }
+- (BOOL)inject:(id<OTSpanContext>)span format:(NSString*)format carrier:(id)carrier { return true; }
+- (BOOL)inject:(id<OTSpanContext>)span format:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError { return true; }
 
 - (id<OTSpanContext>)extractWithFormat:(NSString*)format carrier:(id)carrier { return nil; }
 - (id<OTSpanContext>)extractWithFormat:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError { return nil; }
