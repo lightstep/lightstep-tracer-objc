@@ -81,10 +81,10 @@ const NSUInteger kMaxLength = 8192;
 - (void)testLSSpan {
     // Test timestamps, span context basics, and operation names.
     LSSpan* parent = [m_tracer startSpan:@"parent"];
-    LTSSpanContext* parentCtx;
+    LSPBSpanContext* parentCtx;
     {
         NSDate* parentFinish = [NSDate date];
-        LTSSpan* spanProto = [parent _toProto:parentFinish];
+        LSPBSpan* spanProto = [parent _toProto:parentFinish];
         parentCtx = spanProto.spanContext;
         XCTAssertNotEqual(parentCtx.traceId, 0);
         XCTAssertNotEqual(parentCtx.spanId, 0);
@@ -100,13 +100,13 @@ const NSUInteger kMaxLength = 8192;
     [child logEvent:@"log2"];
     {
         NSDate* childFinish = [NSDate date];
-        LTSSpan* spanProto = [child _toProto:childFinish];
+        LSPBSpan* spanProto = [child _toProto:childFinish];
         XCTAssertEqual(spanProto.spanContext.traceId, parentCtx.traceId);
         XCTAssertNotEqual(spanProto.spanContext.spanId, 0);
         XCTAssertEqual(spanProto.referencesArray.count, 1);
         XCTAssertEqual([spanProto.referencesArray objectAtIndex:0].spanContext.traceId, spanProto.spanContext.traceId);
         XCTAssertEqual(spanProto.tagsArray.count, 3);
-        for (LTSKeyValue* kv in spanProto.tagsArray) {
+        for (LSPBKeyValue* kv in spanProto.tagsArray) {
             if ([kv.key isEqualToString:@"string"]) {
                 XCTAssert([kv.stringValue isEqualToString:@"abc"]);
             } else if ([kv.key isEqualToString:@"int"]) {

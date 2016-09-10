@@ -3,7 +3,7 @@
 #import <ProtoRPC/ProtoRPC.h>
 #import <RxLibrary/GRXWriter+Immediate.h>
 
-@implementation LTSCollectorService
+@implementation LSPBCollectorService
 
 // Designated initializer
 - (instancetype)initWithHost:(NSString *)host {
@@ -24,14 +24,14 @@
 
 #pragma mark Report(ReportRequest) returns (ReportResponse)
 
-- (void)reportWithRequest:(LTSReportRequest *)request handler:(void(^)(LTSReportResponse *_Nullable response, NSError *_Nullable error))handler{
+- (void)reportWithRequest:(LSPBReportRequest *)request handler:(void(^)(LSPBReportResponse *_Nullable response, NSError *_Nullable error))handler{
   [[self RPCToReportWithRequest:request handler:handler] start];
 }
 // Returns a not-yet-started RPC object.
-- (GRPCProtoCall *)RPCToReportWithRequest:(LTSReportRequest *)request handler:(void(^)(LTSReportResponse *_Nullable response, NSError *_Nullable error))handler{
+- (GRPCProtoCall *)RPCToReportWithRequest:(LSPBReportRequest *)request handler:(void(^)(LSPBReportResponse *_Nullable response, NSError *_Nullable error))handler{
   return [self RPCToMethod:@"Report"
             requestsWriter:[GRXWriter writerWithValue:request]
-             responseClass:[LTSReportResponse class]
+             responseClass:[LSPBReportResponse class]
         responsesWriteable:[GRXWriteable writeableWithSingleHandler:handler]];
 }
 @end

@@ -13,7 +13,7 @@
     LSSpanContext* m_parent;
     NSString* m_operationName;
     NSDate* m_startTime;
-    NSMutableArray<LTSLog*>* m_logs;
+    NSMutableArray<LSPBLog*>* m_logs;
     NSMutableDictionary* m_tags;
 }
 
@@ -95,17 +95,17 @@
 
     NSString* payloadJSON = [LSUtil objectToJSONString:payload
                                              maxLength:[m_tracer maxPayloadJSONLength]];
-    LTSLog* logRecord = [[LTSLog alloc] init];
+    LSPBLog* logRecord = [[LSPBLog alloc] init];
     logRecord.timestamp = [LSUtil protoTimestampFromDate:timestamp];
-    NSMutableArray<LTSKeyValue*>* logKeyValues = [NSMutableArray<LTSKeyValue*> array];
+    NSMutableArray<LSPBKeyValue*>* logKeyValues = [NSMutableArray<LSPBKeyValue*> array];
     {
-        LTSKeyValue* val = [[LTSKeyValue alloc] init];
+        LSPBKeyValue* val = [[LSPBKeyValue alloc] init];
         val.key = @"event";
         val.stringValue = eventName;
         [logKeyValues addObject:val];
     }
     if (payloadJSON != nil) {
-        LTSKeyValue* val = [[LTSKeyValue alloc] init];
+        LSPBKeyValue* val = [[LSPBKeyValue alloc] init];
         val.key = @"payload_json";
         val.stringValue = payloadJSON;
         [logKeyValues addObject:val];
@@ -114,10 +114,10 @@
     [self _appendLog:logRecord];
 }
 
-- (void)_appendLog:(LTSLog*)log {
+- (void)_appendLog:(LSPBLog*)log {
     @synchronized(self) {
         if (m_logs == nil) {
-            m_logs = [NSMutableArray<LTSLog*> array];
+            m_logs = [NSMutableArray<LSPBLog*> array];
         }
         [m_logs addObject:log];
     }
@@ -132,7 +132,7 @@
         finishTime = [NSDate date];
     }
 
-    LTSSpan* record;
+    LSPBSpan* record;
     @synchronized(self) {
         record = [self _toProto:finishTime];
     }
@@ -179,13 +179,13 @@
 /**
  * Generate a protocol message representation. Return value must not be modified.
  */
-- (LTSSpan*)_toProto:(NSDate*)finishTime {
-    LTSSpan* record = [[LTSSpan alloc] init];
+- (LSPBSpan*)_toProto:(NSDate*)finishTime {
+    LSPBSpan* record = [[LSPBSpan alloc] init];
     NSMutableArray* tagsArray;
     if (m_tags.count > 0) {
-        tagsArray = [[NSMutableArray<LTSKeyValue*> alloc] initWithCapacity:m_tags.count];
+        tagsArray = [[NSMutableArray<LSPBKeyValue*> alloc] initWithCapacity:m_tags.count];
         for (NSString* key in m_tags ) {
-            LTSKeyValue* pair = [[LTSKeyValue alloc] init];
+            LSPBKeyValue* pair = [[LSPBKeyValue alloc] init];
             pair.key = key;
             NSObject* val = m_tags[key];
             if ([val isKindOfClass:[NSNumber class]]) {
@@ -203,10 +203,10 @@
     
     record.operationName = m_operationName;
     record.spanContext = [m_ctx toProto];
-    LTSReference* parent = nil;
+    LSPBReference* parent = nil;
     if (m_parent) {
-        parent = [[LTSReference alloc] init];
-        parent.relationship = LTSReference_Relationship_ChildOf;
+        parent = [[LSPBReference alloc] init];
+        parent.relationship = LSPBReference_Relationship_ChildOf;
         parent.spanContext = [m_parent toProto];
         [record.referencesArray addObject:parent];
     }

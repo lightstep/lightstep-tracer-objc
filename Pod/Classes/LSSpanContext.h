@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class LTSSpanContext;
+@class LSPBSpanContext;
 
 @interface LSSpanContext : NSObject<OTSpanContext>
 
@@ -54,9 +54,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) UInt64 spanId;
 
 /**
- * The LSSpanContext as a LTSSpanContext protocol message.
+ * The LSSpanContext as a LSPBSpanContext protocol message.
  */
-- (LTSSpanContext*)toProto;
+- (LSPBSpanContext*)toProto;
 
 /**
  * The trace id as a hexadecimal string.

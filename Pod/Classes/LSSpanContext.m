@@ -49,8 +49,8 @@
     }
 }
 
-- (LTSSpanContext*)toProto {
-    LTSSpanContext* rval = [[LTSSpanContext alloc] init];
+- (LSPBSpanContext*)toProto {
+    LSPBSpanContext* rval = [[LSPBSpanContext alloc] init];
     rval.traceId = self.traceId;
     rval.spanId = self.spanId;
     return rval;
