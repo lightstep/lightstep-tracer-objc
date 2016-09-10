@@ -12,7 +12,7 @@
 #import "LSUtil.h"
 
 @implementation LSSpanContext {
-    NSMutableDictionary* m_baggage;
+    NSDictionary* m_baggage;
 }
 
 - (instancetype)initWithTraceId:(UInt64)traceId
@@ -30,25 +30,21 @@
     return self;
 }
 
-- (void)setBaggageItem:(NSString*)key value:(NSString*)value {
-    @synchronized(self) {
-        [m_baggage setObject:value forKey:key];
-    }
+- (LSSpanContext*)withBaggageItem:(NSString*)key value:(NSString*)value {
+    NSMutableDictionary* baggageCopy = [m_baggage mutableCopy];
+    [baggageCopy setObject:value forKey:key];
+    return [[LSSpanContext alloc] initWithTraceId:self.traceId spanId:self.spanId baggage:baggageCopy];
 }
 
+
 - (NSString*)getBaggageItem:(NSString*)key {
-    @synchronized(self) {
-        id obj = [m_baggage objectForKey:key];
-        return (NSString*)obj;
-    }
+    return (NSString*)[m_baggage objectForKey:key];
 }
 
 - (void)forEachBaggageItem:(BOOL (^) (NSString* key, NSString* value))callback {
-    @synchronized(self) {
-        for (NSString* key in m_baggage) {
-            if (!callback(key, [m_baggage objectForKey:key])) {
-                return;
-            }
+    for (NSString* key in m_baggage) {
+        if (!callback(key, [m_baggage objectForKey:key])) {
+            return;
         }
     }
 }
@@ -66,6 +62,10 @@
 
 - (NSString*)hexSpanId {
     return [LSUtil hexGUID:self.spanId];
+}
+
+- (NSDictionary*)_baggage {
+    return m_baggage;
 }
 
 @end

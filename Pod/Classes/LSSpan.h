@@ -27,13 +27,16 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setTag:(NSString*)key value:(NSString*)value;
 
 - (void)logEvent:(NSString*)eventName;
-- (void)logEvent:(NSString*)eventName payload:(NSObject*)payload;
+- (void)logEvent:(NSString*)eventName payload:(nullable NSObject*)payload;
 - (void)log:(NSString*)eventName
-  timestamp:(NSDate*)timestamp
-    payload:(NSObject*)payload;
+  timestamp:(nullable NSDate*)timestamp
+    payload:(nullable NSObject*)payload;
 
 - (void) finish;
-- (void) finishWithTime:(NSDate*)finishTime;
+- (void) finishWithTime:(nullable NSDate*)finishTime;
+
+- (id<OTSpan>)setBaggageItem:(NSString*)key value:(NSString*)value;
+- (NSString*)getBaggageItem:(NSString*)key;
 
 #pragma mark - LightStep extensions and internal methods
 

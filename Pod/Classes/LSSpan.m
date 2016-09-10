@@ -45,7 +45,7 @@
         if (parent != nil) {
             self->m_parent = parent;
         }
-        self->m_ctx = [[LSSpanContext alloc] initWithTraceId:traceId spanId:spanId baggage:nil];
+        self->m_ctx = [[LSSpanContext alloc] initWithTraceId:traceId spanId:spanId baggage:parent._baggage];
 
         [self _addTags:tags];
     }
@@ -137,6 +137,19 @@
         record = [self _toProto:finishTime];
     }
     [m_tracer _appendSpanRecord:record];
+}
+
+- (id<OTSpan>)setBaggageItem:(NSString*)key value:(NSString*)value {
+    @synchronized(self) {
+        m_ctx = [m_ctx withBaggageItem:key value:value];
+    }
+    return self;
+}
+
+- (NSString*)getBaggageItem:(NSString*)key {
+    @synchronized(self) {
+        return [m_ctx getBaggageItem:key];
+    }
 }
 
 - (void)_addTags:(NSDictionary*)tags {

@@ -18,8 +18,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - OpenTracing API
 
-- (void)setBaggageItem:(NSString*)key value:(NSString*)value;
-- (NSString*)getBaggageItem:(NSString*)key;
+/**
+ * An iterator for OTSpanContext baggage.
+ *
+ * If the callback returns false, iteration stops and forEachBaggageItem:
+ * returns early.
+ */
+- (void)forEachBaggageItem:(BOOL (^) (NSString* key, NSString* value))callback;
 
 #pragma mark - LightStep API
 
@@ -29,12 +34,14 @@ NS_ASSUME_NONNULL_BEGIN
                         baggage:(NSMutableDictionary*)baggage;
 
 /**
- * An iterator for OTSpanContext baggage.
- *
- * If the callback returns false, iteration stops and forEachBaggageItem:
- * returns early.
+ * Return a copy of this SpanContext with the given (potentially additional) baggage item.
  */
-- (void)forEachBaggageItem:(BOOL (^) (NSString* key, NSString* value))callback;
+- (LSSpanContext*)withBaggageItem:(NSString*)key value:(NSString*)value;
+
+/**
+ * Return a specific baggage item.
+ */
+- (NSString*)getBaggageItem:(NSString*)key;
 
 /**
  * The LightStep Span's probabilistically unique trace id.
@@ -60,6 +67,12 @@ NS_ASSUME_NONNULL_BEGIN
  * The span id as a hexadecimal string.
  */
 - (NSString*)hexSpanId;
+
+/**
+ * The baggage dictionary (for internal use only).
+ */
+@property (nonatomic, readonly) NSDictionary* _baggage;
+
 
 @end
 
