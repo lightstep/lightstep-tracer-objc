@@ -13,13 +13,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol LTSCollectorService <NSObject>
+@protocol LSPBCollectorService <NSObject>
 
 #pragma mark Report(ReportRequest) returns (ReportResponse)
 
-- (void)reportWithRequest:(LTSReportRequest *)request handler:(void(^)(LTSReportResponse *_Nullable response, NSError *_Nullable error))handler;
+- (void)reportWithRequest:(LSPBReportRequest *)request handler:(void(^)(LSPBReportResponse *_Nullable response, NSError *_Nullable error))handler;
 
-- (GRPCProtoCall *)RPCToReportWithRequest:(LTSReportRequest *)request handler:(void(^)(LTSReportResponse *_Nullable response, NSError *_Nullable error))handler;
+- (GRPCProtoCall *)RPCToReportWithRequest:(LSPBReportRequest *)request handler:(void(^)(LSPBReportResponse *_Nullable response, NSError *_Nullable error))handler;
 
 
 @end
@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Basic service implementation, over gRPC, that only does
  * marshalling and parsing.
  */
-@interface LTSCollectorService : GRPCProtoService<LTSCollectorService>
+@interface LSPBCollectorService : GRPCProtoService<LSPBCollectorService>
 - (instancetype)initWithHost:(NSString *)host NS_DESIGNATED_INITIALIZER;
 + (instancetype)serviceWithHost:(NSString *)host;
 @end

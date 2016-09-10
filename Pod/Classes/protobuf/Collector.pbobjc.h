@@ -25,37 +25,37 @@
 CF_EXTERN_C_BEGIN
 
 @class GPBTimestamp;
-@class LTSAuth;
-@class LTSCommand;
-@class LTSInternalMetrics;
-@class LTSKeyValue;
-@class LTSLog;
-@class LTSMetricsSample;
-@class LTSReference;
-@class LTSSpan;
-@class LTSSpanContext;
-@class LTSTracer;
+@class LSPBAuth;
+@class LSPBCommand;
+@class LSPBInternalMetrics;
+@class LSPBKeyValue;
+@class LSPBLog;
+@class LSPBMetricsSample;
+@class LSPBReference;
+@class LSPBSpan;
+@class LSPBSpanContext;
+@class LSPBTracer;
 
 NS_ASSUME_NONNULL_BEGIN
 
-#pragma mark - Enum LTSReference_Relationship
+#pragma mark - Enum LSPBReference_Relationship
 
-typedef GPB_ENUM(LTSReference_Relationship) {
+typedef GPB_ENUM(LSPBReference_Relationship) {
   /// Value used if any message's field encounters a value that is not defined
   /// by this enum. The message will also have C functions to get/set the rawValue
   /// of the field.
-  LTSReference_Relationship_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
-  LTSReference_Relationship_ChildOf = 0,
-  LTSReference_Relationship_FollowsFrom = 1,
+  LSPBReference_Relationship_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  LSPBReference_Relationship_ChildOf = 0,
+  LSPBReference_Relationship_FollowsFrom = 1,
 };
 
-GPBEnumDescriptor *LTSReference_Relationship_EnumDescriptor(void);
+GPBEnumDescriptor *LSPBReference_Relationship_EnumDescriptor(void);
 
 /// Checks to see if the given value is defined by the enum or was not known at
 /// the time this source was generated.
-BOOL LTSReference_Relationship_IsValidValue(int32_t value);
+BOOL LSPBReference_Relationship_IsValidValue(int32_t value);
 
-#pragma mark - LTSCollectorRoot
+#pragma mark - LSPBCollectorRoot
 
 /// Exposes the extension registry for this file.
 ///
@@ -65,18 +65,18 @@ BOOL LTSReference_Relationship_IsValidValue(int32_t value);
 /// @endcode
 /// which is a @c GPBExtensionRegistry that includes all the extensions defined by
 /// this file and all files that it depends on.
-@interface LTSCollectorRoot : GPBRootObject
+@interface LSPBCollectorRoot : GPBRootObject
 @end
 
-#pragma mark - LTSSpanContext
+#pragma mark - LSPBSpanContext
 
-typedef GPB_ENUM(LTSSpanContext_FieldNumber) {
-  LTSSpanContext_FieldNumber_TraceId = 1,
-  LTSSpanContext_FieldNumber_SpanId = 2,
-  LTSSpanContext_FieldNumber_Baggage = 3,
+typedef GPB_ENUM(LSPBSpanContext_FieldNumber) {
+  LSPBSpanContext_FieldNumber_TraceId = 1,
+  LSPBSpanContext_FieldNumber_SpanId = 2,
+  LSPBSpanContext_FieldNumber_Baggage = 3,
 };
 
-@interface LTSSpanContext : GPBMessage
+@interface LSPBSpanContext : GPBMessage
 
 @property(nonatomic, readwrite) uint64_t traceId;
 
@@ -88,29 +88,29 @@ typedef GPB_ENUM(LTSSpanContext_FieldNumber) {
 
 @end
 
-#pragma mark - LTSKeyValue
+#pragma mark - LSPBKeyValue
 
-typedef GPB_ENUM(LTSKeyValue_FieldNumber) {
-  LTSKeyValue_FieldNumber_Key = 1,
-  LTSKeyValue_FieldNumber_StringValue = 2,
-  LTSKeyValue_FieldNumber_IntValue = 3,
-  LTSKeyValue_FieldNumber_DoubleValue = 4,
-  LTSKeyValue_FieldNumber_BoolValue = 5,
+typedef GPB_ENUM(LSPBKeyValue_FieldNumber) {
+  LSPBKeyValue_FieldNumber_Key = 1,
+  LSPBKeyValue_FieldNumber_StringValue = 2,
+  LSPBKeyValue_FieldNumber_IntValue = 3,
+  LSPBKeyValue_FieldNumber_DoubleValue = 4,
+  LSPBKeyValue_FieldNumber_BoolValue = 5,
 };
 
-typedef GPB_ENUM(LTSKeyValue_Value_OneOfCase) {
-  LTSKeyValue_Value_OneOfCase_GPBUnsetOneOfCase = 0,
-  LTSKeyValue_Value_OneOfCase_StringValue = 2,
-  LTSKeyValue_Value_OneOfCase_IntValue = 3,
-  LTSKeyValue_Value_OneOfCase_DoubleValue = 4,
-  LTSKeyValue_Value_OneOfCase_BoolValue = 5,
+typedef GPB_ENUM(LSPBKeyValue_Value_OneOfCase) {
+  LSPBKeyValue_Value_OneOfCase_GPBUnsetOneOfCase = 0,
+  LSPBKeyValue_Value_OneOfCase_StringValue = 2,
+  LSPBKeyValue_Value_OneOfCase_IntValue = 3,
+  LSPBKeyValue_Value_OneOfCase_DoubleValue = 4,
+  LSPBKeyValue_Value_OneOfCase_BoolValue = 5,
 };
 
-@interface LTSKeyValue : GPBMessage
+@interface LSPBKeyValue : GPBMessage
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *key;
 
-@property(nonatomic, readonly) LTSKeyValue_Value_OneOfCase valueOneOfCase;
+@property(nonatomic, readonly) LSPBKeyValue_Value_OneOfCase valueOneOfCase;
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *stringValue;
 
@@ -123,73 +123,73 @@ typedef GPB_ENUM(LTSKeyValue_Value_OneOfCase) {
 @end
 
 /// Clears whatever value was set for the oneof 'value'.
-void LTSKeyValue_ClearValueOneOfCase(LTSKeyValue *message);
+void LSPBKeyValue_ClearValueOneOfCase(LSPBKeyValue *message);
 
-#pragma mark - LTSLog
+#pragma mark - LSPBLog
 
-typedef GPB_ENUM(LTSLog_FieldNumber) {
-  LTSLog_FieldNumber_Timestamp = 1,
-  LTSLog_FieldNumber_KeyvaluesArray = 2,
+typedef GPB_ENUM(LSPBLog_FieldNumber) {
+  LSPBLog_FieldNumber_Timestamp = 1,
+  LSPBLog_FieldNumber_KeyvaluesArray = 2,
 };
 
-@interface LTSLog : GPBMessage
+@interface LSPBLog : GPBMessage
 
 @property(nonatomic, readwrite, strong, null_resettable) GPBTimestamp *timestamp;
 /// Test to see if @c timestamp has been set.
 @property(nonatomic, readwrite) BOOL hasTimestamp;
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<LTSKeyValue*> *keyvaluesArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<LSPBKeyValue*> *keyvaluesArray;
 /// The number of items in @c keyvaluesArray without causing the array to be created.
 @property(nonatomic, readonly) NSUInteger keyvaluesArray_Count;
 
 @end
 
-#pragma mark - LTSReference
+#pragma mark - LSPBReference
 
-typedef GPB_ENUM(LTSReference_FieldNumber) {
-  LTSReference_FieldNumber_Relationship = 1,
-  LTSReference_FieldNumber_SpanContext = 2,
+typedef GPB_ENUM(LSPBReference_FieldNumber) {
+  LSPBReference_FieldNumber_Relationship = 1,
+  LSPBReference_FieldNumber_SpanContext = 2,
 };
 
-@interface LTSReference : GPBMessage
+@interface LSPBReference : GPBMessage
 
-@property(nonatomic, readwrite) LTSReference_Relationship relationship;
+@property(nonatomic, readwrite) LSPBReference_Relationship relationship;
 
-@property(nonatomic, readwrite, strong, null_resettable) LTSSpanContext *spanContext;
+@property(nonatomic, readwrite, strong, null_resettable) LSPBSpanContext *spanContext;
 /// Test to see if @c spanContext has been set.
 @property(nonatomic, readwrite) BOOL hasSpanContext;
 
 @end
 
-/// Fetches the raw value of a @c LTSReference's @c relationship property, even
+/// Fetches the raw value of a @c LSPBReference's @c relationship property, even
 /// if the value was not defined by the enum at the time the code was generated.
-int32_t LTSReference_Relationship_RawValue(LTSReference *message);
-/// Sets the raw value of an @c LTSReference's @c relationship property, allowing
+int32_t LSPBReference_Relationship_RawValue(LSPBReference *message);
+/// Sets the raw value of an @c LSPBReference's @c relationship property, allowing
 /// it to be set to a value that was not defined by the enum at the time the code
 /// was generated.
-void SetLTSReference_Relationship_RawValue(LTSReference *message, int32_t value);
+void SetLSPBReference_Relationship_RawValue(LSPBReference *message, int32_t value);
 
-#pragma mark - LTSSpan
+#pragma mark - LSPBSpan
 
-typedef GPB_ENUM(LTSSpan_FieldNumber) {
-  LTSSpan_FieldNumber_SpanContext = 1,
-  LTSSpan_FieldNumber_OperationName = 2,
-  LTSSpan_FieldNumber_ReferencesArray = 3,
-  LTSSpan_FieldNumber_StartTimestamp = 4,
-  LTSSpan_FieldNumber_DurationMicros = 5,
-  LTSSpan_FieldNumber_TagsArray = 6,
-  LTSSpan_FieldNumber_LogsArray = 7,
+typedef GPB_ENUM(LSPBSpan_FieldNumber) {
+  LSPBSpan_FieldNumber_SpanContext = 1,
+  LSPBSpan_FieldNumber_OperationName = 2,
+  LSPBSpan_FieldNumber_ReferencesArray = 3,
+  LSPBSpan_FieldNumber_StartTimestamp = 4,
+  LSPBSpan_FieldNumber_DurationMicros = 5,
+  LSPBSpan_FieldNumber_TagsArray = 6,
+  LSPBSpan_FieldNumber_LogsArray = 7,
 };
 
-@interface LTSSpan : GPBMessage
+@interface LSPBSpan : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) LTSSpanContext *spanContext;
+@property(nonatomic, readwrite, strong, null_resettable) LSPBSpanContext *spanContext;
 /// Test to see if @c spanContext has been set.
 @property(nonatomic, readwrite) BOOL hasSpanContext;
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *operationName;
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<LTSReference*> *referencesArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<LSPBReference*> *referencesArray;
 /// The number of items in @c referencesArray without causing the array to be created.
 @property(nonatomic, readonly) NSUInteger referencesArray_Count;
 
@@ -199,52 +199,52 @@ typedef GPB_ENUM(LTSSpan_FieldNumber) {
 
 @property(nonatomic, readwrite) uint64_t durationMicros;
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<LTSKeyValue*> *tagsArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<LSPBKeyValue*> *tagsArray;
 /// The number of items in @c tagsArray without causing the array to be created.
 @property(nonatomic, readonly) NSUInteger tagsArray_Count;
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<LTSLog*> *logsArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<LSPBLog*> *logsArray;
 /// The number of items in @c logsArray without causing the array to be created.
 @property(nonatomic, readonly) NSUInteger logsArray_Count;
 
 @end
 
-#pragma mark - LTSTracer
+#pragma mark - LSPBTracer
 
-typedef GPB_ENUM(LTSTracer_FieldNumber) {
-  LTSTracer_FieldNumber_TracerId = 1,
-  LTSTracer_FieldNumber_TagsArray = 4,
+typedef GPB_ENUM(LSPBTracer_FieldNumber) {
+  LSPBTracer_FieldNumber_TracerId = 1,
+  LSPBTracer_FieldNumber_TagsArray = 4,
 };
 
-@interface LTSTracer : GPBMessage
+@interface LSPBTracer : GPBMessage
 
 @property(nonatomic, readwrite) uint64_t tracerId;
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<LTSKeyValue*> *tagsArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<LSPBKeyValue*> *tagsArray;
 /// The number of items in @c tagsArray without causing the array to be created.
 @property(nonatomic, readonly) NSUInteger tagsArray_Count;
 
 @end
 
-#pragma mark - LTSMetricsSample
+#pragma mark - LSPBMetricsSample
 
-typedef GPB_ENUM(LTSMetricsSample_FieldNumber) {
-  LTSMetricsSample_FieldNumber_Name = 1,
-  LTSMetricsSample_FieldNumber_IntValue = 2,
-  LTSMetricsSample_FieldNumber_DoubleValue = 3,
+typedef GPB_ENUM(LSPBMetricsSample_FieldNumber) {
+  LSPBMetricsSample_FieldNumber_Name = 1,
+  LSPBMetricsSample_FieldNumber_IntValue = 2,
+  LSPBMetricsSample_FieldNumber_DoubleValue = 3,
 };
 
-typedef GPB_ENUM(LTSMetricsSample_Value_OneOfCase) {
-  LTSMetricsSample_Value_OneOfCase_GPBUnsetOneOfCase = 0,
-  LTSMetricsSample_Value_OneOfCase_IntValue = 2,
-  LTSMetricsSample_Value_OneOfCase_DoubleValue = 3,
+typedef GPB_ENUM(LSPBMetricsSample_Value_OneOfCase) {
+  LSPBMetricsSample_Value_OneOfCase_GPBUnsetOneOfCase = 0,
+  LSPBMetricsSample_Value_OneOfCase_IntValue = 2,
+  LSPBMetricsSample_Value_OneOfCase_DoubleValue = 3,
 };
 
-@interface LTSMetricsSample : GPBMessage
+@interface LSPBMetricsSample : GPBMessage
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *name;
 
-@property(nonatomic, readonly) LTSMetricsSample_Value_OneOfCase valueOneOfCase;
+@property(nonatomic, readonly) LSPBMetricsSample_Value_OneOfCase valueOneOfCase;
 
 @property(nonatomic, readwrite) int64_t intValue;
 
@@ -253,19 +253,19 @@ typedef GPB_ENUM(LTSMetricsSample_Value_OneOfCase) {
 @end
 
 /// Clears whatever value was set for the oneof 'value'.
-void LTSMetricsSample_ClearValueOneOfCase(LTSMetricsSample *message);
+void LSPBMetricsSample_ClearValueOneOfCase(LSPBMetricsSample *message);
 
-#pragma mark - LTSInternalMetrics
+#pragma mark - LSPBInternalMetrics
 
-typedef GPB_ENUM(LTSInternalMetrics_FieldNumber) {
-  LTSInternalMetrics_FieldNumber_StartTimestamp = 1,
-  LTSInternalMetrics_FieldNumber_DurationMicros = 2,
-  LTSInternalMetrics_FieldNumber_LogsArray = 3,
-  LTSInternalMetrics_FieldNumber_CountsArray = 4,
-  LTSInternalMetrics_FieldNumber_GaugesArray = 5,
+typedef GPB_ENUM(LSPBInternalMetrics_FieldNumber) {
+  LSPBInternalMetrics_FieldNumber_StartTimestamp = 1,
+  LSPBInternalMetrics_FieldNumber_DurationMicros = 2,
+  LSPBInternalMetrics_FieldNumber_LogsArray = 3,
+  LSPBInternalMetrics_FieldNumber_CountsArray = 4,
+  LSPBInternalMetrics_FieldNumber_GaugesArray = 5,
 };
 
-@interface LTSInternalMetrics : GPBMessage
+@interface LSPBInternalMetrics : GPBMessage
 
 @property(nonatomic, readwrite, strong, null_resettable) GPBTimestamp *startTimestamp;
 /// Test to see if @c startTimestamp has been set.
@@ -273,88 +273,88 @@ typedef GPB_ENUM(LTSInternalMetrics_FieldNumber) {
 
 @property(nonatomic, readwrite) uint64_t durationMicros;
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<LTSLog*> *logsArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<LSPBLog*> *logsArray;
 /// The number of items in @c logsArray without causing the array to be created.
 @property(nonatomic, readonly) NSUInteger logsArray_Count;
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<LTSMetricsSample*> *countsArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<LSPBMetricsSample*> *countsArray;
 /// The number of items in @c countsArray without causing the array to be created.
 @property(nonatomic, readonly) NSUInteger countsArray_Count;
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<LTSMetricsSample*> *gaugesArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<LSPBMetricsSample*> *gaugesArray;
 /// The number of items in @c gaugesArray without causing the array to be created.
 @property(nonatomic, readonly) NSUInteger gaugesArray_Count;
 
 @end
 
-#pragma mark - LTSAuth
+#pragma mark - LSPBAuth
 
-typedef GPB_ENUM(LTSAuth_FieldNumber) {
-  LTSAuth_FieldNumber_AccessToken = 1,
+typedef GPB_ENUM(LSPBAuth_FieldNumber) {
+  LSPBAuth_FieldNumber_AccessToken = 1,
 };
 
-@interface LTSAuth : GPBMessage
+@interface LSPBAuth : GPBMessage
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *accessToken;
 
 @end
 
-#pragma mark - LTSReportRequest
+#pragma mark - LSPBReportRequest
 
-typedef GPB_ENUM(LTSReportRequest_FieldNumber) {
-  LTSReportRequest_FieldNumber_Tracer = 1,
-  LTSReportRequest_FieldNumber_Auth = 2,
-  LTSReportRequest_FieldNumber_SpansArray = 3,
-  LTSReportRequest_FieldNumber_TimestampOffsetMicros = 5,
-  LTSReportRequest_FieldNumber_InternalMetrics = 6,
+typedef GPB_ENUM(LSPBReportRequest_FieldNumber) {
+  LSPBReportRequest_FieldNumber_Tracer = 1,
+  LSPBReportRequest_FieldNumber_Auth = 2,
+  LSPBReportRequest_FieldNumber_SpansArray = 3,
+  LSPBReportRequest_FieldNumber_TimestampOffsetMicros = 5,
+  LSPBReportRequest_FieldNumber_InternalMetrics = 6,
 };
 
-@interface LTSReportRequest : GPBMessage
+@interface LSPBReportRequest : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) LTSTracer *tracer;
+@property(nonatomic, readwrite, strong, null_resettable) LSPBTracer *tracer;
 /// Test to see if @c tracer has been set.
 @property(nonatomic, readwrite) BOOL hasTracer;
 
-@property(nonatomic, readwrite, strong, null_resettable) LTSAuth *auth;
+@property(nonatomic, readwrite, strong, null_resettable) LSPBAuth *auth;
 /// Test to see if @c auth has been set.
 @property(nonatomic, readwrite) BOOL hasAuth;
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<LTSSpan*> *spansArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<LSPBSpan*> *spansArray;
 /// The number of items in @c spansArray without causing the array to be created.
 @property(nonatomic, readonly) NSUInteger spansArray_Count;
 
 @property(nonatomic, readwrite) uint32_t timestampOffsetMicros;
 
-@property(nonatomic, readwrite, strong, null_resettable) LTSInternalMetrics *internalMetrics;
+@property(nonatomic, readwrite, strong, null_resettable) LSPBInternalMetrics *internalMetrics;
 /// Test to see if @c internalMetrics has been set.
 @property(nonatomic, readwrite) BOOL hasInternalMetrics;
 
 @end
 
-#pragma mark - LTSCommand
+#pragma mark - LSPBCommand
 
-typedef GPB_ENUM(LTSCommand_FieldNumber) {
-  LTSCommand_FieldNumber_Disable = 1,
+typedef GPB_ENUM(LSPBCommand_FieldNumber) {
+  LSPBCommand_FieldNumber_Disable = 1,
 };
 
-@interface LTSCommand : GPBMessage
+@interface LSPBCommand : GPBMessage
 
 @property(nonatomic, readwrite) BOOL disable;
 
 @end
 
-#pragma mark - LTSReportResponse
+#pragma mark - LSPBReportResponse
 
-typedef GPB_ENUM(LTSReportResponse_FieldNumber) {
-  LTSReportResponse_FieldNumber_CommandsArray = 1,
-  LTSReportResponse_FieldNumber_ReceiveTimestamp = 2,
-  LTSReportResponse_FieldNumber_TransmitTimestamp = 3,
-  LTSReportResponse_FieldNumber_ErrorsArray = 4,
+typedef GPB_ENUM(LSPBReportResponse_FieldNumber) {
+  LSPBReportResponse_FieldNumber_CommandsArray = 1,
+  LSPBReportResponse_FieldNumber_ReceiveTimestamp = 2,
+  LSPBReportResponse_FieldNumber_TransmitTimestamp = 3,
+  LSPBReportResponse_FieldNumber_ErrorsArray = 4,
 };
 
-@interface LTSReportResponse : GPBMessage
+@interface LSPBReportResponse : GPBMessage
 
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<LTSCommand*> *commandsArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<LSPBCommand*> *commandsArray;
 /// The number of items in @c commandsArray without causing the array to be created.
 @property(nonatomic, readonly) NSUInteger commandsArray_Count;
 

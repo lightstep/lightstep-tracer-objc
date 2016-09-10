@@ -26,9 +26,9 @@
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #pragma clang diagnostic ignored "-Wdirect-ivar-access"
 
-#pragma mark - LTSCollectorRoot
+#pragma mark - LSPBCollectorRoot
 
-@implementation LTSCollectorRoot
+@implementation LSPBCollectorRoot
 
 + (GPBExtensionRegistry*)extensionRegistry {
   // This is called by +initialize so there is no need to worry
@@ -44,9 +44,9 @@
 
 @end
 
-#pragma mark - LTSCollectorRoot_FileDescriptor
+#pragma mark - LSPBCollectorRoot_FileDescriptor
 
-static GPBFileDescriptor *LTSCollectorRoot_FileDescriptor(void) {
+static GPBFileDescriptor *LSPBCollectorRoot_FileDescriptor(void) {
   // This is called by +initialize so there is no need to worry
   // about thread safety of the singleton.
   static GPBFileDescriptor *descriptor = NULL;
@@ -58,20 +58,20 @@ static GPBFileDescriptor *LTSCollectorRoot_FileDescriptor(void) {
   return descriptor;
 }
 
-#pragma mark - LTSSpanContext
+#pragma mark - LSPBSpanContext
 
-@implementation LTSSpanContext
+@implementation LSPBSpanContext
 
 @dynamic traceId;
 @dynamic spanId;
 @dynamic baggage, baggage_Count;
 
-typedef struct LTSSpanContext__storage_ {
+typedef struct LSPBSpanContext__storage_ {
   uint32_t _has_storage_[1];
   NSMutableDictionary *baggage;
   uint64_t traceId;
   uint64_t spanId;
-} LTSSpanContext__storage_;
+} LSPBSpanContext__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -82,38 +82,38 @@ typedef struct LTSSpanContext__storage_ {
       {
         .name = "traceId",
         .dataTypeSpecific.className = NULL,
-        .number = LTSSpanContext_FieldNumber_TraceId,
+        .number = LSPBSpanContext_FieldNumber_TraceId,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(LTSSpanContext__storage_, traceId),
+        .offset = (uint32_t)offsetof(LSPBSpanContext__storage_, traceId),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeUInt64,
       },
       {
         .name = "spanId",
         .dataTypeSpecific.className = NULL,
-        .number = LTSSpanContext_FieldNumber_SpanId,
+        .number = LSPBSpanContext_FieldNumber_SpanId,
         .hasIndex = 1,
-        .offset = (uint32_t)offsetof(LTSSpanContext__storage_, spanId),
+        .offset = (uint32_t)offsetof(LSPBSpanContext__storage_, spanId),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeUInt64,
       },
       {
         .name = "baggage",
         .dataTypeSpecific.className = NULL,
-        .number = LTSSpanContext_FieldNumber_Baggage,
+        .number = LSPBSpanContext_FieldNumber_Baggage,
         .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(LTSSpanContext__storage_, baggage),
+        .offset = (uint32_t)offsetof(LSPBSpanContext__storage_, baggage),
         .flags = GPBFieldMapKeyString,
         .dataType = GPBDataTypeString,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[LTSSpanContext class]
-                                     rootClass:[LTSCollectorRoot class]
-                                          file:LTSCollectorRoot_FileDescriptor()
+        [GPBDescriptor allocDescriptorForClass:[LSPBSpanContext class]
+                                     rootClass:[LSPBCollectorRoot class]
+                                          file:LSPBCollectorRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(LTSSpanContext__storage_)
+                                   storageSize:sizeof(LSPBSpanContext__storage_)
                                          flags:0];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -123,9 +123,9 @@ typedef struct LTSSpanContext__storage_ {
 
 @end
 
-#pragma mark - LTSKeyValue
+#pragma mark - LSPBKeyValue
 
-@implementation LTSKeyValue
+@implementation LSPBKeyValue
 
 @dynamic valueOneOfCase;
 @dynamic key;
@@ -134,13 +134,13 @@ typedef struct LTSSpanContext__storage_ {
 @dynamic doubleValue;
 @dynamic boolValue;
 
-typedef struct LTSKeyValue__storage_ {
+typedef struct LSPBKeyValue__storage_ {
   uint32_t _has_storage_[2];
   NSString *key;
   NSString *stringValue;
   int64_t intValue;
   double doubleValue;
-} LTSKeyValue__storage_;
+} LSPBKeyValue__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -151,43 +151,43 @@ typedef struct LTSKeyValue__storage_ {
       {
         .name = "key",
         .dataTypeSpecific.className = NULL,
-        .number = LTSKeyValue_FieldNumber_Key,
+        .number = LSPBKeyValue_FieldNumber_Key,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(LTSKeyValue__storage_, key),
+        .offset = (uint32_t)offsetof(LSPBKeyValue__storage_, key),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
         .name = "stringValue",
         .dataTypeSpecific.className = NULL,
-        .number = LTSKeyValue_FieldNumber_StringValue,
+        .number = LSPBKeyValue_FieldNumber_StringValue,
         .hasIndex = -1,
-        .offset = (uint32_t)offsetof(LTSKeyValue__storage_, stringValue),
+        .offset = (uint32_t)offsetof(LSPBKeyValue__storage_, stringValue),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
         .name = "intValue",
         .dataTypeSpecific.className = NULL,
-        .number = LTSKeyValue_FieldNumber_IntValue,
+        .number = LSPBKeyValue_FieldNumber_IntValue,
         .hasIndex = -1,
-        .offset = (uint32_t)offsetof(LTSKeyValue__storage_, intValue),
+        .offset = (uint32_t)offsetof(LSPBKeyValue__storage_, intValue),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
       {
         .name = "doubleValue",
         .dataTypeSpecific.className = NULL,
-        .number = LTSKeyValue_FieldNumber_DoubleValue,
+        .number = LSPBKeyValue_FieldNumber_DoubleValue,
         .hasIndex = -1,
-        .offset = (uint32_t)offsetof(LTSKeyValue__storage_, doubleValue),
+        .offset = (uint32_t)offsetof(LSPBKeyValue__storage_, doubleValue),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeDouble,
       },
       {
         .name = "boolValue",
         .dataTypeSpecific.className = NULL,
-        .number = LTSKeyValue_FieldNumber_BoolValue,
+        .number = LSPBKeyValue_FieldNumber_BoolValue,
         .hasIndex = -1,
         .offset = 1,  // Stored in _has_storage_ to save space.
         .flags = GPBFieldOptional,
@@ -195,12 +195,12 @@ typedef struct LTSKeyValue__storage_ {
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[LTSKeyValue class]
-                                     rootClass:[LTSCollectorRoot class]
-                                          file:LTSCollectorRoot_FileDescriptor()
+        [GPBDescriptor allocDescriptorForClass:[LSPBKeyValue class]
+                                     rootClass:[LSPBCollectorRoot class]
+                                          file:LSPBCollectorRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(LTSKeyValue__storage_)
+                                   storageSize:sizeof(LSPBKeyValue__storage_)
                                          flags:0];
     static const char *oneofs[] = {
       "value",
@@ -216,23 +216,23 @@ typedef struct LTSKeyValue__storage_ {
 
 @end
 
-void LTSKeyValue_ClearValueOneOfCase(LTSKeyValue *message) {
+void LSPBKeyValue_ClearValueOneOfCase(LSPBKeyValue *message) {
   GPBDescriptor *descriptor = [message descriptor];
   GPBOneofDescriptor *oneof = [descriptor.oneofs objectAtIndex:0];
   GPBMaybeClearOneof(message, oneof, -1, 0);
 }
-#pragma mark - LTSLog
+#pragma mark - LSPBLog
 
-@implementation LTSLog
+@implementation LSPBLog
 
 @dynamic hasTimestamp, timestamp;
 @dynamic keyvaluesArray, keyvaluesArray_Count;
 
-typedef struct LTSLog__storage_ {
+typedef struct LSPBLog__storage_ {
   uint32_t _has_storage_[1];
   GPBTimestamp *timestamp;
   NSMutableArray *keyvaluesArray;
-} LTSLog__storage_;
+} LSPBLog__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -243,29 +243,29 @@ typedef struct LTSLog__storage_ {
       {
         .name = "timestamp",
         .dataTypeSpecific.className = GPBStringifySymbol(GPBTimestamp),
-        .number = LTSLog_FieldNumber_Timestamp,
+        .number = LSPBLog_FieldNumber_Timestamp,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(LTSLog__storage_, timestamp),
+        .offset = (uint32_t)offsetof(LSPBLog__storage_, timestamp),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeMessage,
       },
       {
         .name = "keyvaluesArray",
-        .dataTypeSpecific.className = GPBStringifySymbol(LTSKeyValue),
-        .number = LTSLog_FieldNumber_KeyvaluesArray,
+        .dataTypeSpecific.className = GPBStringifySymbol(LSPBKeyValue),
+        .number = LSPBLog_FieldNumber_KeyvaluesArray,
         .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(LTSLog__storage_, keyvaluesArray),
+        .offset = (uint32_t)offsetof(LSPBLog__storage_, keyvaluesArray),
         .flags = GPBFieldRepeated,
         .dataType = GPBDataTypeMessage,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[LTSLog class]
-                                     rootClass:[LTSCollectorRoot class]
-                                          file:LTSCollectorRoot_FileDescriptor()
+        [GPBDescriptor allocDescriptorForClass:[LSPBLog class]
+                                     rootClass:[LSPBCollectorRoot class]
+                                          file:LSPBCollectorRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(LTSLog__storage_)
+                                   storageSize:sizeof(LSPBLog__storage_)
                                          flags:0];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -275,18 +275,18 @@ typedef struct LTSLog__storage_ {
 
 @end
 
-#pragma mark - LTSReference
+#pragma mark - LSPBReference
 
-@implementation LTSReference
+@implementation LSPBReference
 
 @dynamic relationship;
 @dynamic hasSpanContext, spanContext;
 
-typedef struct LTSReference__storage_ {
+typedef struct LSPBReference__storage_ {
   uint32_t _has_storage_[1];
-  LTSReference_Relationship relationship;
-  LTSSpanContext *spanContext;
-} LTSReference__storage_;
+  LSPBReference_Relationship relationship;
+  LSPBSpanContext *spanContext;
+} LSPBReference__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -296,30 +296,30 @@ typedef struct LTSReference__storage_ {
     static GPBMessageFieldDescription fields[] = {
       {
         .name = "relationship",
-        .dataTypeSpecific.enumDescFunc = LTSReference_Relationship_EnumDescriptor,
-        .number = LTSReference_FieldNumber_Relationship,
+        .dataTypeSpecific.enumDescFunc = LSPBReference_Relationship_EnumDescriptor,
+        .number = LSPBReference_FieldNumber_Relationship,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(LTSReference__storage_, relationship),
+        .offset = (uint32_t)offsetof(LSPBReference__storage_, relationship),
         .flags = GPBFieldOptional | GPBFieldHasEnumDescriptor,
         .dataType = GPBDataTypeEnum,
       },
       {
         .name = "spanContext",
-        .dataTypeSpecific.className = GPBStringifySymbol(LTSSpanContext),
-        .number = LTSReference_FieldNumber_SpanContext,
+        .dataTypeSpecific.className = GPBStringifySymbol(LSPBSpanContext),
+        .number = LSPBReference_FieldNumber_SpanContext,
         .hasIndex = 1,
-        .offset = (uint32_t)offsetof(LTSReference__storage_, spanContext),
+        .offset = (uint32_t)offsetof(LSPBReference__storage_, spanContext),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeMessage,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[LTSReference class]
-                                     rootClass:[LTSCollectorRoot class]
-                                          file:LTSCollectorRoot_FileDescriptor()
+        [GPBDescriptor allocDescriptorForClass:[LSPBReference class]
+                                     rootClass:[LSPBCollectorRoot class]
+                                          file:LSPBCollectorRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(LTSReference__storage_)
+                                   storageSize:sizeof(LSPBReference__storage_)
                                          flags:0];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -329,35 +329,35 @@ typedef struct LTSReference__storage_ {
 
 @end
 
-int32_t LTSReference_Relationship_RawValue(LTSReference *message) {
-  GPBDescriptor *descriptor = [LTSReference descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:LTSReference_FieldNumber_Relationship];
+int32_t LSPBReference_Relationship_RawValue(LSPBReference *message) {
+  GPBDescriptor *descriptor = [LSPBReference descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:LSPBReference_FieldNumber_Relationship];
   return GPBGetMessageInt32Field(message, field);
 }
 
-void SetLTSReference_Relationship_RawValue(LTSReference *message, int32_t value) {
-  GPBDescriptor *descriptor = [LTSReference descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:LTSReference_FieldNumber_Relationship];
+void SetLSPBReference_Relationship_RawValue(LSPBReference *message, int32_t value) {
+  GPBDescriptor *descriptor = [LSPBReference descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:LSPBReference_FieldNumber_Relationship];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
-#pragma mark - Enum LTSReference_Relationship
+#pragma mark - Enum LSPBReference_Relationship
 
-GPBEnumDescriptor *LTSReference_Relationship_EnumDescriptor(void) {
+GPBEnumDescriptor *LSPBReference_Relationship_EnumDescriptor(void) {
   static GPBEnumDescriptor *descriptor = NULL;
   if (!descriptor) {
     static const char *valueNames =
         "ChildOf\000FollowsFrom\000";
     static const int32_t values[] = {
-        LTSReference_Relationship_ChildOf,
-        LTSReference_Relationship_FollowsFrom,
+        LSPBReference_Relationship_ChildOf,
+        LSPBReference_Relationship_FollowsFrom,
     };
     GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(LTSReference_Relationship)
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(LSPBReference_Relationship)
                                        valueNames:valueNames
                                            values:values
                                             count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:LTSReference_Relationship_IsValidValue];
+                                     enumVerifier:LSPBReference_Relationship_IsValidValue];
     if (!OSAtomicCompareAndSwapPtrBarrier(nil, worker, (void * volatile *)&descriptor)) {
       [worker release];
     }
@@ -365,19 +365,19 @@ GPBEnumDescriptor *LTSReference_Relationship_EnumDescriptor(void) {
   return descriptor;
 }
 
-BOOL LTSReference_Relationship_IsValidValue(int32_t value__) {
+BOOL LSPBReference_Relationship_IsValidValue(int32_t value__) {
   switch (value__) {
-    case LTSReference_Relationship_ChildOf:
-    case LTSReference_Relationship_FollowsFrom:
+    case LSPBReference_Relationship_ChildOf:
+    case LSPBReference_Relationship_FollowsFrom:
       return YES;
     default:
       return NO;
   }
 }
 
-#pragma mark - LTSSpan
+#pragma mark - LSPBSpan
 
-@implementation LTSSpan
+@implementation LSPBSpan
 
 @dynamic hasSpanContext, spanContext;
 @dynamic operationName;
@@ -387,16 +387,16 @@ BOOL LTSReference_Relationship_IsValidValue(int32_t value__) {
 @dynamic tagsArray, tagsArray_Count;
 @dynamic logsArray, logsArray_Count;
 
-typedef struct LTSSpan__storage_ {
+typedef struct LSPBSpan__storage_ {
   uint32_t _has_storage_[1];
-  LTSSpanContext *spanContext;
+  LSPBSpanContext *spanContext;
   NSString *operationName;
   NSMutableArray *referencesArray;
   GPBTimestamp *startTimestamp;
   NSMutableArray *tagsArray;
   NSMutableArray *logsArray;
   uint64_t durationMicros;
-} LTSSpan__storage_;
+} LSPBSpan__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -406,75 +406,75 @@ typedef struct LTSSpan__storage_ {
     static GPBMessageFieldDescription fields[] = {
       {
         .name = "spanContext",
-        .dataTypeSpecific.className = GPBStringifySymbol(LTSSpanContext),
-        .number = LTSSpan_FieldNumber_SpanContext,
+        .dataTypeSpecific.className = GPBStringifySymbol(LSPBSpanContext),
+        .number = LSPBSpan_FieldNumber_SpanContext,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(LTSSpan__storage_, spanContext),
+        .offset = (uint32_t)offsetof(LSPBSpan__storage_, spanContext),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeMessage,
       },
       {
         .name = "operationName",
         .dataTypeSpecific.className = NULL,
-        .number = LTSSpan_FieldNumber_OperationName,
+        .number = LSPBSpan_FieldNumber_OperationName,
         .hasIndex = 1,
-        .offset = (uint32_t)offsetof(LTSSpan__storage_, operationName),
+        .offset = (uint32_t)offsetof(LSPBSpan__storage_, operationName),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
         .name = "referencesArray",
-        .dataTypeSpecific.className = GPBStringifySymbol(LTSReference),
-        .number = LTSSpan_FieldNumber_ReferencesArray,
+        .dataTypeSpecific.className = GPBStringifySymbol(LSPBReference),
+        .number = LSPBSpan_FieldNumber_ReferencesArray,
         .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(LTSSpan__storage_, referencesArray),
+        .offset = (uint32_t)offsetof(LSPBSpan__storage_, referencesArray),
         .flags = GPBFieldRepeated,
         .dataType = GPBDataTypeMessage,
       },
       {
         .name = "startTimestamp",
         .dataTypeSpecific.className = GPBStringifySymbol(GPBTimestamp),
-        .number = LTSSpan_FieldNumber_StartTimestamp,
+        .number = LSPBSpan_FieldNumber_StartTimestamp,
         .hasIndex = 2,
-        .offset = (uint32_t)offsetof(LTSSpan__storage_, startTimestamp),
+        .offset = (uint32_t)offsetof(LSPBSpan__storage_, startTimestamp),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeMessage,
       },
       {
         .name = "durationMicros",
         .dataTypeSpecific.className = NULL,
-        .number = LTSSpan_FieldNumber_DurationMicros,
+        .number = LSPBSpan_FieldNumber_DurationMicros,
         .hasIndex = 3,
-        .offset = (uint32_t)offsetof(LTSSpan__storage_, durationMicros),
+        .offset = (uint32_t)offsetof(LSPBSpan__storage_, durationMicros),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeUInt64,
       },
       {
         .name = "tagsArray",
-        .dataTypeSpecific.className = GPBStringifySymbol(LTSKeyValue),
-        .number = LTSSpan_FieldNumber_TagsArray,
+        .dataTypeSpecific.className = GPBStringifySymbol(LSPBKeyValue),
+        .number = LSPBSpan_FieldNumber_TagsArray,
         .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(LTSSpan__storage_, tagsArray),
+        .offset = (uint32_t)offsetof(LSPBSpan__storage_, tagsArray),
         .flags = GPBFieldRepeated,
         .dataType = GPBDataTypeMessage,
       },
       {
         .name = "logsArray",
-        .dataTypeSpecific.className = GPBStringifySymbol(LTSLog),
-        .number = LTSSpan_FieldNumber_LogsArray,
+        .dataTypeSpecific.className = GPBStringifySymbol(LSPBLog),
+        .number = LSPBSpan_FieldNumber_LogsArray,
         .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(LTSSpan__storage_, logsArray),
+        .offset = (uint32_t)offsetof(LSPBSpan__storage_, logsArray),
         .flags = GPBFieldRepeated,
         .dataType = GPBDataTypeMessage,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[LTSSpan class]
-                                     rootClass:[LTSCollectorRoot class]
-                                          file:LTSCollectorRoot_FileDescriptor()
+        [GPBDescriptor allocDescriptorForClass:[LSPBSpan class]
+                                     rootClass:[LSPBCollectorRoot class]
+                                          file:LSPBCollectorRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(LTSSpan__storage_)
+                                   storageSize:sizeof(LSPBSpan__storage_)
                                          flags:0];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -484,18 +484,18 @@ typedef struct LTSSpan__storage_ {
 
 @end
 
-#pragma mark - LTSTracer
+#pragma mark - LSPBTracer
 
-@implementation LTSTracer
+@implementation LSPBTracer
 
 @dynamic tracerId;
 @dynamic tagsArray, tagsArray_Count;
 
-typedef struct LTSTracer__storage_ {
+typedef struct LSPBTracer__storage_ {
   uint32_t _has_storage_[1];
   NSMutableArray *tagsArray;
   uint64_t tracerId;
-} LTSTracer__storage_;
+} LSPBTracer__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -506,29 +506,29 @@ typedef struct LTSTracer__storage_ {
       {
         .name = "tracerId",
         .dataTypeSpecific.className = NULL,
-        .number = LTSTracer_FieldNumber_TracerId,
+        .number = LSPBTracer_FieldNumber_TracerId,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(LTSTracer__storage_, tracerId),
+        .offset = (uint32_t)offsetof(LSPBTracer__storage_, tracerId),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeUInt64,
       },
       {
         .name = "tagsArray",
-        .dataTypeSpecific.className = GPBStringifySymbol(LTSKeyValue),
-        .number = LTSTracer_FieldNumber_TagsArray,
+        .dataTypeSpecific.className = GPBStringifySymbol(LSPBKeyValue),
+        .number = LSPBTracer_FieldNumber_TagsArray,
         .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(LTSTracer__storage_, tagsArray),
+        .offset = (uint32_t)offsetof(LSPBTracer__storage_, tagsArray),
         .flags = GPBFieldRepeated,
         .dataType = GPBDataTypeMessage,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[LTSTracer class]
-                                     rootClass:[LTSCollectorRoot class]
-                                          file:LTSCollectorRoot_FileDescriptor()
+        [GPBDescriptor allocDescriptorForClass:[LSPBTracer class]
+                                     rootClass:[LSPBCollectorRoot class]
+                                          file:LSPBCollectorRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(LTSTracer__storage_)
+                                   storageSize:sizeof(LSPBTracer__storage_)
                                          flags:0];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -538,21 +538,21 @@ typedef struct LTSTracer__storage_ {
 
 @end
 
-#pragma mark - LTSMetricsSample
+#pragma mark - LSPBMetricsSample
 
-@implementation LTSMetricsSample
+@implementation LSPBMetricsSample
 
 @dynamic valueOneOfCase;
 @dynamic name;
 @dynamic intValue;
 @dynamic doubleValue;
 
-typedef struct LTSMetricsSample__storage_ {
+typedef struct LSPBMetricsSample__storage_ {
   uint32_t _has_storage_[2];
   NSString *name;
   int64_t intValue;
   double doubleValue;
-} LTSMetricsSample__storage_;
+} LSPBMetricsSample__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -563,38 +563,38 @@ typedef struct LTSMetricsSample__storage_ {
       {
         .name = "name",
         .dataTypeSpecific.className = NULL,
-        .number = LTSMetricsSample_FieldNumber_Name,
+        .number = LSPBMetricsSample_FieldNumber_Name,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(LTSMetricsSample__storage_, name),
+        .offset = (uint32_t)offsetof(LSPBMetricsSample__storage_, name),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
         .name = "intValue",
         .dataTypeSpecific.className = NULL,
-        .number = LTSMetricsSample_FieldNumber_IntValue,
+        .number = LSPBMetricsSample_FieldNumber_IntValue,
         .hasIndex = -1,
-        .offset = (uint32_t)offsetof(LTSMetricsSample__storage_, intValue),
+        .offset = (uint32_t)offsetof(LSPBMetricsSample__storage_, intValue),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
       {
         .name = "doubleValue",
         .dataTypeSpecific.className = NULL,
-        .number = LTSMetricsSample_FieldNumber_DoubleValue,
+        .number = LSPBMetricsSample_FieldNumber_DoubleValue,
         .hasIndex = -1,
-        .offset = (uint32_t)offsetof(LTSMetricsSample__storage_, doubleValue),
+        .offset = (uint32_t)offsetof(LSPBMetricsSample__storage_, doubleValue),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeDouble,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[LTSMetricsSample class]
-                                     rootClass:[LTSCollectorRoot class]
-                                          file:LTSCollectorRoot_FileDescriptor()
+        [GPBDescriptor allocDescriptorForClass:[LSPBMetricsSample class]
+                                     rootClass:[LSPBCollectorRoot class]
+                                          file:LSPBCollectorRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(LTSMetricsSample__storage_)
+                                   storageSize:sizeof(LSPBMetricsSample__storage_)
                                          flags:0];
     static const char *oneofs[] = {
       "value",
@@ -610,14 +610,14 @@ typedef struct LTSMetricsSample__storage_ {
 
 @end
 
-void LTSMetricsSample_ClearValueOneOfCase(LTSMetricsSample *message) {
+void LSPBMetricsSample_ClearValueOneOfCase(LSPBMetricsSample *message) {
   GPBDescriptor *descriptor = [message descriptor];
   GPBOneofDescriptor *oneof = [descriptor.oneofs objectAtIndex:0];
   GPBMaybeClearOneof(message, oneof, -1, 0);
 }
-#pragma mark - LTSInternalMetrics
+#pragma mark - LSPBInternalMetrics
 
-@implementation LTSInternalMetrics
+@implementation LSPBInternalMetrics
 
 @dynamic hasStartTimestamp, startTimestamp;
 @dynamic durationMicros;
@@ -625,14 +625,14 @@ void LTSMetricsSample_ClearValueOneOfCase(LTSMetricsSample *message) {
 @dynamic countsArray, countsArray_Count;
 @dynamic gaugesArray, gaugesArray_Count;
 
-typedef struct LTSInternalMetrics__storage_ {
+typedef struct LSPBInternalMetrics__storage_ {
   uint32_t _has_storage_[1];
   GPBTimestamp *startTimestamp;
   NSMutableArray *logsArray;
   NSMutableArray *countsArray;
   NSMutableArray *gaugesArray;
   uint64_t durationMicros;
-} LTSInternalMetrics__storage_;
+} LSPBInternalMetrics__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -643,56 +643,56 @@ typedef struct LTSInternalMetrics__storage_ {
       {
         .name = "startTimestamp",
         .dataTypeSpecific.className = GPBStringifySymbol(GPBTimestamp),
-        .number = LTSInternalMetrics_FieldNumber_StartTimestamp,
+        .number = LSPBInternalMetrics_FieldNumber_StartTimestamp,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(LTSInternalMetrics__storage_, startTimestamp),
+        .offset = (uint32_t)offsetof(LSPBInternalMetrics__storage_, startTimestamp),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeMessage,
       },
       {
         .name = "durationMicros",
         .dataTypeSpecific.className = NULL,
-        .number = LTSInternalMetrics_FieldNumber_DurationMicros,
+        .number = LSPBInternalMetrics_FieldNumber_DurationMicros,
         .hasIndex = 1,
-        .offset = (uint32_t)offsetof(LTSInternalMetrics__storage_, durationMicros),
+        .offset = (uint32_t)offsetof(LSPBInternalMetrics__storage_, durationMicros),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeUInt64,
       },
       {
         .name = "logsArray",
-        .dataTypeSpecific.className = GPBStringifySymbol(LTSLog),
-        .number = LTSInternalMetrics_FieldNumber_LogsArray,
+        .dataTypeSpecific.className = GPBStringifySymbol(LSPBLog),
+        .number = LSPBInternalMetrics_FieldNumber_LogsArray,
         .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(LTSInternalMetrics__storage_, logsArray),
+        .offset = (uint32_t)offsetof(LSPBInternalMetrics__storage_, logsArray),
         .flags = GPBFieldRepeated,
         .dataType = GPBDataTypeMessage,
       },
       {
         .name = "countsArray",
-        .dataTypeSpecific.className = GPBStringifySymbol(LTSMetricsSample),
-        .number = LTSInternalMetrics_FieldNumber_CountsArray,
+        .dataTypeSpecific.className = GPBStringifySymbol(LSPBMetricsSample),
+        .number = LSPBInternalMetrics_FieldNumber_CountsArray,
         .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(LTSInternalMetrics__storage_, countsArray),
+        .offset = (uint32_t)offsetof(LSPBInternalMetrics__storage_, countsArray),
         .flags = GPBFieldRepeated,
         .dataType = GPBDataTypeMessage,
       },
       {
         .name = "gaugesArray",
-        .dataTypeSpecific.className = GPBStringifySymbol(LTSMetricsSample),
-        .number = LTSInternalMetrics_FieldNumber_GaugesArray,
+        .dataTypeSpecific.className = GPBStringifySymbol(LSPBMetricsSample),
+        .number = LSPBInternalMetrics_FieldNumber_GaugesArray,
         .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(LTSInternalMetrics__storage_, gaugesArray),
+        .offset = (uint32_t)offsetof(LSPBInternalMetrics__storage_, gaugesArray),
         .flags = GPBFieldRepeated,
         .dataType = GPBDataTypeMessage,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[LTSInternalMetrics class]
-                                     rootClass:[LTSCollectorRoot class]
-                                          file:LTSCollectorRoot_FileDescriptor()
+        [GPBDescriptor allocDescriptorForClass:[LSPBInternalMetrics class]
+                                     rootClass:[LSPBCollectorRoot class]
+                                          file:LSPBCollectorRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(LTSInternalMetrics__storage_)
+                                   storageSize:sizeof(LSPBInternalMetrics__storage_)
                                          flags:0];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -702,16 +702,16 @@ typedef struct LTSInternalMetrics__storage_ {
 
 @end
 
-#pragma mark - LTSAuth
+#pragma mark - LSPBAuth
 
-@implementation LTSAuth
+@implementation LSPBAuth
 
 @dynamic accessToken;
 
-typedef struct LTSAuth__storage_ {
+typedef struct LSPBAuth__storage_ {
   uint32_t _has_storage_[1];
   NSString *accessToken;
-} LTSAuth__storage_;
+} LSPBAuth__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -722,20 +722,20 @@ typedef struct LTSAuth__storage_ {
       {
         .name = "accessToken",
         .dataTypeSpecific.className = NULL,
-        .number = LTSAuth_FieldNumber_AccessToken,
+        .number = LSPBAuth_FieldNumber_AccessToken,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(LTSAuth__storage_, accessToken),
+        .offset = (uint32_t)offsetof(LSPBAuth__storage_, accessToken),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[LTSAuth class]
-                                     rootClass:[LTSCollectorRoot class]
-                                          file:LTSCollectorRoot_FileDescriptor()
+        [GPBDescriptor allocDescriptorForClass:[LSPBAuth class]
+                                     rootClass:[LSPBCollectorRoot class]
+                                          file:LSPBCollectorRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(LTSAuth__storage_)
+                                   storageSize:sizeof(LSPBAuth__storage_)
                                          flags:0];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -745,9 +745,9 @@ typedef struct LTSAuth__storage_ {
 
 @end
 
-#pragma mark - LTSReportRequest
+#pragma mark - LSPBReportRequest
 
-@implementation LTSReportRequest
+@implementation LSPBReportRequest
 
 @dynamic hasTracer, tracer;
 @dynamic hasAuth, auth;
@@ -755,14 +755,14 @@ typedef struct LTSAuth__storage_ {
 @dynamic timestampOffsetMicros;
 @dynamic hasInternalMetrics, internalMetrics;
 
-typedef struct LTSReportRequest__storage_ {
+typedef struct LSPBReportRequest__storage_ {
   uint32_t _has_storage_[1];
   uint32_t timestampOffsetMicros;
-  LTSTracer *tracer;
-  LTSAuth *auth;
+  LSPBTracer *tracer;
+  LSPBAuth *auth;
   NSMutableArray *spansArray;
-  LTSInternalMetrics *internalMetrics;
-} LTSReportRequest__storage_;
+  LSPBInternalMetrics *internalMetrics;
+} LSPBReportRequest__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -772,57 +772,57 @@ typedef struct LTSReportRequest__storage_ {
     static GPBMessageFieldDescription fields[] = {
       {
         .name = "tracer",
-        .dataTypeSpecific.className = GPBStringifySymbol(LTSTracer),
-        .number = LTSReportRequest_FieldNumber_Tracer,
+        .dataTypeSpecific.className = GPBStringifySymbol(LSPBTracer),
+        .number = LSPBReportRequest_FieldNumber_Tracer,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(LTSReportRequest__storage_, tracer),
+        .offset = (uint32_t)offsetof(LSPBReportRequest__storage_, tracer),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeMessage,
       },
       {
         .name = "auth",
-        .dataTypeSpecific.className = GPBStringifySymbol(LTSAuth),
-        .number = LTSReportRequest_FieldNumber_Auth,
+        .dataTypeSpecific.className = GPBStringifySymbol(LSPBAuth),
+        .number = LSPBReportRequest_FieldNumber_Auth,
         .hasIndex = 1,
-        .offset = (uint32_t)offsetof(LTSReportRequest__storage_, auth),
+        .offset = (uint32_t)offsetof(LSPBReportRequest__storage_, auth),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeMessage,
       },
       {
         .name = "spansArray",
-        .dataTypeSpecific.className = GPBStringifySymbol(LTSSpan),
-        .number = LTSReportRequest_FieldNumber_SpansArray,
+        .dataTypeSpecific.className = GPBStringifySymbol(LSPBSpan),
+        .number = LSPBReportRequest_FieldNumber_SpansArray,
         .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(LTSReportRequest__storage_, spansArray),
+        .offset = (uint32_t)offsetof(LSPBReportRequest__storage_, spansArray),
         .flags = GPBFieldRepeated,
         .dataType = GPBDataTypeMessage,
       },
       {
         .name = "timestampOffsetMicros",
         .dataTypeSpecific.className = NULL,
-        .number = LTSReportRequest_FieldNumber_TimestampOffsetMicros,
+        .number = LSPBReportRequest_FieldNumber_TimestampOffsetMicros,
         .hasIndex = 2,
-        .offset = (uint32_t)offsetof(LTSReportRequest__storage_, timestampOffsetMicros),
+        .offset = (uint32_t)offsetof(LSPBReportRequest__storage_, timestampOffsetMicros),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeUInt32,
       },
       {
         .name = "internalMetrics",
-        .dataTypeSpecific.className = GPBStringifySymbol(LTSInternalMetrics),
-        .number = LTSReportRequest_FieldNumber_InternalMetrics,
+        .dataTypeSpecific.className = GPBStringifySymbol(LSPBInternalMetrics),
+        .number = LSPBReportRequest_FieldNumber_InternalMetrics,
         .hasIndex = 3,
-        .offset = (uint32_t)offsetof(LTSReportRequest__storage_, internalMetrics),
+        .offset = (uint32_t)offsetof(LSPBReportRequest__storage_, internalMetrics),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeMessage,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[LTSReportRequest class]
-                                     rootClass:[LTSCollectorRoot class]
-                                          file:LTSCollectorRoot_FileDescriptor()
+        [GPBDescriptor allocDescriptorForClass:[LSPBReportRequest class]
+                                     rootClass:[LSPBCollectorRoot class]
+                                          file:LSPBCollectorRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(LTSReportRequest__storage_)
+                                   storageSize:sizeof(LSPBReportRequest__storage_)
                                          flags:0];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -832,15 +832,15 @@ typedef struct LTSReportRequest__storage_ {
 
 @end
 
-#pragma mark - LTSCommand
+#pragma mark - LSPBCommand
 
-@implementation LTSCommand
+@implementation LSPBCommand
 
 @dynamic disable;
 
-typedef struct LTSCommand__storage_ {
+typedef struct LSPBCommand__storage_ {
   uint32_t _has_storage_[1];
-} LTSCommand__storage_;
+} LSPBCommand__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -851,7 +851,7 @@ typedef struct LTSCommand__storage_ {
       {
         .name = "disable",
         .dataTypeSpecific.className = NULL,
-        .number = LTSCommand_FieldNumber_Disable,
+        .number = LSPBCommand_FieldNumber_Disable,
         .hasIndex = 0,
         .offset = 1,  // Stored in _has_storage_ to save space.
         .flags = GPBFieldOptional,
@@ -859,12 +859,12 @@ typedef struct LTSCommand__storage_ {
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[LTSCommand class]
-                                     rootClass:[LTSCollectorRoot class]
-                                          file:LTSCollectorRoot_FileDescriptor()
+        [GPBDescriptor allocDescriptorForClass:[LSPBCommand class]
+                                     rootClass:[LSPBCollectorRoot class]
+                                          file:LSPBCollectorRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(LTSCommand__storage_)
+                                   storageSize:sizeof(LSPBCommand__storage_)
                                          flags:0];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -874,22 +874,22 @@ typedef struct LTSCommand__storage_ {
 
 @end
 
-#pragma mark - LTSReportResponse
+#pragma mark - LSPBReportResponse
 
-@implementation LTSReportResponse
+@implementation LSPBReportResponse
 
 @dynamic commandsArray, commandsArray_Count;
 @dynamic hasReceiveTimestamp, receiveTimestamp;
 @dynamic hasTransmitTimestamp, transmitTimestamp;
 @dynamic errorsArray, errorsArray_Count;
 
-typedef struct LTSReportResponse__storage_ {
+typedef struct LSPBReportResponse__storage_ {
   uint32_t _has_storage_[1];
   NSMutableArray *commandsArray;
   GPBTimestamp *receiveTimestamp;
   GPBTimestamp *transmitTimestamp;
   NSMutableArray *errorsArray;
-} LTSReportResponse__storage_;
+} LSPBReportResponse__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -899,48 +899,48 @@ typedef struct LTSReportResponse__storage_ {
     static GPBMessageFieldDescription fields[] = {
       {
         .name = "commandsArray",
-        .dataTypeSpecific.className = GPBStringifySymbol(LTSCommand),
-        .number = LTSReportResponse_FieldNumber_CommandsArray,
+        .dataTypeSpecific.className = GPBStringifySymbol(LSPBCommand),
+        .number = LSPBReportResponse_FieldNumber_CommandsArray,
         .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(LTSReportResponse__storage_, commandsArray),
+        .offset = (uint32_t)offsetof(LSPBReportResponse__storage_, commandsArray),
         .flags = GPBFieldRepeated,
         .dataType = GPBDataTypeMessage,
       },
       {
         .name = "receiveTimestamp",
         .dataTypeSpecific.className = GPBStringifySymbol(GPBTimestamp),
-        .number = LTSReportResponse_FieldNumber_ReceiveTimestamp,
+        .number = LSPBReportResponse_FieldNumber_ReceiveTimestamp,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(LTSReportResponse__storage_, receiveTimestamp),
+        .offset = (uint32_t)offsetof(LSPBReportResponse__storage_, receiveTimestamp),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeMessage,
       },
       {
         .name = "transmitTimestamp",
         .dataTypeSpecific.className = GPBStringifySymbol(GPBTimestamp),
-        .number = LTSReportResponse_FieldNumber_TransmitTimestamp,
+        .number = LSPBReportResponse_FieldNumber_TransmitTimestamp,
         .hasIndex = 1,
-        .offset = (uint32_t)offsetof(LTSReportResponse__storage_, transmitTimestamp),
+        .offset = (uint32_t)offsetof(LSPBReportResponse__storage_, transmitTimestamp),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeMessage,
       },
       {
         .name = "errorsArray",
         .dataTypeSpecific.className = NULL,
-        .number = LTSReportResponse_FieldNumber_ErrorsArray,
+        .number = LSPBReportResponse_FieldNumber_ErrorsArray,
         .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(LTSReportResponse__storage_, errorsArray),
+        .offset = (uint32_t)offsetof(LSPBReportResponse__storage_, errorsArray),
         .flags = GPBFieldRepeated,
         .dataType = GPBDataTypeString,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[LTSReportResponse class]
-                                     rootClass:[LTSCollectorRoot class]
-                                          file:LTSCollectorRoot_FileDescriptor()
+        [GPBDescriptor allocDescriptorForClass:[LSPBReportResponse class]
+                                     rootClass:[LSPBCollectorRoot class]
+                                          file:LSPBCollectorRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(LTSReportResponse__storage_)
+                                   storageSize:sizeof(LSPBReportResponse__storage_)
                                          flags:0];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;

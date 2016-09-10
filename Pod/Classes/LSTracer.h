@@ -8,15 +8,15 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The error domain for all OpenTracing-related NSErrors.
  */
-FOUNDATION_EXPORT NSString *const LTSErrorDomain;
+FOUNDATION_EXPORT NSString *const LSErrorDomain;
 /**
  * OTUnsupportedFormat should be used by `OTTracer#inject:format:carrier:` and
  * `OTTracer#extractWithFormat:carrier:` implementations that don't support the
  * requested carrier format.
  */
-FOUNDATION_EXPORT NSInteger LTSBackgroundTaskError;
+FOUNDATION_EXPORT NSInteger LSBackgroundTaskError;
 
-@class LTSSpan;
+@class LSPBSpan;
 
 /**
  * An implementation of the OTTracer protocol.
@@ -139,7 +139,7 @@ FOUNDATION_EXPORT NSInteger LTSBackgroundTaskError;
 /**
  * Record a span.
  */
-- (void) _appendSpanRecord:(LTSSpan*)spanRecord;
+- (void) _appendSpanRecord:(LSPBSpan*)spanRecord;
 
 /**
  * Flush any buffered data to the collector. Returns without blocking.
