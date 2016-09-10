@@ -6,6 +6,19 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
+ * The error domain for all OpenTracing-related NSErrors.
+ */
+FOUNDATION_EXPORT NSString *const LTSErrorDomain;
+/**
+ * OTUnsupportedFormat should be used by `OTTracer#inject:format:carrier:` and
+ * `OTTracer#extractWithFormat:carrier:` implementations that don't support the
+ * requested carrier format.
+ */
+FOUNDATION_EXPORT NSInteger LTSBackgroundTaskError;
+
+@class LTSSpan;
+
+/**
  * An implementation of the OTTracer protocol.
  *
  * Either pass the resulting id<OTTracer> around your application explicitly or use the OTGlobal singleton mechanism.
@@ -57,7 +70,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype) initWithToken:(NSString*)accessToken
                  componentName:(nullable NSString*)componentName
                       hostport:(nullable NSString*)hostport
-          flushIntervalSeconds:(NSUInteger)flushIntervalSeconds;
+          flushIntervalSeconds:(NSUInteger)flushIntervalSeconds
+                  insecureGRPC:(BOOL)insecureGRPC;
 
 #pragma mark - OpenTracing API
 
@@ -101,12 +115,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readonly) NSString* runtimeGuid;
 
-
-/**
- * The `LSTracer` instance's maximum number of records to buffer between reports.
- */
-@property (atomic) NSUInteger maxLogRecords;
-
 /**
  * The `LSTracer` instance's maximum number of records to buffer between reports.
  */
@@ -117,12 +125,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (atomic) NSUInteger maxPayloadJSONLength;
 
-/**
- * Approximate interval to use for reporting buffered data to the collector.
- *
- * If set to 0, disable the automatic flush loop entirely (and call flush() explicitly).
- */
-@property (readonly) NSUInteger flushIntervalSeconds;
 
 /**
  * Returns true if the library is currently buffering and reporting data.
@@ -133,6 +135,11 @@ NS_ASSUME_NONNULL_BEGIN
  * Returns the Tracer's access token.
  */
 - (NSString*)accessToken;
+
+/**
+ * Record a span.
+ */
+- (void) _appendSpanRecord:(LTSSpan*)spanRecord;
 
 /**
  * Flush any buffered data to the collector. Returns without blocking.

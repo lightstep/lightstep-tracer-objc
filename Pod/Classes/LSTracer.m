@@ -1,16 +1,17 @@
 #import <UIKit/UIKit.h>
-#import "OTReference.h"
+#import <GRPCClient/GRPCCall+ChannelArg.h>
+#import <GRPCClient/GRPCCall+Tests.h>
+#import <opentracing/OTReference.h>
+
 #import "LSClockState.h"
 #import "LSSpan.h"
 #import "LSSpanContext.h"
 #import "LSTracer.h"
-#import "LSTracerInternal.h"
 #import "LSUtil.h"
 #import "LSVersion.h"
-#import "TBinaryProtocol.h"
-#import "THTTPClient.h"
-#import "TSocketClient.h"
-#import "TTransportException.h"
+#import "Collector.pbrpc.h"
+
+static NSString* kHostAddress = @"localhost:9997";
 
 NSString* const LSDefaultHostport = @"collector.lightstep.com:443";
 
@@ -18,29 +19,27 @@ static const int kDefaultFlushIntervalSeconds = 30;
 static const NSUInteger kDefaultMaxBufferedSpans = 5000;
 static const NSUInteger kDefaultMaxPayloadJSONLength = 32 * 1024;
 
+NSString *const LTSErrorDomain = @"com.lightstep";
+NSInteger LTSBackgroundTaskError = 1;
+
 static LSTracer* s_sharedInstance = nil;
-static float kFirstRefreshDelaySecs = 2;
 
 @implementation LSTracer {
-    NSDate* m_startTime;
     NSString* m_accessToken;
-    NSString* m_runtimeGuid;
-    RLRuntime* m_runtimeInfo;
+    UInt64 m_runtimeGuid;
+    LTSTracer* m_protoTracer;
     LSClockState* m_clockState;
 
-    NSString* m_serviceUrl;
-    RLReportingServiceClient* m_serviceStub;
     BOOL m_enabled;
-    // if kFirstRefreshDelaySecs, we've never tried to refresh.
-    float m_refreshStubDelaySecs;
-    NSMutableArray* m_pendingSpanRecords;
-    dispatch_queue_t m_queue;
+    LTSCollectorService* m_collectorStub;
+    NSMutableArray<LTSSpan*>* m_pendingProtoSpans;
+    dispatch_queue_t m_flushQueue;
     dispatch_source_t m_flushTimer;
+    NSDate* m_lastFlush;
 
     UIBackgroundTaskIdentifier m_bgTaskId;
 }
 
-@synthesize flushIntervalSeconds = m_flushIntervalSeconds;
 @synthesize maxSpanRecords = m_maxSpanRecords;
 @synthesize maxPayloadJSONLength = m_maxPayloadJSONLength;
 
@@ -48,35 +47,50 @@ static float kFirstRefreshDelaySecs = 2;
                  componentName:(NSString*)componentName
                       hostport:(NSString*)hostport
           flushIntervalSeconds:(NSUInteger)flushIntervalSeconds
+                  insecureGRPC:(BOOL)insecureGRPC
 {
     if (self = [super init]) {
-        self->m_serviceUrl = [NSString stringWithFormat:@"https://%@/_rpc/v1/reports/binary", hostport];
         self->m_accessToken = accessToken;
-        self->m_runtimeGuid = [LSUtil hexGUID:[LSUtil generateGUID]];
-        self->m_startTime = [NSDate date];
-        NSMutableArray* runtimeAttrs = @[[[RLKeyValue alloc] initWithKey:@"lightstep.tracer_platform" Value:@"ios"],
-                                         [[RLKeyValue alloc] initWithKey:@"lightstep.tracer_platform_version" Value:[[UIDevice currentDevice] systemVersion]],
-                                         [[RLKeyValue alloc] initWithKey:@"lightstep.tracer_version" Value:LS_TRACER_VERSION],
-                                         [[RLKeyValue alloc] initWithKey:@"lightstep.component_name" Value:componentName],
-                                         [[RLKeyValue alloc] initWithKey:@"lightstep.guid" Value:self->m_runtimeGuid],
-                                         [[RLKeyValue alloc] initWithKey:@"device_model" Value:[[UIDevice currentDevice] model]]].mutableCopy;
-        self->m_runtimeInfo = [[RLRuntime alloc]
-                               initWithGuid:self->m_runtimeGuid
-                               start_micros:[m_startTime toMicros]
-                               group_name:componentName
-                               attrs:runtimeAttrs];
+        self->m_runtimeGuid = [LSUtil generateGUID];
+        
+        // Populate m_protoTracer. Start with the tracerTags.
+        NSMutableArray<LTSKeyValue*>* tracerTags = [NSMutableArray<LTSKeyValue*> array];
+        {
+            // All string-valued tags.
+            NSDictionary* tracerStringTags = @{@"lightstep.tracer_platform": @"ios",
+                                               @"lightstep.tracer_platform_version": [[UIDevice currentDevice] systemVersion],
+                                               @"lightstep.tracer_version": LS_TRACER_VERSION,
+                                               @"lightstep.component_name": componentName,
+                                               @"device_model": [[UIDevice currentDevice] model]};
+            for (NSString* key in tracerStringTags) {
+                LTSKeyValue* elt = [[LTSKeyValue alloc] init];
+                elt.key = key;
+                elt.stringValue = [tracerStringTags objectForKey:key];
+                [tracerTags addObject:elt];
+            }
+        }
+        LTSTracer* protoTracer = [[LTSTracer alloc] init];
+        protoTracer.tracerId = self->m_runtimeGuid;
+        protoTracer.tagsArray = tracerTags;
+        self->m_protoTracer = protoTracer;
 
         self->m_maxSpanRecords = kDefaultMaxBufferedSpans;
         self->m_maxPayloadJSONLength = kDefaultMaxPayloadJSONLength;
-        self->m_flushIntervalSeconds = flushIntervalSeconds;
-        self->m_pendingSpanRecords = [NSMutableArray array];
-        self->m_queue = dispatch_queue_create("com.lightstep.flush_queue", DISPATCH_QUEUE_SERIAL);
+        self->m_pendingProtoSpans = [NSMutableArray<LTSSpan*> array];
+        self->m_flushQueue = dispatch_queue_create("com.lightstep.flush_queue", DISPATCH_QUEUE_SERIAL);
         self->m_flushTimer = nil;
-        self->m_refreshStubDelaySecs = kFirstRefreshDelaySecs;
         self->m_enabled = true;  // if false, no longer collect tracing data
         self->m_clockState = [[LSClockState alloc] initWithLSTracer:self];
+        self->m_lastFlush = [NSDate date];
         self->m_bgTaskId = UIBackgroundTaskInvalid;
-        [self _refreshStub];
+
+        if (insecureGRPC) {
+            [GRPCCall useInsecureConnectionsForHost:hostport];
+        }
+        [GRPCCall setUserAgentPrefix:@"LightStepTracerObjC/1.0" forHost:hostport];
+        m_collectorStub = [[LTSCollectorService alloc] initWithHost:hostport];
+
+        [self _forkFlushLoop:flushIntervalSeconds];
     }
     return self;
 }
@@ -84,12 +98,20 @@ static float kFirstRefreshDelaySecs = 2;
 - (instancetype) initWithToken:(NSString*)accessToken
                  componentName:(nullable NSString*)componentName
           flushIntervalSeconds:(NSUInteger)flushIntervalSeconds {
-    return [self initWithToken:accessToken componentName:componentName hostport:LSDefaultHostport flushIntervalSeconds:flushIntervalSeconds];
+    return [self initWithToken:accessToken
+                 componentName:componentName
+                      hostport:LSDefaultHostport
+          flushIntervalSeconds:flushIntervalSeconds
+                  insecureGRPC:false];
 }
 
 - (instancetype) initWithToken:(NSString*)accessToken
                     componentName:(NSString*)componentName {
-    return [self initWithToken:accessToken componentName:componentName hostport:LSDefaultHostport flushIntervalSeconds:kDefaultFlushIntervalSeconds];
+    return [self initWithToken:accessToken
+                 componentName:componentName
+                      hostport:LSDefaultHostport
+          flushIntervalSeconds:kDefaultFlushIntervalSeconds
+                  insecureGRPC:false];
 }
 
 - (instancetype) initWithToken:(NSString*)accessToken {
@@ -252,21 +274,10 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     }
 }
 
-- (NSString*) serviceUrl {
-    @synchronized(self) {
-        return m_serviceUrl;
-    }
-}
-
 - (NSString*) accessToken {
     @synchronized(self) {
         return m_accessToken;
     }
-}
-
-- (NSString*) runtimeGuid {
-    // Immutable after init; no locking required
-    return m_runtimeGuid;
 }
 
 - (NSUInteger) maxSpanRecords {
@@ -288,245 +299,130 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     }
 }
 
-- (void) _appendSpanRecord:(RLSpanRecord*)sr {
+- (void) _appendSpanRecord:(LTSSpan*)span {
     @synchronized(self) {
         if (!m_enabled) {
             return;
         }
 
-        if (m_pendingSpanRecords.count < m_maxSpanRecords) {
-            [m_pendingSpanRecords addObject:sr];
+        if (m_pendingProtoSpans.count < m_maxSpanRecords) {
+            [m_pendingProtoSpans addObject:span];
         }
     }
 }
 
-// _refreshStub invokes _refreshImp in a separate thread/queue
-- (void) _refreshStub {
+// Establish the m_flushTimer ticker.
+- (void) _forkFlushLoop:(NSUInteger)flushIntervalSeconds {
     @synchronized(self) {
         if (!m_enabled) {
             // Noop.
             return;
         }
-        if (m_serviceUrl == nil || m_serviceUrl.length == 0) {
-            // Better safe than sorry (we don't think this should ever actually happen).
-            NSLog(@"No service URL provided");
+        if (flushIntervalSeconds == 0) {
+            // Noop.
             return;
         }
+        m_flushTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, m_flushQueue);
+        if (!m_flushTimer) {
+            return;
+        }
+        dispatch_source_set_timer(m_flushTimer, DISPATCH_TIME_NOW,
+                                  flushIntervalSeconds * NSEC_PER_SEC,
+                                  NSEC_PER_SEC);
         __weak __typeof__(self) weakSelf = self;
-        dispatch_async(m_queue, ^{
-            [weakSelf _refreshImp];
+        dispatch_source_set_event_handler(m_flushTimer, ^{
+            [weakSelf flush:nil];
         });
+        dispatch_resume(m_flushTimer);
     }
 }
 
-// Note: this method is intended to be invoked only by _refreshStub and off the
-// main thread (i.e., there are sleep calls in this method).
-- (void) _refreshImp {
-    float sleepSecs = 0;
-    @synchronized(self) {
-        if (m_flushTimer) {
-            dispatch_source_cancel(m_flushTimer);
-            m_flushTimer = 0;
-        }
-
-        // Don't actually sleep the first time we try to initiate m_serviceStub.
-        if (m_refreshStubDelaySecs != kFirstRefreshDelaySecs) {
-            sleepSecs = m_refreshStubDelaySecs;
-        }
-        // Exponential backoff with a 5-minute max.
-        m_refreshStubDelaySecs = MIN(60*5, m_refreshStubDelaySecs * 2);
+- (void)flush:(void (^)(NSError * _Nullable error))doneCallback {
+    if (!m_enabled) {
+        // Short-circuit.
+        return;
     }
-    if (sleepSecs > 0) {
-        NSLog(@"LSTracer backing off for %@ seconds", @(sleepSecs));
-    }
-    
-    __weak __typeof__(self) weakSelf = self;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(sleepSecs * NSEC_PER_SEC)), m_queue, ^{
-        __typeof__(self) strongSelf = weakSelf;
-        if (strongSelf == nil) {
-            // This probably can never happen, but just in case...
-            return;
-        }
-        @synchronized(strongSelf) {
-            NSObject<TTransport>* transport = [[THTTPClient alloc] initWithURL:[NSURL URLWithString:strongSelf->m_serviceUrl] userAgent:nil timeout:10];
-            TBinaryProtocol* protocol = [[TBinaryProtocol alloc] initWithTransport:transport strictRead:YES strictWrite:YES];
-            strongSelf->m_serviceStub = [[RLReportingServiceClient alloc] initWithProtocol:protocol];
-            if (!strongSelf->m_serviceStub) {
-                return;
-            }
-            
-            if (strongSelf->m_flushIntervalSeconds > 0) {
-                // Initialize and "resume" (i.e., "start") the m_flushTimer.
-                strongSelf->m_flushTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, strongSelf->m_queue);
-                if (!strongSelf->m_flushTimer) {
-                    return;
-                }
-                dispatch_source_set_timer(strongSelf->m_flushTimer, DISPATCH_TIME_NOW,
-                                          strongSelf->m_flushIntervalSeconds * NSEC_PER_SEC,
-                                          NSEC_PER_SEC);
-                dispatch_source_set_event_handler(strongSelf->m_flushTimer, ^{
-                    [weakSelf flush:nil];
-                });
-                dispatch_resume(strongSelf->m_flushTimer);
-            }
-        }
-    });
-}
 
-- (void) flush:(void (^)(BOOL success))doneCallback {
+    LTSReportRequest *req = [LTSReportRequest message];
+    req.auth = [[LTSAuth alloc] init];
+    req.auth.accessToken = m_accessToken;
+    req.tracer = [m_protoTracer copy];
+
+    // We really want this flush to go through, even if the app enters the
+    // background and iOS wants to move on with its life.
+    //
+    // NOTES ABOUT THE BACKGROUND TASK: we store m_bgTaskId in a member, which
+    // means that it's important we don't call this function recursively (and
+    // thus overwrite/lose the background task id). There is a recursive-"ish"
+    // aspect to this function, as rpcBlock calls _refreshStub on error which
+    // enqueues a call to flushToService on m_queue. m_queue is serialized,
+    // though, so we are guaranteed that only one flushToService call will be
+    // extant at any given moment, and thus it's safe to store the background
+    // task id in m_bgTaskId.
     __weak __typeof__(self) weakSelf = self;
+    void (^cleanupBlock)(NSError* _Nullable) = ^(NSError* _Nullable error) {
+        [weakSelf _endBackgroundTask];
+        if (doneCallback) {
+            doneCallback(error);
+        }
+    };
+
     @synchronized(self) {
-        micros_t tsCorrection = m_clockState.offsetMicros;
-
-        // TODO: there is not currently a good way to report this diagnostic
-        // information
-        /*if (tsCorrection != 0) {
-            [self logEvent:@"cr/time_correction_state" payload:@{@"offset_micros": @(tsCorrection)}];
-        }*/
-
-        NSMutableArray* spansToFlush = m_pendingSpanRecords;
-        m_pendingSpanRecords = [NSMutableArray array];
-
-        if (!m_enabled) {
-            // Deliberately do this after clearing the pending records (just in case).
-            return;
-        }
-        if (spansToFlush.count == 0) {
-            // Nothing to do.
-            return;
-        }
-        if (m_bgTaskId != UIBackgroundTaskInvalid) {
-            // Do not proceed if we are already flush()ing in the background.
-            return;
-        }
-
-        // We really want this flush to go through, even if the app enters the
-        // background and iOS wants to move on with its life.
-        //
-        // NOTES ABOUT THE BACKGROUND TASK: we store m_bgTaskId in a member, which
-        // means that it's important we don't call this function recursively (and
-        // thus overwrite/lose the background task id). There is a recursive-"ish"
-        // aspect to this function, as rpcBlock calls _refreshStub on error which
-        // enqueues a call to flushToService on m_queue. m_queue is serialized,
-        // though, so we are guaranteed that only one flushToService call will be
-        // extant at any given moment, and thus it's safe to store the background
-        // task id in m_bgTaskId.
-        void (^revertBlock)() = ^{
-            [weakSelf _revertRecords:spansToFlush];
-            if (doneCallback) {
-                doneCallback(false);
-            }
-        };
-        m_bgTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithName:@"lightstep_flush"
-                                                                  expirationHandler:revertBlock];
+        NSDate* now = [NSDate date];
+        req.internalMetrics.startTimestamp = [LSUtil protoTimestampFromMicros:m_lastFlush];
+        req.internalMetrics.durationMicros = now.toMicros - m_lastFlush.toMicros;
+        req.spansArray = m_pendingProtoSpans;
+        req.timestampOffsetMicros = m_clockState.offsetMicros;
+        m_pendingProtoSpans = [NSMutableArray<LTSSpan*> array];
+        m_lastFlush = now;
+        
+        m_bgTaskId = [[UIApplication sharedApplication]
+                      beginBackgroundTaskWithName:@"com.lightstep.flush"
+                      expirationHandler:^{
+                          cleanupBlock([NSError errorWithDomain:LTSErrorDomain code:LTSBackgroundTaskError userInfo:nil]);
+                      }];
         if (m_bgTaskId == UIBackgroundTaskInvalid) {
             NSLog(@"unable to enter the background, so skipping flush");
-            revertBlock();
+            cleanupBlock([NSError errorWithDomain:LTSErrorDomain code:LTSBackgroundTaskError userInfo:nil]);
             return;
         }
-
-        RLAuth* auth = [[RLAuth alloc] initWithAccess_token:m_accessToken];
-        RLReportRequest* req = [[RLReportRequest alloc]
-                                initWithRuntime:m_runtimeInfo
-                                span_records:spansToFlush
-                                log_records:nil
-                                timestamp_offset_micros:tsCorrection
-                                oldest_micros:0
-                                youngest_micros:0
-                                counters:nil];
-
-        dispatch_async(m_queue, ^{
-            [weakSelf _flushReport:auth request:req revertBlock:revertBlock doneCallback:doneCallback];
-        });
     }
+
+    UInt64 originMicros = [LSClockState nowMicros];
+    [m_collectorStub reportWithRequest:req handler:^(LTSReportResponse * _Nullable response, NSError * _Nullable error) {
+        UInt64 destinationMicros = [LSClockState nowMicros];
+        cleanupBlock(error);
+        __typeof__(self) strongSelf = weakSelf;
+        if (response != nil && strongSelf != nil) {
+            @synchronized(strongSelf) {
+                if (response.commandsArray_Count > 0) {
+                    for (LTSCommand* comm in response.commandsArray) {
+                        if (comm.disable == true) {
+                            // Irrevocably disable this client.
+                            m_enabled = false;
+                        }
+                    }
+                }
+                // Update our local NTP-lite clock state with the latest measurements.
+                [strongSelf->m_clockState addSampleWithOriginMicros:originMicros
+                                                      receiveMicros:[LSUtil microsFromProtoTimestamp:response.receiveTimestamp]
+                                                     transmitMicros:[LSUtil microsFromProtoTimestamp:response.transmitTimestamp]
+                                                  destinationMicros:destinationMicros];
+            }
+        }
+    }];
 }
 
-// Called by flush() on a failed report.
+// Called by flush() callbacks on a failed report.
+//
 // Note: do not call directly from outside flush().
-- (void) _revertRecords:(NSArray*)spans
+- (void) _endBackgroundTask
 {
     @synchronized(self) {
-        // We apparently failed to flush these records, so re-enqueue them
-        // at the heads of m_pendingSpanRecords. This is a little sketchy
-        // since we don't actually *know* if the peer service saw them or
-        // not, but this is the more conservative path as far as data loss
-        // is concerned.
-        [m_pendingSpanRecords insertObjects:spans
-                                  atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, spans.count)]];
-
         if (m_bgTaskId != UIBackgroundTaskInvalid) {
             [[UIApplication sharedApplication] endBackgroundTask:m_bgTaskId];
             m_bgTaskId = UIBackgroundTaskInvalid;
         }
-    }
-}
-
-// Note: do not call directly from outside flush()
-- (void) _flushReport:(RLAuth*) auth request:(RLReportRequest*)req revertBlock:(void (^)())revertBlock doneCallback:(void (^)(BOOL success))doneCallback {
-    // On any exception, start from scratch with _refreshStub. Don't
-    // call revertBlock() to avoid a client feedback loop if the data
-    // itself caused the exception.
-    RLReportResponse* response = nil;
-    @try {
-
-        // The RPC is blocking. Do not include it in a locked section.
-        micros_t originMicros = [LSClockState nowMicros];
-        response = [m_serviceStub Report:auth request:req];
-        micros_t destinationMicros = [LSClockState nowMicros];
-
-        // Process the response info
-        for (RLCommand* command in response.commands) {
-            if (command.disable) {
-                NSLog(@"NOTE: Signal LSTracer disabled by remote peer.");
-                @synchronized(self) {
-                    m_enabled = false;
-                }
-            }
-        }
-        if (response.timing.receive_microsIsSet && response.timing.transmit_microsIsSet) {
-            // Update our local NTP-lite clock state with the latest measurements.
-            @synchronized(self) {
-                [m_clockState addSampleWithOriginMicros:originMicros
-                                          receiveMicros:response.timing.receive_micros
-                                         transmitMicros:response.timing.transmit_micros
-                                      destinationMicros:destinationMicros];
-            }
-        }
-        @synchronized (self) {
-            // Call was successful: reset m_refreshStubDelaySecs.
-            m_refreshStubDelaySecs = kFirstRefreshDelaySecs;
-        }
-        if (doneCallback) {
-            doneCallback(true);
-        }
-    }
-    @catch (TApplicationException* e)
-    {
-        NSLog(@"Thrift RPC exception %@: %@", [e name], [e description]);
-        revertBlock();
-        [self _refreshStub];
-    }
-    @catch (TException* e)
-    {
-        // TTransportException, or unknown type of exception: drop data since "first, [we want to] do no harm."
-        NSLog(@"Generic Thrift error %@: %@", [e name], [e description]);
-        revertBlock();
-        [self _refreshStub];
-    }
-    @catch (NSException* e)
-    {
-        // We really don't like catching NSException, but unfortunately
-        // Thrift is sufficiently flaky that we will sleep better here
-        // if we do.
-        NSLog(@"Unexpected exception %@: %@", [e name], [e description]);
-        revertBlock();
-        [self _refreshStub];
-    }
-
-    @synchronized(self) {
-        // We can safely end the background task at this point.
-        [[UIApplication sharedApplication] endBackgroundTask:m_bgTaskId];
-        m_bgTaskId = UIBackgroundTaskInvalid;
     }
 }
 

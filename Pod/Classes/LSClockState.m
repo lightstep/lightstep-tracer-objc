@@ -2,20 +2,20 @@
 #import "LSTracer.h"
 
 static const int kMaxOffsetAge = 7;
-static const micros_t kStoredSamplesTTLMicros = 60 * 60 * 1e6;
+static const UInt64 kStoredSamplesTTLMicros = 60 * 60 * 1e6;
 
 @interface LSSyncSample : NSObject<NSCoding>
 
-- (id) initWithDelayMicros:(micros_t)delayMicros offsetMicros:(micros_t)offsetMicros;
+- (id) initWithDelayMicros:(UInt64)delayMicros offsetMicros:(UInt64)offsetMicros;
 
-@property (nonatomic) micros_t delayMicros;
-@property (nonatomic) micros_t offsetMicros;
+@property (nonatomic) UInt64 delayMicros;
+@property (nonatomic) UInt64 offsetMicros;
 
 @end
 
 @implementation LSSyncSample
 
-- (id) initWithDelayMicros:(micros_t)delayMicros offsetMicros:(micros_t)offsetMicros
+- (id) initWithDelayMicros:(UInt64)delayMicros offsetMicros:(UInt64)offsetMicros
 {
     if (self = [super init]) {
         self.delayMicros = delayMicros;
@@ -42,7 +42,7 @@ static NSString* kOffsetKey = @"offset";
 @implementation LSClockState {
     __weak LSTracer* m_tracer;
     NSMutableArray* m_samples;  // elements are LSSyncSamples
-    micros_t m_currentOffsetMicros;
+    UInt64 m_currentOffsetMicros;
     int m_currentOffsetAge;
 }
 
@@ -56,12 +56,12 @@ static NSString* kOffsetKey = @"offset";
     return self;
 }
 
-+ (micros_t) nowMicros {
-    return (micros_t)([[NSDate date] timeIntervalSince1970] * USEC_PER_SEC);
++ (UInt64) nowMicros {
+    return (UInt64)([[NSDate date] timeIntervalSince1970] * USEC_PER_SEC);
 }
 
 - (NSString*)_userDefaultsKey {
-    return [@"LSClockState:" stringByAppendingString:m_tracer.serviceUrl];
+    return @"com.lightstep.clock_state";
 }
 
 static NSString* kTimestampMicrosKey = @"timestamp_micros";
@@ -128,10 +128,10 @@ static NSString* kSamplesKey = @"samples";
     return nil;
 }
 
-- (void) addSampleWithOriginMicros:(micros_t)originMicros receiveMicros:(micros_t)receiveMicros transmitMicros:(micros_t)transmitMicros destinationMicros:(micros_t)destinationMicros
+- (void) addSampleWithOriginMicros:(UInt64)originMicros receiveMicros:(UInt64)receiveMicros transmitMicros:(UInt64)transmitMicros destinationMicros:(UInt64)destinationMicros
 {
-    micros_t latestDelayMicros = INT64_MAX;
-    micros_t latestOffsetMicros = 0;
+    UInt64 latestDelayMicros = INT64_MAX;
+    UInt64 latestOffsetMicros = 0;
     // Ensure that all of the data are valid before using them. If
     // not, we'll push a {0, MAX} record into the queue.
     if (originMicros > 0 && receiveMicros > 0 &&
@@ -176,8 +176,8 @@ static NSString* kSamplesKey = @"samples";
 
     // Find the sample with the smallest delay; the corresponding
     // offset is the "best" one.
-    micros_t minDelayMicros = INT64_MAX;
-    micros_t bestOffsetMicros = 0;
+    UInt64 minDelayMicros = INT64_MAX;
+    UInt64 bestOffsetMicros = 0;
     for (int i = 0; i < m_samples.count; i++) {
         LSSyncSample* curSamp = m_samples[i];
         if (curSamp.delayMicros < minDelayMicros) {
@@ -212,7 +212,7 @@ static NSString* kSamplesKey = @"samples";
     }
 }
 
-- (micros_t) offsetMicros
+- (UInt64) offsetMicros
 {
     return m_currentOffsetMicros;
 }

@@ -2,8 +2,11 @@
 
 #import "OTSpan.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class LSSpanContext;
 @class LSTracer;
+@class LTSSpan;
 
 /**
  * An `LSSpan` represents a logical unit of work done by the service. One or
@@ -54,11 +57,6 @@
                       startTime:(NSDate*)startTime;
 
 /**
- * LightStep specific method for logging an error (or exception).
- */
-- (void)logError:(NSString*)message error:(NSObject*)errorOrException;
-
-/**
  * 
  */
 @property (nonatomic, strong) NSDictionary* tags;
@@ -79,4 +77,11 @@
  */
 - (NSURL*)_generateTraceURL;
 
+
+// For testing only
+- (LTSSpan*)_toProto:(NSDate*)finishTime;
+@property (nonatomic, readonly) NSDate* _startTime;
+
 @end
+
+NS_ASSUME_NONNULL_END

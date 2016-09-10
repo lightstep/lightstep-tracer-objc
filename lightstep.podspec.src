@@ -38,7 +38,7 @@ Pod::Spec.new do |s|
 
   s.subspec "Tracer" do |cs|
     # Do not include the gRPC/protobuf files which are handled by the subspecs below.
-    cs.source_files = 'Pod/Classes/*', 'Pod/Classes/thrift/*', 'Pod/Classes/thrift/**/*'
+    cs.source_files = 'Pod/Classes/*'
     cs.requires_arc = true
     cs.dependency 'opentracing', '~>0.2.0'
   end

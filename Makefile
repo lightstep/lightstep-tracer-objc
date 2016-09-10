@@ -2,7 +2,6 @@
 default:
 	@echo Please specify make target
 
-CROUTON_THRIFT=$(GOPATH)/src/crouton/crouton.thrift
 POD_SPEC := lightstep.podspec
 
 .PHONY: build
@@ -10,11 +9,6 @@ build:
 	cd examples/LightStepTestUI && xcodebuild clean build \
 		CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ARCHS=arm64 ONLY_ACTIVE_ARCH=NO \
 	    -workspace LightStepTestUI.xcworkspace -scheme LightStepTestUI
-
-.PHONY: build_thrift
-build_thrift:
-	thrift -r --gen cocoa -out Pod/Classes $(CROUTON_THRIFT)
-	bash ./patch_thrift.sh
 
 .PHONY: build_protobuf
 build_protobuf:
@@ -35,7 +29,7 @@ test:
 	cd examples/LightStepTestUI && xcodebuild test \
 	CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO \
 	-workspace LightStepTestUI.xcworkspace -scheme LightStepTestUI \
-	-destination 'platform=iOS Simulator,name=iPhone 6,OS=9.2'
+	-destination 'platform=iOS Simulator,name=iPhone 6,OS=9.3'
 
 xcode:
 	cd examples/LightStepTestUI && open LightStepTestUI.xcworkspace
@@ -50,8 +44,7 @@ publish_pod:
 	@echo "...to ensure you have publish permissions."
 	@echo
 	@echo "Pushing pod..."
-	# --allow-warnings is needed for the Thrift code
-	pod trunk push --allow-warnings --verbose lightstep.podspec
+	pod trunk push --verbose lightstep.podspec
 
 # Bumps the version number of the Pod
 increment_version:

@@ -10,6 +10,10 @@
 
 #import "OTSpanContext.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
+@class LTSSpanContext;
+
 @interface LSSpanContext : NSObject<OTSpanContext>
 
 #pragma mark - OpenTracing API
@@ -43,6 +47,11 @@
 @property (nonatomic) UInt64 spanId;
 
 /**
+ * The LSSpanContext as a LTSSpanContext protocol message.
+ */
+- (LTSSpanContext*)toProto;
+
+/**
  * The trace id as a hexadecimal string.
  */
 - (NSString*)hexTraceId;
@@ -53,3 +62,5 @@
 - (NSString*)hexSpanId;
 
 @end
+
+NS_ASSUME_NONNULL_END

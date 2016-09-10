@@ -53,11 +53,7 @@
     },
     {
       "name": "Core",
-      "source_files": [
-        "Pod/Classes/*",
-        "Pod/Classes/thrift/*",
-        "Pod/Classes/thrift/**/*"
-      ],
+      "source_files": "Pod/Classes/*",
       "requires_arc": true,
       "dependencies": {
         "opentracing": [
