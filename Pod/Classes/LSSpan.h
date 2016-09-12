@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-#import "OTSpan.h"
+#import <opentracing/OTSpan.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
