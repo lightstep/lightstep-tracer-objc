@@ -1,0 +1,8 @@
+FRAMEWORK_SEARCH_PATHS = $(inherited) "$PODS_CONFIGURATION_BUILD_DIR/BoringSSL" "$PODS_CONFIGURATION_BUILD_DIR/Protobuf" "$PODS_CONFIGURATION_BUILD_DIR/gRPC" "$PODS_CONFIGURATION_BUILD_DIR/gRPC-Core" "$PODS_CONFIGURATION_BUILD_DIR/gRPC-ProtoRPC" "$PODS_CONFIGURATION_BUILD_DIR/gRPC-RxLibrary" "$PODS_CONFIGURATION_BUILD_DIR/lightstep" "$PODS_CONFIGURATION_BUILD_DIR/opentracing"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1 $(inherited) GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1
+LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
+OTHER_CFLAGS = $(inherited) -iquote "$PODS_CONFIGURATION_BUILD_DIR/BoringSSL/openssl.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/Protobuf/Protobuf.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/gRPC-Core/grpc.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/gRPC-ProtoRPC/ProtoRPC.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/gRPC-RxLibrary/RxLibrary.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/gRPC/GRPCClient.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/lightstep/lightstep.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/opentracing/opentracing.framework/Headers"
+OTHER_LDFLAGS = $(inherited) -framework "GRPCClient" -framework "ProtoRPC" -framework "Protobuf" -framework "RxLibrary" -framework "grpc" -framework "lightstep" -framework "openssl" -framework "opentracing"
+PODS_BUILD_DIR = $BUILD_DIR
+PODS_CONFIGURATION_BUILD_DIR = $PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
+PODS_ROOT = ${SRCROOT}/Pods
