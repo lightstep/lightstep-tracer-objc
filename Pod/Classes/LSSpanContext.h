@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "OTSpanContext.h"
+#import <opentracing/OTSpanContext.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -11,9 +11,7 @@
 #import "LSVersion.h"
 #import "Collector.pbrpc.h"
 
-static NSString* kHostAddress = @"localhost:9997";
-
-NSString* const LSDefaultHostport = @"collector.lightstep.com:443";
+NSString* const LSDefaultHostport = @"collector-grpc.lightstep.com:443";
 
 static const int kDefaultFlushIntervalSeconds = 30;
 static const NSUInteger kDefaultMaxBufferedSpans = 5000;
