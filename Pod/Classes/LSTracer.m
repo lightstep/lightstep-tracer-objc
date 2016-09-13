@@ -290,6 +290,17 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     }
 }
 
+- (NSUInteger) maxPayloadJSONLength {
+    @synchronized(self) {
+        return m_maxPayloadJSONLength;
+    }
+}
+
+- (void) setMaxPayloadJSONLength:(NSUInteger)payloadLength {
+    @synchronized(self) {
+        m_maxPayloadJSONLength = payloadLength;
+    }
+}
 
 - (BOOL) enabled {
     @synchronized(self) {
@@ -358,8 +369,10 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     // extant at any given moment, and thus it's safe to store the background
     // task id in m_bgTaskId.
     __weak __typeof__(self) weakSelf = self;
-    void (^cleanupBlock)(NSError* _Nullable) = ^(NSError* _Nullable error) {
-        [weakSelf _endBackgroundTask];
+    void (^cleanupBlock)(BOOL endBackgroundTask, NSError* _Nullable) = ^(NSError* _Nullable error) {
+        if (endBackgroundTask) {
+            [weakSelf _endBackgroundTask];
+        }
         if (doneCallback) {
             doneCallback(error);
         }
@@ -373,15 +386,15 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
         req.timestampOffsetMicros = m_clockState.offsetMicros;
         m_pendingProtoSpans = [NSMutableArray<LSPBSpan*> array];
         m_lastFlush = now;
-        
+
         m_bgTaskId = [[UIApplication sharedApplication]
                       beginBackgroundTaskWithName:@"com.lightstep.flush"
                       expirationHandler:^{
-                          cleanupBlock([NSError errorWithDomain:LSErrorDomain code:LSBackgroundTaskError userInfo:nil]);
+                          cleanupBlock(true, [NSError errorWithDomain:LSErrorDomain code:LSBackgroundTaskError userInfo:nil]);
                       }];
         if (m_bgTaskId == UIBackgroundTaskInvalid) {
             NSLog(@"unable to enter the background, so skipping flush");
-            cleanupBlock([NSError errorWithDomain:LSErrorDomain code:LSBackgroundTaskError userInfo:nil]);
+            cleanupBlock(false, [NSError errorWithDomain:LSErrorDomain code:LSBackgroundTaskError userInfo:nil]);
             return;
         }
     }
@@ -389,7 +402,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     UInt64 originMicros = [LSClockState nowMicros];
     [m_collectorStub reportWithRequest:req handler:^(LSPBReportResponse * _Nullable response, NSError * _Nullable error) {
         UInt64 destinationMicros = [LSClockState nowMicros];
-        cleanupBlock(error);
+        cleanupBlock(true, error);
         __typeof__(self) strongSelf = weakSelf;
         if (response != nil && strongSelf != nil) {
             @synchronized(strongSelf) {
