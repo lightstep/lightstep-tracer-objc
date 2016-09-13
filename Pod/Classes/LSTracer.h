@@ -58,10 +58,13 @@ FOUNDATION_EXPORT NSInteger LSBackgroundTaskError;
 /**
  * Initialize an LSTracer instance. Either pass the resulting LSTracer* around your application explicitly or use the OTGlobal singleton mechanism.
  *
+ * Whether calling `-[LSTracer flush]` manually or whether using automatic background flushing, users may wish to register for UIApplicationDidEnterBackgroundNotification notifications and explicitly call flush at that point.
+ *
  * @param accessToken the access token.
  * @param componentName the "component name" to associate with spans from this process; e.g., the name of your iOS app or the bundle name.
- * @param hostport the collector's host and (TLS) port as a single string (e.g.  @"collector.lightstep.com:443").
- * @param flushIntervalSeconds the flush interval, or 0 for no automatic background flushing (see LSTracer.flushIntervalSeconds)
+ * @param hostport the gRPC collector's host and (TLS) port as a single string (e.g.  @"collector-grpc.lightstep.com:443")
+ * @param flushIntervalSeconds the flush interval, or 0 for no automatic background flushing
+ * @param insecureGRPC if true, disable (TLS) security on the gRPC connection
  *
  * @return An `LSTracer` instance that's ready to create spans and logs.
  *
