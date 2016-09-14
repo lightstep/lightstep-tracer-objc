@@ -1,3 +1,3 @@
 // GENERATED FILE: Do not edit directly
-#define LS_TRACER_VERSION @"3.0.6"
+#define LS_TRACER_VERSION @"3.0.7"
 
