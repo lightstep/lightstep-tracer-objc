@@ -42,8 +42,6 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   s.dependency "Protobuf"
   s.dependency "gRPC-ProtoRPC"
-  s.dependency "#{s.name}/Messages"
-  s.dependency "#{s.name}/Services"
   s.dependency 'opentracing', '~>0.3.0'
   s.pod_target_xcconfig = {
     # This is needed by all pods that depend on Protobuf:
