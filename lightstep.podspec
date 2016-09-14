@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "lightstep"
-  s.version          = "3.0.3"
+  s.version          = "3.0.4"
   s.summary          = "The LightStep Objective-C OpenTracing library."
 
   s.description      = <<-DESC
@@ -40,7 +40,6 @@ Pod::Spec.new do |s|
     # Do not include the gRPC/protobuf files which are handled by the subspecs below.
     cs.source_files = 'Pod/Classes/*'
     cs.requires_arc = true
-    ss.dependency "gRPC-ProtoRPC"
     cs.dependency 'opentracing', '~>0.3.0'
   end
 
