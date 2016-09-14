@@ -28,10 +28,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - LightStep API
 
-// The LSSpanContext instance takes ownership over `baggage`.
 - (instancetype)initWithTraceId:(UInt64)traceId
                          spanId:(UInt64)spanId
-                        baggage:(nullable NSMutableDictionary*)baggage;
+                        baggage:(nullable NSDictionary*)baggage;
 
 /**
  * Return a copy of this SpanContext with the given (potentially additional) baggage item.
