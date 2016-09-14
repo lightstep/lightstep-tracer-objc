@@ -46,6 +46,12 @@ Pod::Spec.new do |s|
     cs.dependency "#{s.name}/Messages"
     cs.dependency "#{s.name}/Services"
     cs.dependency 'opentracing', '~>0.3.0'
+    cs.pod_target_xcconfig = {
+      # This is needed by all pods that depend on Protobuf:
+      'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1',
+      # This is needed by all pods that depend on gRPC-RxLibrary:
+      'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES',
+    }
   end
 
   s.pod_target_xcconfig = {
