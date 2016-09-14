@@ -346,7 +346,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     }
 }
 
-- (void)flush:(void (^)(NSError * _Nullable error))doneCallback {
+- (void) flush:(void (^)(NSError * _Nullable error))doneCallback {
     if (!m_enabled) {
         // Short-circuit.
         return;
@@ -369,7 +369,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     // extant at any given moment, and thus it's safe to store the background
     // task id in m_bgTaskId.
     __weak __typeof__(self) weakSelf = self;
-    void (^cleanupBlock)(BOOL endBackgroundTask, NSError* _Nullable) = ^(NSError* _Nullable error) {
+    void (^cleanupBlock)(BOOL, NSError* _Nullable) = ^(BOOL endBackgroundTask, NSError* _Nullable error) {
         if (endBackgroundTask) {
             [weakSelf _endBackgroundTask];
         }
@@ -380,7 +380,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
 
     @synchronized(self) {
         NSDate* now = [NSDate date];
-        req.internalMetrics.startTimestamp = [LSUtil protoTimestampFromMicros:m_lastFlush];
+        req.internalMetrics.startTimestamp = [LSUtil protoTimestampFromDate:m_lastFlush];
         req.internalMetrics.durationMicros = now.toMicros - m_lastFlush.toMicros;
         req.spansArray = m_pendingProtoSpans;
         req.timestampOffsetMicros = m_clockState.offsetMicros;

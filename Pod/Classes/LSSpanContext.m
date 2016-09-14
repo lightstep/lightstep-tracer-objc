@@ -17,12 +17,12 @@
 
 - (instancetype)initWithTraceId:(UInt64)traceId
                          spanId:(UInt64)spanId
-                        baggage:(NSMutableDictionary*)baggage {
+                        baggage:(NSDictionary*)baggage {
     if (self = [super init]) {
         self.traceId = traceId;
         self.spanId = spanId;
         if (baggage == nil) {
-            self->m_baggage = [NSMutableDictionary dictionary];
+            self->m_baggage = [NSDictionary dictionary];
         } else {
             self->m_baggage = baggage;
         }

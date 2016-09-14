@@ -78,33 +78,41 @@ FOUNDATION_EXPORT NSInteger LSBackgroundTaskError;
 
 #pragma mark - OpenTracing API
 
-- (id<OTSpan>)startSpan:(NSString*)operationName;
+- (id<OTSpan>) startSpan:(NSString*)operationName;
 
-- (id<OTSpan>)startSpan:(NSString*)operationName
-                   tags:(nullable NSDictionary*)tags;
+- (id<OTSpan>) startSpan:(NSString*)operationName
+                    tags:(nullable NSDictionary*)tags;
 
-- (id<OTSpan>)startSpan:(NSString*)operationName
-                childOf:(nullable id<OTSpanContext>)parentSpan;
+- (id<OTSpan>) startSpan:(NSString*)operationName
+                 childOf:(nullable id<OTSpanContext>)parentSpan;
 
-- (id<OTSpan>)startSpan:(NSString*)operationName
-                childOf:(nullable id<OTSpanContext>)parentSpan
-                   tags:(nullable NSDictionary*)tags;
+- (id<OTSpan>) startSpan:(NSString*)operationName
+                 childOf:(nullable id<OTSpanContext>)parentSpan
+                    tags:(nullable NSDictionary*)tags;
 
-- (id<OTSpan>)startSpan:(NSString*)operationName
-                childOf:(nullable id<OTSpanContext>)parentSpan
-                   tags:(nullable NSDictionary*)tags
-              startTime:(nullable NSDate*)startTime;
+- (id<OTSpan>) startSpan:(NSString*)operationName
+                 childOf:(nullable id<OTSpanContext>)parentSpan
+                    tags:(nullable NSDictionary*)tags
+               startTime:(nullable NSDate*)startTime;
 
-- (id<OTSpan>)startSpan:(NSString*)operationName
-             references:(nullable NSArray*)references
-                   tags:(nullable NSDictionary*)tags
-              startTime:(nullable NSDate*)startTime;
+- (id<OTSpan>) startSpan:(NSString*)operationName
+              references:(nullable NSArray*)references
+                    tags:(nullable NSDictionary*)tags
+               startTime:(nullable NSDate*)startTime;
 
-- (BOOL)inject:(id<OTSpanContext>)span format:(NSString*)format carrier:(id)carrier;
-- (BOOL)inject:(id<OTSpanContext>)span format:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError;
+- (BOOL) inject:(id<OTSpanContext>)span
+         format:(NSString*)format
+        carrier:(id)carrier;
+- (BOOL) inject:(id<OTSpanContext>)span
+         format:(NSString*)format
+        carrier:(id)carrier
+          error:(NSError* __autoreleasing *)outError;
 
-- (id<OTSpanContext>)extractWithFormat:(NSString*)format carrier:(id)carrier;
-- (id<OTSpanContext>)extractWithFormat:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError;
+- (id<OTSpanContext>) extractWithFormat:(NSString*)format
+                                carrier:(id)carrier;
+- (id<OTSpanContext>) extractWithFormat:(NSString*)format
+                                carrier:(id)carrier
+                                  error:(NSError* __autoreleasing *)outError;
 
 #pragma mark - LightStep extensions and internal methods
 
@@ -132,12 +140,12 @@ FOUNDATION_EXPORT NSInteger LSBackgroundTaskError;
 /**
  * Returns true if the library is currently buffering and reporting data.
  */
-- (BOOL)enabled;
+- (BOOL) enabled;
 
 /**
  * Returns the Tracer's access token.
  */
-- (NSString*)accessToken;
+- (NSString*) accessToken;
 
 /**
  * Record a span.
@@ -149,7 +157,7 @@ FOUNDATION_EXPORT NSInteger LSBackgroundTaskError;
  *
  * If non-nil, doneCallback will be invoked once the flush() completes.
  */
-- (void) flush:(void (^)(BOOL success))doneCallback;
+- (void) flush:(nullable void (^)(NSError * _Nullable error))doneCallback;
 
 @end
 

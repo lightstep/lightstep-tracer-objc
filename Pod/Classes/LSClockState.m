@@ -206,7 +206,7 @@ static NSString* kSamplesKey = @"samples";
     // constructor.
     static const int kSGATE = 3; // See RFC 5905
     if (m_currentOffsetAge > kMaxOffsetAge ||
-        llabs(m_currentOffsetMicros - bestOffsetMicros) < kSGATE * jitter) {
+        llabs((int64_t)m_currentOffsetMicros - (int64_t)bestOffsetMicros) < kSGATE * jitter) {
         m_currentOffsetMicros = bestOffsetMicros;
         m_currentOffsetAge = 0;
     }

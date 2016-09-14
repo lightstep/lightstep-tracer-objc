@@ -27,9 +27,9 @@
 
 - (instancetype) initWithTracer:(LSTracer*)tracer
                   operationName:(NSString*)operationName
-                         parent:(LSSpanContext*)parent
-                           tags:(NSDictionary*)tags
-                      startTime:(NSDate*)startTime {
+                         parent:(nullable LSSpanContext*)parent
+                           tags:(nullable NSDictionary*)tags
+                      startTime:(nullable NSDate*)startTime {
     if (self = [super init]) {
         self->m_tracer = tracer;
         self->m_operationName = operationName;

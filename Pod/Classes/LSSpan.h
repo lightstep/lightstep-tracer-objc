@@ -55,9 +55,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype) initWithTracer:(LSTracer*)tracer
                   operationName:(NSString*)operationName
-                         parent:(LSSpanContext*)parent
-                           tags:(NSDictionary*)tags
-                      startTime:(NSDate*)startTime;
+                         parent:(nullable LSSpanContext*)parent
+                           tags:(nullable NSDictionary*)tags
+                      startTime:(nullable NSDate*)startTime;
 
 /**
  * 
