@@ -17,7 +17,7 @@
 
 - (instancetype)initWithTraceId:(UInt64)traceId
                          spanId:(UInt64)spanId
-                        baggage:(NSDictionary*)baggage {
+                        baggage:(nullable NSDictionary*)baggage {
     if (self = [super init]) {
         self.traceId = traceId;
         self.spanId = spanId;
@@ -31,8 +31,7 @@
 }
 
 - (LSSpanContext*)withBaggageItem:(NSString*)key value:(NSString*)value {
-    NSMutableDictionary* baggageCopy = [NSMutableDictionary dictionary];
-    [baggageCopy addEntriesFromDictionary:self->m_baggage];
+    NSMutableDictionary* baggageCopy = [self->m_baggage mutableCopy];
     [baggageCopy setObject:value forKey:key];
     return [[LSSpanContext alloc] initWithTraceId:self.traceId spanId:self.spanId baggage:baggageCopy];
 }

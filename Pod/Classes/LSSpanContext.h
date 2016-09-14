@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 // The LSSpanContext instance takes ownership over `baggage`.
 - (instancetype)initWithTraceId:(UInt64)traceId
                          spanId:(UInt64)spanId
-                        baggage:(NSMutableDictionary*)baggage;
+                        baggage:(nullable NSMutableDictionary*)baggage;
 
 /**
  * Return a copy of this SpanContext with the given (potentially additional) baggage item.

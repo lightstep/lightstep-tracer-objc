@@ -4,8 +4,8 @@
 //
 
 #import "ViewController.h"
-#import "LSTracer.h"
-#import "OTGlobal.h"
+#import "lightstep/LSTracer.h"
+#import "opentracing/OTGlobal.h"
 
 @interface UserInfo : NSObject {
     void (^_completionHandler)(NSString* text);

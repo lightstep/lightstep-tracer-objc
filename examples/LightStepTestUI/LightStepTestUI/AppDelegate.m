@@ -4,8 +4,8 @@
 //
 
 #import "AppDelegate.h"
-#import "OTGlobal.h"
-#import "LSTracer.h"
+#import "lightstep/LSTracer.h"
+#import "opentracing/OTGlobal.h"
 
 @interface AppDelegate ()
 
