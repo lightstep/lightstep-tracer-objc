@@ -44,7 +44,7 @@ publish_pod:
 	@echo "...to ensure you have publish permissions."
 	@echo
 	@echo "Pushing pod..."
-	pod trunk push --verbose lightstep.podspec
+	pod trunk push --allow-warnings --verbose lightstep.podspec
 
 # Bumps the version number of the Pod
 increment_version:

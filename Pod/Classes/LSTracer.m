@@ -383,7 +383,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
         req.internalMetrics.startTimestamp = [LSUtil protoTimestampFromDate:m_lastFlush];
         req.internalMetrics.durationMicros = now.toMicros - m_lastFlush.toMicros;
         req.spansArray = m_pendingProtoSpans;
-        req.timestampOffsetMicros = m_clockState.offsetMicros;
+        req.timestampOffsetMicros = (uint32_t)m_clockState.offsetMicros;
         m_pendingProtoSpans = [NSMutableArray<LSPBSpan*> array];
         m_lastFlush = now;
 

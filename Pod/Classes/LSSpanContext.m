@@ -31,7 +31,8 @@
 }
 
 - (LSSpanContext*)withBaggageItem:(NSString*)key value:(NSString*)value {
-    NSMutableDictionary* baggageCopy = [m_baggage mutableCopy];
+    NSMutableDictionary* baggageCopy = [NSMutableDictionary dictionary];
+    [baggageCopy addEntriesFromDictionary:self->m_baggage];
     [baggageCopy setObject:value forKey:key];
     return [[LSSpanContext alloc] initWithTraceId:self.traceId spanId:self.spanId baggage:baggageCopy];
 }
