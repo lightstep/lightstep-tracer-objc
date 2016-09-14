@@ -40,6 +40,7 @@ Pod::Spec.new do |s|
     # Do not include the gRPC/protobuf files which are handled by the subspecs below.
     cs.source_files = 'Pod/Classes/*'
     cs.requires_arc = true
+    ss.dependency "gRPC-ProtoRPC"
     cs.dependency 'opentracing', '~>0.3.0'
   end
 
