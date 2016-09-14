@@ -37,23 +37,14 @@ Pod::Spec.new do |s|
     ss.dependency "#{s.name}/Messages"
   end
 
-  s.subspec "Tracer" do |cs|
-    # Do not include the gRPC/protobuf files which are handled by the subspecs below.
-    cs.source_files = 'Pod/Classes/*'
-    cs.requires_arc = true
-    cs.dependency "gRPC-ProtoRPC"
-    cs.dependency "Protobuf"
-    cs.dependency "#{s.name}/Messages"
-    cs.dependency "#{s.name}/Services"
-    cs.dependency 'opentracing', '~>0.3.0'
-    cs.pod_target_xcconfig = {
-      # This is needed by all pods that depend on Protobuf:
-      'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1',
-      # This is needed by all pods that depend on gRPC-RxLibrary:
-      'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES',
-    }
-  end
-
+  # Do not include the gRPC/protobuf files which are handled by the subspecs below.
+  s.source_files = 'Pod/Classes/*'
+  s.requires_arc = true
+  s.dependency "Protobuf"
+  s.dependency "gRPC-ProtoRPC"
+  s.dependency "#{s.name}/Messages"
+  s.dependency "#{s.name}/Services"
+  s.dependency 'opentracing', '~>0.3.0'
   s.pod_target_xcconfig = {
     # This is needed by all pods that depend on Protobuf:
     'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1',
