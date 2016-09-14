@@ -14,7 +14,7 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    LSTracer* tracer = [[LSTracer alloc] initWithToken:@"DEVELOPMENT_TOKEN_bhs" componentName:@"LightStepTestUI" hostport:@"localhost:9997" flushIntervalSeconds:2 insecureGRPC:true];
+    LSTracer* tracer = [[LSTracer alloc] initWithToken:@"{your_access_token}" componentName:@"LightStepTestUI" hostport:@"localhost:9997" flushIntervalSeconds:2 insecureGRPC:true];
     tracer.maxSpanRecords = 600;
 
     [OTGlobal initSharedTracer:tracer];
