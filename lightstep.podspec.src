@@ -43,6 +43,8 @@ Pod::Spec.new do |s|
     cs.requires_arc = true
     cs.dependency "gRPC-ProtoRPC"
     cs.dependency "Protobuf"
+    cs.dependency "#{s.name}/Messages"
+    cs.dependency "#{s.name}/Services"
     cs.dependency 'opentracing', '~>0.3.0'
   end
 
