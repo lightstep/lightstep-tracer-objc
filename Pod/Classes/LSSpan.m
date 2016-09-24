@@ -86,7 +86,7 @@
   timestamp:(NSDate*)timestamp
     payload:(NSObject*)payload {
 
-    // No locking is requied as all the member variables used below are immutable
+    // No locking is required as all the member variables used below are immutable
     // after initialization.
 
     if (![m_tracer enabled]) {
@@ -113,6 +113,46 @@
     logRecord.keyvaluesArray = logKeyValues;
     [self _appendLog:logRecord];
 }
+
+- (void)log:(NSDictionary<NSString*, NSObject*>*)fields {
+    [self log:fields timestamp:[NSDate date]];
+}
+
+- (void)log:(NSDictionary<NSString*, NSObject*>*)fields timestamp:(nullable NSDate*)timestamp {
+    // No locking is required as all the member variables used below are immutable
+    // after initialization.
+    if (![m_tracer enabled]) {
+        return;
+    }
+    
+    LSPBLog* logRecord = [[LSPBLog alloc] init];
+    logRecord.timestamp = [LSUtil protoTimestampFromDate:timestamp];
+    NSMutableArray<LSPBKeyValue*>* logKeyValues = [NSMutableArray<LSPBKeyValue*> array];
+    for (NSString* key in fields) {
+        NSObject* val = [fields objectForKey:key];
+        if (val == nil) {
+            continue;
+        }
+        LSPBKeyValue* protoKV = [[LSPBKeyValue alloc] init];
+        protoKV.key = key;
+        if ([val isKindOfClass:[NSString class]]) {
+            protoKV.stringValue = val;
+        } else if ([val isKindOfClass:[NSNumber class]]) {
+            NSNumber *numericVal = val;
+            if (CFNumberIsFloatType((CFNumberRef)numericVal)) {
+                protoKV.doubleValue = [numericVal doubleValue];
+            } else {
+                protoKV.intValue = [numericVal longLongValue];
+            }
+        } else {
+            protoKV.stringValue = [val description];
+        }
+        [logKeyValues addObject:protoKV];
+    }
+    logRecord.keyvaluesArray = logKeyValues;
+    [self _appendLog:logRecord];
+}
+
 
 - (void)_appendLog:(LSPBLog*)log {
     @synchronized(self) {
