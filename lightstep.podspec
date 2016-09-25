@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "lightstep"
-  s.version          = "3.0.9"
+  s.version          = "3.1.0"
   s.summary          = "The LightStep Objective-C OpenTracing library."
 
   s.description      = <<-DESC
@@ -42,7 +42,7 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   s.dependency "Protobuf"
   s.dependency "gRPC-ProtoRPC"
-  s.dependency 'opentracing', '~>0.4.0'
+  s.dependency 'opentracing', '~>0.3.0'
   s.pod_target_xcconfig = {
     # This is needed by all pods that depend on Protobuf:
     'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1',
