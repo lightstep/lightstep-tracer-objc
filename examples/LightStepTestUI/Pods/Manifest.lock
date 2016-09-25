@@ -20,19 +20,23 @@ PODS:
     - gRPC-RxLibrary (= 1.0.0)
     - Protobuf (~> 3.0)
   - gRPC-RxLibrary (1.0.0)
-  - lightstep (2.0.16):
-    - lightstep/Messages (= 2.0.16)
-    - lightstep/Services (= 2.0.16)
-    - lightstep/Tracer (= 2.0.16)
-  - lightstep/Messages (2.0.16):
+  - lightstep (3.0.9):
+    - gRPC-ProtoRPC
+    - lightstep/Messages (= 3.0.9)
+    - lightstep/Services (= 3.0.9)
+    - opentracing (~> 0.4.0)
     - Protobuf
-  - lightstep/Services (2.0.16):
+  - lightstep/Messages (3.0.9):
+    - gRPC-ProtoRPC
+    - opentracing (~> 0.4.0)
+    - Protobuf
+  - lightstep/Services (3.0.9):
     - gRPC-ProtoRPC
     - lightstep/Messages
-  - lightstep/Tracer (2.0.16):
-    - opentracing (~> 0.3.0)
-  - opentracing (0.3.0)
-  - Protobuf (3.0.0)
+    - opentracing (~> 0.4.0)
+    - Protobuf
+  - opentracing (0.4.2)
+  - Protobuf (3.0.2)
 
 DEPENDENCIES:
   - lightstep (from `../..`)
@@ -47,10 +51,10 @@ SPEC CHECKSUMS:
   gRPC-Core: 7ce9d18a7fb9fffc0f57646608d0741782b16996
   gRPC-ProtoRPC: 51745b5ebe4a844dc6e1ecf767d74ae3d124ea1e
   gRPC-RxLibrary: 3a8c5543115fb2183ed5624678e7ecbac5e9e4ad
-  lightstep: f267ce481f7bb74953bb149d19ca36b67dd9fcc2
-  opentracing: 9c95c37d603c24af73e68d6286d446634ead6a0a
-  Protobuf: c032ce1bdf7a266acfd640fbfd8bdb166127c7f5
+  lightstep: 80f9fbb781d82b6f605e38d67d2c29e6eba02af0
+  opentracing: ead1caa5478ee78318bda55862fe33a2e67478a4
+  Protobuf: 6d10f661ec22108e47dea70446ec89e00584fd42
 
 PODFILE CHECKSUM: b5270b760bd521f155e721b810f90f32c5a587d7
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.1.0.rc.2
