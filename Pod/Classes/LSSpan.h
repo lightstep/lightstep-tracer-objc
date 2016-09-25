@@ -26,6 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setTag:(NSString*)key value:(NSString*)value;
 
+- (void)log:(NSDictionary<NSString*, NSObject*>*)fields;
+- (void)log:(NSDictionary<NSString*, NSObject*>*)fields timestamp:(nullable NSDate*)timestamp;
 - (void)logEvent:(NSString*)eventName;
 - (void)logEvent:(NSString*)eventName payload:(nullable NSObject*)payload;
 - (void)log:(NSString*)eventName
