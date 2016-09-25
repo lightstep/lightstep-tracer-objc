@@ -127,7 +127,7 @@
     
     LSPBLog* logRecord = [[LSPBLog alloc] init];
     logRecord.timestamp = [LSUtil protoTimestampFromDate:timestamp];
-    NSMutableArray<LSPBKeyValue*>* logKeyValues = [NSMutableArray<LSPBKeyValue*> array];
+    NSMutableArray<LSPBKeyValue*>* logKeyValues = [NSMutableArray<LSPBKeyValue*> arrayWithCapacity:fields.count];
     for (NSString* key in fields) {
         NSObject* val = [fields objectForKey:key];
         if (val == nil) {
