@@ -136,9 +136,9 @@
         LSPBKeyValue* protoKV = [[LSPBKeyValue alloc] init];
         protoKV.key = key;
         if ([val isKindOfClass:[NSString class]]) {
-            protoKV.stringValue = val;
+            protoKV.stringValue = (NSString*)val;
         } else if ([val isKindOfClass:[NSNumber class]]) {
-            NSNumber *numericVal = val;
+            NSNumber *numericVal = (NSNumber*)val;
             if (CFNumberIsFloatType((CFNumberRef)numericVal)) {
                 protoKV.doubleValue = [numericVal doubleValue];
             } else {
