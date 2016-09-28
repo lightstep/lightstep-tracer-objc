@@ -1,10 +1,10 @@
-# LightStep OpenTracing Implementation in Objective-C
+# lightstep-tracer-objc
 
 [![Version](https://img.shields.io/cocoapods/v/lightstep.svg?style=flat)](http://cocoapods.org/pods/lightstep)
 [![License](https://img.shields.io/cocoapods/l/lightstep.svg?style=flat)](http://cocoapods.org/pods/lightstep)
 [![Platform](https://img.shields.io/cocoapods/p/lightstep.svg?style=flat)](http://cocoapods.org/pods/lightstep)
 
-The LightStep implementation of the [OpenTracing API for Objective-C](https://github.com/opentracing/opentracing-objc).
+The LightStep distributed tracing library for Objective-C and Swift.
 
 ## Installation (CocoaPods)
 
@@ -17,7 +17,7 @@ pod 'lightstep', '~>2.0'
 
 3. Run `pod install` in your project directory. Open the newly created workspace file in Xcode.
 
-## Getting Started
+## Getting started
 
 ```objectivec
 #import "LSTracer.h"
