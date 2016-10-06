@@ -20,17 +20,17 @@ PODS:
     - gRPC-RxLibrary (= 1.0.0)
     - Protobuf (~> 3.0)
   - gRPC-RxLibrary (1.0.0)
-  - lightstep (3.0.9):
+  - lightstep (3.1.1):
     - gRPC-ProtoRPC
-    - lightstep/Messages (= 3.0.9)
-    - lightstep/Services (= 3.0.9)
+    - lightstep/Messages (= 3.1.1)
+    - lightstep/Services (= 3.1.1)
     - opentracing (~> 0.4.0)
     - Protobuf
-  - lightstep/Messages (3.0.9):
+  - lightstep/Messages (3.1.1):
     - gRPC-ProtoRPC
     - opentracing (~> 0.4.0)
     - Protobuf
-  - lightstep/Services (3.0.9):
+  - lightstep/Services (3.1.1):
     - gRPC-ProtoRPC
     - lightstep/Messages
     - opentracing (~> 0.4.0)
@@ -51,7 +51,7 @@ SPEC CHECKSUMS:
   gRPC-Core: 7ce9d18a7fb9fffc0f57646608d0741782b16996
   gRPC-ProtoRPC: 51745b5ebe4a844dc6e1ecf767d74ae3d124ea1e
   gRPC-RxLibrary: 3a8c5543115fb2183ed5624678e7ecbac5e9e4ad
-  lightstep: 80f9fbb781d82b6f605e38d67d2c29e6eba02af0
+  lightstep: b53491eb4ec74fbf7a92e0bbdd425e8f00ea4230
   opentracing: ead1caa5478ee78318bda55862fe33a2e67478a4
   Protobuf: 6d10f661ec22108e47dea70446ec89e00584fd42
 
