@@ -1,6 +1,6 @@
 {
   "name": "lightstep",
-  "version": "3.0.9",
+  "version": "3.1.1",
   "summary": "The LightStep Objective-C OpenTracing library.",
   "description": "LightStep (lightstep.com) bindings for the OpenTracing API (opentracing.io).",
   "homepage": "https://github.com/lightstep/lightstep-tracer-objc",
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "https://github.com/lightstep/lightstep-tracer-objc.git",
-    "tag": "3.0.9"
+    "tag": "3.1.1"
   },
   "platforms": {
     "ios": "7.0"
