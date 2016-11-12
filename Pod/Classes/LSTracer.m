@@ -1,6 +1,4 @@
 #import <UIKit/UIKit.h>
-#import <GRPCClient/GRPCCall+ChannelArg.h>
-#import <GRPCClient/GRPCCall+Tests.h>
 #import <opentracing/OTReference.h>
 
 #import "LSClockState.h"
@@ -11,7 +9,7 @@
 #import "LSVersion.h"
 #import "Collector.pbrpc.h"
 
-NSString* const LSDefaultHostport = @"collector-grpc.lightstep.com:443";
+NSString* const LSDefaultHostport = @"collector.lightstep.com:443";
 
 static const int kDefaultFlushIntervalSeconds = 30;
 static const NSUInteger kDefaultMaxBufferedSpans = 5000;
@@ -25,12 +23,12 @@ static LSTracer* s_sharedInstance = nil;
 @implementation LSTracer {
     NSString* m_accessToken;
     UInt64 m_runtimeGuid;
-    LSPBTracer* m_protoTracer;
+    NSDictionary<NSString*, NSString*>* m_tracerJSON;
     LSClockState* m_clockState;
 
     BOOL m_enabled;
     LSPBCollectorService* m_collectorStub;
-    NSMutableArray<LSPBSpan*>* m_pendingProtoSpans;
+    NSMutableArray<NSDictionary*>* m_pendingJSONSpans;
     dispatch_queue_t m_flushQueue;
     dispatch_source_t m_flushTimer;
     NSDate* m_lastFlush;
@@ -51,42 +49,26 @@ static LSTracer* s_sharedInstance = nil;
         self->m_accessToken = accessToken;
         self->m_runtimeGuid = [LSUtil generateGUID];
         
-        // Populate m_protoTracer. Start with the tracerTags.
-        NSMutableArray<LSPBKeyValue*>* tracerTags = [NSMutableArray<LSPBKeyValue*> array];
-        {
-            // All string-valued tags.
-            NSDictionary* tracerStringTags = @{@"lightstep.tracer_platform": @"ios",
-                                               @"lightstep.tracer_platform_version": [[UIDevice currentDevice] systemVersion],
-                                               @"lightstep.tracer_version": LS_TRACER_VERSION,
-                                               @"lightstep.component_name": componentName,
-                                               @"device_model": [[UIDevice currentDevice] model]};
-            for (NSString* key in tracerStringTags) {
-                LSPBKeyValue* elt = [[LSPBKeyValue alloc] init];
-                elt.key = key;
-                elt.stringValue = [tracerStringTags objectForKey:key];
-                [tracerTags addObject:elt];
-            }
-        }
-        LSPBTracer* protoTracer = [[LSPBTracer alloc] init];
-        protoTracer.tracerId = self->m_runtimeGuid;
-        protoTracer.tagsArray = tracerTags;
-        self->m_protoTracer = protoTracer;
+        NSMutableDictionary<NSString*, NSString*>* tracerJSON = [NSMutableDictionary<NSString*, NSString*> dictionary];
+        tracerJSON[@"guid"] = [LSUtil hexGUID:self->m_runtimeGuid];
+        // All string-valued tags.
+        NSDictionary* tracerTags = @{@"lightstep.tracer_platform": @"ios",
+                                     @"lightstep.tracer_platform_version": [[UIDevice currentDevice] systemVersion],
+                                     @"lightstep.tracer_version": LS_TRACER_VERSION,
+                                     @"lightstep.component_name": componentName,
+                                     @"device_model": [[UIDevice currentDevice] model]};
+        tracerJSON[@"attrs"] = [LSUtil keyValueArrayFromDictionary:tracerTags];
+        self->m_tracerJSON = tracerJSON;
 
         self->m_maxSpanRecords = kDefaultMaxBufferedSpans;
         self->m_maxPayloadJSONLength = kDefaultMaxPayloadJSONLength;
-        self->m_pendingProtoSpans = [NSMutableArray<LSPBSpan*> array];
+        self->m_pendingJSONSpans = [NSMutableArray<NSDictionary*> array];
         self->m_flushQueue = dispatch_queue_create("com.lightstep.flush_queue", DISPATCH_QUEUE_SERIAL);
         self->m_flushTimer = nil;
         self->m_enabled = true;  // if false, no longer collect tracing data
         self->m_clockState = [[LSClockState alloc] initWithLSTracer:self];
         self->m_lastFlush = [NSDate date];
         self->m_bgTaskId = UIBackgroundTaskInvalid;
-
-        if (insecureGRPC) {
-            [GRPCCall useInsecureConnectionsForHost:hostport];
-        }
-        [GRPCCall setUserAgentPrefix:@"LightStepTracerObjC/1.0" forHost:hostport];
-        m_collectorStub = [[LSPBCollectorService alloc] initWithHost:hostport];
 
         [self _forkFlushLoop:flushIntervalSeconds];
     }
@@ -308,14 +290,14 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     }
 }
 
-- (void) _appendSpanRecord:(LSPBSpan*)span {
+- (void) _appendSpanJSON:(NSDictionary*)spanJSON {
     @synchronized(self) {
         if (!m_enabled) {
             return;
         }
 
-        if (m_pendingProtoSpans.count < m_maxSpanRecords) {
-            [m_pendingProtoSpans addObject:span];
+        if (m_pendingJSONSpans.count < m_maxSpanRecords) {
+            [m_pendingJSONSpans addObject:spanJSON];
         }
     }
 }
@@ -352,11 +334,21 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
         return;
     }
 
-    LSPBReportRequest *req = [LSPBReportRequest message];
-    req.auth = [[LSPBAuth alloc] init];
-    req.auth.accessToken = m_accessToken;
-    req.tracer = [m_protoTracer copy];
+    // const authHeaderKey = "LightStep-Access-Token"
 
+/*
+    Runtime *Runtime `thrift:"runtime,1" json:"runtime"`
+	// unused field # 2
+	SpanRecords           []*SpanRecord `thrift:"span_records,3" json:"span_records"`
+	LogRecords            []*LogRecord  `thrift:"log_records,4" json:"log_records"`
+	TimestampOffsetMicros *int64        `thrift:"timestamp_offset_micros,5" json:"timestamp_offset_micros"`
+	// unused field # 6
+	OldestMicros    *int64          `thrift:"oldest_micros,7" json:"oldest_micros"`
+	YoungestMicros  *int64          `thrift:"youngest_micros,8" json:"youngest_micros"`
+	Counters        []*NamedCounter `thrift:"counters,9" json:"counters"`
+	InternalLogs    []*LogRecord    `thrift:"internal_logs,10" json:"internal_logs"`
+	InternalMetrics *Metrics        `thrift:"internal_metrics,11" json:"internal_metrics"`
+*/
     // We really want this flush to go through, even if the app enters the
     // background and iOS wants to move on with its life.
     //
@@ -378,13 +370,18 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
         }
     };
 
+
+    NSMutableDictionary *reqJSON;
     @synchronized(self) {
         NSDate* now = [NSDate date];
-        req.internalMetrics.startTimestamp = [LSUtil protoTimestampFromDate:m_lastFlush];
-        req.internalMetrics.durationMicros = now.toMicros - m_lastFlush.toMicros;
-        req.spansArray = m_pendingProtoSpans;
-        req.timestampOffsetMicros = (uint32_t)m_clockState.offsetMicros;
-        m_pendingProtoSpans = [NSMutableArray<LSPBSpan*> array];
+        if (m_pendingJSONSpans.count == 0) {
+            // Nothing to report.
+            return;
+        }
+        reqJSON = [NSMutableDictionary dictionary];
+        reqJSON[@"runtime"] = m_tracerJSON;
+        reqJSON[@"span_records"] = m_pendingJSONSpans;
+        m_pendingJSONSpans = [NSMutableArray<NSDictionary*> array];
         m_lastFlush = now;
 
         m_bgTaskId = [[UIApplication sharedApplication]
@@ -399,10 +396,29 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
         }
     }
 
+    NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    sessionConfiguration.HTTPAdditionalHeaders =
+    @{@"LightStep-Access-Token": m_accessToken,
+      @"Content-Type"  : @"application/json"};
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
+    NSURL *url = [NSURL URLWithString:@"https://collector.lightstep.com:443/api/v0/reports"];
+//    NSURL *url = [NSURL URLWithString:@"http://localhost:9998/api/v0/reports"];
+    NSString *reqBody = [LSUtil objectToJSONString:reqJSON maxLength:10000000 /* XXX */];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.HTTPBody = [reqBody dataUsingEncoding:NSUTF8StringEncoding];
+    request.HTTPMethod = @"POST";
+    NSLog(@"BHS request: %@", reqBody);
+    NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSLog(@"BHS response: %@, %@", response, error);
+        cleanupBlock(true, error);
+    }];
+    [postDataTask resume];
+
+    /*
+
     UInt64 originMicros = [LSClockState nowMicros];
     [m_collectorStub reportWithRequest:req handler:^(LSPBReportResponse * _Nullable response, NSError * _Nullable error) {
         UInt64 destinationMicros = [LSClockState nowMicros];
-        cleanupBlock(true, error);
         __typeof__(self) strongSelf = weakSelf;
         if (response != nil && strongSelf != nil) {
             @synchronized(strongSelf) {
@@ -422,6 +438,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
             }
         }
     }];
+     */
 }
 
 // Called by flush() callbacks on a failed report.

@@ -97,6 +97,14 @@
     return (1000000 * protoTimestamp.seconds) + (protoTimestamp.nanos / 1000);
 }
 
++ (NSArray*)keyValueArrayFromDictionary:(NSDictionary<NSString*, NSString*>*)dict {
+    NSMutableArray* rval = [NSMutableArray arrayWithCapacity:dict.count];
+    for (NSString* key in dict) {
+        [rval addObject:@{@"Key": key, @"Value": [dict objectForKey:key]}];
+    }
+    return rval;
+}
+
 @end
 
 @implementation NSDate(LSSpan)

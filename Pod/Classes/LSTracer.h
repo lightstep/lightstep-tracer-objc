@@ -150,7 +150,7 @@ FOUNDATION_EXPORT NSInteger LSBackgroundTaskError;
 /**
  * Record a span.
  */
-- (void) _appendSpanRecord:(LSPBSpan*)spanRecord;
+- (void) _appendSpanJSON:(NSDictionary*)spanRecord;
 
 /**
  * Flush any buffered data to the collector. Returns without blocking.

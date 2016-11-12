@@ -122,9 +122,9 @@ completionHandler:(void (^)(id response, NSError *error))completionHandler {
 
     NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSMutableDictionary* headers = [NSMutableDictionary dictionaryWithDictionary:[config HTTPAdditionalHeaders]];
+    [[OTGlobal sharedTracer] inject:span.context format:OTFormatTextMap carrier:headers];
     [headers setObject:@"LightStep iOS Example" forKey:@"User-Agent"];
     [headers setObject:((LSTracer*)span.tracer).accessToken forKey:@"LightStep-Access-Token"];
-    [[OTGlobal sharedTracer] inject:span.context format:OTFormatTextMap carrier:headers];
     config.HTTPAdditionalHeaders = headers;
 
     NSURLComponents* urlComponents = [NSURLComponents new];
@@ -139,26 +139,27 @@ completionHandler:(void (^)(id response, NSError *error))completionHandler {
     [request setHTTPMethod:@"GET"];
 
     NSURLSession* session = [NSURLSession sessionWithConfiguration:config];
-    NSURLSessionDataTask* task = [session dataTaskWithRequest:request
-                                            completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
-                                                id obj = nil;
-                                                if (error == nil) {
-
-                                                    obj = [NSJSONSerialization JSONObjectWithData:data
-                                                                                          options:NSJSONReadingMutableContainers
-                                                                                            error:nil];
-                                                    [span logEvent:@"response" payload:obj];
-                                                } else {
-                                                    [span logEvent:@"error" payload:error.localizedDescription];
-                                                }
-
-                                                @try {
-                                                    completionHandler(obj, error);
-                                                } @catch(NSException* exception) {
-                                                    [span log:@"Exception in completion handler" timestamp:nil payload:exception];
-                                                }
-                                                [span finish];
-                                            }];
+    NSURLSessionDataTask* task =
+    [session dataTaskWithRequest:request
+               completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
+                   id obj = nil;
+                   if (error == nil) {
+                       
+                       obj = [NSJSONSerialization JSONObjectWithData:data
+                                                             options:NSJSONReadingMutableContainers
+                                                               error:nil];
+                       [span logEvent:@"response" payload:obj];
+                   } else {
+                       [span logEvent:@"error" payload:error.localizedDescription];
+                   }
+                   
+                   @try {
+                       completionHandler(obj, error);
+                   } @catch(NSException* exception) {
+                       [span log:@"Exception in completion handler" timestamp:nil payload:exception];
+                   }
+                   [span finish];
+               }];
     [task resume];
 }
 
