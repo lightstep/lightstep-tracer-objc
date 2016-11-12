@@ -16,8 +16,6 @@ FOUNDATION_EXPORT NSString *const LSErrorDomain;
  */
 FOUNDATION_EXPORT NSInteger LSBackgroundTaskError;
 
-@class LSPBSpan;
-
 /**
  * An implementation of the OTTracer protocol.
  *
@@ -62,9 +60,9 @@ FOUNDATION_EXPORT NSInteger LSBackgroundTaskError;
  *
  * @param accessToken the access token.
  * @param componentName the "component name" to associate with spans from this process; e.g., the name of your iOS app or the bundle name.
- * @param hostport the gRPC collector's host and (TLS) port as a single string (e.g.  @"collector-grpc.lightstep.com:443")
+ * @param hostport the collector's host and (TLS) port as a single string (e.g.  @"collector.lightstep.com:443")
  * @param flushIntervalSeconds the flush interval, or 0 for no automatic background flushing
- * @param insecureGRPC if true, disable (TLS) security on the gRPC connection
+ * @param plaintext if true, disable (TLS) security on the collector connection
  *
  * @return An `LSTracer` instance that's ready to create spans and logs.
  *
@@ -74,7 +72,7 @@ FOUNDATION_EXPORT NSInteger LSBackgroundTaskError;
                  componentName:(nullable NSString*)componentName
                       hostport:(nullable NSString*)hostport
           flushIntervalSeconds:(NSUInteger)flushIntervalSeconds
-                  insecureGRPC:(BOOL)insecureGRPC;
+		     plaintext:(BOOL)plaintext;
 
 #pragma mark - OpenTracing API
 

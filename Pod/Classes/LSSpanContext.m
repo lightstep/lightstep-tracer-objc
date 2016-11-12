@@ -7,8 +7,6 @@
 //
 
 #import "LSSpanContext.h"
-
-#import "Collector.pbobjc.h"
 #import "LSUtil.h"
 
 @implementation LSSpanContext {
@@ -47,13 +45,6 @@
             return;
         }
     }
-}
-
-- (LSPBSpanContext*)toProto {
-    LSPBSpanContext* rval = [[LSPBSpanContext alloc] init];
-    rval.traceId = self.traceId;
-    rval.spanId = self.spanId;
-    return rval;
 }
 
 - (NSString*)hexTraceId {

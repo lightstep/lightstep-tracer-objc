@@ -7,16 +7,17 @@
 #import "LSTracer.h"
 #import "LSUtil.h"
 #import "LSVersion.h"
-#import "Collector.pbrpc.h"
 
 NSString* const LSDefaultHostport = @"collector.lightstep.com:443";
 
 static const int kDefaultFlushIntervalSeconds = 30;
 static const NSUInteger kDefaultMaxBufferedSpans = 5000;
 static const NSUInteger kDefaultMaxPayloadJSONLength = 32 * 1024;
+static const NSUInteger kMaxRequestSize = 1024*1024*4;  // 4MB
 
 NSString *const LSErrorDomain = @"com.lightstep";
 NSInteger LSBackgroundTaskError = 1;
+NSInteger LSRequestTooLargeError = 2;
 
 static LSTracer* s_sharedInstance = nil;
 
@@ -27,10 +28,11 @@ static LSTracer* s_sharedInstance = nil;
     LSClockState* m_clockState;
 
     BOOL m_enabled;
-    LSPBCollectorService* m_collectorStub;
     NSMutableArray<NSDictionary*>* m_pendingJSONSpans;
     dispatch_queue_t m_flushQueue;
     dispatch_source_t m_flushTimer;
+    NSString* m_collectorHostport;
+    BOOL m_plaintext;
     NSDate* m_lastFlush;
 
     UIBackgroundTaskIdentifier m_bgTaskId;
@@ -43,7 +45,7 @@ static LSTracer* s_sharedInstance = nil;
                  componentName:(NSString*)componentName
                       hostport:(NSString*)hostport
           flushIntervalSeconds:(NSUInteger)flushIntervalSeconds
-                  insecureGRPC:(BOOL)insecureGRPC
+                     plaintext:(BOOL)plaintext
 {
     if (self = [super init]) {
         self->m_accessToken = accessToken;
@@ -63,6 +65,8 @@ static LSTracer* s_sharedInstance = nil;
         self->m_maxSpanRecords = kDefaultMaxBufferedSpans;
         self->m_maxPayloadJSONLength = kDefaultMaxPayloadJSONLength;
         self->m_pendingJSONSpans = [NSMutableArray<NSDictionary*> array];
+        self->m_collectorHostport = hostport;
+        self->m_plaintext = plaintext;
         self->m_flushQueue = dispatch_queue_create("com.lightstep.flush_queue", DISPATCH_QUEUE_SERIAL);
         self->m_flushTimer = nil;
         self->m_enabled = true;  // if false, no longer collect tracing data
@@ -82,7 +86,7 @@ static LSTracer* s_sharedInstance = nil;
                  componentName:componentName
                       hostport:LSDefaultHostport
           flushIntervalSeconds:flushIntervalSeconds
-                  insecureGRPC:false];
+                     plaintext:false];
 }
 
 - (instancetype) initWithToken:(NSString*)accessToken
@@ -91,7 +95,7 @@ static LSTracer* s_sharedInstance = nil;
                  componentName:componentName
                       hostport:LSDefaultHostport
           flushIntervalSeconds:kDefaultFlushIntervalSeconds
-                  insecureGRPC:false];
+                     plaintext:false];
 }
 
 - (instancetype) initWithToken:(NSString*)accessToken {
@@ -334,21 +338,6 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
         return;
     }
 
-    // const authHeaderKey = "LightStep-Access-Token"
-
-/*
-    Runtime *Runtime `thrift:"runtime,1" json:"runtime"`
-	// unused field # 2
-	SpanRecords           []*SpanRecord `thrift:"span_records,3" json:"span_records"`
-	LogRecords            []*LogRecord  `thrift:"log_records,4" json:"log_records"`
-	TimestampOffsetMicros *int64        `thrift:"timestamp_offset_micros,5" json:"timestamp_offset_micros"`
-	// unused field # 6
-	OldestMicros    *int64          `thrift:"oldest_micros,7" json:"oldest_micros"`
-	YoungestMicros  *int64          `thrift:"youngest_micros,8" json:"youngest_micros"`
-	Counters        []*NamedCounter `thrift:"counters,9" json:"counters"`
-	InternalLogs    []*LogRecord    `thrift:"internal_logs,10" json:"internal_logs"`
-	InternalMetrics *Metrics        `thrift:"internal_metrics,11" json:"internal_metrics"`
-*/
     // We really want this flush to go through, even if the app enters the
     // background and iOS wants to move on with its life.
     //
@@ -378,9 +367,15 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
             // Nothing to report.
             return;
         }
+        
+        // reqJSON spec: https://github.com/lightstep/lightstep-tracer-go/blob/40cbd138e6901f0dafdd0cccabb6fc7c5a716efb/lightstep_thrift/ttypes.go#L2586
         reqJSON = [NSMutableDictionary dictionary];
+        reqJSON[@"timestamp_offset_micros"] = @(m_clockState.offsetMicros);
         reqJSON[@"runtime"] = m_tracerJSON;
         reqJSON[@"span_records"] = m_pendingJSONSpans;
+        reqJSON[@"oldest_micros"] = @([m_lastFlush toMicros]);
+        reqJSON[@"youngest_micros"] = @([now toMicros]);
+        
         m_pendingJSONSpans = [NSMutableArray<NSDictionary*> array];
         m_lastFlush = now;
 
@@ -397,48 +392,50 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     }
 
     NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    sessionConfiguration.HTTPAdditionalHeaders =
-    @{@"LightStep-Access-Token": m_accessToken,
-      @"Content-Type"  : @"application/json"};
+    sessionConfiguration.HTTPAdditionalHeaders = @{@"LightStep-Access-Token": m_accessToken,
+                                                   @"Content-Type": @"application/json"};
     NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
-    NSURL *url = [NSURL URLWithString:@"https://collector.lightstep.com:443/api/v0/reports"];
-//    NSURL *url = [NSURL URLWithString:@"http://localhost:9998/api/v0/reports"];
-    NSString *reqBody = [LSUtil objectToJSONString:reqJSON maxLength:10000000 /* XXX */];
+    NSString* protocol = (m_plaintext ? @"http" : @"https");
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@/api/v0/reports", protocol, self->m_collectorHostport]];
+    NSString* reqBody = [LSUtil objectToJSONString:reqJSON maxLength:kMaxRequestSize];
+    if (reqBody == nil) {
+        cleanupBlock(true, [NSError errorWithDomain:LSErrorDomain code:LSRequestTooLargeError userInfo:nil]);
+    }
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.HTTPBody = [reqBody dataUsingEncoding:NSUTF8StringEncoding];
     request.HTTPMethod = @"POST";
-    NSLog(@"BHS request: %@", reqBody);
-    NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSLog(@"BHS response: %@, %@", response, error);
-        cleanupBlock(true, error);
-    }];
-    [postDataTask resume];
-
-    /*
-
     UInt64 originMicros = [LSClockState nowMicros];
-    [m_collectorStub reportWithRequest:req handler:^(LSPBReportResponse * _Nullable response, NSError * _Nullable error) {
-        UInt64 destinationMicros = [LSClockState nowMicros];
-        __typeof__(self) strongSelf = weakSelf;
-        if (response != nil && strongSelf != nil) {
-            @synchronized(strongSelf) {
-                if (response.commandsArray_Count > 0) {
-                    for (LSPBCommand* comm in response.commandsArray) {
-                        if (comm.disable == true) {
-                            // Irrevocably disable this client.
-                            m_enabled = false;
-                        }
+    NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        @try {
+            __typeof__(self) strongSelf = weakSelf;
+            UInt64 destinationMicros = [LSClockState nowMicros];
+            NSError* jsonError;
+            NSDictionary* responseJSON = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
+            if (jsonError == nil) {
+                if ([responseJSON objectForKey:@"timing"] != nil) {
+                    NSDictionary* timingJSON = [responseJSON objectForKey:@"timing"];
+                    NSNumber* receiveMicros = [timingJSON objectForKey:@"receive_micros"];
+                    NSNumber* transmitMicros = [timingJSON objectForKey:@"transmit_micros"];
+                    
+                    if (receiveMicros != nil && transmitMicros != nil) {
+                        // Update our local NTP-lite clock state with the latest measurements.
+                        [strongSelf->m_clockState addSampleWithOriginMicros:originMicros
+                                                              receiveMicros:receiveMicros.longLongValue
+                                                             transmitMicros:transmitMicros.longLongValue
+                                                          destinationMicros:destinationMicros];
                     }
                 }
-                // Update our local NTP-lite clock state with the latest measurements.
-                [strongSelf->m_clockState addSampleWithOriginMicros:originMicros
-                                                      receiveMicros:[LSUtil microsFromProtoTimestamp:response.receiveTimestamp]
-                                                     transmitMicros:[LSUtil microsFromProtoTimestamp:response.transmitTimestamp]
-                                                  destinationMicros:destinationMicros];
             }
         }
+        @catch (NSException *e) {
+            NSLog(@"Caught exception in LightStep reporting response; dropping data. Exception: %@", e);
+        }
+        @finally {
+            cleanupBlock(true, error);
+        }
     }];
-     */
+    // "Start" (resume) the HTTP activity.
+    [postDataTask resume];
 }
 
 // Called by flush() callbacks on a failed report.
