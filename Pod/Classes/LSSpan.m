@@ -39,7 +39,9 @@
     }
     NSObject* payloadVal;
     if (payloadVal = [inputFields objectForKey:@"payload_json"]) {
-        outputFields[@"payload_json"] = payloadVal;
+        outputFields[@"payload_json"] = ([payloadVal isKindOfClass:[NSString class]]
+                                         ? payloadVal
+                                         : payloadVal.description);
     } else if (inputFields.count > 0) {
         outputFields[@"payload_json"] = [LSUtil objectToJSONString:inputFields
                                                          maxLength:maxPayloadJSONLength];

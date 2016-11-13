@@ -79,7 +79,11 @@
 + (NSMutableArray*)keyValueArrayFromDictionary:(NSDictionary<NSString*, NSString*>*)dict {
     NSMutableArray* rval = [NSMutableArray arrayWithCapacity:dict.count];
     for (NSString* key in dict) {
-        [rval addObject:@{@"Key": key, @"Value": [dict objectForKey:key].description}];
+        NSObject* val = dict[key];
+        [rval addObject:@{@"Key": key,
+                          @"Value": ([val isKindOfClass:[NSString class]]
+                                     ? val
+                                     : val.description)}];
     }
     return rval;
 }
