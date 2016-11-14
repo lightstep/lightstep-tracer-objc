@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (GPBTimestamp*)protoTimestampFromMicros:(UInt64)micros;
 + (GPBTimestamp*)protoTimestampFromDate:(NSDate*)date;
 + (UInt64)microsFromProtoTimestamp:(GPBTimestamp*)protoTimestamp;
++ (NSMutableArray*)keyValueArrayFromDictionary:(NSDictionary<NSString*, NSString*>*)dict;
 
 @end
 

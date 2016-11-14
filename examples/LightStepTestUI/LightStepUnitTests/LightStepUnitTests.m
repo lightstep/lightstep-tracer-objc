@@ -3,7 +3,6 @@
 #import <lightstep/LSSpan.h>
 #import <lightstep/LSTracer.h>
 #import <lightstep/LSUtil.h>
-#import <lightstep/Collector.pbobjc.h>
 
 const NSUInteger kMaxLength = 8192;
 
@@ -21,7 +20,7 @@ const NSUInteger kMaxLength = 8192;
                                  componentName:@"LightStepUnitTests"
                                       hostport:@"localhost:9997"
                           flushIntervalSeconds:0  // disable the flush loop
-                                  insecureGRPC:true];
+                                     plaintext:true];
 }
 
 - (void)tearDown {
@@ -80,61 +79,87 @@ const NSUInteger kMaxLength = 8192;
 
 - (void)testLSSpan {
     // Test timestamps, span context basics, and operation names.
-    LSSpan* parent = [m_tracer startSpan:@"parent"];
-    LSPBSpanContext* parentCtx;
+    LSSpan* parent = (LSSpan*)[m_tracer startSpan:@"parent"];
+    NSDictionary* parentJSON;
     {
         NSDate* parentFinish = [NSDate date];
-        LSPBSpan* spanProto = [parent _toProto:parentFinish];
-        parentCtx = spanProto.spanContext;
-        XCTAssertNotEqual(parentCtx.traceId, 0);
-        XCTAssertNotEqual(parentCtx.spanId, 0);
-        XCTAssertEqual(spanProto.startTimestamp.seconds, [parent._startTime toMicros] / 1000000);
-        XCTAssertEqual(spanProto.durationMicros, [parentFinish toMicros] - [parent._startTime toMicros]);
-        XCTAssertEqual(spanProto.operationName, @"parent");
+        parentJSON = [parent _toJSON:parentFinish];
+        XCTAssertNotNil(parentJSON[@"span_guid"]);
+        XCTAssertNotNil(parentJSON[@"trace_guid"]);
+        XCTAssertNotEqual(parentJSON[@"span_guid"], @(0));
+        XCTAssertNotEqual(parentJSON[@"trace_guid"], @(0));
+        XCTAssertEqual(parentJSON[@"oldest_micros"], @([parent._startTime toMicros]));
+        XCTAssertEqual(parentJSON[@"youngest_micros"], @([parentFinish toMicros]));
+        XCTAssertEqual(parentJSON[@"span_name"], @"parent");
     }
-    
+
     // Additionally test span context inheritance, tags, and logs.
-    LSSpan* child = [m_tracer startSpan:@"child" childOf:parent.context tags:@{@"string": @"abc", @"int": @(42), @"bool": @(true)}];
+    LSSpan* child = (LSSpan*)[m_tracer startSpan:@"child" childOf:parent.context tags:@{@"string": @"abc", @"int": @(42), @"bool": @(true)}];
     NSDate* logTime = [NSDate date];
     [child log:@"log1" timestamp:logTime payload:@{@"foo": @"bar"}];
     [child logEvent:@"log2"];
+    [child log:@{@"foo": @(42), @"bar": @"baz"}];
+    [child log:@{@"event": @(42), @"bar": @"baz"}];  // the "event" field name gets special treatment
     {
         NSDate* childFinish = [NSDate date];
-        LSPBSpan* spanProto = [child _toProto:childFinish];
-        XCTAssertEqual(spanProto.spanContext.traceId, parentCtx.traceId);
-        XCTAssertNotEqual(spanProto.spanContext.spanId, 0);
-        XCTAssertEqual(spanProto.referencesArray.count, 1);
-        XCTAssertEqual([spanProto.referencesArray objectAtIndex:0].spanContext.traceId, spanProto.spanContext.traceId);
-        XCTAssertEqual(spanProto.tagsArray.count, 3);
-        for (LSPBKeyValue* kv in spanProto.tagsArray) {
-            if ([kv.key isEqualToString:@"string"]) {
-                XCTAssert([kv.stringValue isEqualToString:@"abc"]);
-            } else if ([kv.key isEqualToString:@"int"]) {
-                XCTAssertEqual(kv.intValue, 42);
-            } else if ([kv.key isEqualToString:@"bool"]) {
-                XCTAssertEqual(kv.intValue, 1);  // no real NSBoolean* type :(
+        NSDictionary* childJSON = [child _toJSON:childFinish];
+
+        XCTAssert([childJSON[@"trace_guid"] isEqualToString:parentJSON[@"trace_guid"]]);
+        XCTAssertNotEqual(childJSON[@"span_guid"], @(0));
+        NSArray* childTags = childJSON[@"attributes"];
+        XCTAssertEqual(childTags.count, 4);
+        for (NSDictionary* keyValuePair in childTags) {
+            NSString* tagKey = keyValuePair[@"Key"];
+            NSString* tagVal = keyValuePair[@"Value"];
+            if ([tagKey isEqualToString:@"string"]) {
+                XCTAssert([tagVal isEqualToString:@"abc"]);
+            } else if ([tagKey isEqualToString:@"int"]) {
+                XCTAssert([tagVal isEqualToString:@"42"]);
+            } else if ([tagKey isEqualToString:@"bool"]) {
+                XCTAssert([tagVal isEqualToString:@"1"]);  // no real NSBoolean* type :(
+            } else if ([tagKey isEqualToString:@"parent_span_guid"]) {
+                XCTAssert([tagVal isEqualToString:parentJSON[@"span_guid"]]);
             } else {
                 XCTAssert(FALSE);  // kv.key is not an expected value
             }
         }
-        XCTAssertEqual(spanProto.logsArray.count, 2);
-        XCTAssert([[[spanProto.logsArray objectAtIndex:0].keyvaluesArray objectAtIndex:0].key isEqualToString:@"event"]);
-        XCTAssert([[[spanProto.logsArray objectAtIndex:0].keyvaluesArray objectAtIndex:0].stringValue isEqualToString:@"log1"]);
-        XCTAssert([[[spanProto.logsArray objectAtIndex:0].keyvaluesArray objectAtIndex:1].key isEqualToString:@"payload_json"]);
-        XCTAssert([[[spanProto.logsArray objectAtIndex:0].keyvaluesArray objectAtIndex:1].stringValue isEqualToString:@"{\"foo\":\"bar\"}"]);
-        XCTAssertEqualObjects([spanProto.logsArray objectAtIndex:0].timestamp, [LSUtil protoTimestampFromDate:logTime]);
-        XCTAssert([[[spanProto.logsArray objectAtIndex:1].keyvaluesArray objectAtIndex:0].key isEqualToString:@"event"]);
-        XCTAssert([[[spanProto.logsArray objectAtIndex:1].keyvaluesArray objectAtIndex:0].stringValue isEqualToString:@"log2"]);
+
+        NSArray<NSDictionary*>* childLogs = childJSON[@"log_records"];
+        XCTAssertEqual(childLogs.count, 4);
+        {
+            // Check explicit timestamps.
+            XCTAssertEqual(childLogs[0][@"timestamp_micros"], @(logTime.toMicros));
+            // Check that stable_name is populated properly.
+            XCTAssert([childLogs[0][@"stable_name"] isEqualToString:@"log1"]);
+            // Among other things, "event" is excluded from the payload_json.
+            XCTAssert([childLogs[0][@"payload_json"] isEqualToString:@"{\"foo\":\"bar\"}"]);
+        }
+        {
+            // Check that stable_name is populated properly.
+            XCTAssert([childLogs[1][@"stable_name"] isEqualToString:@"log2"]);
+            // There should be no payload.
+            XCTAssertNil(childLogs[1][@"payload_json"]);
+        }
+        {
+            // Check that stable_name is absent.
+            XCTAssertNil(childLogs[2][@"stable_name"]);
+            XCTAssert([childLogs[2][@"payload_json"] isEqualToString:@"{\"foo\":42,\"bar\":\"baz\"}"]);
+        }
+        {
+            // Check that stable_name is converted to a string.
+            XCTAssert([childLogs[3][@"stable_name"] isEqualToString:@"42"]);
+            XCTAssert([childLogs[3][@"payload_json"] isEqualToString:@"{\"bar\":\"baz\"}"]);
+        }
     }
 }
 
 - (void)testBaggage {
     // Test timestamps, span context basics, and operation names.
-    LSSpan* parent = [m_tracer startSpan:@"parent"];
+    LSSpan* parent = (LSSpan*)[m_tracer startSpan:@"parent"];
     [parent setBaggageItem:@"suitcase" value:@"brown"];
-    LSSpan* child1 = [m_tracer startSpan:@"child" childOf:parent.context];
+    LSSpan* child1 = (LSSpan*)[m_tracer startSpan:@"child" childOf:parent.context];
     [parent setBaggageItem:@"backpack" value:@"gray"];
-    LSSpan* child2 = [m_tracer startSpan:@"child" childOf:parent.context];
+    LSSpan* child2 = (LSSpan*)[m_tracer startSpan:@"child" childOf:parent.context];
     XCTAssert([[child1 getBaggageItem:@"suitcase"] isEqualToString:@"brown"]);
     XCTAssertNil([child1 getBaggageItem:@"backpack"]);
     XCTAssert([[child2 getBaggageItem:@"suitcase"] isEqualToString:@"brown"]);

@@ -12,8 +12,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class LSPBSpanContext;
-
 @interface LSSpanContext : NSObject<OTSpanContext>
 
 #pragma mark - OpenTracing API
@@ -51,11 +49,6 @@ NS_ASSUME_NONNULL_BEGIN
  * The LightStep Span's probabilistically unique (span) id.
  */
 @property (nonatomic) UInt64 spanId;
-
-/**
- * The LSSpanContext as a LSPBSpanContext protocol message.
- */
-- (LSPBSpanContext*)toProto;
 
 /**
  * The trace id as a hexadecimal string.

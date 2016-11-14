@@ -6,7 +6,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class LSSpanContext;
 @class LSTracer;
-@class LSPBSpan;
 
 /**
  * An `LSSpan` represents a logical unit of work done by the service. One or
@@ -84,7 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 // For testing only
-- (LSPBSpan*)_toProto:(NSDate*)finishTime;
+- (NSDictionary*)_toJSON:(NSDate*)finishTime;
 @property (nonatomic, readonly) NSDate* _startTime;
 
 @end

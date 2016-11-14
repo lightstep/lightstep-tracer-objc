@@ -12,7 +12,7 @@ The LightStep distributed tracing library for Objective-C and Swift.
 2. Create a `Podfile` in your Xcode project and add the following line:
 
 ```ruby
-pod 'lightstep', '~>2.0'
+pod 'lightstep', '~>3.0'
 ```
 
 3. Run `pod install` in your project directory. Open the newly created workspace file in Xcode.
@@ -38,7 +38,7 @@ pod 'lightstep', '~>2.0'
 // Elsewhere:
 - (void)someFunction:... {
 
-    id<OTSpan> span = [[OTGlobal sharedTracer] startSpan:@"an operation name"];
+    id<OTSpan> span = [[OTGlobal sharedTracer] startSpan:@"someFunction:"];
 
     ...
 

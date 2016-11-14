@@ -139,26 +139,27 @@ completionHandler:(void (^)(id response, NSError *error))completionHandler {
     [request setHTTPMethod:@"GET"];
 
     NSURLSession* session = [NSURLSession sessionWithConfiguration:config];
-    NSURLSessionDataTask* task = [session dataTaskWithRequest:request
-                                            completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
-                                                id obj = nil;
-                                                if (error == nil) {
-
-                                                    obj = [NSJSONSerialization JSONObjectWithData:data
-                                                                                          options:NSJSONReadingMutableContainers
-                                                                                            error:nil];
-                                                    [span logEvent:@"response" payload:obj];
-                                                } else {
-                                                    [span logEvent:@"error" payload:error.localizedDescription];
-                                                }
-
-                                                @try {
-                                                    completionHandler(obj, error);
-                                                } @catch(NSException* exception) {
-                                                    [span log:@"Exception in completion handler" timestamp:nil payload:exception];
-                                                }
-                                                [span finish];
-                                            }];
+    NSURLSessionDataTask* task =
+    [session dataTaskWithRequest:request
+               completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
+                   id obj = nil;
+                   if (error == nil) {
+                       
+                       obj = [NSJSONSerialization JSONObjectWithData:data
+                                                             options:NSJSONReadingMutableContainers
+                                                               error:nil];
+                       [span logEvent:@"response" payload:obj];
+                   } else {
+                       [span logEvent:@"error" payload:error.localizedDescription];
+                   }
+                   
+                   @try {
+                       completionHandler(obj, error);
+                   } @catch(NSException* exception) {
+                       [span log:@"Exception in completion handler" timestamp:nil payload:exception];
+                   }
+                   [span finish];
+               }];
     [task resume];
 }
 

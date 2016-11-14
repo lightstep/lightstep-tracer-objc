@@ -3,9 +3,54 @@
 #import "LSTracer.h"
 #import "LSUtil.h"
 
-#import "Collector.pbobjc.h"
-
 #pragma mark - LSSpan
+
+@interface LSLog : NSObject
+
+@property (nonatomic, readonly) NSDate* timestamp;
+@property (nonatomic, readonly) NSDictionary<NSString*, NSObject*>* fields;
+
+- (instancetype) initWithTimestamp:(NSDate*)timestamp
+                            fields:(NSDictionary<NSString*, NSObject*>*)fields;
+
+@end
+
+@implementation LSLog
+
+- (instancetype) initWithTimestamp:(NSDate*)timestamp
+                            fields:(NSDictionary<NSString*, NSObject*>*)fields {
+    if (self = [super init]) {
+        self->_timestamp = timestamp;
+        self->_fields = [NSDictionary dictionaryWithDictionary:fields];
+    }
+    return self;
+}
+
+- (NSDictionary*) toJSON:(int)maxPayloadJSONLength {
+    NSMutableDictionary *inputFields = self.fields;
+    // outputFields spec: https://github.com/lightstep/lightstep-tracer-go/blob/40cbd138e6901f0dafdd0cccabb6fc7c5a716efb/lightstep_thrift/ttypes.go#L513
+    NSMutableDictionary<NSString*, NSObject*>* outputFields = [NSMutableDictionary<NSString*, NSObject*> dictionary];
+    NSObject* eventVal;
+    if (eventVal = [inputFields objectForKey:@"event"]) {
+        outputFields[@"stable_name"] = [eventVal description];  // just in case it's not an NSString already
+        // Copy on write... (removing the event key from the input dict)
+        inputFields = [NSMutableDictionary dictionaryWithDictionary:inputFields];
+        [inputFields removeObjectForKey:@"event"];
+    }
+    NSObject* payloadVal;
+    if (payloadVal = [inputFields objectForKey:@"payload_json"]) {
+        outputFields[@"payload_json"] = ([payloadVal isKindOfClass:[NSString class]]
+                                         ? payloadVal
+                                         : payloadVal.description);
+    } else if (inputFields.count > 0) {
+        outputFields[@"payload_json"] = [LSUtil objectToJSONString:inputFields
+                                                         maxLength:maxPayloadJSONLength];
+    }
+    outputFields[@"timestamp_micros"] = @([self.timestamp toMicros]);
+    return outputFields;
+}
+
+@end
 
 @implementation LSSpan {
     LSTracer* m_tracer;
@@ -13,7 +58,7 @@
     LSSpanContext* m_parent;
     NSString* m_operationName;
     NSDate* m_startTime;
-    NSMutableArray<LSPBLog*>* m_logs;
+    NSMutableArray<LSLog*>* m_logs;
     NSMutableDictionary* m_tags;
 }
 
@@ -93,25 +138,16 @@
         return;
     }
 
-    NSString* payloadJSON = [LSUtil objectToJSONString:payload
-                                             maxLength:[m_tracer maxPayloadJSONLength]];
-    LSPBLog* logRecord = [[LSPBLog alloc] init];
-    logRecord.timestamp = [LSUtil protoTimestampFromDate:timestamp];
-    NSMutableArray<LSPBKeyValue*>* logKeyValues = [NSMutableArray<LSPBKeyValue*> array];
-    {
-        LSPBKeyValue* val = [[LSPBKeyValue alloc] init];
-        val.key = @"event";
-        val.stringValue = eventName;
-        [logKeyValues addObject:val];
+    NSMutableDictionary<NSString*, NSObject*>* fields = [NSMutableDictionary<NSString*, NSObject*> dictionary];
+    if (eventName != nil) {
+        fields[@"event"] = eventName;
     }
-    if (payloadJSON != nil) {
-        LSPBKeyValue* val = [[LSPBKeyValue alloc] init];
-        val.key = @"payload_json";
-        val.stringValue = payloadJSON;
-        [logKeyValues addObject:val];
+    if (payload != nil) {
+        NSString* payloadJSON = [LSUtil objectToJSONString:payload
+                                                 maxLength:[m_tracer maxPayloadJSONLength]];
+        fields[@"payload_json"] = payloadJSON;
     }
-    logRecord.keyvaluesArray = logKeyValues;
-    [self _appendLog:logRecord];
+    [self _appendLog:[[LSLog alloc] initWithTimestamp:timestamp fields:fields]];
 }
 
 - (void)log:(NSDictionary<NSString*, NSObject*>*)fields {
@@ -124,40 +160,13 @@
     if (![m_tracer enabled]) {
         return;
     }
-    
-    LSPBLog* logRecord = [[LSPBLog alloc] init];
-    logRecord.timestamp = [LSUtil protoTimestampFromDate:timestamp];
-    NSMutableArray<LSPBKeyValue*>* logKeyValues = [NSMutableArray<LSPBKeyValue*> arrayWithCapacity:fields.count];
-    for (NSString* key in fields) {
-        NSObject* val = [fields objectForKey:key];
-        if (val == nil) {
-            continue;
-        }
-        LSPBKeyValue* protoKV = [[LSPBKeyValue alloc] init];
-        protoKV.key = key;
-        if ([val isKindOfClass:[NSString class]]) {
-            protoKV.stringValue = (NSString*)val;
-        } else if ([val isKindOfClass:[NSNumber class]]) {
-            NSNumber *numericVal = (NSNumber*)val;
-            if (CFNumberIsFloatType((CFNumberRef)numericVal)) {
-                protoKV.doubleValue = [numericVal doubleValue];
-            } else {
-                protoKV.intValue = [numericVal longLongValue];
-            }
-        } else {
-            protoKV.stringValue = [val description];
-        }
-        [logKeyValues addObject:protoKV];
-    }
-    logRecord.keyvaluesArray = logKeyValues;
-    [self _appendLog:logRecord];
+    [self _appendLog:[[LSLog alloc] initWithTimestamp:timestamp fields:fields]];
 }
 
-
-- (void)_appendLog:(LSPBLog*)log {
+- (void)_appendLog:(LSLog*)log {
     @synchronized(self) {
         if (m_logs == nil) {
-            m_logs = [NSMutableArray<LSPBLog*> array];
+            m_logs = [NSMutableArray<LSLog*> array];
         }
         [m_logs addObject:log];
     }
@@ -172,11 +181,11 @@
         finishTime = [NSDate date];
     }
 
-    LSPBSpan* record;
+    NSDictionary* spanJSON;
     @synchronized(self) {
-        record = [self _toProto:finishTime];
+        spanJSON = [self _toJSON:finishTime];
     }
-    [m_tracer _appendSpanRecord:record];
+    [m_tracer _appendSpanJSON:spanJSON];
 }
 
 - (id<OTSpan>)setBaggageItem:(NSString*)key value:(NSString*)value {
@@ -217,46 +226,29 @@
 }
 
 /**
- * Generate a protocol message representation. Return value must not be modified.
+ * Generate a JSON-ready NSDictionary representation. Return value must not be modified.
  */
-- (LSPBSpan*)_toProto:(NSDate*)finishTime {
-    LSPBSpan* record = [[LSPBSpan alloc] init];
-    NSMutableArray* tagsArray;
-    if (m_tags.count > 0) {
-        tagsArray = [[NSMutableArray<LSPBKeyValue*> alloc] initWithCapacity:m_tags.count];
-        for (NSString* key in m_tags ) {
-            LSPBKeyValue* pair = [[LSPBKeyValue alloc] init];
-            pair.key = key;
-            NSObject* val = m_tags[key];
-            if ([val isKindOfClass:[NSNumber class]]) {
-                // NOTE: we cannot distinguish between int and boolean tag values 
-                pair.intValue = ((NSNumber*)val).longLongValue;
-            } else if ([val isKindOfClass:[NSString class]]) {
-                pair.stringValue = (NSString*)val;
-            } else {
-                // Fallback for unexpected value types
-                pair.stringValue = [val description];
-            }
-            [tagsArray addObject:pair];
-        }
+- (NSDictionary*)_toJSON:(NSDate*)finishTime {
+    NSMutableArray<NSDictionary*>* logs = [NSMutableArray arrayWithCapacity:m_logs.count];
+    for (LSLog *l in m_logs) {
+        [logs addObject:[l toJSON:m_tracer.maxPayloadJSONLength]];
     }
     
-    record.operationName = m_operationName;
-    record.spanContext = [m_ctx toProto];
-    LSPBReference* parent = nil;
-    if (m_parent) {
-        parent = [[LSPBReference alloc] init];
-        parent.relationship = LSPBReference_Relationship_ChildOf;
-        parent.spanContext = [m_parent toProto];
-        [record.referencesArray addObject:parent];
+    NSMutableArray* attributes = [LSUtil keyValueArrayFromDictionary:m_tags];
+    if (m_parent != nil) {
+        [attributes addObject:@{@"Key": @"parent_span_guid", @"Value": m_parent.hexSpanId}];
     }
-    record.startTimestamp = [LSUtil protoTimestampFromDate:m_startTime];
-    record.durationMicros = [finishTime toMicros] - [m_startTime toMicros];
-    if (tagsArray != nil) {
-        record.tagsArray = tagsArray;
-    }
-    record.logsArray = m_logs;
-    return record;
+    
+    // return value spec: https://github.com/lightstep/lightstep-tracer-go/blob/40cbd138e6901f0dafdd0cccabb6fc7c5a716efb/lightstep_thrift/ttypes.go#L1247
+    return @{
+             @"trace_guid": m_ctx.hexTraceId,
+             @"span_guid": m_ctx.hexSpanId,
+             @"span_name": m_operationName,
+             @"oldest_micros": @([m_startTime toMicros]),
+             @"youngest_micros": @([finishTime toMicros]),
+             @"attributes": attributes,
+             @"log_records": logs,
+             };
 }
 
 - (NSDate*)_startTime {
