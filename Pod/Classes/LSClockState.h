@@ -2,8 +2,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class LSTracer;
-
 /**
  * A straight port/copy of the `rl-cruntime-common` ClockState javascript 
  * prototype.
@@ -11,9 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface LSClockState : NSObject
 
 // A helper that returns the local timestamp in microseconds (since the unix epoch).
-+ (UInt64) nowMicros;
-
-- (id) initWithLSTracer:(LSTracer*)tracer;
++ (SInt64) nowMicros;
 
 /** 
  * Provide information about a fresh clock-skew datapoint.
@@ -30,10 +26,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * All timestamps are in microseconds.
  */
-- (void) addSampleWithOriginMicros:(UInt64)originMicros
-                     receiveMicros:(UInt64)receiveMicros
-                    transmitMicros:(UInt64)transmitMicros
-                 destinationMicros:(UInt64)destinationMicros;
+- (void) addSampleWithOriginMicros:(SInt64)originMicros
+                     receiveMicros:(SInt64)receiveMicros
+                    transmitMicros:(SInt64)transmitMicros
+                 destinationMicros:(SInt64)destinationMicros;
 
 /** 
  * Force an update of the internal clock-skew machinery.
@@ -45,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
  * client in microseconds. This should be *added* to any local timestamps before
  * sending to the server.
  */
-- (UInt64) offsetMicros;
+- (SInt64) offsetMicros;
 
 @end
 
