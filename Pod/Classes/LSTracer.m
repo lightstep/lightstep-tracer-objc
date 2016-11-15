@@ -70,7 +70,7 @@ static LSTracer* s_sharedInstance = nil;
         self->m_flushQueue = dispatch_queue_create("com.lightstep.flush_queue", DISPATCH_QUEUE_SERIAL);
         self->m_flushTimer = nil;
         self->m_enabled = true;  // if false, no longer collect tracing data
-        self->m_clockState = [[LSClockState alloc] initWithLSTracer:self];
+        self->m_clockState = [[LSClockState alloc] init];
         self->m_lastFlush = [NSDate date];
         self->m_bgTaskId = UIBackgroundTaskInvalid;
 
@@ -404,11 +404,11 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.HTTPBody = [reqBody dataUsingEncoding:NSUTF8StringEncoding];
     request.HTTPMethod = @"POST";
-    UInt64 originMicros = [LSClockState nowMicros];
+    SInt64 originMicros = [LSClockState nowMicros];
     NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         @try {
             __typeof__(self) strongSelf = weakSelf;
-            UInt64 destinationMicros = [LSClockState nowMicros];
+            SInt64 destinationMicros = [LSClockState nowMicros];
             NSError* jsonError;
             NSDictionary* responseJSON = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
             if (jsonError == nil) {

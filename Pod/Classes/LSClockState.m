@@ -1,21 +1,20 @@
 #import "LSClockState.h"
-#import "LSTracer.h"
 
 static const int kMaxOffsetAge = 7;
 static const UInt64 kStoredSamplesTTLMicros = 60 * 60 * 1e6;
 
 @interface LSSyncSample : NSObject<NSCoding>
 
-- (id) initWithDelayMicros:(UInt64)delayMicros offsetMicros:(UInt64)offsetMicros;
+- (id) initWithDelayMicros:(SInt64)delayMicros offsetMicros:(SInt64)offsetMicros;
 
-@property (nonatomic) UInt64 delayMicros;
-@property (nonatomic) UInt64 offsetMicros;
+@property (nonatomic) SInt64 delayMicros;
+@property (nonatomic) SInt64 offsetMicros;
 
 @end
 
 @implementation LSSyncSample
 
-- (id) initWithDelayMicros:(UInt64)delayMicros offsetMicros:(UInt64)offsetMicros
+- (id) initWithDelayMicros:(SInt64)delayMicros offsetMicros:(SInt64)offsetMicros
 {
     if (self = [super init]) {
         self.delayMicros = delayMicros;
@@ -40,24 +39,22 @@ static NSString* kOffsetKey = @"offset";
 @end
 
 @implementation LSClockState {
-    __weak LSTracer* m_tracer;
     NSMutableArray* m_samples;  // elements are LSSyncSamples
-    UInt64 m_currentOffsetMicros;
+    SInt64 m_currentOffsetMicros;
     int m_currentOffsetAge;
 }
 
-- (id) initWithLSTracer:(LSTracer*)tracer
+- (id) init
 {
     if (self = [super init]) {
-        self->m_tracer = tracer;
         [self _tryToRestoreFromUserDefaults];
         [self update];
     }
     return self;
 }
 
-+ (UInt64) nowMicros {
-    return (UInt64)([[NSDate date] timeIntervalSince1970] * USEC_PER_SEC);
++ (SInt64) nowMicros {
+    return (SInt64)([[NSDate date] timeIntervalSince1970] * USEC_PER_SEC);
 }
 
 - (NSString*)_userDefaultsKey {
@@ -75,7 +72,7 @@ static NSString* kSamplesKey = @"samples";
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:[self _userDefaultsKey]];
 }
 
-// Overwrites all state; only intended to be called from initWithLSTracer.
+// Overwrites all state; only intended to be called from init.
 - (void)_tryToRestoreFromUserDefaults
 {
     self->m_samples = [NSMutableArray array];
@@ -89,8 +86,10 @@ static NSString* kSamplesKey = @"samples";
             NSDictionary* dict = [NSKeyedUnarchiver unarchiveObjectWithData:data];
             NSNumber* tsMicros = [dict objectForKey:kTimestampMicrosKey];
             NSArray* samples = [dict objectForKey:kSamplesKey];
+            SInt64 nowMicros = [LSClockState nowMicros];
             if (dict && tsMicros && samples &&
-                (tsMicros.longLongValue > ([LSClockState nowMicros] - kStoredSamplesTTLMicros))) {
+                (tsMicros.longLongValue > (nowMicros - kStoredSamplesTTLMicros)) &&
+                (tsMicros.longLongValue < nowMicros) /* <-- sanity check */ ) {
                 NSUInteger loc = MAX(0, samples.count - (kMaxOffsetAge + 1));
                 NSUInteger len = samples.count - loc;
                 m_samples = [NSMutableArray arrayWithArray:[samples subarrayWithRange:NSMakeRange(loc, len)]];
@@ -128,10 +127,10 @@ static NSString* kSamplesKey = @"samples";
     return nil;
 }
 
-- (void) addSampleWithOriginMicros:(UInt64)originMicros receiveMicros:(UInt64)receiveMicros transmitMicros:(UInt64)transmitMicros destinationMicros:(UInt64)destinationMicros
+- (void) addSampleWithOriginMicros:(SInt64)originMicros receiveMicros:(SInt64)receiveMicros transmitMicros:(SInt64)transmitMicros destinationMicros:(SInt64)destinationMicros
 {
-    UInt64 latestDelayMicros = INT64_MAX;
-    UInt64 latestOffsetMicros = 0;
+    SInt64 latestDelayMicros = INT64_MAX;
+    SInt64 latestOffsetMicros = 0;
     // Ensure that all of the data are valid before using them. If
     // not, we'll push a {0, MAX} record into the queue.
     if (originMicros > 0 && receiveMicros > 0 &&
@@ -176,8 +175,8 @@ static NSString* kSamplesKey = @"samples";
 
     // Find the sample with the smallest delay; the corresponding
     // offset is the "best" one.
-    UInt64 minDelayMicros = INT64_MAX;
-    UInt64 bestOffsetMicros = 0;
+    SInt64 minDelayMicros = INT64_MAX;
+    SInt64 bestOffsetMicros = 0;
     for (int i = 0; i < m_samples.count; i++) {
         LSSyncSample* curSamp = m_samples[i];
         if (curSamp.delayMicros < minDelayMicros) {
@@ -206,13 +205,13 @@ static NSString* kSamplesKey = @"samples";
     // constructor.
     static const int kSGATE = 3; // See RFC 5905
     if (m_currentOffsetAge > kMaxOffsetAge ||
-        llabs((int64_t)m_currentOffsetMicros - (int64_t)bestOffsetMicros) < kSGATE * jitter) {
+        llabs(m_currentOffsetMicros - bestOffsetMicros) < kSGATE * jitter) {
         m_currentOffsetMicros = bestOffsetMicros;
         m_currentOffsetAge = 0;
     }
 }
 
-- (UInt64) offsetMicros
+- (SInt64) offsetMicros
 {
     return m_currentOffsetMicros;
 }
