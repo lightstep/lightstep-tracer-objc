@@ -30,14 +30,14 @@ FOUNDATION_EXPORT NSInteger LSBackgroundTaskError;
 #pragma mark - LSTracer initialization
 
 /**
- * @see `-[LSTracer initWithToken:componentName:hostport]` for parameter details.
+ * @see `-[LSTracer initWithToken:componentName:baseURL]` for parameter details.
  *
  * @return An `LSTracer` instance that's ready to create spans and logs.
  */
 - (instancetype) initWithToken:(NSString*)accessToken;
 
 /**
- * @see `-[LSTracer initWithToken:componentName:hostport]` for parameter details.
+ * @see `-[LSTracer initWithToken:componentName:baseURL]` for parameter details.
  *
  * @return An `LSTracer` instance that's ready to create spans and logs.
  */
@@ -45,7 +45,7 @@ FOUNDATION_EXPORT NSInteger LSBackgroundTaskError;
                  componentName:(nullable NSString*)componentName;
 
 /**
- * @see `-[LSTracer initWithToken:componentName:hostport:flushIntervalSeconds:]` for parameter details.
+ * @see `-[LSTracer initWithToken:componentName:baseURL:flushIntervalSeconds:]` for parameter details.
  *
  * @return An `LSTracer` instance that's ready to create spans and logs.
  */
@@ -60,9 +60,8 @@ FOUNDATION_EXPORT NSInteger LSBackgroundTaskError;
  *
  * @param accessToken the access token.
  * @param componentName the "component name" to associate with spans from this process; e.g., the name of your iOS app or the bundle name.
- * @param hostport the collector's host and (TLS) port as a single string (e.g.  @"collector.lightstep.com:443")
+ * @param baseURL the collector's host and (TLS) port
  * @param flushIntervalSeconds the flush interval, or 0 for no automatic background flushing
- * @param plaintext if true, disable (TLS) security on the collector connection
  *
  * @return An `LSTracer` instance that's ready to create spans and logs.
  *
@@ -70,9 +69,8 @@ FOUNDATION_EXPORT NSInteger LSBackgroundTaskError;
  */
 - (instancetype) initWithToken:(NSString*)accessToken
                  componentName:(nullable NSString*)componentName
-                      hostport:(nullable NSString*)hostport
-          flushIntervalSeconds:(NSUInteger)flushIntervalSeconds
-		     plaintext:(BOOL)plaintext;
+                       baseURL:(nullable NSURL*)baseURL
+          flushIntervalSeconds:(NSUInteger)flushIntervalSeconds;
 
 #pragma mark - OpenTracing API
 
@@ -115,9 +113,9 @@ FOUNDATION_EXPORT NSInteger LSBackgroundTaskError;
 #pragma mark - LightStep extensions and internal methods
 
 /**
- * The remote service URL string (as derived from `sharedInstancWithServiceHostport:token:`).
+ * The remote service base URL
  */
-@property (nonatomic, readonly) NSString* serviceUrl;
+@property (nonatomic, readonly) NSURL* baseURL;
 
 /**
  * The `LSTracer` instance's globally unique id ("guid"), which is both immutable and assigned automatically by LightStep.

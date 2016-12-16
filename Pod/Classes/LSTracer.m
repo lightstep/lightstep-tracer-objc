@@ -8,7 +8,7 @@
 #import "LSUtil.h"
 #import "LSVersion.h"
 
-NSString* const LSDefaultHostport = @"collector.lightstep.com:443";
+static const NSString *LSDefaultBaseURLString = @"https://collector.lightstep.com:443/api/v0/reports";
 
 static const int kDefaultFlushIntervalSeconds = 30;
 static const NSUInteger kDefaultMaxBufferedSpans = 5000;
@@ -31,8 +31,6 @@ static LSTracer* s_sharedInstance = nil;
     NSMutableArray<NSDictionary*>* m_pendingJSONSpans;
     dispatch_queue_t m_flushQueue;
     dispatch_source_t m_flushTimer;
-    NSString* m_collectorHostport;
-    BOOL m_plaintext;
     NSDate* m_lastFlush;
 
     UIBackgroundTaskIdentifier m_bgTaskId;
@@ -43,14 +41,13 @@ static LSTracer* s_sharedInstance = nil;
 
 - (instancetype) initWithToken:(NSString*)accessToken
                  componentName:(NSString*)componentName
-                      hostport:(NSString*)hostport
+                       baseURL:(NSURL*)baseURL
           flushIntervalSeconds:(NSUInteger)flushIntervalSeconds
-                     plaintext:(BOOL)plaintext
 {
     if (self = [super init]) {
         self->m_accessToken = accessToken;
         self->m_runtimeGuid = [LSUtil generateGUID];
-        
+
         NSMutableDictionary<NSString*, NSString*>* tracerJSON = [NSMutableDictionary<NSString*, NSString*> dictionary];
         tracerJSON[@"guid"] = [LSUtil hexGUID:self->m_runtimeGuid];
         // All string-valued tags.
@@ -65,14 +62,14 @@ static LSTracer* s_sharedInstance = nil;
         self->m_maxSpanRecords = kDefaultMaxBufferedSpans;
         self->m_maxPayloadJSONLength = kDefaultMaxPayloadJSONLength;
         self->m_pendingJSONSpans = [NSMutableArray<NSDictionary*> array];
-        self->m_collectorHostport = hostport;
-        self->m_plaintext = plaintext;
         self->m_flushQueue = dispatch_queue_create("com.lightstep.flush_queue", DISPATCH_QUEUE_SERIAL);
         self->m_flushTimer = nil;
         self->m_enabled = true;  // if false, no longer collect tracing data
         self->m_clockState = [[LSClockState alloc] init];
         self->m_lastFlush = [NSDate date];
         self->m_bgTaskId = UIBackgroundTaskInvalid;
+
+        _baseURL = baseURL ?: [NSURL URLWithString:LSDefaultBaseURLString];
 
         [self _forkFlushLoop:flushIntervalSeconds];
     }
@@ -84,18 +81,16 @@ static LSTracer* s_sharedInstance = nil;
           flushIntervalSeconds:(NSUInteger)flushIntervalSeconds {
     return [self initWithToken:accessToken
                  componentName:componentName
-                      hostport:LSDefaultHostport
-          flushIntervalSeconds:flushIntervalSeconds
-                     plaintext:false];
+                       baseURL:nil
+          flushIntervalSeconds:flushIntervalSeconds];
 }
 
 - (instancetype) initWithToken:(NSString*)accessToken
                     componentName:(NSString*)componentName {
     return [self initWithToken:accessToken
                  componentName:componentName
-                      hostport:LSDefaultHostport
-          flushIntervalSeconds:kDefaultFlushIntervalSeconds
-                     plaintext:false];
+                       baseURL:nil
+          flushIntervalSeconds:kDefaultFlushIntervalSeconds];
 }
 
 - (instancetype) initWithToken:(NSString*)accessToken {
@@ -367,7 +362,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
             // Nothing to report.
             return;
         }
-        
+
         // reqJSON spec: https://github.com/lightstep/lightstep-tracer-go/blob/40cbd138e6901f0dafdd0cccabb6fc7c5a716efb/lightstep_thrift/ttypes.go#L2586
         reqJSON = [NSMutableDictionary dictionary];
         reqJSON[@"timestamp_offset_micros"] = @(m_clockState.offsetMicros);
@@ -375,7 +370,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
         reqJSON[@"span_records"] = m_pendingJSONSpans;
         reqJSON[@"oldest_micros"] = @([m_lastFlush toMicros]);
         reqJSON[@"youngest_micros"] = @([now toMicros]);
-        
+
         m_pendingJSONSpans = [NSMutableArray<NSDictionary*> array];
         m_lastFlush = now;
 
@@ -395,13 +390,11 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     sessionConfiguration.HTTPAdditionalHeaders = @{@"LightStep-Access-Token": m_accessToken,
                                                    @"Content-Type": @"application/json"};
     NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
-    NSString* protocol = (m_plaintext ? @"http" : @"https");
-    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@/api/v0/reports", protocol, self->m_collectorHostport]];
     NSString* reqBody = [LSUtil objectToJSONString:reqJSON maxLength:kMaxRequestSize];
     if (reqBody == nil) {
         cleanupBlock(true, [NSError errorWithDomain:LSErrorDomain code:LSRequestTooLargeError userInfo:nil]);
     }
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.baseURL];
     request.HTTPBody = [reqBody dataUsingEncoding:NSUTF8StringEncoding];
     request.HTTPMethod = @"POST";
     SInt64 originMicros = [LSClockState nowMicros];
@@ -416,7 +409,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
                     NSDictionary* timingJSON = [responseJSON objectForKey:@"timing"];
                     NSNumber* receiveMicros = [timingJSON objectForKey:@"receive_micros"];
                     NSNumber* transmitMicros = [timingJSON objectForKey:@"transmit_micros"];
-                    
+
                     if (receiveMicros != nil && transmitMicros != nil) {
                         // Update our local NTP-lite clock state with the latest measurements.
                         [strongSelf->m_clockState addSampleWithOriginMicros:originMicros
