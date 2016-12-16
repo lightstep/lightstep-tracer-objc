@@ -372,17 +372,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/BoringSSL\"",
-					"\"${PODS_ROOT}/Headers/Public/Protobuf\"",
-					"\"${PODS_ROOT}/Headers/Public/gRPC\"",
-					"\"${PODS_ROOT}/Headers/Public/gRPC-Core\"",
-					"\"${PODS_ROOT}/Headers/Public/gRPC-ProtoRPC\"",
-					"\"${PODS_ROOT}/Headers/Public/gRPC-RxLibrary\"",
-					"\"${PODS_ROOT}/Headers/Public/lightstep\"",
-					"\"${PODS_ROOT}/Headers/Public/opentracing\"",
-				);
+				HEADER_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -435,17 +425,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/BoringSSL\"",
-					"\"${PODS_ROOT}/Headers/Public/Protobuf\"",
-					"\"${PODS_ROOT}/Headers/Public/gRPC\"",
-					"\"${PODS_ROOT}/Headers/Public/gRPC-Core\"",
-					"\"${PODS_ROOT}/Headers/Public/gRPC-ProtoRPC\"",
-					"\"${PODS_ROOT}/Headers/Public/gRPC-RxLibrary\"",
-					"\"${PODS_ROOT}/Headers/Public/lightstep\"",
-					"\"${PODS_ROOT}/Headers/Public/opentracing\"",
-				);
+				HEADER_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
