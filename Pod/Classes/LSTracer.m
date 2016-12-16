@@ -8,7 +8,7 @@
 #import "LSUtil.h"
 #import "LSVersion.h"
 
-NSString* const LSDefaultHostport = @"collector.lightstep.com:443";
+NSString* const LSDefaultHostport = @"collector.lightstep.com:443/api/v0/reports";
 
 static const int kDefaultFlushIntervalSeconds = 30;
 static const NSUInteger kDefaultMaxBufferedSpans = 5000;
@@ -50,7 +50,7 @@ static LSTracer* s_sharedInstance = nil;
     if (self = [super init]) {
         self->m_accessToken = accessToken;
         self->m_runtimeGuid = [LSUtil generateGUID];
-        
+
         NSMutableDictionary<NSString*, NSString*>* tracerJSON = [NSMutableDictionary<NSString*, NSString*> dictionary];
         tracerJSON[@"guid"] = [LSUtil hexGUID:self->m_runtimeGuid];
         // All string-valued tags.
@@ -367,7 +367,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
             // Nothing to report.
             return;
         }
-        
+
         // reqJSON spec: https://github.com/lightstep/lightstep-tracer-go/blob/40cbd138e6901f0dafdd0cccabb6fc7c5a716efb/lightstep_thrift/ttypes.go#L2586
         reqJSON = [NSMutableDictionary dictionary];
         reqJSON[@"timestamp_offset_micros"] = @(m_clockState.offsetMicros);
@@ -375,7 +375,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
         reqJSON[@"span_records"] = m_pendingJSONSpans;
         reqJSON[@"oldest_micros"] = @([m_lastFlush toMicros]);
         reqJSON[@"youngest_micros"] = @([now toMicros]);
-        
+
         m_pendingJSONSpans = [NSMutableArray<NSDictionary*> array];
         m_lastFlush = now;
 
@@ -396,7 +396,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
                                                    @"Content-Type": @"application/json"};
     NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
     NSString* protocol = (m_plaintext ? @"http" : @"https");
-    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@/api/v0/reports", protocol, self->m_collectorHostport]];
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@", protocol, self->m_collectorHostport]];
     NSString* reqBody = [LSUtil objectToJSONString:reqJSON maxLength:kMaxRequestSize];
     if (reqBody == nil) {
         cleanupBlock(true, [NSError errorWithDomain:LSErrorDomain code:LSRequestTooLargeError userInfo:nil]);
@@ -416,7 +416,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
                     NSDictionary* timingJSON = [responseJSON objectForKey:@"timing"];
                     NSNumber* receiveMicros = [timingJSON objectForKey:@"receive_micros"];
                     NSNumber* transmitMicros = [timingJSON objectForKey:@"transmit_micros"];
-                    
+
                     if (receiveMicros != nil && transmitMicros != nil) {
                         // Update our local NTP-lite clock state with the latest measurements.
                         [strongSelf->m_clockState addSampleWithOriginMicros:originMicros
