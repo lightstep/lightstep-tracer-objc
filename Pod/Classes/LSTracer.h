@@ -119,22 +119,17 @@ extern FOUNDATION_EXPORT const NSInteger LSBackgroundTaskError;
 
 #pragma mark - LightStep extensions and internal methods
 
-/**
- * The remote service base URL
- */
+
+/// The remote service base URL
 @property (nonatomic, readonly) NSURL *baseURL;
 
 /// `LSTracer` instance's globally unique id ("guid"), and assigned automatically by LightStep.
 @property (nonatomic, readonly) UInt64 runtimeGuid;
 
-/**
- * The `LSTracer` instance's maximum number of records to buffer between reports.
- */
+/// The `LSTracer` instance's maximum number of records to buffer between reports.
 @property (atomic) NSUInteger maxSpanRecords;
 
-/**
- * Maximum string length of any single JSON payload.
- */
+/// Maximum string length of any single JSON payload.
 @property (atomic) NSUInteger maxPayloadJSONLength;
 
 /// Returns true if the library is currently buffering and reporting data.
@@ -143,9 +138,7 @@ extern FOUNDATION_EXPORT const NSInteger LSBackgroundTaskError;
 /// Tracer's access token
 @property (atomic, readonly) NSString *accessToken;
 
-/**
- * Record a span.
- */
+/// Record a span.
 - (void)_appendSpanJSON:(NSDictionary *)spanRecord;
 
 /**
