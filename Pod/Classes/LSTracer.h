@@ -60,7 +60,7 @@ FOUNDATION_EXPORT NSInteger LSBackgroundTaskError;
  *
  * @param accessToken the access token.
  * @param componentName the "component name" to associate with spans from this process; e.g., the name of your iOS app or the bundle name.
- * @param baseURL the collector's host and (TLS) port
+ * @param baseURL the URL for the collector's HTTP+JSON base endpoint (search for LSDefaultBaseURLString)
  * @param flushIntervalSeconds the flush interval, or 0 for no automatic background flushing
  *
  * @return An `LSTracer` instance that's ready to create spans and logs.
