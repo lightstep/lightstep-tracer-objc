@@ -9,16 +9,16 @@
 #import "LSVersion.h"
 
 static NSString *const LSDefaultBaseURLString = @"https://collector.lightstep.com:443/api/v0/reports";
-
 static const int LSDefaultFlushIntervalSeconds = 30;
 static const NSUInteger LSDefaultMaxBufferedSpans = 5000;
 static const NSUInteger LSDefaultMaxPayloadJSONLength = 32 * 1024;
 static const NSUInteger LSMaxRequestSize = 1024*1024*4;  // 4MB
-
 const NSString *LSErrorDomain = @"com.lightstep";
 const NSInteger LSBackgroundTaskError = 1;
 const NSInteger LSRequestTooLargeError = 2;
 
+
+#pragma mark - Private properties
 
 @interface LSTracer()
 @property(nonatomic, strong) NSMutableArray<NSDictionary *> *pendingJSONSpans;
@@ -27,14 +27,15 @@ const NSInteger LSRequestTooLargeError = 2;
 
 @property(nonatomic, strong, readonly) dispatch_queue_t flushQueue;
 @property(nonatomic, strong) dispatch_source_t flushTimer;
+@property(nonatomic, strong) NSDate *lastFlush;
 @property(nonatomic) UInt64 runtimeGuid;
+@property(nonatomic) UIBackgroundTaskIdentifier bgTaskId;
 @end
 
-@implementation LSTracer {
-    NSDate* m_lastFlush;
 
-    UIBackgroundTaskIdentifier m_bgTaskId;
-}
+#pragma mark - Tracer implementation
+
+@implementation LSTracer
 
 @synthesize maxSpanRecords = m_maxSpanRecords;
 @synthesize maxPayloadJSONLength = m_maxPayloadJSONLength;
@@ -66,8 +67,8 @@ const NSInteger LSRequestTooLargeError = 2;
         _flushTimer = nil;
         _enabled = true;  // if false, no longer collect tracing data
         _clockState = [[LSClockState alloc] init];
-        self->m_lastFlush = [NSDate date];
-        self->m_bgTaskId = UIBackgroundTaskInvalid;
+        _lastFlush = [NSDate date];
+        _bgTaskId = UIBackgroundTaskInvalid;
 
         _baseURL = baseURL ?: [NSURL URLWithString:LSDefaultBaseURLString];
 
@@ -324,14 +325,14 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     // We really want this flush to go through, even if the app enters the
     // background and iOS wants to move on with its life.
     //
-    // NOTES ABOUT THE BACKGROUND TASK: we store m_bgTaskId in a member, which
+    // NOTES ABOUT THE BACKGROUND TASK: we store _bgTaskId in a member, which
     // means that it's important we don't call this function recursively (and
     // thus overwrite/lose the background task id). There is a recursive-"ish"
     // aspect to this function, as rpcBlock calls _refreshStub on error which
     // enqueues a call to flushToService on m_queue. m_queue is serialized,
     // though, so we are guaranteed that only one flushToService call will be
     // extant at any given moment, and thus it's safe to store the background
-    // task id in m_bgTaskId.
+    // task id in _bgTaskId.
     __weak __typeof(self) weakSelf = self;
     void (^cleanupBlock)(BOOL, NSError* _Nullable) = ^(BOOL endBackgroundTask, NSError* _Nullable error) {
         if (endBackgroundTask) {
@@ -356,18 +357,18 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
         reqJSON[@"timestamp_offset_micros"] = @(self.clockState.offsetMicros);
         reqJSON[@"runtime"] = self.tracerJSON;
         reqJSON[@"span_records"] = self.pendingJSONSpans;
-        reqJSON[@"oldest_micros"] = @([m_lastFlush toMicros]);
+        reqJSON[@"oldest_micros"] = @([self.lastFlush toMicros]);
         reqJSON[@"youngest_micros"] = @([now toMicros]);
 
         self.pendingJSONSpans = [NSMutableArray<NSDictionary*> array];
-        m_lastFlush = now;
+        self.lastFlush = now;
 
-        m_bgTaskId = [[UIApplication sharedApplication]
+        self.bgTaskId = [[UIApplication sharedApplication]
                       beginBackgroundTaskWithName:@"com.lightstep.flush"
                       expirationHandler:^{
                           cleanupBlock(true, [NSError errorWithDomain:LSErrorDomain code:LSBackgroundTaskError userInfo:nil]);
                       }];
-        if (m_bgTaskId == UIBackgroundTaskInvalid) {
+        if (self.bgTaskId == UIBackgroundTaskInvalid) {
             NSLog(@"unable to enter the background, so skipping flush");
             cleanupBlock(false, [NSError errorWithDomain:LSErrorDomain code:LSBackgroundTaskError userInfo:nil]);
             return;
@@ -425,9 +426,9 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
 - (void) _endBackgroundTask
 {
     @synchronized(self) {
-        if (m_bgTaskId != UIBackgroundTaskInvalid) {
-            [[UIApplication sharedApplication] endBackgroundTask:m_bgTaskId];
-            m_bgTaskId = UIBackgroundTaskInvalid;
+        if (self.bgTaskId != UIBackgroundTaskInvalid) {
+            [[UIApplication sharedApplication] endBackgroundTask:self.bgTaskId];
+            self.bgTaskId = UIBackgroundTaskInvalid;
         }
     }
 }
