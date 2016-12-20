@@ -22,12 +22,12 @@ const NSInteger LSRequestTooLargeError = 2;
 static LSTracer* s_sharedInstance = nil;
 
 @interface LSTracer()
-@property(nonatomic, retain) NSMutableArray<NSDictionary *> *pendingJSONSpans;
+@property(nonatomic, strong) NSMutableArray<NSDictionary *> *pendingJSONSpans;
+@property(nonatomic, readonly) NSDictionary<NSString *, NSString *> *tracerJSON;
 @property(nonatomic) UInt64 runtimeGuid;
 @end
 
 @implementation LSTracer {
-    NSDictionary<NSString*, NSObject *>* m_tracerJSON;
     LSClockState* m_clockState;
 
     BOOL m_enabled;
@@ -50,16 +50,16 @@ static LSTracer* s_sharedInstance = nil;
         _accessToken = accessToken;
         _runtimeGuid = [LSUtil generateGUID];
 
-        NSMutableDictionary<NSString*, NSObject *>* tracerJSON = @{}.mutableCopy;
-        tracerJSON[@"guid"] = [LSUtil hexGUID:_runtimeGuid];
-        // All string-valued tags.
-        NSDictionary* tracerTags = @{@"lightstep.tracer_platform": @"ios",
-                                     @"lightstep.tracer_platform_version": [[UIDevice currentDevice] systemVersion],
-                                     @"lightstep.tracer_version": LS_TRACER_VERSION,
-                                     @"lightstep.component_name": componentName,
-                                     @"device_model": [[UIDevice currentDevice] model]};
-        tracerJSON[@"attrs"] = [LSUtil keyValueArrayFromDictionary:tracerTags];
-        self->m_tracerJSON = tracerJSON;
+        _tracerJSON = @{
+            @"guid": [LSUtil hexGUID:_runtimeGuid],
+            @"attrs": [LSUtil keyValueArrayFromDictionary:@{
+                    @"lightstep.tracer_platform": @"ios",
+                    @"lightstep.tracer_platform_version": [[UIDevice currentDevice] systemVersion],
+                    @"lightstep.tracer_version": LS_TRACER_VERSION,
+                    @"lightstep.component_name": componentName,
+                    @"device_model": [[UIDevice currentDevice] model]
+            }]
+        };
 
         self->m_maxSpanRecords = LSDefaultMaxBufferedSpans;
         self->m_maxPayloadJSONLength = LSDefaultMaxPayloadJSONLength;
@@ -362,7 +362,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
         // reqJSON spec: https://github.com/lightstep/lightstep-tracer-go/blob/40cbd138e6901f0dafdd0cccabb6fc7c5a716efb/lightstep_thrift/ttypes.go#L2586
         reqJSON = [NSMutableDictionary dictionary];
         reqJSON[@"timestamp_offset_micros"] = @(m_clockState.offsetMicros);
-        reqJSON[@"runtime"] = m_tracerJSON;
+        reqJSON[@"runtime"] = self.tracerJSON;
         reqJSON[@"span_records"] = self.pendingJSONSpans;
         reqJSON[@"oldest_micros"] = @([m_lastFlush toMicros]);
         reqJSON[@"youngest_micros"] = @([now toMicros]);
