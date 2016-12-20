@@ -37,9 +37,6 @@ const NSInteger LSRequestTooLargeError = 2;
 
 @implementation LSTracer
 
-@synthesize maxSpanRecords = m_maxSpanRecords;
-@synthesize maxPayloadJSONLength = m_maxPayloadJSONLength;
-
 - (instancetype) initWithToken:(NSString*)accessToken
                  componentName:(NSString*)componentName
                        baseURL:(NSURL*)baseURL
@@ -48,7 +45,16 @@ const NSInteger LSRequestTooLargeError = 2;
     if (self = [super init]) {
         _accessToken = accessToken;
         _runtimeGuid = [LSUtil generateGUID];
-
+        _maxSpanRecords = LSDefaultMaxBufferedSpans;
+        _maxPayloadJSONLength = LSDefaultMaxPayloadJSONLength;
+        _pendingJSONSpans = [NSMutableArray<NSDictionary*> array];
+        _flushQueue = dispatch_queue_create("com.lightstep.flush_queue", DISPATCH_QUEUE_SERIAL);
+        _flushTimer = nil;
+        _enabled = true;
+        _clockState = [[LSClockState alloc] init];
+        _lastFlush = [NSDate date];
+        _bgTaskId = UIBackgroundTaskInvalid;
+        _baseURL = baseURL ?: [NSURL URLWithString:LSDefaultBaseURLString];
         _tracerJSON = @{
             @"guid": [LSUtil hexGUID:_runtimeGuid],
             @"attrs": [LSUtil keyValueArrayFromDictionary:@{
@@ -59,18 +65,6 @@ const NSInteger LSRequestTooLargeError = 2;
                     @"device_model": [[UIDevice currentDevice] model]
             }]
         };
-
-        self->m_maxSpanRecords = LSDefaultMaxBufferedSpans;
-        self->m_maxPayloadJSONLength = LSDefaultMaxPayloadJSONLength;
-        _pendingJSONSpans = [NSMutableArray<NSDictionary*> array];
-        _flushQueue = dispatch_queue_create("com.lightstep.flush_queue", DISPATCH_QUEUE_SERIAL);
-        _flushTimer = nil;
-        _enabled = true;  // if false, no longer collect tracing data
-        _clockState = [[LSClockState alloc] init];
-        _lastFlush = [NSDate date];
-        _bgTaskId = UIBackgroundTaskInvalid;
-
-        _baseURL = baseURL ?: [NSURL URLWithString:LSDefaultBaseURLString];
 
         [self _forkFlushLoop:flushIntervalSeconds];
     }
@@ -254,37 +248,13 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     }
 }
 
-- (NSUInteger) maxSpanRecords {
-    @synchronized(self) {
-        return m_maxSpanRecords;
-    }
-}
-
-- (void) setMaxSpanRecords:(NSUInteger)capacity {
-    @synchronized(self) {
-        m_maxSpanRecords = capacity;
-    }
-}
-
-- (NSUInteger) maxPayloadJSONLength {
-    @synchronized(self) {
-        return m_maxPayloadJSONLength;
-    }
-}
-
-- (void) setMaxPayloadJSONLength:(NSUInteger)payloadLength {
-    @synchronized(self) {
-        m_maxPayloadJSONLength = payloadLength;
-    }
-}
-
 - (void) _appendSpanJSON:(NSDictionary*)spanJSON {
     @synchronized(self) {
         if (!self.enabled) {
             return;
         }
 
-        if (self.pendingJSONSpans.count < m_maxSpanRecords) {
+        if (self.pendingJSONSpans.count < self.maxSpanRecords) {
             [self.pendingJSONSpans addObject:spanJSON];
         }
     }

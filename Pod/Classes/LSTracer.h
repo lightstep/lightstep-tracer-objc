@@ -107,7 +107,7 @@ extern FOUNDATION_EXPORT const NSInteger LSBackgroundTaskError;
 - (BOOL)inject:(id<OTSpanContext>)span
         format:(NSString *)format
        carrier:(id)carrier
-         error:(NSError* __autoreleasing  *)outError;
+         error:(NSError* __autoreleasing *)outError;
 
 
 - (id<OTSpanContext>)extractWithFormat:(NSString *)format
@@ -115,7 +115,7 @@ extern FOUNDATION_EXPORT const NSInteger LSBackgroundTaskError;
 
 - (id<OTSpanContext>)extractWithFormat:(NSString *)format
                                carrier:(id)carrier
-                                 error:(NSError* __autoreleasing  *)outError;
+                                 error:(NSError* __autoreleasing *)outError;
 
 #pragma mark - LightStep extensions and internal methods
 
@@ -132,7 +132,7 @@ extern FOUNDATION_EXPORT const NSInteger LSBackgroundTaskError;
 /// Maximum string length of any single JSON payload.
 @property (atomic) NSUInteger maxPayloadJSONLength;
 
-/// Returns true if the library is currently buffering and reporting data.
+/// If true, the library is currently buffering and reporting data. If set to false, tracing data is no longer collected.
 @property (atomic) BOOL enabled;
 
 /// Tracer's access token
