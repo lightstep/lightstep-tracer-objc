@@ -8,13 +8,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The error domain for all OpenTracing-related NSErrors.
  */
-FOUNDATION_EXPORT NSString *const LSErrorDomain;
+extern FOUNDATION_EXPORT const NSString *LSErrorDomain;
 /**
  * OTUnsupportedFormat should be used by `OTTracer#inject:format:carrier:` and
  * `OTTracer#extractWithFormat:carrier:` implementations that don't support the
  * requested carrier format.
  */
-FOUNDATION_EXPORT NSInteger LSBackgroundTaskError;
+extern FOUNDATION_EXPORT const NSInteger LSBackgroundTaskError;
 
 /**
  * An implementation of the OTTracer protocol.
@@ -124,10 +124,8 @@ FOUNDATION_EXPORT NSInteger LSBackgroundTaskError;
  */
 @property (nonatomic, readonly) NSURL *baseURL;
 
-/**
- * The `LSTracer` instance's globally unique id ("guid"), which is both immutable and assigned automatically by LightStep.
- */
-@property (nonatomic, readonly) NSString *runtimeGuid;
+/// `LSTracer` instance's globally unique id ("guid"), and assigned automatically by LightStep.
+@property (nonatomic, readonly) UInt64 runtimeGuid;
 
 /**
  * The `LSTracer` instance's maximum number of records to buffer between reports.

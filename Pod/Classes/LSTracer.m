@@ -15,19 +15,22 @@ static const NSUInteger LSDefaultMaxBufferedSpans = 5000;
 static const NSUInteger LSDefaultMaxPayloadJSONLength = 32 * 1024;
 static const NSUInteger LSMaxRequestSize = 1024*1024*4;  // 4MB
 
-NSString *const LSErrorDomain = @"com.lightstep";
-NSInteger LSBackgroundTaskError = 1;
-NSInteger LSRequestTooLargeError = 2;
+const NSString *LSErrorDomain = @"com.lightstep";
+const NSInteger LSBackgroundTaskError = 1;
+const NSInteger LSRequestTooLargeError = 2;
 
 static LSTracer* s_sharedInstance = nil;
 
+@interface LSTracer()
+@property(nonatomic, retain) NSMutableArray<NSDictionary *> *pendingJSONSpans;
+@property(nonatomic) UInt64 runtimeGuid;
+@end
+
 @implementation LSTracer {
-    UInt64 m_runtimeGuid;
     NSDictionary<NSString*, NSObject *>* m_tracerJSON;
     LSClockState* m_clockState;
 
     BOOL m_enabled;
-    NSMutableArray<NSDictionary*>* m_pendingJSONSpans;
     dispatch_queue_t m_flushQueue;
     dispatch_source_t m_flushTimer;
     NSDate* m_lastFlush;
@@ -45,10 +48,10 @@ static LSTracer* s_sharedInstance = nil;
 {
     if (self = [super init]) {
         _accessToken = accessToken;
-        self->m_runtimeGuid = [LSUtil generateGUID];
+        _runtimeGuid = [LSUtil generateGUID];
 
         NSMutableDictionary<NSString*, NSObject *>* tracerJSON = @{}.mutableCopy;
-        tracerJSON[@"guid"] = [LSUtil hexGUID:self->m_runtimeGuid];
+        tracerJSON[@"guid"] = [LSUtil hexGUID:_runtimeGuid];
         // All string-valued tags.
         NSDictionary* tracerTags = @{@"lightstep.tracer_platform": @"ios",
                                      @"lightstep.tracer_platform_version": [[UIDevice currentDevice] systemVersion],
@@ -60,7 +63,7 @@ static LSTracer* s_sharedInstance = nil;
 
         self->m_maxSpanRecords = LSDefaultMaxBufferedSpans;
         self->m_maxPayloadJSONLength = LSDefaultMaxPayloadJSONLength;
-        self->m_pendingJSONSpans = [NSMutableArray<NSDictionary*> array];
+        _pendingJSONSpans = [NSMutableArray<NSDictionary*> array];
         self->m_flushQueue = dispatch_queue_create("com.lightstep.flush_queue", DISPATCH_QUEUE_SERIAL);
         self->m_flushTimer = nil;
         self->m_enabled = true;  // if false, no longer collect tracing data
@@ -288,8 +291,8 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
             return;
         }
 
-        if (m_pendingJSONSpans.count < m_maxSpanRecords) {
-            [m_pendingJSONSpans addObject:spanJSON];
+        if (self.pendingJSONSpans.count < m_maxSpanRecords) {
+            [self.pendingJSONSpans addObject:spanJSON];
         }
     }
 }
@@ -351,7 +354,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     NSMutableDictionary *reqJSON;
     @synchronized(self) {
         NSDate* now = [NSDate date];
-        if (m_pendingJSONSpans.count == 0) {
+        if (self.pendingJSONSpans.count == 0) {
             // Nothing to report.
             return;
         }
@@ -360,11 +363,11 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
         reqJSON = [NSMutableDictionary dictionary];
         reqJSON[@"timestamp_offset_micros"] = @(m_clockState.offsetMicros);
         reqJSON[@"runtime"] = m_tracerJSON;
-        reqJSON[@"span_records"] = m_pendingJSONSpans;
+        reqJSON[@"span_records"] = self.pendingJSONSpans;
         reqJSON[@"oldest_micros"] = @([m_lastFlush toMicros]);
         reqJSON[@"youngest_micros"] = @([now toMicros]);
 
-        m_pendingJSONSpans = [NSMutableArray<NSDictionary*> array];
+        self.pendingJSONSpans = [NSMutableArray<NSDictionary*> array];
         m_lastFlush = now;
 
         m_bgTaskId = [[UIApplication sharedApplication]
