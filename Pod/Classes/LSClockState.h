@@ -7,6 +7,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// A helper that returns the local timestamp in microseconds (since the unix epoch).
 + (SInt64)nowMicros;
 
+/// The most-recently-computed (via `update`) offset between server and client in microseconds.
+/// This should be *added* to any local timestamps before sending to the server.
+@property(nonatomic, readonly) SInt64 offsetMicros;
+
 /// Provide information about a fresh clock-skew datapoint.
 ///
 /// - originMicros: represents the local time of transmission.
@@ -27,11 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Force an update of the internal clock-skew machinery.
 - (void)update;
-
-/// Return the most-recently-computed (via `update`) offset between server and
-/// client in microseconds. This should be *added* to any local timestamps before
-/// sending to the server.
-- (SInt64)offsetMicros;
 
 @end
 NS_ASSUME_NONNULL_END
