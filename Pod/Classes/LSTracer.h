@@ -139,16 +139,13 @@ FOUNDATION_EXPORT NSInteger LSBackgroundTaskError;
  */
 @property (atomic) NSUInteger maxPayloadJSONLength;
 
+/// Tracer's access token
+@property (atomic, readonly) NSString *accessToken;
 
 /**
  * Returns true if the library is currently buffering and reporting data.
  */
 - (BOOL)enabled;
-
-/**
- * Returns the Tracer's access token.
- */
-- (NSString *)accessToken;
 
 /**
  * Record a span.

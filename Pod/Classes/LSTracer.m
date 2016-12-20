@@ -22,7 +22,6 @@ NSInteger LSRequestTooLargeError = 2;
 static LSTracer* s_sharedInstance = nil;
 
 @implementation LSTracer {
-    NSString* m_accessToken;
     UInt64 m_runtimeGuid;
     NSDictionary<NSString*, NSObject *>* m_tracerJSON;
     LSClockState* m_clockState;
@@ -45,7 +44,7 @@ static LSTracer* s_sharedInstance = nil;
           flushIntervalSeconds:(NSUInteger)flushIntervalSeconds
 {
     if (self = [super init]) {
-        self->m_accessToken = accessToken;
+        _accessToken = accessToken;
         self->m_runtimeGuid = [LSUtil generateGUID];
 
         NSMutableDictionary<NSString*, NSObject *>* tracerJSON = @{}.mutableCopy;
@@ -253,12 +252,6 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     }
 }
 
-- (NSString*) accessToken {
-    @synchronized(self) {
-        return m_accessToken;
-    }
-}
-
 - (NSUInteger) maxSpanRecords {
     @synchronized(self) {
         return m_maxSpanRecords;
@@ -387,7 +380,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     }
 
     NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    sessionConfiguration.HTTPAdditionalHeaders = @{@"LightStep-Access-Token": m_accessToken,
+    sessionConfiguration.HTTPAdditionalHeaders = @{@"LightStep-Access-Token": self.accessToken,
                                                    @"Content-Type": @"application/json"};
     NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
     NSString* reqBody = [LSUtil objectToJSONString:reqJSON maxLength:LSMaxRequestSize];
