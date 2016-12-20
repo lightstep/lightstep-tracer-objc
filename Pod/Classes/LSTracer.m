@@ -23,14 +23,14 @@ static LSTracer* s_sharedInstance = nil;
 
 @interface LSTracer()
 @property(nonatomic, strong) NSMutableArray<NSDictionary *> *pendingJSONSpans;
-@property(nonatomic, readonly) NSDictionary<NSString *, NSString *> *tracerJSON;
+@property(nonatomic, strong, readonly) NSDictionary<NSString *, NSString *> *tracerJSON;
+@property(nonatomic, strong, readonly) LSClockState *clockState;
+
 @property(nonatomic) UInt64 runtimeGuid;
 @end
 
 @implementation LSTracer {
-    LSClockState* m_clockState;
 
-    BOOL m_enabled;
     dispatch_queue_t m_flushQueue;
     dispatch_source_t m_flushTimer;
     NSDate* m_lastFlush;
@@ -66,8 +66,8 @@ static LSTracer* s_sharedInstance = nil;
         _pendingJSONSpans = [NSMutableArray<NSDictionary*> array];
         self->m_flushQueue = dispatch_queue_create("com.lightstep.flush_queue", DISPATCH_QUEUE_SERIAL);
         self->m_flushTimer = nil;
-        self->m_enabled = true;  // if false, no longer collect tracing data
-        self->m_clockState = [[LSClockState alloc] init];
+        _enabled = true;  // if false, no longer collect tracing data
+        _clockState = [[LSClockState alloc] init];
         self->m_lastFlush = [NSDate date];
         self->m_bgTaskId = UIBackgroundTaskInvalid;
 
@@ -279,15 +279,9 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     }
 }
 
-- (BOOL) enabled {
-    @synchronized(self) {
-        return m_enabled;
-    }
-}
-
 - (void) _appendSpanJSON:(NSDictionary*)spanJSON {
     @synchronized(self) {
-        if (!m_enabled) {
+        if (!self.enabled) {
             return;
         }
 
@@ -300,7 +294,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
 // Establish the m_flushTimer ticker.
 - (void) _forkFlushLoop:(NSUInteger)flushIntervalSeconds {
     @synchronized(self) {
-        if (!m_enabled) {
+        if (!self.enabled) {
             // Noop.
             return;
         }
@@ -315,7 +309,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
         dispatch_source_set_timer(m_flushTimer, DISPATCH_TIME_NOW,
                                   flushIntervalSeconds * NSEC_PER_SEC,
                                   NSEC_PER_SEC);
-        __weak __typeof__(self) weakSelf = self;
+        __weak __typeof(self) weakSelf = self;
         dispatch_source_set_event_handler(m_flushTimer, ^{
             [weakSelf flush:nil];
         });
@@ -324,7 +318,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
 }
 
 - (void) flush:(void (^)(NSError * _Nullable error))doneCallback {
-    if (!m_enabled) {
+    if (!self.enabled) {
         // Short-circuit.
         return;
     }
@@ -340,7 +334,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     // though, so we are guaranteed that only one flushToService call will be
     // extant at any given moment, and thus it's safe to store the background
     // task id in m_bgTaskId.
-    __weak __typeof__(self) weakSelf = self;
+    __weak __typeof(self) weakSelf = self;
     void (^cleanupBlock)(BOOL, NSError* _Nullable) = ^(BOOL endBackgroundTask, NSError* _Nullable error) {
         if (endBackgroundTask) {
             [weakSelf _endBackgroundTask];
@@ -361,7 +355,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
 
         // reqJSON spec: https://github.com/lightstep/lightstep-tracer-go/blob/40cbd138e6901f0dafdd0cccabb6fc7c5a716efb/lightstep_thrift/ttypes.go#L2586
         reqJSON = [NSMutableDictionary dictionary];
-        reqJSON[@"timestamp_offset_micros"] = @(m_clockState.offsetMicros);
+        reqJSON[@"timestamp_offset_micros"] = @(self.clockState.offsetMicros);
         reqJSON[@"runtime"] = self.tracerJSON;
         reqJSON[@"span_records"] = self.pendingJSONSpans;
         reqJSON[@"oldest_micros"] = @([m_lastFlush toMicros]);
@@ -396,7 +390,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     SInt64 originMicros = [LSClockState nowMicros];
     NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         @try {
-            __typeof__(self) strongSelf = weakSelf;
+            __typeof(self) strongSelf = weakSelf;
             SInt64 destinationMicros = [LSClockState nowMicros];
             NSError* jsonError;
             NSDictionary* responseJSON = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
@@ -408,7 +402,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
 
                     if (receiveMicros != nil && transmitMicros != nil) {
                         // Update our local NTP-lite clock state with the latest measurements.
-                        [strongSelf->m_clockState addSampleWithOriginMicros:originMicros
+                        [strongSelf.clockState addSampleWithOriginMicros:originMicros
                                                               receiveMicros:receiveMicros.longLongValue
                                                              transmitMicros:transmitMicros.longLongValue
                                                           destinationMicros:destinationMicros];

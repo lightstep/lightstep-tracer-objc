@@ -137,13 +137,11 @@ extern FOUNDATION_EXPORT const NSInteger LSBackgroundTaskError;
  */
 @property (atomic) NSUInteger maxPayloadJSONLength;
 
+/// Returns true if the library is currently buffering and reporting data.
+@property (atomic) BOOL enabled;
+
 /// Tracer's access token
 @property (atomic, readonly) NSString *accessToken;
-
-/**
- * Returns true if the library is currently buffering and reporting data.
- */
-- (BOOL)enabled;
 
 /**
  * Record a span.
