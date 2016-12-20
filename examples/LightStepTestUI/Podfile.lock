@@ -1,5 +1,5 @@
 PODS:
-  - lightstep (3.1.2):
+  - lightstep (3.2.4):
     - opentracing (~> 0.4.0)
   - opentracing (0.4.2)
 
@@ -11,9 +11,9 @@ EXTERNAL SOURCES:
     :path: "../.."
 
 SPEC CHECKSUMS:
-  lightstep: 765ea2b4e194e38612f56d1ebf5ce8456a0e429f
+  lightstep: 480fec1e9a67b79856ecfa64bfc2de3584afe22d
   opentracing: ead1caa5478ee78318bda55862fe33a2e67478a4
 
-PODFILE CHECKSUM: b5270b760bd521f155e721b810f90f32c5a587d7
+PODFILE CHECKSUM: ab77b8c59bf40240bec48ed4c7abaa4e04891fcc
 
-COCOAPODS: 1.1.0.rc.2
+COCOAPODS: 1.1.1

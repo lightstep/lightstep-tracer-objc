@@ -18,9 +18,8 @@ const NSUInteger kMaxLength = 8192;
     [super setUp];
     m_tracer = [[LSTracer alloc] initWithToken:@"TEST_TOKEN"
                                  componentName:@"LightStepUnitTests"
-                                      hostport:@"localhost:9997"
-                          flushIntervalSeconds:0  // disable the flush loop
-                                     plaintext:true];
+                                       baseURL:[NSURL URLWithString:@"http://localhost:9997"]
+                          flushIntervalSeconds:0]; // disable the flush loop
 }
 
 - (void)tearDown {

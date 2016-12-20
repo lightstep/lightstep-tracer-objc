@@ -11,5 +11,9 @@ install! 'cocoapods', :deterministic_uuids => false
 workspace 'LightStepTestUI'
 
 target 'LightStepTestUI' do
-    pod 'lightstep', :path => '../..'
+  pod 'lightstep', :path => '../..'
+end
+
+target 'LightStepUnitTests' do
+  pod 'lightstep', :path => '../..'
 end

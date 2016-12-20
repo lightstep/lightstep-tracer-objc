@@ -15,6 +15,7 @@
 		811B5ED31C7E80F90076110E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 811B5ED21C7E80F90076110E /* Assets.xcassets */; };
 		811B5ED61C7E80F90076110E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 811B5ED41C7E80F90076110E /* LaunchScreen.storyboard */; };
 		817C861E1C84D0200060C5FD /* LightStepUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 817C861D1C84D0200060C5FD /* LightStepUnitTests.m */; };
+		FC8CEA6067CDE25B50423D3D /* libPods-LightStepUnitTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B65B1CD6D54ADBD1AA2719A7 /* libPods-LightStepUnitTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,9 @@
 		817C861D1C84D0200060C5FD /* LightStepUnitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LightStepUnitTests.m; sourceTree = "<group>"; };
 		817C861F1C84D0200060C5FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A9C454551D7F4369000283E1 /* lightstep.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = lightstep.framework; path = "../../../../Library/Developer/Xcode/DerivedData/LightStepTestUI-gygbfnxbvlvkuzgefierexnqwaxx/Build/Products/Debug-iphonesimulator/lightstep/lightstep.framework"; sourceTree = "<group>"; };
+		B65B1CD6D54ADBD1AA2719A7 /* libPods-LightStepUnitTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LightStepUnitTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C44D7FC31F0A312669727212 /* Pods-LightStepUnitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LightStepUnitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LightStepUnitTests/Pods-LightStepUnitTests.release.xcconfig"; sourceTree = "<group>"; };
+		C9D5B00D38FF88B3D56EB4BA /* Pods-LightStepUnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LightStepUnitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LightStepUnitTests/Pods-LightStepUnitTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC8CEA6067CDE25B50423D3D /* libPods-LightStepUnitTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,6 +76,7 @@
 			children = (
 				A9C454551D7F4369000283E1 /* lightstep.framework */,
 				59B7015A1F97CC51513E4FA0 /* libPods-LightStepTestUI.a */,
+				B65B1CD6D54ADBD1AA2719A7 /* libPods-LightStepUnitTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -133,6 +139,8 @@
 			children = (
 				07C33A36D9780B67E071DDE8 /* Pods-LightStepTestUI.debug.xcconfig */,
 				4E3F58243825167ED6188095 /* Pods-LightStepTestUI.release.xcconfig */,
+				C9D5B00D38FF88B3D56EB4BA /* Pods-LightStepUnitTests.debug.xcconfig */,
+				C44D7FC31F0A312669727212 /* Pods-LightStepUnitTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -164,9 +172,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 817C86241C84D0200060C5FD /* Build configuration list for PBXNativeTarget "LightStepUnitTests" */;
 			buildPhases = (
+				4C1C701C9297F94D47FBF206 /* [CP] Check Pods Manifest.lock */,
 				817C86171C84D0200060C5FD /* Sources */,
 				817C86181C84D0200060C5FD /* Frameworks */,
 				817C86191C84D0200060C5FD /* Resources */,
+				60FDA512AA08A24637F11249 /* [CP] Embed Pods Frameworks */,
+				8B445DCFFA094F3887C111CC /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -237,6 +248,51 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		4C1C701C9297F94D47FBF206 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		60FDA512AA08A24637F11249 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LightStepUnitTests/Pods-LightStepUnitTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8B445DCFFA094F3887C111CC /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LightStepUnitTests/Pods-LightStepUnitTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		B945AACE850172993BD52592 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -372,28 +428,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/BoringSSL\"",
-					"\"${PODS_ROOT}/Headers/Public/Protobuf\"",
-					"\"${PODS_ROOT}/Headers/Public/gRPC\"",
-					"\"${PODS_ROOT}/Headers/Public/gRPC-Core\"",
-					"\"${PODS_ROOT}/Headers/Public/gRPC-ProtoRPC\"",
-					"\"${PODS_ROOT}/Headers/Public/gRPC-RxLibrary\"",
-					"\"${PODS_ROOT}/Headers/Public/lightstep\"",
-					"\"${PODS_ROOT}/Headers/Public/opentracing\"",
-				);
+				HEADER_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$PODS_CONFIGURATION_BUILD_DIR/BoringSSL\"",
-					"\"$PODS_CONFIGURATION_BUILD_DIR/Protobuf\"",
-					"\"$PODS_CONFIGURATION_BUILD_DIR/gRPC\"",
-					"\"$PODS_CONFIGURATION_BUILD_DIR/gRPC-Core\"",
-					"\"$PODS_CONFIGURATION_BUILD_DIR/gRPC-ProtoRPC\"",
-					"\"$PODS_CONFIGURATION_BUILD_DIR/gRPC-RxLibrary\"",
-					"\"$PODS_CONFIGURATION_BUILD_DIR/lightstep\"",
-					"\"$PODS_CONFIGURATION_BUILD_DIR/opentracing\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -435,28 +473,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/BoringSSL\"",
-					"\"${PODS_ROOT}/Headers/Public/Protobuf\"",
-					"\"${PODS_ROOT}/Headers/Public/gRPC\"",
-					"\"${PODS_ROOT}/Headers/Public/gRPC-Core\"",
-					"\"${PODS_ROOT}/Headers/Public/gRPC-ProtoRPC\"",
-					"\"${PODS_ROOT}/Headers/Public/gRPC-RxLibrary\"",
-					"\"${PODS_ROOT}/Headers/Public/lightstep\"",
-					"\"${PODS_ROOT}/Headers/Public/opentracing\"",
-				);
+				HEADER_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$PODS_CONFIGURATION_BUILD_DIR/BoringSSL\"",
-					"\"$PODS_CONFIGURATION_BUILD_DIR/Protobuf\"",
-					"\"$PODS_CONFIGURATION_BUILD_DIR/gRPC\"",
-					"\"$PODS_CONFIGURATION_BUILD_DIR/gRPC-Core\"",
-					"\"$PODS_CONFIGURATION_BUILD_DIR/gRPC-ProtoRPC\"",
-					"\"$PODS_CONFIGURATION_BUILD_DIR/gRPC-RxLibrary\"",
-					"\"$PODS_CONFIGURATION_BUILD_DIR/lightstep\"",
-					"\"$PODS_CONFIGURATION_BUILD_DIR/opentracing\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PODS_ROOT = "${SRCROOT}/Pods";
@@ -511,6 +531,7 @@
 		};
 		817C86221C84D0200060C5FD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C9D5B00D38FF88B3D56EB4BA /* Pods-LightStepUnitTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = LightStepUnitTests/Info.plist;
@@ -524,6 +545,7 @@
 		};
 		817C86231C84D0200060C5FD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C44D7FC31F0A312669727212 /* Pods-LightStepUnitTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = LightStepUnitTests/Info.plist;
