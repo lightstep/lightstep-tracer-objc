@@ -19,7 +19,6 @@ const NSString *LSErrorDomain = @"com.lightstep";
 const NSInteger LSBackgroundTaskError = 1;
 const NSInteger LSRequestTooLargeError = 2;
 
-static LSTracer* s_sharedInstance = nil;
 
 @interface LSTracer()
 @property(nonatomic, strong) NSMutableArray<NSDictionary *> *pendingJSONSpans;
