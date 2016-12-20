@@ -10,10 +10,10 @@
 
 static NSString *const LSDefaultBaseURLString = @"https://collector.lightstep.com:443/api/v0/reports";
 
-static const int kDefaultFlushIntervalSeconds = 30;
-static const NSUInteger kDefaultMaxBufferedSpans = 5000;
-static const NSUInteger kDefaultMaxPayloadJSONLength = 32 * 1024;
-static const NSUInteger kMaxRequestSize = 1024*1024*4;  // 4MB
+static const int LSDefaultFlushIntervalSeconds = 30;
+static const NSUInteger LSDefaultMaxBufferedSpans = 5000;
+static const NSUInteger LSDefaultMaxPayloadJSONLength = 32 * 1024;
+static const NSUInteger LSMaxRequestSize = 1024*1024*4;  // 4MB
 
 NSString *const LSErrorDomain = @"com.lightstep";
 NSInteger LSBackgroundTaskError = 1;
@@ -59,8 +59,8 @@ static LSTracer* s_sharedInstance = nil;
         tracerJSON[@"attrs"] = [LSUtil keyValueArrayFromDictionary:tracerTags];
         self->m_tracerJSON = tracerJSON;
 
-        self->m_maxSpanRecords = kDefaultMaxBufferedSpans;
-        self->m_maxPayloadJSONLength = kDefaultMaxPayloadJSONLength;
+        self->m_maxSpanRecords = LSDefaultMaxBufferedSpans;
+        self->m_maxPayloadJSONLength = LSDefaultMaxPayloadJSONLength;
         self->m_pendingJSONSpans = [NSMutableArray<NSDictionary*> array];
         self->m_flushQueue = dispatch_queue_create("com.lightstep.flush_queue", DISPATCH_QUEUE_SERIAL);
         self->m_flushTimer = nil;
@@ -90,7 +90,7 @@ static LSTracer* s_sharedInstance = nil;
     return [self initWithToken:accessToken
                  componentName:componentName
                        baseURL:nil
-          flushIntervalSeconds:kDefaultFlushIntervalSeconds];
+          flushIntervalSeconds:LSDefaultFlushIntervalSeconds];
 }
 
 - (instancetype) initWithToken:(NSString*)accessToken {
@@ -390,7 +390,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     sessionConfiguration.HTTPAdditionalHeaders = @{@"LightStep-Access-Token": m_accessToken,
                                                    @"Content-Type": @"application/json"};
     NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
-    NSString* reqBody = [LSUtil objectToJSONString:reqJSON maxLength:kMaxRequestSize];
+    NSString* reqBody = [LSUtil objectToJSONString:reqJSON maxLength:LSMaxRequestSize];
     if (reqBody == nil) {
         cleanupBlock(true, [NSError errorWithDomain:LSErrorDomain code:LSRequestTooLargeError userInfo:nil]);
     }
