@@ -26,13 +26,12 @@ static LSTracer* s_sharedInstance = nil;
 @property(nonatomic, strong, readonly) NSDictionary<NSString *, NSString *> *tracerJSON;
 @property(nonatomic, strong, readonly) LSClockState *clockState;
 
+@property(nonatomic, strong, readonly) dispatch_queue_t flushQueue;
+@property(nonatomic, strong) dispatch_source_t flushTimer;
 @property(nonatomic) UInt64 runtimeGuid;
 @end
 
 @implementation LSTracer {
-
-    dispatch_queue_t m_flushQueue;
-    dispatch_source_t m_flushTimer;
     NSDate* m_lastFlush;
 
     UIBackgroundTaskIdentifier m_bgTaskId;
@@ -64,8 +63,8 @@ static LSTracer* s_sharedInstance = nil;
         self->m_maxSpanRecords = LSDefaultMaxBufferedSpans;
         self->m_maxPayloadJSONLength = LSDefaultMaxPayloadJSONLength;
         _pendingJSONSpans = [NSMutableArray<NSDictionary*> array];
-        self->m_flushQueue = dispatch_queue_create("com.lightstep.flush_queue", DISPATCH_QUEUE_SERIAL);
-        self->m_flushTimer = nil;
+        _flushQueue = dispatch_queue_create("com.lightstep.flush_queue", DISPATCH_QUEUE_SERIAL);
+        _flushTimer = nil;
         _enabled = true;  // if false, no longer collect tracing data
         _clockState = [[LSClockState alloc] init];
         self->m_lastFlush = [NSDate date];
@@ -302,18 +301,18 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
             // Noop.
             return;
         }
-        m_flushTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, m_flushQueue);
-        if (!m_flushTimer) {
+        self.flushTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, self.flushQueue);
+        if (!self.flushTimer) {
             return;
         }
-        dispatch_source_set_timer(m_flushTimer, DISPATCH_TIME_NOW,
+        dispatch_source_set_timer(self.flushTimer, DISPATCH_TIME_NOW,
                                   flushIntervalSeconds * NSEC_PER_SEC,
                                   NSEC_PER_SEC);
         __weak __typeof(self) weakSelf = self;
-        dispatch_source_set_event_handler(m_flushTimer, ^{
+        dispatch_source_set_event_handler(self.flushTimer, ^{
             [weakSelf flush:nil];
         });
-        dispatch_resume(m_flushTimer);
+        dispatch_resume(self.flushTimer);
     }
 }
 
