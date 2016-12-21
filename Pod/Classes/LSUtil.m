@@ -76,7 +76,7 @@
     return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 }
 
-+ (NSMutableArray*)keyValueArrayFromDictionary:(NSDictionary<NSString*, NSString*>*)dict {
++ (NSMutableArray*)keyValueArrayFromDictionary:(NSDictionary<NSString*, NSObject*>*)dict {
     NSMutableArray* rval = [NSMutableArray arrayWithCapacity:dict.count];
     for (NSString* key in dict) {
         NSObject* val = dict[key];
