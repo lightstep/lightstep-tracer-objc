@@ -4,16 +4,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class LSSpanContext;
-@class LSTracer;
+@class LSTPSpanContext;
+@class LSTPTracer;
 
 /**
- * An `LSSpan` represents a logical unit of work done by the service. One or
+ * An `LSTPSpan` represents a logical unit of work done by the service. One or
  * more spans – presumably from different processes – are assembled into traces.
  *
- * The LSSpan class is thread-safe.
+ * The LSTPSpan class is thread-safe.
  */
-@interface LSSpan : NSObject<OTSpan>
+@interface LSTPSpan : NSObject<OTSpan>
 
 #pragma mark - OpenTracing API
 
@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
  * 
  * Creates a new span associated with the given tracer.
  */
-- (instancetype) initWithTracer:(LSTracer*)tracer;
+- (instancetype) initWithTracer:(LSTPTracer*)tracer;
 
 /**
  * Internal function.
@@ -54,9 +54,9 @@ NS_ASSUME_NONNULL_BEGIN
  * Creates a new span associated with the given tracer and the other optional
  * parameters.
  */
-- (instancetype) initWithTracer:(LSTracer*)tracer
+- (instancetype) initWithTracer:(LSTPTracer*)tracer
                   operationName:(NSString*)operationName
-                         parent:(nullable LSSpanContext*)parent
+                         parent:(nullable LSTPSpanContext*)parent
                            tags:(nullable NSDictionary*)tags
                       startTime:(nullable NSDate*)startTime;
 

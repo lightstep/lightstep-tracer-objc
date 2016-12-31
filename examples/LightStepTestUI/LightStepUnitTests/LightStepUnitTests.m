@@ -1,8 +1,8 @@
 #import <XCTest/XCTest.h>
 
-#import <lightstep/LSSpan.h>
-#import <lightstep/LSTracer.h>
-#import <lightstep/LSUtil.h>
+#import <lightstep/LSTPSpan.h>
+#import <lightstep/LSTPTracer.h>
+#import <lightstep/LSTPUtil.h>
 
 const NSUInteger kMaxLength = 8192;
 
@@ -11,12 +11,12 @@ const NSUInteger kMaxLength = 8192;
 @end
 
 @implementation LightStepUnitTests {
-    LSTracer *m_tracer;
+    LSTPTracer *m_tracer;
 }
 
 - (void)setUp {
     [super setUp];
-    m_tracer = [[LSTracer alloc] initWithToken:@"TEST_TOKEN"
+    m_tracer = [[LSTPTracer alloc] initWithToken:@"TEST_TOKEN"
                                  componentName:@"LightStepUnitTests"
                                        baseURL:[NSURL URLWithString:@"http://localhost:9997"]
                           flushIntervalSeconds:0]; // disable the flush loop
@@ -29,31 +29,31 @@ const NSUInteger kMaxLength = 8192;
 
 - (void)testObjectToJSONStringBasics {
     // Null
-    XCTAssertEqualObjects([LSUtil objectToJSONString:nil maxLength:kMaxLength], nil);
+    XCTAssertEqualObjects([LSTPUtil objectToJSONString:nil maxLength:kMaxLength], nil);
     // Empty string
-    XCTAssertEqualObjects([LSUtil objectToJSONString:@"" maxLength:kMaxLength], @"\"\"");
+    XCTAssertEqualObjects([LSTPUtil objectToJSONString:@"" maxLength:kMaxLength], @"\"\"");
     // Regular string
-    XCTAssertEqualObjects([LSUtil objectToJSONString:@"test" maxLength:kMaxLength], @"\"test\"");
+    XCTAssertEqualObjects([LSTPUtil objectToJSONString:@"test" maxLength:kMaxLength], @"\"test\"");
     // String that happens to be a number
-    XCTAssertEqualObjects([LSUtil objectToJSONString:@"42" maxLength:kMaxLength], @"\"42\"");
+    XCTAssertEqualObjects([LSTPUtil objectToJSONString:@"42" maxLength:kMaxLength], @"\"42\"");
     // Integer
-    XCTAssertEqualObjects([LSUtil objectToJSONString:@42 maxLength:kMaxLength], @"42");
+    XCTAssertEqualObjects([LSTPUtil objectToJSONString:@42 maxLength:kMaxLength], @"42");
     // Float
-    XCTAssertEqualObjects([LSUtil objectToJSONString:@3.14 maxLength:kMaxLength], @"3.14");
+    XCTAssertEqualObjects([LSTPUtil objectToJSONString:@3.14 maxLength:kMaxLength], @"3.14");
     // Empty array
-    XCTAssertEqualObjects([LSUtil objectToJSONString:@[] maxLength:kMaxLength], @"[]");
+    XCTAssertEqualObjects([LSTPUtil objectToJSONString:@[] maxLength:kMaxLength], @"[]");
     // Regular array
     NSArray *arr = @[@"test", @42, @3.14];
-    XCTAssertEqualObjects([LSUtil objectToJSONString:arr maxLength:kMaxLength], @"[\"test\",42,3.14]");
+    XCTAssertEqualObjects([LSTPUtil objectToJSONString:arr maxLength:kMaxLength], @"[\"test\",42,3.14]");
     // Empty dictionary
-    XCTAssertEqualObjects([LSUtil objectToJSONString:@{} maxLength:kMaxLength], @"{}");
+    XCTAssertEqualObjects([LSTPUtil objectToJSONString:@{} maxLength:kMaxLength], @"{}");
     // Simple dictionary
     // TODO: this test is a little fragile since there aren't encoding order
     // guarentees for dictionaries.
     NSDictionary* dict = @{@"string": @"test",
                            @"integer": @42,
                            @"float": @3.14};
-    XCTAssertEqualObjects([LSUtil objectToJSONString:dict maxLength:kMaxLength], @"{\"string\":\"test\",\"integer\":42,\"float\":3.14}");
+    XCTAssertEqualObjects([LSTPUtil objectToJSONString:dict maxLength:kMaxLength], @"{\"string\":\"test\",\"integer\":42,\"float\":3.14}");
 }
 
 - (void)testObjectToJSONStringItsComplicated {
@@ -63,22 +63,22 @@ const NSUInteger kMaxLength = 8192;
     // it would be nice to be more flexible rather than having 'nil' be the
     // expected, silent encoding.
     NSDictionary* numKeys = @{@1:@"one"};
-    XCTAssertEqualObjects([LSUtil objectToJSONString:numKeys maxLength:kMaxLength], nil);
+    XCTAssertEqualObjects([LSTPUtil objectToJSONString:numKeys maxLength:kMaxLength], nil);
 }
 
 - (void)testPayloadMaxLength {
     NSString* longString = [@"" stringByPaddingToLength:400 withString:@"*" startingAtIndex:0];
     NSString* longStringJSON = [NSString stringWithFormat:@"\"%@\"", longString];
 
-    XCTAssertEqualObjects([LSUtil objectToJSONString:longString maxLength:4000], longStringJSON);
-    XCTAssertEqualObjects([LSUtil objectToJSONString:longString maxLength:100], nil);
-    XCTAssertEqualObjects([LSUtil objectToJSONString:longString maxLength:400], nil);
-    XCTAssertEqualObjects([LSUtil objectToJSONString:longString maxLength:402], longStringJSON);
+    XCTAssertEqualObjects([LSTPUtil objectToJSONString:longString maxLength:4000], longStringJSON);
+    XCTAssertEqualObjects([LSTPUtil objectToJSONString:longString maxLength:100], nil);
+    XCTAssertEqualObjects([LSTPUtil objectToJSONString:longString maxLength:400], nil);
+    XCTAssertEqualObjects([LSTPUtil objectToJSONString:longString maxLength:402], longStringJSON);
 }
 
-- (void)testLSSpan {
+- (void)testLSTPSpan {
     // Test timestamps, span context basics, and operation names.
-    LSSpan* parent = (LSSpan*)[m_tracer startSpan:@"parent"];
+    LSTPSpan* parent = (LSTPSpan*)[m_tracer startSpan:@"parent"];
     NSDictionary* parentJSON;
     {
         NSDate* parentFinish = [NSDate date];
@@ -93,7 +93,7 @@ const NSUInteger kMaxLength = 8192;
     }
 
     // Additionally test span context inheritance, tags, and logs.
-    LSSpan* child = (LSSpan*)[m_tracer startSpan:@"child" childOf:parent.context tags:@{@"string": @"abc", @"int": @(42), @"bool": @(true)}];
+    LSTPSpan* child = (LSTPSpan*)[m_tracer startSpan:@"child" childOf:parent.context tags:@{@"string": @"abc", @"int": @(42), @"bool": @(true)}];
     NSDate* logTime = [NSDate date];
     [child log:@"log1" timestamp:logTime payload:@{@"foo": @"bar"}];
     [child logEvent:@"log2"];
@@ -154,11 +154,11 @@ const NSUInteger kMaxLength = 8192;
 
 - (void)testBaggage {
     // Test timestamps, span context basics, and operation names.
-    LSSpan* parent = (LSSpan*)[m_tracer startSpan:@"parent"];
+    LSTPSpan* parent = (LSTPSpan*)[m_tracer startSpan:@"parent"];
     [parent setBaggageItem:@"suitcase" value:@"brown"];
-    LSSpan* child1 = (LSSpan*)[m_tracer startSpan:@"child" childOf:parent.context];
+    LSTPSpan* child1 = (LSTPSpan*)[m_tracer startSpan:@"child" childOf:parent.context];
     [parent setBaggageItem:@"backpack" value:@"gray"];
-    LSSpan* child2 = (LSSpan*)[m_tracer startSpan:@"child" childOf:parent.context];
+    LSTPSpan* child2 = (LSTPSpan*)[m_tracer startSpan:@"child" childOf:parent.context];
     XCTAssert([[child1 getBaggageItem:@"suitcase"] isEqualToString:@"brown"]);
     XCTAssertNil([child1 getBaggageItem:@"backpack"]);
     XCTAssert([[child2 getBaggageItem:@"suitcase"] isEqualToString:@"brown"]);

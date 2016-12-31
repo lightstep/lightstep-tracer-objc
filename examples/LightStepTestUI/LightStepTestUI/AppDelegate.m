@@ -4,7 +4,7 @@
 //
 
 #import "AppDelegate.h"
-#import "lightstep/LSTracer.h"
+#import "lightstep/LSTPTracer.h"
 #import "opentracing/OTGlobal.h"
 
 @interface AppDelegate ()
@@ -14,7 +14,7 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    LSTracer* tracer = [[LSTracer alloc] initWithToken:@"DEVELOPMENT_TOKEN_bhs" componentName:@"LightStepTestUI" flushIntervalSeconds:2];
+    LSTPTracer* tracer = [[LSTPTracer alloc] initWithToken:@"DEVELOPMENT_TOKEN_bhs" componentName:@"LightStepTestUI" flushIntervalSeconds:2];
     tracer.maxSpanRecords = 600;
 
     [OTGlobal initSharedTracer:tracer];

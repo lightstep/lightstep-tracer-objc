@@ -1,9 +1,9 @@
-#import "LSClockState.h"
+#import "LSTPClockState.h"
 
 static const int kMaxOffsetAge = 7;
 static const UInt64 kStoredSamplesTTLMicros = 60 * 60 * 1e6;
 
-@interface LSSyncSample : NSObject<NSCoding>
+@interface LSTPSyncSample : NSObject<NSCoding>
 
 - (id) initWithDelayMicros:(SInt64)delayMicros offsetMicros:(SInt64)offsetMicros;
 
@@ -12,7 +12,7 @@ static const UInt64 kStoredSamplesTTLMicros = 60 * 60 * 1e6;
 
 @end
 
-@implementation LSSyncSample
+@implementation LSTPSyncSample
 
 - (id) initWithDelayMicros:(SInt64)delayMicros offsetMicros:(SInt64)offsetMicros
 {
@@ -38,8 +38,8 @@ static NSString* kOffsetKey = @"offset";
 
 @end
 
-@implementation LSClockState {
-    NSMutableArray* m_samples;  // elements are LSSyncSamples
+@implementation LSTPClockState {
+    NSMutableArray* m_samples;  // elements are LSTPSyncSamples
     SInt64 m_currentOffsetMicros;
     int m_currentOffsetAge;
 }
@@ -67,7 +67,7 @@ static NSString* kSamplesKey = @"samples";
 - (void)_persistToUserDefaults
 {
     NSData* data = [NSKeyedArchiver archivedDataWithRootObject:
-                    @{kTimestampMicrosKey: @([LSClockState nowMicros]),
+                    @{kTimestampMicrosKey: @([LSTPClockState nowMicros]),
                       kSamplesKey: m_samples}];
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:[self _userDefaultsKey]];
 }
@@ -86,7 +86,7 @@ static NSString* kSamplesKey = @"samples";
             NSDictionary* dict = [NSKeyedUnarchiver unarchiveObjectWithData:data];
             NSNumber* tsMicros = [dict objectForKey:kTimestampMicrosKey];
             NSArray* samples = [dict objectForKey:kSamplesKey];
-            SInt64 nowMicros = [LSClockState nowMicros];
+            SInt64 nowMicros = [LSTPClockState nowMicros];
             if (dict && tsMicros && samples &&
                 (tsMicros.longLongValue > (nowMicros - kStoredSamplesTTLMicros)) &&
                 (tsMicros.longLongValue < nowMicros) /* <-- sanity check */ ) {
@@ -96,13 +96,13 @@ static NSString* kSamplesKey = @"samples";
             }
         }
         @catch (NSException* e) {
-            NSLog(@"Unable to decode LSClockState data. Leaving things be.");
+            NSLog(@"Unable to decode LSTPClockState data. Leaving things be.");
         }
     }
     if (m_samples.count == 0) {
         // Otherwise initalize with (kMaxOffsetAge+1) dummy samples.
         for (int i = 0; i < (kMaxOffsetAge+1); i++) {
-            LSSyncSample* ss = [[LSSyncSample alloc] initWithDelayMicros:INT64_MAX offsetMicros:0];
+            LSTPSyncSample* ss = [[LSTPSyncSample alloc] initWithDelayMicros:INT64_MAX offsetMicros:0];
             [m_samples addObject:ss];
         }
     }
@@ -141,7 +141,7 @@ static NSString* kSamplesKey = @"samples";
 
     // Discard the oldest sample and push the new one.
     [m_samples removeObjectAtIndex:0];
-    [m_samples addObject:[[LSSyncSample alloc] initWithDelayMicros:latestDelayMicros offsetMicros:latestOffsetMicros]];
+    [m_samples addObject:[[LSTPSyncSample alloc] initWithDelayMicros:latestDelayMicros offsetMicros:latestOffsetMicros]];
     m_currentOffsetAge++;
 
     // Remember what we've seen.
@@ -178,7 +178,7 @@ static NSString* kSamplesKey = @"samples";
     SInt64 minDelayMicros = INT64_MAX;
     SInt64 bestOffsetMicros = 0;
     for (int i = 0; i < m_samples.count; i++) {
-        LSSyncSample* curSamp = m_samples[i];
+        LSTPSyncSample* curSamp = m_samples[i];
         if (curSamp.delayMicros < minDelayMicros) {
             minDelayMicros = curSamp.delayMicros;
             bestOffsetMicros = curSamp.offsetMicros;
@@ -194,7 +194,7 @@ static NSString* kSamplesKey = @"samples";
     // offset were we to use it.
     double jitter = 0;
     for (int i = 0; i < m_samples.count; i++) {
-        LSSyncSample* curSamp = m_samples[i];
+        LSTPSyncSample* curSamp = m_samples[i];
         jitter += pow(bestOffsetMicros - curSamp.offsetMicros, 2);
     }
     jitter = sqrt(jitter / m_samples.count);

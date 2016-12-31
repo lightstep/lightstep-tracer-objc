@@ -1,15 +1,15 @@
 //
-//  LSSpanContext.m
+//  LSTPSpanContext.m
 //  LightStepTestUI
 //
 //  Created by Ben Sigelman on 7/21/16.
 //  Copyright © 2016 LightStep. All rights reserved.
 //
 
-#import "LSSpanContext.h"
-#import "LSUtil.h"
+#import "LSTPSpanContext.h"
+#import "LSTPUtil.h"
 
-@implementation LSSpanContext {
+@implementation LSTPSpanContext {
     NSDictionary* m_baggage;
 }
 
@@ -28,10 +28,10 @@
     return self;
 }
 
-- (LSSpanContext*)withBaggageItem:(NSString*)key value:(NSString*)value {
+- (LSTPSpanContext*)withBaggageItem:(NSString*)key value:(NSString*)value {
     NSMutableDictionary* baggageCopy = [self->m_baggage mutableCopy];
     [baggageCopy setObject:value forKey:key];
-    return [[LSSpanContext alloc] initWithTraceId:self.traceId spanId:self.spanId baggage:baggageCopy];
+    return [[LSTPSpanContext alloc] initWithTraceId:self.traceId spanId:self.spanId baggage:baggageCopy];
 }
 
 
@@ -48,11 +48,11 @@
 }
 
 - (NSString*)hexTraceId {
-    return [LSUtil hexGUID:self.traceId];
+    return [LSTPUtil hexGUID:self.traceId];
 }
 
 - (NSString*)hexSpanId {
-    return [LSUtil hexGUID:self.spanId];
+    return [LSTPUtil hexGUID:self.spanId];
 }
 
 - (NSDictionary*)_baggage {

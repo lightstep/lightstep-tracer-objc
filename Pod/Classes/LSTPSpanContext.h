@@ -1,5 +1,5 @@
 //
-//  LSSpanContext.h
+//  LSTPSpanContext.h
 //  LightStepTestUI
 //
 //  Created by Ben Sigelman on 7/21/16.
@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface LSSpanContext : NSObject<OTSpanContext>
+@interface LSTPSpanContext : NSObject<OTSpanContext>
 
 #pragma mark - OpenTracing API
 
@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Return a copy of this SpanContext with the given (potentially additional) baggage item.
  */
-- (LSSpanContext*)withBaggageItem:(NSString*)key value:(NSString*)value;
+- (LSTPSpanContext*)withBaggageItem:(NSString*)key value:(NSString*)value;
 
 /**
  * Return a specific baggage item.

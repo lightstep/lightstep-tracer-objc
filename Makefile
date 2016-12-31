@@ -39,7 +39,7 @@ publish_pod:
 increment_version:
 	awk 'BEGIN { FS = "." }; { printf("%d.%d.%d", $$1, $$2, $$3+1) }' VERSION > VERSION.incr
 	mv VERSION.incr VERSION
-	echo "// GENERATED FILE: Do not edit directly\n#define LS_TRACER_VERSION @\"$(shell cat VERSION)\"\n" > Pod/Classes/LSVersion.h
+	echo "// GENERATED FILE: Do not edit directly\n#define LSTP_TRACER_VERSION @\"$(shell cat VERSION)\"\n" > Pod/Classes/LSTPVersion.h
 	@echo "Updating the version string in the podspec..."
 	sed 's/_VERSION_STRING_/$(shell cat VERSION)/g' lightstep.podspec.src > lightstep.podspec	
 	git add .

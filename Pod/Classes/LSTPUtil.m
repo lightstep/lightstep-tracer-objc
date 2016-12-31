@@ -1,7 +1,7 @@
-#import "LSUtil.h"
+#import "LSTPUtil.h"
 #import <stdlib.h>  // arc4random_uniform()
 
-@implementation LSUtil
+@implementation LSTPUtil
 
 + (UInt64)generateGUID {
     return (((UInt64)arc4random()) << 32) | arc4random();
@@ -22,7 +22,7 @@
 
 + (NSString*)objectToJSONString:(id)obj
                       maxLength:(NSUInteger)maxLength {
-    NSString* json = [LSUtil _objectToJSONString:obj];
+    NSString* json = [LSTPUtil _objectToJSONString:obj];
     if ([json length] > maxLength) {
         NSLog(@"Dropping excessively large payload: length=%@", @([json length]));
         json = nil;
@@ -35,7 +35,7 @@
     if (obj == nil) {
         return nil;
     } else if ([NSJSONSerialization isValidJSONObject:obj]) {
-        return [LSUtil _serializeToJSON:obj];
+        return [LSTPUtil _serializeToJSON:obj];
     } else {
         // To avoid reinventing encoding logic, reuse NSJSONSerialization
         // for basic value-types via a temporary dictionary and slicing out the
@@ -44,7 +44,7 @@
         // Due to the nature of JSON and the assumption that NSJSONSerialization
         // will *not* inject unnecessary whitespace, the position of the encoded
         // object is fixed.
-        NSString* output = [LSUtil _serializeToJSON:@{@"V":obj}];
+        NSString* output = [LSTPUtil _serializeToJSON:@{@"V":obj}];
         if (output == nil) {
             return output;
         }
@@ -90,7 +90,7 @@
 
 @end
 
-@implementation NSDate(LSSpan)
+@implementation NSDate(LSTPSpan)
 - (int64_t) toMicros {
     return (int64_t)([self timeIntervalSince1970] * USEC_PER_SEC);
 }

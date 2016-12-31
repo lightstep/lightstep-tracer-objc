@@ -1,69 +1,71 @@
 #import <Foundation/Foundation.h>
 
 #import <opentracing/OTTracer.h>
-#import "LSSpan.h"
+#import "LSTPSpan.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * The error domain for all OpenTracing-related NSErrors.
+ * The error domain for all LightStep-related NSErrors.
  */
-FOUNDATION_EXPORT NSString *const LSErrorDomain;
+FOUNDATION_EXPORT NSString *const LSTPErrorDomain;
 /**
- * OTUnsupportedFormat should be used by `OTTracer#inject:format:carrier:` and
- * `OTTracer#extractWithFormat:carrier:` implementations that don't support the
- * requested carrier format.
+ * LightStep background task (for flushing) did not complete successfully.
  */
-FOUNDATION_EXPORT NSInteger LSBackgroundTaskError;
+FOUNDATION_EXPORT NSInteger LSTPBackgroundTaskError;
+/**
+ * LightStep report request was too large and dropped to protect the host process.
+ */
+FOUNDATION_EXPORT NSInteger LSTPRequestTooLargeError;
 
 /**
  * An implementation of the OTTracer protocol.
  *
  * Either pass the resulting id<OTTracer> around your application explicitly or use the OTGlobal singleton mechanism.
  *
- * LSTracer is thread-safe.
+ * LSTPTracer is thread-safe.
  *
  * @see OTGlobal
  */
-@interface LSTracer : NSObject<OTTracer>
+@interface LSTPTracer : NSObject<OTTracer>
 
-#pragma mark - LSTracer initialization
+#pragma mark - LSTPTracer initialization
 
 /**
- * @see `-[LSTracer initWithToken:componentName:baseURL]` for parameter details.
+ * @see `-[LSTPTracer initWithToken:componentName:baseURL]` for parameter details.
  *
- * @return An `LSTracer` instance that's ready to create spans and logs.
+ * @return An `LSTPTracer` instance that's ready to create spans and logs.
  */
 - (instancetype) initWithToken:(NSString*)accessToken;
 
 /**
- * @see `-[LSTracer initWithToken:componentName:baseURL]` for parameter details.
+ * @see `-[LSTPTracer initWithToken:componentName:baseURL]` for parameter details.
  *
- * @return An `LSTracer` instance that's ready to create spans and logs.
+ * @return An `LSTPTracer` instance that's ready to create spans and logs.
  */
 - (instancetype) initWithToken:(NSString*)accessToken
                  componentName:(nullable NSString*)componentName;
 
 /**
- * @see `-[LSTracer initWithToken:componentName:baseURL:flushIntervalSeconds:]` for parameter details.
+ * @see `-[LSTPTracer initWithToken:componentName:baseURL:flushIntervalSeconds:]` for parameter details.
  *
- * @return An `LSTracer` instance that's ready to create spans and logs.
+ * @return An `LSTPTracer` instance that's ready to create spans and logs.
  */
 - (instancetype) initWithToken:(NSString*)accessToken
                  componentName:(nullable NSString*)componentName
           flushIntervalSeconds:(NSUInteger)flushIntervalSeconds;
 
 /**
- * Initialize an LSTracer instance. Either pass the resulting LSTracer* around your application explicitly or use the OTGlobal singleton mechanism.
+ * Initialize an LSTPTracer instance. Either pass the resulting LSTPTracer* around your application explicitly or use the OTGlobal singleton mechanism.
  *
- * Whether calling `-[LSTracer flush]` manually or whether using automatic background flushing, users may wish to register for UIApplicationDidEnterBackgroundNotification notifications and explicitly call flush at that point.
+ * Whether calling `-[LSTPTracer flush]` manually or whether using automatic background flushing, users may wish to register for UIApplicationDidEnterBackgroundNotification notifications and explicitly call flush at that point.
  *
  * @param accessToken the access token.
  * @param componentName the "component name" to associate with spans from this process; e.g., the name of your iOS app or the bundle name.
- * @param baseURL the URL for the collector's HTTP+JSON base endpoint (search for LSDefaultBaseURLString)
+ * @param baseURL the URL for the collector's HTTP+JSON base endpoint (search for LSTPDefaultBaseURLString)
  * @param flushIntervalSeconds the flush interval, or 0 for no automatic background flushing
  *
- * @return An `LSTracer` instance that's ready to create spans and logs.
+ * @return An `LSTPTracer` instance that's ready to create spans and logs.
  *
  * @see OTGlobal
  */
@@ -118,12 +120,12 @@ FOUNDATION_EXPORT NSInteger LSBackgroundTaskError;
 @property (nonatomic, readonly) NSURL* baseURL;
 
 /**
- * The `LSTracer` instance's globally unique id ("guid"), which is both immutable and assigned automatically by LightStep.
+ * The `LSTPTracer` instance's globally unique id ("guid"), which is both immutable and assigned automatically by LightStep.
  */
 @property (nonatomic, readonly) NSString* runtimeGuid;
 
 /**
- * The `LSTracer` instance's maximum number of records to buffer between reports.
+ * The `LSTPTracer` instance's maximum number of records to buffer between reports.
  */
 @property (atomic) NSUInteger maxSpanRecords;
 
