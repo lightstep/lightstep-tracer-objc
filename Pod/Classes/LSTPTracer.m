@@ -1,31 +1,31 @@
 #import <UIKit/UIKit.h>
 #import <opentracing/OTReference.h>
 
-#import "LSClockState.h"
-#import "LSSpan.h"
-#import "LSSpanContext.h"
-#import "LSTracer.h"
-#import "LSUtil.h"
-#import "LSVersion.h"
+#import "LSTPClockState.h"
+#import "LSTPSpan.h"
+#import "LSTPSpanContext.h"
+#import "LSTPTracer.h"
+#import "LSTPUtil.h"
+#import "LSTPVersion.h"
 
-static const NSString *LSDefaultBaseURLString = @"https://collector.lightstep.com:443/api/v0/reports";
+static const NSString *LSTPDefaultBaseURLString = @"https://collector.lightstep.com:443/api/v0/reports";
 
 static const int kDefaultFlushIntervalSeconds = 30;
 static const NSUInteger kDefaultMaxBufferedSpans = 5000;
 static const NSUInteger kDefaultMaxPayloadJSONLength = 32 * 1024;
 static const NSUInteger kMaxRequestSize = 1024*1024*4;  // 4MB
 
-NSString *const LSErrorDomain = @"com.lightstep";
-NSInteger LSBackgroundTaskError = 1;
-NSInteger LSRequestTooLargeError = 2;
+NSString *const LSTPErrorDomain = @"com.lightstep";
+NSInteger LSTPBackgroundTaskError = 1;
+NSInteger LSTPRequestTooLargeError = 2;
 
-static LSTracer* s_sharedInstance = nil;
+static LSTPTracer* s_sharedInstance = nil;
 
-@implementation LSTracer {
+@implementation LSTPTracer {
     NSString* m_accessToken;
     UInt64 m_runtimeGuid;
     NSDictionary<NSString*, NSString*>* m_tracerJSON;
-    LSClockState* m_clockState;
+    LSTPClockState* m_clockState;
 
     BOOL m_enabled;
     NSMutableArray<NSDictionary*>* m_pendingJSONSpans;
@@ -46,17 +46,17 @@ static LSTracer* s_sharedInstance = nil;
 {
     if (self = [super init]) {
         self->m_accessToken = accessToken;
-        self->m_runtimeGuid = [LSUtil generateGUID];
+        self->m_runtimeGuid = [LSTPUtil generateGUID];
 
         NSMutableDictionary<NSString*, NSString*>* tracerJSON = [NSMutableDictionary<NSString*, NSString*> dictionary];
-        tracerJSON[@"guid"] = [LSUtil hexGUID:self->m_runtimeGuid];
+        tracerJSON[@"guid"] = [LSTPUtil hexGUID:self->m_runtimeGuid];
         // All string-valued tags.
         NSDictionary* tracerTags = @{@"lightstep.tracer_platform": @"ios",
                                      @"lightstep.tracer_platform_version": [[UIDevice currentDevice] systemVersion],
-                                     @"lightstep.tracer_version": LS_TRACER_VERSION,
+                                     @"lightstep.tracer_version": LSTP_TRACER_VERSION,
                                      @"lightstep.component_name": componentName,
                                      @"device_model": [[UIDevice currentDevice] model]};
-        tracerJSON[@"attrs"] = [LSUtil keyValueArrayFromDictionary:tracerTags];
+        tracerJSON[@"attrs"] = [LSTPUtil keyValueArrayFromDictionary:tracerTags];
         self->m_tracerJSON = tracerJSON;
 
         self->m_maxSpanRecords = kDefaultMaxBufferedSpans;
@@ -65,11 +65,11 @@ static LSTracer* s_sharedInstance = nil;
         self->m_flushQueue = dispatch_queue_create("com.lightstep.flush_queue", DISPATCH_QUEUE_SERIAL);
         self->m_flushTimer = nil;
         self->m_enabled = true;  // if false, no longer collect tracing data
-        self->m_clockState = [[LSClockState alloc] init];
+        self->m_clockState = [[LSTPClockState alloc] init];
         self->m_lastFlush = [NSDate date];
         self->m_bgTaskId = UIBackgroundTaskInvalid;
 
-        _baseURL = baseURL ?: [NSURL URLWithString:LSDefaultBaseURLString];
+        _baseURL = baseURL ?: [NSURL URLWithString:LSTPDefaultBaseURLString];
 
         [self _forkFlushLoop:flushIntervalSeconds];
     }
@@ -132,18 +132,18 @@ static LSTracer* s_sharedInstance = nil;
              references:(NSArray*)references
                    tags:(NSDictionary*)tags
               startTime:(NSDate*)startTime {
-    LSSpanContext* parent = nil;
+    LSTPSpanContext* parent = nil;
     if (references != nil) {
         for (OTReference* ref in references) {
             if (ref != nil &&
                     ([ref.type isEqualToString:OTReferenceChildOf] ||
                      [ref.type isEqualToString:OTReferenceFollowsFrom])) {
-                parent = (LSSpanContext*)ref.referencedContext;
+                parent = (LSTPSpanContext*)ref.referencedContext;
             }
         }
     }
     // No locking required
-    return [[LSSpan alloc] initWithTracer:self
+    return [[LSTPSpan alloc] initWithTracer:self
                             operationName:operationName
                                    parent:parent
                                      tags:tags
@@ -163,7 +163,7 @@ static NSString* kSampledKey               = @"ot-tracer-sampled";
 static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
 
 - (BOOL)inject:(id<OTSpanContext>)spanContext format:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError {
-    LSSpanContext *ctx = (LSSpanContext*)spanContext;
+    LSTPSpanContext *ctx = (LSTPSpanContext*)spanContext;
     if ([format isEqualToString:OTFormatTextMap] ||
         [format isEqualToString:OTFormatHTTPHeaders]) {
         NSMutableDictionary *dict = carrier;
@@ -207,7 +207,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
             } else if ([key hasPrefix:kBasicTracerStatePrefix]) {
                 if ([key isEqualToString:kTraceIdKey]) {
                     foundRequiredFields++;
-                    traceId = [LSUtil guidFromHex:[dict objectForKey:key]];
+                    traceId = [LSTPUtil guidFromHex:[dict objectForKey:key]];
                     if (traceId == 0) {
                         if (outError != nil) {
                             *outError = [NSError errorWithDomain:OTErrorDomain code:OTSpanContextCorruptedCode userInfo:nil];
@@ -216,7 +216,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
                     }
                 } else if ([key isEqualToString:kSpanIdKey]) {
                     foundRequiredFields++;
-                    spanId = [LSUtil guidFromHex:[dict objectForKey:key]];
+                    spanId = [LSTPUtil guidFromHex:[dict objectForKey:key]];
                     if (spanId == 0) {
                         if (outError != nil) {
                             *outError = [NSError errorWithDomain:OTErrorDomain code:OTSpanContextCorruptedCode userInfo:nil];
@@ -239,7 +239,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
             return nil;
         }
 
-        return [[LSSpanContext alloc] initWithTraceId:traceId spanId:spanId baggage:baggage];
+        return [[LSTPSpanContext alloc] initWithTraceId:traceId spanId:spanId baggage:baggage];
     } else if ([format isEqualToString:OTFormatBinary]) {
         if (outError != nil) {
             *outError = [NSError errorWithDomain:OTErrorDomain code:OTUnsupportedFormatCode userInfo:nil];
@@ -377,11 +377,11 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
         m_bgTaskId = [[UIApplication sharedApplication]
                       beginBackgroundTaskWithName:@"com.lightstep.flush"
                       expirationHandler:^{
-                          cleanupBlock(true, [NSError errorWithDomain:LSErrorDomain code:LSBackgroundTaskError userInfo:nil]);
+                          cleanupBlock(true, [NSError errorWithDomain:LSTPErrorDomain code:LSTPBackgroundTaskError userInfo:nil]);
                       }];
         if (m_bgTaskId == UIBackgroundTaskInvalid) {
             NSLog(@"unable to enter the background, so skipping flush");
-            cleanupBlock(false, [NSError errorWithDomain:LSErrorDomain code:LSBackgroundTaskError userInfo:nil]);
+            cleanupBlock(false, [NSError errorWithDomain:LSTPErrorDomain code:LSTPBackgroundTaskError userInfo:nil]);
             return;
         }
     }
@@ -390,18 +390,18 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     sessionConfiguration.HTTPAdditionalHeaders = @{@"LightStep-Access-Token": m_accessToken,
                                                    @"Content-Type": @"application/json"};
     NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
-    NSString* reqBody = [LSUtil objectToJSONString:reqJSON maxLength:kMaxRequestSize];
+    NSString* reqBody = [LSTPUtil objectToJSONString:reqJSON maxLength:kMaxRequestSize];
     if (reqBody == nil) {
-        cleanupBlock(true, [NSError errorWithDomain:LSErrorDomain code:LSRequestTooLargeError userInfo:nil]);
+        cleanupBlock(true, [NSError errorWithDomain:LSTPErrorDomain code:LSTPRequestTooLargeError userInfo:nil]);
     }
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.baseURL];
     request.HTTPBody = [reqBody dataUsingEncoding:NSUTF8StringEncoding];
     request.HTTPMethod = @"POST";
-    SInt64 originMicros = [LSClockState nowMicros];
+    SInt64 originMicros = [LSTPClockState nowMicros];
     NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         @try {
             __typeof__(self) strongSelf = weakSelf;
-            SInt64 destinationMicros = [LSClockState nowMicros];
+            SInt64 destinationMicros = [LSTPClockState nowMicros];
             NSError* jsonError;
             NSDictionary* responseJSON = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
             if (jsonError == nil) {

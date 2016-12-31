@@ -6,7 +6,7 @@ NS_ASSUME_NONNULL_BEGIN
  * A straight port/copy of the `rl-cruntime-common` ClockState javascript 
  * prototype.
  */
-@interface LSClockState : NSObject
+@interface LSTPClockState : NSObject
 
 // A helper that returns the local timestamp in microseconds (since the unix epoch).
 + (SInt64) nowMicros;

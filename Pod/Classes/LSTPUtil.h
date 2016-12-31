@@ -7,7 +7,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Shared, generic utility functions used across the library.
  */
-@interface LSUtil : NSObject
+@interface LSTPUtil : NSObject
 
 + (UInt64)generateGUID;
 + (NSString*)hexGUID:(UInt64)guid;
@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface NSDate (LSSpan)
+@interface NSDate (LSTPSpan)
 - (int64_t) toMicros;
 @end
 

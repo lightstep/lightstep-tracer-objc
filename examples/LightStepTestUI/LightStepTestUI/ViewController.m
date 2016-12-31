@@ -4,7 +4,7 @@
 //
 
 #import "ViewController.h"
-#import "lightstep/LSTracer.h"
+#import "lightstep/LSTPTracer.h"
 #import "opentracing/OTGlobal.h"
 
 @interface UserInfo : NSObject {
@@ -123,7 +123,7 @@ completionHandler:(void (^)(id response, NSError *error))completionHandler {
     NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSMutableDictionary* headers = [NSMutableDictionary dictionaryWithDictionary:[config HTTPAdditionalHeaders]];
     [headers setObject:@"LightStep iOS Example" forKey:@"User-Agent"];
-    [headers setObject:((LSTracer*)span.tracer).accessToken forKey:@"LightStep-Access-Token"];
+    [headers setObject:((LSTPTracer*)span.tracer).accessToken forKey:@"LightStep-Access-Token"];
     [[OTGlobal sharedTracer] inject:span.context format:OTFormatTextMap carrier:headers];
     config.HTTPAdditionalHeaders = headers;
 
@@ -213,7 +213,7 @@ completionHandler:(void (^)(id response, NSError *error))completionHandler {
             completionHandler:^(NSString* text) {
                 [span logEvent:@"query_complete"
                        payload:@{@"main_thread":@([NSThread isMainThread])}];
-                NSString* displayString = [NSString stringWithFormat:@"%@\n\nView trace at:\n %@\n", text, [(LSSpan*)span _generateTraceURL]];
+                NSString* displayString = [NSString stringWithFormat:@"%@\n\nView trace at:\n %@\n", text, [(LSTPSpan*)span _generateTraceURL]];
 
                 // UI updates need to occur in the main thread
                 dispatch_async(dispatch_get_main_queue(), ^{

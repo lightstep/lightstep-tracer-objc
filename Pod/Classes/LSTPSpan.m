@@ -1,11 +1,11 @@
-#import "LSSpan.h"
-#import "LSSpanContext.h"
-#import "LSTracer.h"
-#import "LSUtil.h"
+#import "LSTPSpan.h"
+#import "LSTPSpanContext.h"
+#import "LSTPTracer.h"
+#import "LSTPUtil.h"
 
-#pragma mark - LSSpan
+#pragma mark - LSTPSpan
 
-@interface LSLog : NSObject
+@interface LSTPLog : NSObject
 
 @property (nonatomic, readonly) NSDate* timestamp;
 @property (nonatomic, readonly) NSDictionary<NSString*, NSObject*>* fields;
@@ -15,7 +15,7 @@
 
 @end
 
-@implementation LSLog
+@implementation LSTPLog
 
 - (instancetype) initWithTimestamp:(NSDate*)timestamp
                             fields:(NSDictionary<NSString*, NSObject*>*)fields {
@@ -31,24 +31,24 @@
     NSMutableDictionary<NSString*, NSObject*>* outputFields = [NSMutableDictionary<NSString*, NSObject*> dictionary];
     outputFields[@"timestamp_micros"] = @([self.timestamp toMicros]);
     if (self.fields.count > 0) {
-        outputFields[@"fields"] = [LSUtil keyValueArrayFromDictionary:self.fields];
+        outputFields[@"fields"] = [LSTPUtil keyValueArrayFromDictionary:self.fields];
     }
     return outputFields;
 }
 
 @end
 
-@implementation LSSpan {
-    LSTracer* m_tracer;
-    LSSpanContext* m_ctx;
-    LSSpanContext* m_parent;
+@implementation LSTPSpan {
+    LSTPTracer* m_tracer;
+    LSTPSpanContext* m_ctx;
+    LSTPSpanContext* m_parent;
     NSString* m_operationName;
     NSDate* m_startTime;
-    NSMutableArray<LSLog*>* m_logs;
+    NSMutableArray<LSTPLog*>* m_logs;
     NSMutableDictionary* m_tags;
 }
 
-- (instancetype) initWithTracer:(LSTracer*)client {
+- (instancetype) initWithTracer:(LSTPTracer*)client {
     return [self initWithTracer:client
                   operationName:@""
                          parent:nil
@@ -56,9 +56,9 @@
                       startTime:nil];
 }
 
-- (instancetype) initWithTracer:(LSTracer*)tracer
+- (instancetype) initWithTracer:(LSTPTracer*)tracer
                   operationName:(NSString*)operationName
-                         parent:(nullable LSSpanContext*)parent
+                         parent:(nullable LSTPSpanContext*)parent
                            tags:(nullable NSDictionary*)tags
                       startTime:(nullable NSDate*)startTime {
     if (self = [super init]) {
@@ -71,12 +71,12 @@
         if (startTime == nil) {
             m_startTime = [NSDate date];
         }
-        UInt64 traceId = (parent == nil) ? [LSUtil generateGUID] : parent.traceId;
-        UInt64 spanId = [LSUtil generateGUID];
+        UInt64 traceId = (parent == nil) ? [LSTPUtil generateGUID] : parent.traceId;
+        UInt64 spanId = [LSTPUtil generateGUID];
         if (parent != nil) {
             self->m_parent = parent;
         }
-        self->m_ctx = [[LSSpanContext alloc] initWithTraceId:traceId spanId:spanId baggage:parent._baggage];
+        self->m_ctx = [[LSTPSpanContext alloc] initWithTraceId:traceId spanId:spanId baggage:parent._baggage];
 
         [self _addTags:tags];
     }
@@ -129,11 +129,11 @@
         fields[@"event"] = eventName;
     }
     if (payload != nil) {
-        NSString* payloadJSON = [LSUtil objectToJSONString:payload
+        NSString* payloadJSON = [LSTPUtil objectToJSONString:payload
                                                  maxLength:[m_tracer maxPayloadJSONLength]];
         fields[@"payload_json"] = payloadJSON;
     }
-    [self _appendLog:[[LSLog alloc] initWithTimestamp:timestamp fields:fields]];
+    [self _appendLog:[[LSTPLog alloc] initWithTimestamp:timestamp fields:fields]];
 }
 
 - (void)log:(NSDictionary<NSString*, NSObject*>*)fields {
@@ -146,13 +146,13 @@
     if (![m_tracer enabled]) {
         return;
     }
-    [self _appendLog:[[LSLog alloc] initWithTimestamp:timestamp fields:fields]];
+    [self _appendLog:[[LSTPLog alloc] initWithTimestamp:timestamp fields:fields]];
 }
 
-- (void)_appendLog:(LSLog*)log {
+- (void)_appendLog:(LSTPLog*)log {
     @synchronized(self) {
         if (m_logs == nil) {
-            m_logs = [NSMutableArray<LSLog*> array];
+            m_logs = [NSMutableArray<LSTPLog*> array];
         }
         [m_logs addObject:log];
     }
@@ -206,7 +206,7 @@
     int64_t now = [[NSDate date] toMicros];
     NSString* fmt = @"https://app.lightstep.com/%@/trace?span_guid=%@&at_micros=%@";
     NSString* accessToken = [[m_tracer accessToken] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSString* guid = [[LSUtil hexGUID:m_ctx.spanId] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString* guid = [[LSTPUtil hexGUID:m_ctx.spanId] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSString* urlStr = [NSString stringWithFormat:fmt, accessToken, guid, @(now)];
     return [NSURL URLWithString:urlStr];
 }
@@ -216,11 +216,11 @@
  */
 - (NSDictionary*)_toJSON:(NSDate*)finishTime {
     NSMutableArray<NSDictionary*>* logs = [NSMutableArray arrayWithCapacity:m_logs.count];
-    for (LSLog *l in m_logs) {
+    for (LSTPLog *l in m_logs) {
         [logs addObject:[l toJSON:m_tracer.maxPayloadJSONLength]];
     }
     
-    NSMutableArray* attributes = [LSUtil keyValueArrayFromDictionary:m_tags];
+    NSMutableArray* attributes = [LSTPUtil keyValueArrayFromDictionary:m_tags];
     if (m_parent != nil) {
         [attributes addObject:@{@"Key": @"parent_span_guid", @"Value": m_parent.hexSpanId}];
     }
