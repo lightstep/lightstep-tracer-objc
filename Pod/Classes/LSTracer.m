@@ -12,15 +12,14 @@ static NSString *const LSDefaultBaseURLString = @"https://collector.lightstep.co
 static const int LSDefaultFlushIntervalSeconds = 30;
 static const NSUInteger LSDefaultMaxBufferedSpans = 5000;
 static const NSUInteger LSDefaultMaxPayloadJSONLength = 32 * 1024;
-static const NSUInteger LSMaxRequestSize = 1024*1024*4;  // 4MB
+static const NSUInteger LSMaxRequestSize = 1024 * 1024 * 4; // 4MB
 NSInteger const LSBackgroundTaskError = 1;
 NSInteger const LSRequestTooLargeError = 2;
 NSString *const LSErrorDomain = @"com.lightstep";
 
-
 #pragma mark - Private properties
 
-@interface LSTracer()
+@interface LSTracer ()
 @property(nonatomic, strong) NSMutableArray<NSDictionary *> *pendingJSONSpans;
 @property(nonatomic, strong, readonly) NSDictionary<NSString *, NSString *> *tracerJSON;
 @property(nonatomic, strong, readonly) LSClockState *clockState;
@@ -32,22 +31,20 @@ NSString *const LSErrorDomain = @"com.lightstep";
 @property(nonatomic) UIBackgroundTaskIdentifier bgTaskId;
 @end
 
-
 #pragma mark - Tracer implementation
 
 @implementation LSTracer
 
-- (instancetype) initWithToken:(NSString*)accessToken
-                 componentName:(NSString*)componentName
-                       baseURL:(NSURL*)baseURL
-          flushIntervalSeconds:(NSUInteger)flushIntervalSeconds
-{
+- (instancetype)initWithToken:(NSString *)accessToken
+                componentName:(NSString *)componentName
+                      baseURL:(NSURL *)baseURL
+         flushIntervalSeconds:(NSUInteger)flushIntervalSeconds {
     if (self = [super init]) {
         _accessToken = accessToken;
         _runtimeGuid = [LSUtil generateGUID];
         _maxSpanRecords = LSDefaultMaxBufferedSpans;
         _maxPayloadJSONLength = LSDefaultMaxPayloadJSONLength;
-        _pendingJSONSpans = [NSMutableArray<NSDictionary*> array];
+        _pendingJSONSpans = [NSMutableArray<NSDictionary *> array];
         _flushQueue = dispatch_queue_create("com.lightstep.flush_queue", DISPATCH_QUEUE_SERIAL);
         _flushTimer = nil;
         _enabled = true;
@@ -58,11 +55,11 @@ NSString *const LSErrorDomain = @"com.lightstep";
         _tracerJSON = @{
             @"guid": [LSUtil hexGUID:_runtimeGuid],
             @"attrs": [LSUtil keyValueArrayFromDictionary:@{
-                    @"lightstep.tracer_platform": @"ios",
-                    @"lightstep.tracer_platform_version": [[UIDevice currentDevice] systemVersion],
-                    @"lightstep.tracer_version": LS_TRACER_VERSION,
-                    @"lightstep.component_name": componentName,
-                    @"device_model": [[UIDevice currentDevice] model]
+                @"lightstep.tracer_platform": @"ios",
+                @"lightstep.tracer_platform_version": [[UIDevice currentDevice] systemVersion],
+                @"lightstep.tracer_version": LS_TRACER_VERSION,
+                @"lightstep.component_name": componentName,
+                @"device_model": [[UIDevice currentDevice] model]
             }]
         };
 
@@ -71,104 +68,93 @@ NSString *const LSErrorDomain = @"com.lightstep";
     return self;
 }
 
-- (instancetype) initWithToken:(NSString*)accessToken
-                 componentName:(nullable NSString*)componentName
-          flushIntervalSeconds:(NSUInteger)flushIntervalSeconds {
+- (instancetype)initWithToken:(NSString *)accessToken
+                componentName:(nullable NSString *)componentName
+         flushIntervalSeconds:(NSUInteger)flushIntervalSeconds {
     return [self initWithToken:accessToken
                  componentName:componentName
                        baseURL:nil
           flushIntervalSeconds:flushIntervalSeconds];
 }
 
-- (instancetype) initWithToken:(NSString*)accessToken
-                    componentName:(NSString*)componentName {
+- (instancetype)initWithToken:(NSString *)accessToken componentName:(NSString *)componentName {
     return [self initWithToken:accessToken
                  componentName:componentName
                        baseURL:nil
           flushIntervalSeconds:LSDefaultFlushIntervalSeconds];
 }
 
-- (instancetype) initWithToken:(NSString*)accessToken {
-    NSString* bundleName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
+- (instancetype)initWithToken:(NSString *)accessToken {
+    NSString *bundleName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleNameKey];
     return [self initWithToken:accessToken componentName:bundleName];
 }
 
-- (id<OTSpan>)startSpan:(NSString*)operationName {
+- (id<OTSpan>)startSpan:(NSString *)operationName {
     return [self startSpan:operationName childOf:nil tags:nil startTime:[NSDate date]];
 }
 
-- (id<OTSpan>)startSpan:(NSString*)operationName
-                   tags:(NSDictionary*)tags {
+- (id<OTSpan>)startSpan:(NSString *)operationName tags:(NSDictionary *)tags {
     return [self startSpan:operationName childOf:nil tags:tags startTime:[NSDate date]];
 }
 
-- (id<OTSpan>)startSpan:(NSString*)operationName
-                childOf:(id<OTSpanContext>)parent {
-    return [self startSpan:operationName childOf:parent tags:nil  startTime:[NSDate date]];
+- (id<OTSpan>)startSpan:(NSString *)operationName childOf:(id<OTSpanContext>)parent {
+    return [self startSpan:operationName childOf:parent tags:nil startTime:[NSDate date]];
 }
 
-- (id<OTSpan>)startSpan:(NSString*)operationName
-                childOf:(id<OTSpanContext>)parent
-                   tags:(NSDictionary*)tags {
+- (id<OTSpan>)startSpan:(NSString *)operationName childOf:(id<OTSpanContext>)parent tags:(NSDictionary *)tags {
     return [self startSpan:operationName childOf:parent tags:tags startTime:[NSDate date]];
 }
 
-- (id<OTSpan>)startSpan:(NSString*)operationName
+- (id<OTSpan>)startSpan:(NSString *)operationName
                 childOf:(id<OTSpanContext>)parent
-                   tags:(NSDictionary*)tags
-              startTime:(NSDate*)startTime {
-    return [self startSpan:operationName
-                references:@[[OTReference childOf:parent]]
-                      tags:tags
-                 startTime:startTime];
+                   tags:(NSDictionary *)tags
+              startTime:(NSDate *)startTime {
+    return [self startSpan:operationName references:@[[OTReference childOf:parent]] tags:tags startTime:startTime];
 }
 
-- (id<OTSpan>)startSpan:(NSString*)operationName
-             references:(NSArray*)references
-                   tags:(NSDictionary*)tags
-              startTime:(NSDate*)startTime {
-    LSSpanContext* parent = nil;
+- (id<OTSpan>)startSpan:(NSString *)operationName
+             references:(NSArray *)references
+                   tags:(NSDictionary *)tags
+              startTime:(NSDate *)startTime {
+    LSSpanContext *parent = nil;
     if (references != nil) {
-        for (OTReference* ref in references) {
+        for (OTReference *ref in references) {
             if (ref != nil &&
-                    ([ref.type isEqualToString:OTReferenceChildOf] ||
-                     [ref.type isEqualToString:OTReferenceFollowsFrom])) {
-                parent = (LSSpanContext*)ref.referencedContext;
+                ([ref.type isEqualToString:OTReferenceChildOf] || [ref.type isEqualToString:OTReferenceFollowsFrom])) {
+                parent = (LSSpanContext *)ref.referencedContext;
             }
         }
     }
     // No locking required
-    return [[LSSpan alloc] initWithTracer:self
-                            operationName:operationName
-                                   parent:parent
-                                     tags:tags
-                                startTime:startTime];
+    return [[LSSpan alloc] initWithTracer:self operationName:operationName parent:parent tags:tags startTime:startTime];
     return nil;
 }
 
-- (BOOL)inject:(id<OTSpanContext>)span format:(NSString*)format carrier:(id)carrier {
+- (BOOL)inject:(id<OTSpanContext>)span format:(NSString *)format carrier:(id)carrier {
     return [self inject:span format:format carrier:carrier error:nil];
 }
 
 // These strings are used for TextMap inject and join.
-static NSString* kBasicTracerStatePrefix   = @"ot-tracer-";
-static NSString* kTraceIdKey               = @"ot-tracer-traceid";
-static NSString* kSpanIdKey                = @"ot-tracer-spanid";
-static NSString* kSampledKey               = @"ot-tracer-sampled";
-static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
+static NSString *kBasicTracerStatePrefix = @"ot-tracer-";
+static NSString *kTraceIdKey = @"ot-tracer-traceid";
+static NSString *kSpanIdKey = @"ot-tracer-spanid";
+static NSString *kSampledKey = @"ot-tracer-sampled";
+static NSString *kBasicTracerBaggagePrefix = @"ot-baggage-";
 
-- (BOOL)inject:(id<OTSpanContext>)spanContext format:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError {
-    LSSpanContext *ctx = (LSSpanContext*)spanContext;
-    if ([format isEqualToString:OTFormatTextMap] ||
-        [format isEqualToString:OTFormatHTTPHeaders]) {
+- (BOOL)inject:(id<OTSpanContext>)spanContext
+        format:(NSString *)format
+       carrier:(id)carrier
+         error:(NSError *__autoreleasing *)outError {
+    LSSpanContext *ctx = (LSSpanContext *)spanContext;
+    if ([format isEqualToString:OTFormatTextMap] || [format isEqualToString:OTFormatHTTPHeaders]) {
         NSMutableDictionary *dict = carrier;
         [dict setObject:ctx.hexTraceId forKey:kTraceIdKey];
         [dict setObject:ctx.hexSpanId forKey:kSpanIdKey];
         [dict setObject:@"true" forKey:kSampledKey];
         // TODO: HTTP headers require special treatment here.
-        [ctx forEachBaggageItem:^BOOL (NSString* key, NSString* val) {
-            [dict setObject:val forKey:key];
-            return true;
+        [ctx forEachBaggageItem:^BOOL(NSString *key, NSString *val) {
+          [dict setObject:val forKey:key];
+          return true;
         }];
         return true;
     } else if ([format isEqualToString:OTFormatBinary]) {
@@ -185,27 +171,31 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     }
 }
 
-- (id<OTSpanContext>)extractWithFormat:(NSString*)format carrier:(id)carrier {
+- (id<OTSpanContext>)extractWithFormat:(NSString *)format carrier:(id)carrier {
     return [self extractWithFormat:format carrier:carrier error:nil];
 }
 
-- (id<OTSpanContext>)extractWithFormat:(NSString*)format carrier:(id)carrier error:(NSError* __autoreleasing *)outError {
+- (id<OTSpanContext>)extractWithFormat:(NSString *)format
+                               carrier:(id)carrier
+                                 error:(NSError *__autoreleasing *)outError {
     if ([format isEqualToString:OTFormatTextMap]) {
         NSMutableDictionary *dict = carrier;
         NSMutableDictionary *baggage;
         int foundRequiredFields = 0;
         UInt64 traceId = 0;
         UInt64 spanId = 0;
-        for (NSString* key in dict) {
+        for (NSString *key in dict) {
             if ([key hasPrefix:kBasicTracerBaggagePrefix]) {
-                [baggage setObject:[dict objectForKey:key] forKey:[key substringFromIndex:kBasicTracerBaggagePrefix.length]];
+                [baggage setObject:[dict objectForKey:key]
+                            forKey:[key substringFromIndex:kBasicTracerBaggagePrefix.length]];
             } else if ([key hasPrefix:kBasicTracerStatePrefix]) {
                 if ([key isEqualToString:kTraceIdKey]) {
                     foundRequiredFields++;
                     traceId = [LSUtil guidFromHex:[dict objectForKey:key]];
                     if (traceId == 0) {
                         if (outError != nil) {
-                            *outError = [NSError errorWithDomain:OTErrorDomain code:OTSpanContextCorruptedCode userInfo:nil];
+                            *outError =
+                                [NSError errorWithDomain:OTErrorDomain code:OTSpanContextCorruptedCode userInfo:nil];
                         }
                         return nil;
                     }
@@ -214,7 +204,8 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
                     spanId = [LSUtil guidFromHex:[dict objectForKey:key]];
                     if (spanId == 0) {
                         if (outError != nil) {
-                            *outError = [NSError errorWithDomain:OTErrorDomain code:OTSpanContextCorruptedCode userInfo:nil];
+                            *outError =
+                                [NSError errorWithDomain:OTErrorDomain code:OTSpanContextCorruptedCode userInfo:nil];
                         }
                         return nil;
                     }
@@ -248,7 +239,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     }
 }
 
-- (void) _appendSpanJSON:(NSDictionary*)spanJSON {
+- (void)_appendSpanJSON:(NSDictionary *)spanJSON {
     @synchronized(self) {
         if (!self.enabled) {
             return;
@@ -261,7 +252,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
 }
 
 // Establish the m_flushTimer ticker.
-- (void) _forkFlushLoop:(NSUInteger)flushIntervalSeconds {
+- (void)_forkFlushLoop:(NSUInteger)flushIntervalSeconds {
     @synchronized(self) {
         if (!self.enabled) {
             // Noop.
@@ -275,18 +266,17 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
         if (!self.flushTimer) {
             return;
         }
-        dispatch_source_set_timer(self.flushTimer, DISPATCH_TIME_NOW,
-                                  flushIntervalSeconds * NSEC_PER_SEC,
+        dispatch_source_set_timer(self.flushTimer, DISPATCH_TIME_NOW, flushIntervalSeconds * NSEC_PER_SEC,
                                   NSEC_PER_SEC);
         __weak __typeof(self) weakSelf = self;
         dispatch_source_set_event_handler(self.flushTimer, ^{
-            [weakSelf flush:nil];
+          [weakSelf flush:nil];
         });
         dispatch_resume(self.flushTimer);
     }
 }
 
-- (void) flush:(void (^)(NSError * _Nullable error))doneCallback {
+- (void)flush:(void (^)(NSError *_Nullable error))doneCallback {
     if (!self.enabled) {
         // Short-circuit.
         return;
@@ -304,25 +294,25 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     // extant at any given moment, and thus it's safe to store the background
     // task id in _bgTaskId.
     __weak __typeof(self) weakSelf = self;
-    void (^cleanupBlock)(BOOL, NSError* _Nullable) = ^(BOOL endBackgroundTask, NSError* _Nullable error) {
-        if (endBackgroundTask) {
-            [weakSelf _endBackgroundTask];
-        }
-        if (doneCallback) {
-            doneCallback(error);
-        }
+    void (^cleanupBlock)(BOOL, NSError *_Nullable) = ^(BOOL endBackgroundTask, NSError *_Nullable error) {
+      if (endBackgroundTask) {
+          [weakSelf _endBackgroundTask];
+      }
+      if (doneCallback) {
+          doneCallback(error);
+      }
     };
-
 
     NSMutableDictionary *reqJSON;
     @synchronized(self) {
-        NSDate* now = [NSDate date];
+        NSDate *now = [NSDate date];
         if (self.pendingJSONSpans.count == 0) {
             // Nothing to report.
             return;
         }
 
-        // reqJSON spec: https://github.com/lightstep/lightstep-tracer-go/blob/40cbd138e6901f0dafdd0cccabb6fc7c5a716efb/lightstep_thrift/ttypes.go#L2586
+        // reqJSON spec:
+        // https://github.com/lightstep/lightstep-tracer-go/blob/40cbd138e6901f0dafdd0cccabb6fc7c5a716efb/lightstep_thrift/ttypes.go#L2586
         reqJSON = [NSMutableDictionary dictionary];
         reqJSON[@"timestamp_offset_micros"] = @(self.clockState.offsetMicros);
         reqJSON[@"runtime"] = self.tracerJSON;
@@ -330,13 +320,14 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
         reqJSON[@"oldest_micros"] = @([self.lastFlush toMicros]);
         reqJSON[@"youngest_micros"] = @([now toMicros]);
 
-        self.pendingJSONSpans = [NSMutableArray<NSDictionary*> array];
+        self.pendingJSONSpans = [NSMutableArray<NSDictionary *> array];
         self.lastFlush = now;
 
         self.bgTaskId = [[UIApplication sharedApplication]
-                      beginBackgroundTaskWithName:@"com.lightstep.flush"
+            beginBackgroundTaskWithName:@"com.lightstep.flush"
                       expirationHandler:^{
-                          cleanupBlock(true, [NSError errorWithDomain:LSErrorDomain code:LSBackgroundTaskError userInfo:nil]);
+                        cleanupBlock(true,
+                                     [NSError errorWithDomain:LSErrorDomain code:LSBackgroundTaskError userInfo:nil]);
                       }];
         if (self.bgTaskId == UIBackgroundTaskInvalid) {
             NSLog(@"unable to enter the background, so skipping flush");
@@ -346,10 +337,11 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     }
 
     NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    sessionConfiguration.HTTPAdditionalHeaders = @{@"LightStep-Access-Token": self.accessToken,
-                                                   @"Content-Type": @"application/json"};
+    sessionConfiguration.HTTPAdditionalHeaders =
+        @{ @"LightStep-Access-Token": self.accessToken,
+           @"Content-Type": @"application/json" };
     NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
-    NSString* reqBody = [LSUtil objectToJSONString:reqJSON maxLength:LSMaxRequestSize];
+    NSString *reqBody = [LSUtil objectToJSONString:reqJSON maxLength:LSMaxRequestSize];
     if (reqBody == nil) {
         cleanupBlock(true, [NSError errorWithDomain:LSErrorDomain code:LSRequestTooLargeError userInfo:nil]);
     }
@@ -357,35 +349,39 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
     request.HTTPBody = [reqBody dataUsingEncoding:NSUTF8StringEncoding];
     request.HTTPMethod = @"POST";
     SInt64 originMicros = [LSClockState nowMicros];
-    NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        @try {
-            __typeof(self) strongSelf = weakSelf;
-            SInt64 destinationMicros = [LSClockState nowMicros];
-            NSError* jsonError;
-            NSDictionary* responseJSON = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
-            if (jsonError == nil) {
-                if ([responseJSON objectForKey:@"timing"] != nil) {
-                    NSDictionary* timingJSON = [responseJSON objectForKey:@"timing"];
-                    NSNumber* receiveMicros = [timingJSON objectForKey:@"receive_micros"];
-                    NSNumber* transmitMicros = [timingJSON objectForKey:@"transmit_micros"];
+    NSURLSessionDataTask *postDataTask =
+        [session dataTaskWithRequest:request
+                   completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                     @try {
+                         __typeof(self) strongSelf = weakSelf;
+                         SInt64 destinationMicros = [LSClockState nowMicros];
+                         NSError *jsonError;
+                         NSDictionary *responseJSON =
+                             [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
+                         if (jsonError == nil) {
+                             if ([responseJSON objectForKey:@"timing"] != nil) {
+                                 NSDictionary *timingJSON = [responseJSON objectForKey:@"timing"];
+                                 NSNumber *receiveMicros = [timingJSON objectForKey:@"receive_micros"];
+                                 NSNumber *transmitMicros = [timingJSON objectForKey:@"transmit_micros"];
 
-                    if (receiveMicros != nil && transmitMicros != nil) {
-                        // Update our local NTP-lite clock state with the latest measurements.
-                        [strongSelf.clockState addSampleWithOriginMicros:originMicros
-                                                              receiveMicros:receiveMicros.longLongValue
-                                                             transmitMicros:transmitMicros.longLongValue
-                                                          destinationMicros:destinationMicros];
-                    }
-                }
-            }
-        }
-        @catch (NSException *e) {
-            NSLog(@"Caught exception in LightStep reporting response; dropping data. Exception: %@", e);
-        }
-        @finally {
-            cleanupBlock(true, error);
-        }
-    }];
+                                 if (receiveMicros != nil && transmitMicros != nil) {
+                                     // Update our local NTP-lite clock state with the latest
+                                     // measurements.
+                                     [strongSelf.clockState addSampleWithOriginMicros:originMicros
+                                                                        receiveMicros:receiveMicros.longLongValue
+                                                                       transmitMicros:transmitMicros.longLongValue
+                                                                    destinationMicros:destinationMicros];
+                                 }
+                             }
+                         }
+                     } @catch (NSException *e) {
+                         NSLog(@"Caught exception in LightStep reporting response; dropping "
+                               @"data. Exception: %@",
+                               e);
+                     } @finally {
+                         cleanupBlock(true, error);
+                     }
+                   }];
     // "Start" (resume) the HTTP activity.
     [postDataTask resume];
 }
@@ -393,8 +389,7 @@ static NSString* kBasicTracerBaggagePrefix = @"ot-baggage-";
 // Called by flush() callbacks on a failed report.
 //
 // Note: do not call directly from outside flush().
-- (void) _endBackgroundTask
-{
+- (void)_endBackgroundTask {
     @synchronized(self) {
         if (self.bgTaskId != UIBackgroundTaskInvalid) {
             [[UIApplication sharedApplication] endBackgroundTask:self.bgTaskId];

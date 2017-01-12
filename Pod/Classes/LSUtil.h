@@ -4,9 +4,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class GPBTimestamp;
 
-
 /// Shared, generic utility functions used across the library.
-@interface LSUtil: NSObject
+@interface LSUtil : NSObject
 
 + (UInt64)generateGUID;
 + (NSString *)hexGUID:(UInt64)guid;

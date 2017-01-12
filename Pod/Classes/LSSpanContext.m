@@ -11,9 +11,7 @@
 
 @implementation LSSpanContext
 
-- (instancetype)initWithTraceId:(UInt64)traceId
-                         spanId:(UInt64)spanId
-                        baggage:(nullable NSDictionary*)baggage {
+- (instancetype)initWithTraceId:(UInt64)traceId spanId:(UInt64)spanId baggage:(nullable NSDictionary *)baggage {
     if (self = [super init]) {
         _traceId = traceId;
         _spanId = spanId;
@@ -22,30 +20,29 @@
     return self;
 }
 
-- (LSSpanContext*)withBaggageItem:(NSString*)key value:(NSString*)value {
-    NSMutableDictionary* baggageCopy = [self.baggage mutableCopy];
+- (LSSpanContext *)withBaggageItem:(NSString *)key value:(NSString *)value {
+    NSMutableDictionary *baggageCopy = [self->m_baggage mutableCopy];
     [baggageCopy setObject:value forKey:key];
     return [[LSSpanContext alloc] initWithTraceId:self.traceId spanId:self.spanId baggage:baggageCopy];
 }
 
-
-- (NSString*)getBaggageItem:(NSString*)key {
-    return (NSString*)[self.baggage objectForKey:key];
+- (NSString *)getBaggageItem:(NSString *)key {
+    return (NSString *)[m_baggage objectForKey:key];
 }
 
-- (void)forEachBaggageItem:(BOOL (^) (NSString* key, NSString* value))callback {
-    for (NSString* key in self.baggage) {
-        if (!callback(key, [self.baggage objectForKey:key])) {
+- (void)forEachBaggageItem:(BOOL (^)(NSString *key, NSString *value))callback {
+    for (NSString *key in m_baggage) {
+        if (!callback(key, [m_baggage objectForKey:key])) {
             return;
         }
     }
 }
 
-- (NSString*)hexTraceId {
+- (NSString *)hexTraceId {
     return [LSUtil hexGUID:self.traceId];
 }
 
-- (NSString*)hexSpanId {
+- (NSString *)hexSpanId {
     return [LSUtil hexGUID:self.spanId];
 }
 

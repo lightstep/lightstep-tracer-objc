@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
-#import <opentracing/OTTracer.h>
 #import "LSSpan.h"
+#import <opentracing/OTTracer.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -25,7 +25,7 @@ extern NSInteger const LSBackgroundTaskError;
  *
  * @see OTGlobal
  */
-@interface LSTracer: NSObject<OTTracer>
+@interface LSTracer : NSObject<OTTracer>
 
 #pragma mark - LSTracer initialization
 
@@ -41,8 +41,7 @@ extern NSInteger const LSBackgroundTaskError;
  *
  * @return An `LSTracer` instance that's ready to create spans and logs.
  */
-- (instancetype)initWithToken:(NSString *)accessToken
-                componentName:(nullable NSString *)componentName;
+- (instancetype)initWithToken:(NSString *)accessToken componentName:(nullable NSString *)componentName;
 
 /**
  * @see `-[LSTracer initWithToken:componentName:baseURL:flushIntervalSeconds:]` for parameter details.
@@ -79,11 +78,9 @@ extern NSInteger const LSBackgroundTaskError;
 
 - (id<OTSpan>)startSpan:(NSString *)operationName;
 
-- (id<OTSpan>)startSpan:(NSString *)operationName
-                   tags:(nullable NSDictionary *)tags;
+- (id<OTSpan>)startSpan:(NSString *)operationName tags:(nullable NSDictionary *)tags;
 
-- (id<OTSpan>)startSpan:(NSString *)operationName
-                childOf:(nullable id<OTSpanContext>)parentSpan;
+- (id<OTSpan>)startSpan:(NSString *)operationName childOf:(nullable id<OTSpanContext>)parentSpan;
 
 - (id<OTSpan>)startSpan:(NSString *)operationName
                 childOf:(nullable id<OTSpanContext>)parentSpan
@@ -99,44 +96,39 @@ extern NSInteger const LSBackgroundTaskError;
                    tags:(nullable NSDictionary *)tags
               startTime:(nullable NSDate *)startTime;
 
-
-- (BOOL)inject:(id<OTSpanContext>)span
-        format:(NSString *)format
-       carrier:(id)carrier;
+- (BOOL)inject:(id<OTSpanContext>)span format:(NSString *)format carrier:(id)carrier;
 
 - (BOOL)inject:(id<OTSpanContext>)span
         format:(NSString *)format
        carrier:(id)carrier
-         error:(NSError* __autoreleasing *)outError;
+         error:(NSError *__autoreleasing *)outError;
 
-
-- (id<OTSpanContext>)extractWithFormat:(NSString *)format
-                               carrier:(id)carrier;
+- (id<OTSpanContext>)extractWithFormat:(NSString *)format carrier:(id)carrier;
 
 - (id<OTSpanContext>)extractWithFormat:(NSString *)format
                                carrier:(id)carrier
-                                 error:(NSError* __autoreleasing *)outError;
+                                 error:(NSError *__autoreleasing *)outError;
 
 #pragma mark - LightStep extensions and internal methods
 
-
 /// The remote service base URL
-@property (nonatomic, readonly) NSURL *baseURL;
+@property(nonatomic, readonly) NSURL *baseURL;
 
 /// `LSTracer` instance's globally unique id ("guid"), and assigned automatically by LightStep.
-@property (nonatomic, readonly) UInt64 runtimeGuid;
+@property(nonatomic, readonly) UInt64 runtimeGuid;
 
 /// The `LSTracer` instance's maximum number of records to buffer between reports.
-@property (atomic) NSUInteger maxSpanRecords;
+@property(atomic) NSUInteger maxSpanRecords;
 
 /// Maximum string length of any single JSON payload.
-@property (atomic) NSUInteger maxPayloadJSONLength;
+@property(atomic) NSUInteger maxPayloadJSONLength;
 
-/// If true, the library is currently buffering and reporting data. If set to false, tracing data is no longer collected.
-@property (atomic) BOOL enabled;
+/// If true, the library is currently buffering and reporting data. If set to false, tracing data is no longer
+/// collected.
+@property(atomic) BOOL enabled;
 
 /// Tracer's access token
-@property (atomic, readonly) NSString *accessToken;
+@property(atomic, readonly) NSString *accessToken;
 
 /// Record a span.
 - (void)_appendSpanJSON:(NSDictionary *)spanRecord;

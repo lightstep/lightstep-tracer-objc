@@ -2,7 +2,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /// A straight port/copy of the `rl-cruntime-common` ClockState javascript prototype.
-@interface LSClockState: NSObject
+@interface LSClockState : NSObject
 
 /// A helper that returns the local timestamp in microseconds (since the unix epoch).
 + (SInt64)nowMicros;
@@ -27,7 +27,6 @@ NS_ASSUME_NONNULL_BEGIN
                     receiveMicros:(SInt64)receiveMicros
                    transmitMicros:(SInt64)transmitMicros
                 destinationMicros:(SInt64)destinationMicros;
-
 
 /// Force an update of the internal clock-skew machinery.
 - (void)update;

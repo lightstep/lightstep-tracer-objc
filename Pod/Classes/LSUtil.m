@@ -1,5 +1,5 @@
 #import "LSUtil.h"
-#import <stdlib.h>  // arc4random_uniform()
+#import <stdlib.h> // arc4random_uniform()
 
 @implementation LSUtil
 
@@ -20,7 +20,7 @@
     return rval;
 }
 
-+ (NSString*)objectToJSONString:(id)obj maxLength:(NSUInteger)maxLength {
++ (NSString *)objectToJSONString:(id)obj maxLength:(NSUInteger)maxLength {
     NSString *json = [LSUtil objectToJSONString:obj];
     if (json.length > maxLength) {
         NSLog(@"Dropping excessively large payload: length=%@", @(json.length));
@@ -28,7 +28,6 @@
     }
     return json;
 }
-
 
 #pragma mark - Private
 
@@ -46,7 +45,7 @@
         // Due to the nature of JSON and the assumption that NSJSONSerialization
         // will *not* inject unnecessary whitespace, the position of the encoded
         // object is fixed.
-        NSString *output = [LSUtil serializeToJSON:@{@"V":obj}];
+        NSString *output = [LSUtil serializeToJSON:@{ @"V": obj }];
         if (output == nil) {
             return output;
         }
@@ -82,14 +81,14 @@
     NSMutableArray *rval = [NSMutableArray arrayWithCapacity:dict.count];
     for (NSString *key in dict) {
         NSObject *val = dict[key];
-        [rval addObject:@{@"Key": key, @"Value": val.description}];
+        [rval addObject:@{ @"Key": key, @"Value": val.description }];
     }
     return rval;
 }
 
 @end
 
-@implementation NSDate(LSSpan)
+@implementation NSDate (LSSpan)
 - (int64_t)toMicros {
     return (int64_t)([self timeIntervalSince1970] * USEC_PER_SEC);
 }
