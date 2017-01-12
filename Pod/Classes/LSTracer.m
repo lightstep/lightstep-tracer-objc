@@ -13,9 +13,9 @@ static const int LSDefaultFlushIntervalSeconds = 30;
 static const NSUInteger LSDefaultMaxBufferedSpans = 5000;
 static const NSUInteger LSDefaultMaxPayloadJSONLength = 32 * 1024;
 static const NSUInteger LSMaxRequestSize = 1024*1024*4;  // 4MB
-const NSString *LSErrorDomain = @"com.lightstep";
-const NSInteger LSBackgroundTaskError = 1;
-const NSInteger LSRequestTooLargeError = 2;
+NSInteger const LSBackgroundTaskError = 1;
+NSInteger const LSRequestTooLargeError = 2;
+NSString *const LSErrorDomain = @"com.lightstep";
 
 
 #pragma mark - Private properties
