@@ -26,7 +26,7 @@
     return self;
 }
 
-- (NSDictionary*) toJSON:(int)maxPayloadJSONLength {
+- (NSDictionary*) toJSON:(NSUInteger)maxPayloadJSONLength {
     // outputFields spec: https://github.com/lightstep/lightstep-tracer-go/blob/3699758ec6e003d09bb521274c0cc01a798e45d7/lightstep_thrift/ttypes.go#L513
     NSMutableDictionary<NSString*, NSObject*>* outputFields = [NSMutableDictionary<NSString*, NSObject*> dictionary];
     outputFields[@"timestamp_micros"] = @([self.timestamp toMicros]);

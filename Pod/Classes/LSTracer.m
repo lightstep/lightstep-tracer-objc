@@ -8,7 +8,7 @@
 #import "LSUtil.h"
 #import "LSVersion.h"
 
-static const NSString *LSDefaultBaseURLString = @"https://collector.lightstep.com:443/api/v0/reports";
+static NSString *const LSDefaultBaseURLString = @"https://collector.lightstep.com:443/api/v0/reports";
 
 static const int kDefaultFlushIntervalSeconds = 30;
 static const NSUInteger kDefaultMaxBufferedSpans = 5000;
@@ -24,7 +24,7 @@ static LSTracer* s_sharedInstance = nil;
 @implementation LSTracer {
     NSString* m_accessToken;
     UInt64 m_runtimeGuid;
-    NSDictionary<NSString*, NSString*>* m_tracerJSON;
+    NSDictionary<NSString*, NSObject *>* m_tracerJSON;
     LSClockState* m_clockState;
 
     BOOL m_enabled;
@@ -48,7 +48,7 @@ static LSTracer* s_sharedInstance = nil;
         self->m_accessToken = accessToken;
         self->m_runtimeGuid = [LSUtil generateGUID];
 
-        NSMutableDictionary<NSString*, NSString*>* tracerJSON = [NSMutableDictionary<NSString*, NSString*> dictionary];
+        NSMutableDictionary<NSString*, NSObject *>* tracerJSON = @{}.mutableCopy;
         tracerJSON[@"guid"] = [LSUtil hexGUID:self->m_runtimeGuid];
         // All string-valued tags.
         NSDictionary* tracerTags = @{@"lightstep.tracer_platform": @"ios",
