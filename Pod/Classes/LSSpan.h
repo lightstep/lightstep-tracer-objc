@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - OpenTracing API
 
-@property(nonatomic, strong, readonly) id<OTSpanContext> context;
+@property(atomic, strong, readonly) LSSpanContext *context;
 @property(nonatomic, strong, readonly) LSTracer *tracer;
 @property(atomic, strong) NSString *operationName;
 
@@ -48,37 +48,22 @@ NS_ASSUME_NONNULL_BEGIN
                           tags:(nullable NSDictionary *)tags
                      startTime:(nullable NSDate *)startTime;
 
-@property(nonatomic, strong) NSDictionary *tags;
+@property(nonatomic, strong) NSDictionary<NSString *, NSString *> *tags;
 
 /// Add a set of tags from the given dictionary. Existing key-value pairs will
 /// be overwritten by any new tags.
-- (void)_addTags:(NSDictionary *)tags;
+- (void)addTags:(NSDictionary *)tags;
 
-@property(nonatomic, strong, readonly) NSDate *startTime;
-
-/// Internal function.
-/// Creates a new span associated with the given tracer.
-- (instancetype)initWithTracer:(LSTracer *)tracer;
-
-/// Internal function.
-/// Creates a new span associated with the given tracer and the other optional parameters.
-- (instancetype)initWithTracer:(LSTracer *)tracer
-                 operationName:(NSString *)operationName
-                        parent:(nullable id<OTSpanContext>)parent
-                          tags:(nullable NSDictionary<NSString *, NSString *> *)tags
-                     startTime:(nullable NSDate *)startTime;
-
-/// Get a particular tag.
-- (NSString*)tagForKey:(NSString *)key;
-
-///Generate a URL to the trace containing this span on LightStep.
-- (NSURL*)_generateTraceURL;
+///  Get a particular tag.
+- (NSString *)tagForKey:(NSString *)key;
 
 /// Generate a URL to the trace containing this span on LightStep.
-- (NSURL *)_generateTraceURL;
+- (NSURL *)traceURL;
 
 // For testing only
 - (NSDictionary *)_toJSONWithFinishTime:(NSDate *)finishTime;
+
+@property(nonatomic, strong, readonly) NSDate *startTime;
 
 @end
 NS_ASSUME_NONNULL_END

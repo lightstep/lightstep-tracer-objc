@@ -7,7 +7,6 @@
 const NSUInteger kMaxLength = 8192;
 
 @interface LightStepUnitTests : XCTestCase
-
 @end
 
 @implementation LightStepUnitTests {

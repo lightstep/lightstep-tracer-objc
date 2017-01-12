@@ -3,7 +3,6 @@
 #import "LSTracer.h"
 #import "LSUtil.h"
 
-
 #pragma mark - LSLog
 
 @interface LSLog : NSObject
@@ -36,17 +35,16 @@
 
 @end
 
-
 #pragma mark - LSSpan
 
 @interface LSSpan ()
 @property(nonatomic, strong) LSSpanContext *parent;
+@property(atomic, strong) LSSpanContext *context;
 @property(nonatomic, strong) NSMutableArray<LSLog *> *logs;
-@property(atomic, strong, readonly) NSMutableDictionary<NSString *, NSString *> *tags;
+@property(atomic, strong, readonly) NSMutableDictionary<NSString *, NSString *> *mutableTags;
 @end
 
 @implementation LSSpan
-@synthesize context = _context;
 
 - (instancetype)initWithTracer:(LSTracer *)client {
     return [self initWithTracer:client operationName:@"" parent:nil tags:nil startTime:nil];
@@ -60,17 +58,16 @@
     if (self = [super init]) {
         _tracer = tracer;
         _operationName = operationName;
-        _startTime = startTime;
-        _tags = [NSMutableDictionary dictionary];
-        _logs = [NSMutableArray<LSLog*> array];
+        _startTime = startTime ?: [NSDate date];
+        _logs = @[].mutableCopy;
+        _mutableTags = @{}.mutableCopy;
         _parent = parent;
-        _context = [[LSSpanContext alloc] initWithTraceId:parent.traceId ?: [LSUtil generateGUID]
-                                                   spanId:[LSUtil generateGUID]
-                                                  baggage:parent.baggage];
-        if (startTime == nil) {
-            _startTime = [NSDate date];
-        }
-        [self _addTags:tags];
+
+        UInt64 traceId = parent.traceId ?: [LSUtil generateGUID];
+        UInt64 spanId = [LSUtil generateGUID];
+        _context = [[LSSpanContext alloc] initWithTraceId:traceId spanId:spanId baggage:parent.baggage];
+
+        [self addTags:tags];
     }
     return self;
 }
@@ -80,7 +77,7 @@
 }
 
 - (void)setTag:(NSString *)key value:(NSString *)value {
-    [(NSMutableDictionary *)self.tags setObject:value forKey:key];
+    [self.mutableTags setObject:value forKey:key];
 }
 
 - (void)logEvent:(NSString *)eventName {
@@ -104,8 +101,7 @@
         fields[@"event"] = eventName;
     }
     if (payload != nil) {
-        NSString* payloadJSON = [LSUtil objectToJSONString:payload
-                                                 maxLength:[self.tracer maxPayloadJSONLength]];
+        NSString *payloadJSON = [LSUtil objectToJSONString:payload maxLength:[self.tracer maxPayloadJSONLength]];
         fields[@"payload_json"] = payloadJSON;
     }
     [self _appendLog:[[LSLog alloc] initWithTimestamp:timestamp fields:fields]];
@@ -124,11 +120,8 @@
     [self _appendLog:[[LSLog alloc] initWithTimestamp:timestamp fields:fields]];
 }
 
-- (void)_appendLog:(LSLog*)log {
-    // TODO: use gcd serial queue for this instead of @synchronized
-    @synchronized(self) {
-        [self.logs addObject:log];
-    }
+- (void)_appendLog:(LSLog *)log {
+    [self.logs addObject:log];
 }
 
 - (void)finish {
@@ -147,39 +140,27 @@
     [self.tracer _appendSpanJSON:spanJSON];
 }
 
-- (LSSpanContext *)context {
-    return (LSSpanContext *)_context;
-}
-
 - (id<OTSpan>)setBaggageItem:(NSString *)key value:(NSString *)value {
-    @synchronized(self) {
-        _context = [(LSSpanContext *)self.context withBaggageItem:key value:value];
-    }
+    self.context = [self.context withBaggageItem:key value:value];
     return self;
 }
 
 - (NSString *)getBaggageItem:(NSString *)key {
-    @synchronized(self) {
-        return [(LSSpanContext *)self.context getBaggageItem:key];
-    }
+    return [self.context getBaggageItem:key];
 }
 
-- (void)_addTags:(NSDictionary *)tags {
+- (void)addTags:(NSDictionary *)tags {
     if (tags == nil) {
         return;
     }
-    @synchronized(self) {
-        [self.tags addEntriesFromDictionary:tags];
-    }
+    [self.mutableTags addEntriesFromDictionary:tags];
 }
 
-- (NSString*)_getTag:(NSString*)key {
-    @synchronized (self) {
-        return (NSString*)[self.tags objectForKey:key];
-    }
+- (NSString *)tagForKey:(NSString *)key {
+    return (NSString *)[self.mutableTags objectForKey:key];
 }
 
-- (NSURL *)_generateTraceURL {
+- (NSURL *)traceURL {
     int64_t now = [[NSDate date] toMicros];
     NSString *fmt = @"https://app.lightstep.com/%@/trace?span_guid=%@&at_micros=%@";
     NSString *accessToken = [[self.tracer accessToken] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -207,8 +188,8 @@
     // return value spec:
     // https://github.com/lightstep/lightstep-tracer-go/blob/40cbd138e6901f0dafdd0cccabb6fc7c5a716efb/lightstep_thrift/ttypes.go#L1247
     return @{
-        @"trace_guid": ((LSSpanContext *)self.context).hexTraceId,
-        @"span_guid": ((LSSpanContext *)self.context).hexSpanId,
+        @"trace_guid": self.context.hexTraceId,
+        @"span_guid": self.context.hexSpanId,
         @"span_name": self.operationName,
         @"oldest_micros": @([self.startTime toMicros]),
         @"youngest_micros": @([finishTime toMicros]),
