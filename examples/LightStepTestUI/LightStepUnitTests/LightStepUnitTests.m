@@ -79,15 +79,14 @@ const NSUInteger kMaxLength = 8192;
 - (void)testLSSpan {
     // Test timestamps, span context basics, and operation names.
     LSSpan* parent = (LSSpan*)[m_tracer startSpan:@"parent"];
-    NSDictionary* parentJSON;
+    NSDate* parentFinish = [NSDate date];
+    NSDictionary* parentJSON = [parent _toJSONWithFinishTime:parentFinish];
     {
-        NSDate* parentFinish = [NSDate date];
-        parentJSON = [parent _toJSON:parentFinish];
         XCTAssertNotNil(parentJSON[@"span_guid"]);
         XCTAssertNotNil(parentJSON[@"trace_guid"]);
         XCTAssertNotEqual(parentJSON[@"span_guid"], @(0));
         XCTAssertNotEqual(parentJSON[@"trace_guid"], @(0));
-        XCTAssertEqual(parentJSON[@"oldest_micros"], @([parent._startTime toMicros]));
+        XCTAssertEqual(parentJSON[@"oldest_micros"], @([parent.startTime toMicros]));
         XCTAssertEqual(parentJSON[@"youngest_micros"], @([parentFinish toMicros]));
         XCTAssertEqual(parentJSON[@"span_name"], @"parent");
     }
@@ -101,7 +100,7 @@ const NSUInteger kMaxLength = 8192;
     [child log:@{@"event": @(42), @"bar": @"baz"}];  // the "event" field name gets special treatment
     {
         NSDate* childFinish = [NSDate date];
-        NSDictionary* childJSON = [child _toJSON:childFinish];
+        NSDictionary* childJSON = [child _toJSONWithFinishTime:childFinish];
 
         XCTAssert([childJSON[@"trace_guid"] isEqualToString:parentJSON[@"trace_guid"]]);
         XCTAssertNotEqual(childJSON[@"span_guid"], @(0));

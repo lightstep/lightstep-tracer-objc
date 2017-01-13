@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-
 #import <opentracing/OTSpanContext.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -63,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The baggage dictionary (for internal use only).
  */
-@property (nonatomic, readonly) NSDictionary* _baggage;
+@property (nonatomic, readonly) NSDictionary* baggage;
 
 
 @end
