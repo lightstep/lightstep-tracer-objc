@@ -128,28 +128,41 @@ const NSUInteger kMaxLength = 8192;
         {
             // Check explicit timestamps.
             XCTAssertEqual(childLogs[0][@"timestamp_micros"], @(logTime.toMicros));
-            // Check that stable_name is populated properly.
-            XCTAssert([childLogs[0][@"stable_name"] isEqualToString:@"log1"]);
+            // Check that `event` is populated properly.
+            [self assertLogKV:childLogs[0] key:@"event" value:@"log1"];
             // Among other things, "event" is excluded from the payload_json.
-            XCTAssert([childLogs[0][@"payload_json"] isEqualToString:@"{\"foo\":\"bar\"}"]);
+            [self assertLogKV:childLogs[0] key:@"payload_json" value:@"{\"foo\":\"bar\"}"];
         }
         {
-            // Check that stable_name is populated properly.
-            XCTAssert([childLogs[1][@"stable_name"] isEqualToString:@"log2"]);
+            // Check that `event` is populated properly.
+            [self assertLogKV:childLogs[1] key:@"event" value:@"log2"];
             // There should be no payload.
-            XCTAssertNil(childLogs[1][@"payload_json"]);
+            [self assertLogKV:childLogs[1] key:@"payload_json" value:nil];
+        }
+
+        {
+            // There should be no `event` or `payload_json`:
+            [self assertLogKV:childLogs[2] key:@"event" value:nil];
+            [self assertLogKV:childLogs[2] key:@"payload_json" value:nil];
+            [self assertLogKV:childLogs[2] key:@"foo" value:@"42"];
+            [self assertLogKV:childLogs[2] key:@"bar" value:@"baz"];
         }
         {
-            // Check that stable_name is absent.
-            XCTAssertNil(childLogs[2][@"stable_name"]);
-            XCTAssert([childLogs[2][@"payload_json"] isEqualToString:@"{\"foo\":42,\"bar\":\"baz\"}"]);
+            [self assertLogKV:childLogs[3] key:@"event" value:@"42"];
+            [self assertLogKV:childLogs[3] key:@"bar" value:@"baz"];
         }
-        {
-            // Check that stable_name is converted to a string.
-            XCTAssert([childLogs[3][@"stable_name"] isEqualToString:@"42"]);
-            XCTAssert([childLogs[3][@"payload_json"] isEqualToString:@"{\"bar\":\"baz\"}"]);
+
+    }
+}
+
+- (void)assertLogKV:(NSDictionary*)logStruct key:(NSString*)key value:(NSString*)value {
+    for (NSDictionary* keyValuePair in logStruct[@"fields"]) {
+        if ([keyValuePair[@"Key"] isEqualToString:key]) {
+            XCTAssert([keyValuePair[@"Value"] isEqualToString:value]);
+            return;
         }
     }
+    XCTAssertNil(value);
 }
 
 - (void)testBaggage {
