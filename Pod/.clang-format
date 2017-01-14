@@ -3,6 +3,7 @@ BasedOnStyle: Chromium
 ColumnLimit: 120
 IndentWidth: 4
 KeepEmptyLinesAtTheStartOfBlocks: false
+ObjCBlockIndentWidth: 4
 PenaltyBreakFirstLessLess: 120
 PointerBindsToType: false
 SpacesBeforeTrailingComments: 1

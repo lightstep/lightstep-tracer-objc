@@ -153,8 +153,8 @@ static NSString *kBasicTracerBaggagePrefix = @"ot-baggage-";
         [dict setObject:@"true" forKey:kSampledKey];
         // TODO: HTTP headers require special treatment here.
         [ctx forEachBaggageItem:^BOOL(NSString *key, NSString *val) {
-          [dict setObject:val forKey:key];
-          return true;
+            [dict setObject:val forKey:key];
+            return true;
         }];
         return true;
     } else if ([format isEqualToString:OTFormatBinary]) {
@@ -270,7 +270,7 @@ static NSString *kBasicTracerBaggagePrefix = @"ot-baggage-";
                                   NSEC_PER_SEC);
         __weak __typeof(self) weakSelf = self;
         dispatch_source_set_event_handler(self.flushTimer, ^{
-          [weakSelf flush:nil];
+            [weakSelf flush:nil];
         });
         dispatch_resume(self.flushTimer);
     }
@@ -295,12 +295,12 @@ static NSString *kBasicTracerBaggagePrefix = @"ot-baggage-";
     // task id in _bgTaskId.
     __weak __typeof(self) weakSelf = self;
     void (^cleanupBlock)(BOOL, NSError *_Nullable) = ^(BOOL endBackgroundTask, NSError *_Nullable error) {
-      if (endBackgroundTask) {
-          [weakSelf _endBackgroundTask];
-      }
-      if (doneCallback) {
-          doneCallback(error);
-      }
+        if (endBackgroundTask) {
+            [weakSelf _endBackgroundTask];
+        }
+        if (doneCallback) {
+            doneCallback(error);
+        }
     };
 
     NSMutableDictionary *reqJSON;
@@ -326,8 +326,8 @@ static NSString *kBasicTracerBaggagePrefix = @"ot-baggage-";
         self.bgTaskId = [[UIApplication sharedApplication]
             beginBackgroundTaskWithName:@"com.lightstep.flush"
                       expirationHandler:^{
-                        cleanupBlock(true,
-                                     [NSError errorWithDomain:LSErrorDomain code:LSBackgroundTaskError userInfo:nil]);
+                          cleanupBlock(true,
+                                       [NSError errorWithDomain:LSErrorDomain code:LSBackgroundTaskError userInfo:nil]);
                       }];
         if (self.bgTaskId == UIBackgroundTaskInvalid) {
             NSLog(@"unable to enter the background, so skipping flush");
@@ -352,35 +352,35 @@ static NSString *kBasicTracerBaggagePrefix = @"ot-baggage-";
     NSURLSessionDataTask *postDataTask =
         [session dataTaskWithRequest:request
                    completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                     @try {
-                         __typeof(self) strongSelf = weakSelf;
-                         SInt64 destinationMicros = [LSClockState nowMicros];
-                         NSError *jsonError;
-                         NSDictionary *responseJSON =
-                             [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
-                         if (jsonError == nil) {
-                             if ([responseJSON objectForKey:@"timing"] != nil) {
-                                 NSDictionary *timingJSON = [responseJSON objectForKey:@"timing"];
-                                 NSNumber *receiveMicros = [timingJSON objectForKey:@"receive_micros"];
-                                 NSNumber *transmitMicros = [timingJSON objectForKey:@"transmit_micros"];
+                       @try {
+                           __typeof(self) strongSelf = weakSelf;
+                           SInt64 destinationMicros = [LSClockState nowMicros];
+                           NSError *jsonError;
+                           NSDictionary *responseJSON =
+                               [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
+                           if (jsonError == nil) {
+                               if ([responseJSON objectForKey:@"timing"] != nil) {
+                                   NSDictionary *timingJSON = [responseJSON objectForKey:@"timing"];
+                                   NSNumber *receiveMicros = [timingJSON objectForKey:@"receive_micros"];
+                                   NSNumber *transmitMicros = [timingJSON objectForKey:@"transmit_micros"];
 
-                                 if (receiveMicros != nil && transmitMicros != nil) {
-                                     // Update our local NTP-lite clock state with the latest
-                                     // measurements.
-                                     [strongSelf.clockState addSampleWithOriginMicros:originMicros
-                                                                        receiveMicros:receiveMicros.longLongValue
-                                                                       transmitMicros:transmitMicros.longLongValue
-                                                                    destinationMicros:destinationMicros];
-                                 }
-                             }
-                         }
-                     } @catch (NSException *e) {
-                         NSLog(@"Caught exception in LightStep reporting response; dropping "
-                               @"data. Exception: %@",
-                               e);
-                     } @finally {
-                         cleanupBlock(true, error);
-                     }
+                                   if (receiveMicros != nil && transmitMicros != nil) {
+                                       // Update our local NTP-lite clock state with the latest
+                                       // measurements.
+                                       [strongSelf.clockState addSampleWithOriginMicros:originMicros
+                                                                          receiveMicros:receiveMicros.longLongValue
+                                                                         transmitMicros:transmitMicros.longLongValue
+                                                                      destinationMicros:destinationMicros];
+                                   }
+                               }
+                           }
+                       } @catch (NSException *e) {
+                           NSLog(@"Caught exception in LightStep reporting response; dropping "
+                                 @"data. Exception: %@",
+                                 e);
+                       } @finally {
+                           cleanupBlock(true, error);
+                       }
                    }];
     // "Start" (resume) the HTTP activity.
     [postDataTask resume];
