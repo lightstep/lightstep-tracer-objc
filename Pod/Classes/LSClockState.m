@@ -97,13 +97,10 @@ static NSString *kSamplesKey = @"samples";
 }
 
 - (void)update {
-    // This is simplified version of the clock filtering in Simple
-    // NTP. It ignores precision and dispersion (frequency error). In
-    // brief, it keeps the 8 (kMaxOffsetAge+1) most recent
-    // delay-offset pairs, and considers the offset with the smallest
-    // delay to be the best one. However, it only uses this new offset
-    // if the change (relative to the last offset) is small compared
-    // to the estimated error.
+    // This is simplified version of the clock filtering in Simple NTP. It ignores precision and dispersion
+    // (frequency error). In brief, it keeps the 8 (kMaxOffsetAge+1) most recent delay-offset pairs, and considers
+    // the offset with the smallest delay to be the best one. However, it only uses this new offset if the
+    // change (relative to the last offset) is small compared to the estimated error.
     //
     // See:
     // https://tools.ietf.org/html/rfc5905#appendix-A.5.2
@@ -113,8 +110,7 @@ static NSString *kSamplesKey = @"samples";
     // http://www.eecis.udel.edu/~mills/database/brief/algor/algor.pdf
     // http://www.eecis.udel.edu/~mills/ntp/html/stats.html
     //
-    // TODO: Consider huff-n'-puff if we think the delays are highly
-    // asymmetric.
+    // TODO: Consider huff-n'-puff if we think the delays are highly asymmetric.
     // http://www.eecis.udel.edu/~mills/ntp/html/huffpuff.html
 
     // Find the sample with the smallest delay; the corresponding
@@ -134,8 +130,7 @@ static NSString *kSamplesKey = @"samples";
         return;
     }
 
-    // Now compute the jitter, i.e., the error relative to the new
-    // offset were we to use it.
+    // Now compute the jitter, i.e., the error relative to the new offset were we to use it.
     double jitter = 0;
     for (int i = 0; i < self.samples.count; i++) {
         LSSyncSample *curSamp = self.samples[i];
@@ -143,10 +138,8 @@ static NSString *kSamplesKey = @"samples";
     }
     jitter = sqrt(jitter / self.samples.count);
 
-    // Ignore spikes: only use the new offset if the change is not too
-    // large... unless the current offset is too old. The "too old"
-    // condition is also triggered when update() is called from the
-    // constructor.
+    // Ignore spikes: only use the new offset if the change is not too large... unless the current offset is too old.
+    // The "too old" condition is also triggered when update() is called from the constructor.
     static const int kSGATE = 3; // See RFC 5905
     if (self.currentOffsetAge > kMaxOffsetAge || llabs(self.currentOffsetMicros - bestOffsetMicros) < kSGATE * jitter) {
         self.currentOffsetMicros = bestOffsetMicros;
@@ -171,9 +164,8 @@ static NSString *kSamplesKey = @"samples";
     self.currentOffsetAge = kMaxOffsetAge + 1;
     NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultsKey];
     if (data != nil) {
-        // Check out this gem, which ends with an emphatic "*Do not use
-        // NSKeyedArchiver*":
-        //   http://stackoverflow.com/a/17301208/3399080
+        // Check out this gem, which ends with an emphatic "*Do not use NSKeyedArchiver*":
+        // http://stackoverflow.com/a/17301208/3399080
         @try {
             NSDictionary *dict = [NSKeyedUnarchiver unarchiveObjectWithData:data];
             NSNumber *tsMicros = [dict objectForKey:kTimestampMicrosKey];

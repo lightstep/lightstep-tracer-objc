@@ -17,8 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// An iterator for OTSpanContext baggage.
 ///
-/// If the callback returns false, iteration stops and forEachBaggageItem:
-/// returns early.
+/// If the callback returns false, iteration stops and forEachBaggageItem: returns early.
 - (void)forEachBaggageItem:(BOOL (^)(NSString *key, NSString *value))callback;
 
 #pragma mark - LightStep API

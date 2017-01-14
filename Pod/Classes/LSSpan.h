@@ -5,9 +5,8 @@ NS_ASSUME_NONNULL_BEGIN
 @class LSSpanContext;
 @class LSTracer;
 
-/// An `LSSpan` represents a logical unit of work done by the service. One or
-/// more spans – presumably from different processes – are assembled into
-/// traces.
+/// An `LSSpan` represents a logical unit of work done by the service.
+/// One or more spans – presumably from different processes – are assembled into traces.
 ///
 /// The LSSpan class is thread-safe.
 @interface LSSpan : NSObject<OTSpan>
@@ -40,8 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Internal function.
 ///
-/// Creates a new span associated with the given tracer and the other optional
-/// parameters.
+/// Creates a new span associated with the given tracer and the other optional parameters.
 - (instancetype)initWithTracer:(LSTracer *)tracer
                  operationName:(NSString *)operationName
                         parent:(nullable LSSpanContext *)parent
@@ -50,8 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, strong) NSDictionary<NSString *, NSString *> *tags;
 
-/// Add a set of tags from the given dictionary. Existing key-value pairs will
-/// be overwritten by any new tags.
+/// Add a set of tags from the given dictionary. Existing key-value pairs will be overwritten by any new tags.
 - (void)addTags:(NSDictionary *)tags;
 
 ///  Get a particular tag.
@@ -60,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Generate a URL to the trace containing this span on LightStep.
 - (NSURL *)traceURL;
 
-// For testing only
+/// For testing only
 - (NSDictionary *)_toJSONWithFinishTime:(NSDate *)finishTime;
 
 @property(nonatomic, strong, readonly) NSDate *startTime;
