@@ -39,6 +39,7 @@
 
 @interface LSSpan ()
 @property(nonatomic, strong) LSSpanContext *parent;
+@property(atomic, strong) NSString *operationName;
 @property(atomic, strong) LSSpanContext *context;
 @property(nonatomic, strong) NSMutableArray<LSLog *> *logs;
 @property(atomic, strong, readonly) NSMutableDictionary<NSString *, NSString *> *mutableTags;
