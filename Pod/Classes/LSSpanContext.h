@@ -13,13 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface LSSpanContext : NSObject<OTSpanContext>
 
-#pragma mark - OpenTracing API
-
-/// An iterator for OTSpanContext baggage.
-///
-/// If the callback returns false, iteration stops and forEachBaggageItem: returns early.
-- (void)forEachBaggageItem:(BOOL (^)(NSString *key, NSString *value))callback;
-
 #pragma mark - LightStep API
 
 - (instancetype)initWithTraceId:(UInt64)traceId spanId:(UInt64)spanId baggage:(nullable NSDictionary *)baggage;
