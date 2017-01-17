@@ -51,40 +51,6 @@ extern NSInteger const LSBackgroundTaskError;
                       baseURL:(nullable NSURL *)baseURL
          flushIntervalSeconds:(NSUInteger)flushIntervalSeconds;
 
-#pragma mark - OpenTracing API
-
-- (id<OTSpan>)startSpan:(NSString *)operationName;
-
-- (id<OTSpan>)startSpan:(NSString *)operationName tags:(nullable NSDictionary *)tags;
-
-- (id<OTSpan>)startSpan:(NSString *)operationName childOf:(nullable id<OTSpanContext>)parentSpan;
-
-- (id<OTSpan>)startSpan:(NSString *)operationName
-                childOf:(nullable id<OTSpanContext>)parentSpan
-                   tags:(nullable NSDictionary *)tags;
-
-- (id<OTSpan>)startSpan:(NSString *)operationName
-                childOf:(nullable id<OTSpanContext>)parentSpan
-                   tags:(nullable NSDictionary *)tags
-              startTime:(nullable NSDate *)startTime;
-
-- (id<OTSpan>)startSpan:(NSString *)operationName
-             references:(nullable NSArray *)references
-                   tags:(nullable NSDictionary *)tags
-              startTime:(nullable NSDate *)startTime;
-
-- (BOOL)inject:(id<OTSpanContext>)span format:(NSString *)format carrier:(id)carrier;
-
-- (BOOL)inject:(id<OTSpanContext>)span
-        format:(NSString *)format
-       carrier:(id)carrier
-         error:(NSError *__autoreleasing *)outError;
-
-- (id<OTSpanContext>)extractWithFormat:(NSString *)format carrier:(id)carrier;
-
-- (id<OTSpanContext>)extractWithFormat:(NSString *)format
-                               carrier:(id)carrier
-                                 error:(NSError *__autoreleasing *)outError;
 
 #pragma mark - LightStep extensions and internal methods
 
