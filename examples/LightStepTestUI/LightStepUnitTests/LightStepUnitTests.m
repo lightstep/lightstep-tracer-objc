@@ -4,21 +4,22 @@
 #import <lightstep/LSTracer.h>
 #import <lightstep/LSUtil.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 const NSUInteger kMaxLength = 8192;
 
 @interface LightStepUnitTests : XCTestCase
+@property(nonatomic, strong) LSTracer *tracer;
 @end
 
-@implementation LightStepUnitTests {
-    LSTracer *m_tracer;
-}
+@implementation LightStepUnitTests
 
 - (void)setUp {
     [super setUp];
-    m_tracer = [[LSTracer alloc] initWithToken:@"TEST_TOKEN"
-                                 componentName:@"LightStepUnitTests"
-                                       baseURL:[NSURL URLWithString:@"http://localhost:9997"]
-                          flushIntervalSeconds:0]; // disable the flush loop
+    self.tracer = [[LSTracer alloc] initWithToken:@"TEST_TOKEN"
+                                    componentName:@"LightStepUnitTests"
+                                          baseURL:[NSURL URLWithString:@"http://localhost:9997"]
+                             flushIntervalSeconds:0]; // disable the flush loop
 }
 
 - (void)tearDown {
@@ -77,7 +78,7 @@ const NSUInteger kMaxLength = 8192;
 
 - (void)testLSSpan {
     // Test timestamps, span context basics, and operation names.
-    LSSpan* parent = (LSSpan*)[m_tracer startSpan:@"parent"];
+    LSSpan* parent = (LSSpan*)[self.tracer startSpan:@"parent"];
     NSDate* parentFinish = [NSDate date];
     NSDictionary* parentJSON = [parent _toJSONWithFinishTime:parentFinish];
     {
@@ -91,7 +92,8 @@ const NSUInteger kMaxLength = 8192;
     }
 
     // Additionally test span context inheritance, tags, and logs.
-    LSSpan* child = (LSSpan*)[m_tracer startSpan:@"child" childOf:parent.context tags:@{@"string": @"abc", @"int": @(42), @"bool": @(true)}];
+    id<OTSpanContext> parentContext = (id<OTSpanContext>)parent.context; // wtf clang
+    id<OTSpan> child = [self.tracer startSpan:@"child" childOf:parentContext tags:@{@"string": @"abc", @"int": @(42), @"bool": @(true)}];
     NSDate* logTime = [NSDate date];
     [child log:@"log1" timestamp:logTime payload:@{@"foo": @"bar"}];
     [child logEvent:@"log2"];
@@ -99,7 +101,7 @@ const NSUInteger kMaxLength = 8192;
     [child log:@{@"event": @(42), @"bar": @"baz"}];  // the "event" field name gets special treatment
     {
         NSDate* childFinish = [NSDate date];
-        NSDictionary* childJSON = [child _toJSONWithFinishTime:childFinish];
+        NSDictionary* childJSON = [(LSSpan *)child _toJSONWithFinishTime:childFinish];
 
         XCTAssert([childJSON[@"trace_guid"] isEqualToString:parentJSON[@"trace_guid"]]);
         XCTAssertNotEqual(childJSON[@"span_guid"], @(0));
@@ -153,7 +155,7 @@ const NSUInteger kMaxLength = 8192;
     }
 }
 
-- (void)assertLogKV:(NSDictionary*)logStruct key:(NSString*)key value:(NSString*)value {
+- (void)assertLogKV:(NSDictionary *)logStruct key:(NSString *)key value:(NSString * _Nullable)value {
     for (NSDictionary* keyValuePair in logStruct[@"fields"]) {
         if ([keyValuePair[@"Key"] isEqualToString:key]) {
             XCTAssert([keyValuePair[@"Value"] isEqualToString:value]);
@@ -165,11 +167,11 @@ const NSUInteger kMaxLength = 8192;
 
 - (void)testBaggage {
     // Test timestamps, span context basics, and operation names.
-    LSSpan* parent = (LSSpan*)[m_tracer startSpan:@"parent"];
+    id<OTSpan> parent = [self.tracer startSpan:@"parent"];
     [parent setBaggageItem:@"suitcase" value:@"brown"];
-    LSSpan* child1 = (LSSpan*)[m_tracer startSpan:@"child" childOf:parent.context];
+    id<OTSpan> child1 = [self.tracer startSpan:@"child" childOf:parent.context];
     [parent setBaggageItem:@"backpack" value:@"gray"];
-    LSSpan* child2 = (LSSpan*)[m_tracer startSpan:@"child" childOf:parent.context];
+    id<OTSpan> child2 = [self.tracer startSpan:@"child" childOf:parent.context];
     XCTAssert([[child1 getBaggageItem:@"suitcase"] isEqualToString:@"brown"]);
     XCTAssertNil([child1 getBaggageItem:@"backpack"]);
     XCTAssert([[child2 getBaggageItem:@"suitcase"] isEqualToString:@"brown"]);
@@ -177,3 +179,5 @@ const NSUInteger kMaxLength = 8192;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END
