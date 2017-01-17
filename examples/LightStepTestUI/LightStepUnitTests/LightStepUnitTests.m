@@ -50,10 +50,9 @@ const NSUInteger kMaxLength = 8192;
     // Simple dictionary
     // TODO: this test is a little fragile since there aren't encoding order
     // guarentees for dictionaries.
-    NSDictionary* dict = @{@"string": @"test",
-                           @"integer": @42,
-                           @"float": @3.14};
-    XCTAssertEqualObjects([LSUtil objectToJSONString:dict maxLength:kMaxLength], @"{\"string\":\"test\",\"integer\":42,\"float\":3.14}");
+    NSDictionary *dict = @{ @"string": @"test", @"integer": @42, @"float": @3.14 };
+    XCTAssertEqualObjects([LSUtil objectToJSONString:dict maxLength:kMaxLength],
+                          @"{\"string\":\"test\",\"integer\":42,\"float\":3.14}");
 }
 
 - (void)testObjectToJSONStringItsComplicated {
@@ -62,13 +61,13 @@ const NSUInteger kMaxLength = 8192;
     // NOTE: only string keys are supported by NSJSONSerialization. Eventually,
     // it would be nice to be more flexible rather than having 'nil' be the
     // expected, silent encoding.
-    NSDictionary* numKeys = @{@1:@"one"};
+    NSDictionary *numKeys = @{ @1: @"one" };
     XCTAssertEqualObjects([LSUtil objectToJSONString:numKeys maxLength:kMaxLength], nil);
 }
 
 - (void)testPayloadMaxLength {
-    NSString* longString = [@"" stringByPaddingToLength:400 withString:@"*" startingAtIndex:0];
-    NSString* longStringJSON = [NSString stringWithFormat:@"\"%@\"", longString];
+    NSString *longString = [@"" stringByPaddingToLength:400 withString:@"*" startingAtIndex:0];
+    NSString *longStringJSON = [NSString stringWithFormat:@"\"%@\"", longString];
 
     XCTAssertEqualObjects([LSUtil objectToJSONString:longString maxLength:4000], longStringJSON);
     XCTAssertEqualObjects([LSUtil objectToJSONString:longString maxLength:100], nil);
@@ -78,9 +77,9 @@ const NSUInteger kMaxLength = 8192;
 
 - (void)testLSSpan {
     // Test timestamps, span context basics, and operation names.
-    LSSpan* parent = (LSSpan*)[self.tracer startSpan:@"parent"];
-    NSDate* parentFinish = [NSDate date];
-    NSDictionary* parentJSON = [parent _toJSONWithFinishTime:parentFinish];
+    LSSpan *parent = (LSSpan *)[self.tracer startSpan:@"parent"];
+    NSDate *parentFinish = [NSDate date];
+    NSDictionary *parentJSON = [parent _toJSONWithFinishTime:parentFinish];
     {
         XCTAssertNotNil(parentJSON[@"span_guid"]);
         XCTAssertNotNil(parentJSON[@"trace_guid"]);
@@ -93,37 +92,43 @@ const NSUInteger kMaxLength = 8192;
 
     // Additionally test span context inheritance, tags, and logs.
     id<OTSpanContext> parentContext = (id<OTSpanContext>)parent.context; // wtf clang
-    id<OTSpan> child = [self.tracer startSpan:@"child" childOf:parentContext tags:@{@"string": @"abc", @"int": @(42), @"bool": @(true)}];
-    NSDate* logTime = [NSDate date];
-    [child log:@"log1" timestamp:logTime payload:@{@"foo": @"bar"}];
+    id<OTSpan> child = [self.tracer startSpan:@"child"
+                                      childOf:parentContext
+                                         tags:@{
+                                             @"string": @"abc",
+                                             @"int": @(42),
+                                             @"bool": @(true)
+                                         }];
+    NSDate *logTime = [NSDate date];
+    [child log:@"log1" timestamp:logTime payload:@{ @"foo": @"bar" }];
     [child logEvent:@"log2"];
-    [child log:@{@"foo": @(42), @"bar": @"baz"}];
-    [child log:@{@"event": @(42), @"bar": @"baz"}];  // the "event" field name gets special treatment
+    [child log:@{ @"foo": @(42), @"bar": @"baz" }];
+    [child log:@{ @"event": @(42), @"bar": @"baz" }]; // the "event" field name gets special treatment
     {
-        NSDate* childFinish = [NSDate date];
-        NSDictionary* childJSON = [(LSSpan *)child _toJSONWithFinishTime:childFinish];
+        NSDate *childFinish = [NSDate date];
+        NSDictionary *childJSON = [(LSSpan *)child _toJSONWithFinishTime:childFinish];
 
         XCTAssert([childJSON[@"trace_guid"] isEqualToString:parentJSON[@"trace_guid"]]);
         XCTAssertNotEqual(childJSON[@"span_guid"], @(0));
-        NSArray* childTags = childJSON[@"attributes"];
+        NSArray *childTags = childJSON[@"attributes"];
         XCTAssertEqual(childTags.count, 4);
-        for (NSDictionary* keyValuePair in childTags) {
-            NSString* tagKey = keyValuePair[@"Key"];
-            NSString* tagVal = keyValuePair[@"Value"];
+        for (NSDictionary *keyValuePair in childTags) {
+            NSString *tagKey = keyValuePair[@"Key"];
+            NSString *tagVal = keyValuePair[@"Value"];
             if ([tagKey isEqualToString:@"string"]) {
                 XCTAssert([tagVal isEqualToString:@"abc"]);
             } else if ([tagKey isEqualToString:@"int"]) {
                 XCTAssert([tagVal isEqualToString:@"42"]);
             } else if ([tagKey isEqualToString:@"bool"]) {
-                XCTAssert([tagVal isEqualToString:@"1"]);  // no real NSBoolean* type :(
+                XCTAssert([tagVal isEqualToString:@"1"]); // no real NSBoolean* type :(
             } else if ([tagKey isEqualToString:@"parent_span_guid"]) {
                 XCTAssert([tagVal isEqualToString:parentJSON[@"span_guid"]]);
             } else {
-                XCTAssert(FALSE);  // kv.key is not an expected value
+                XCTAssert(FALSE); // kv.key is not an expected value
             }
         }
 
-        NSArray<NSDictionary*>* childLogs = childJSON[@"log_records"];
+        NSArray<NSDictionary *> *childLogs = childJSON[@"log_records"];
         XCTAssertEqual(childLogs.count, 4);
         {
             // Check explicit timestamps.
@@ -151,12 +156,11 @@ const NSUInteger kMaxLength = 8192;
             [self assertLogKV:childLogs[3] key:@"event" value:@"42"];
             [self assertLogKV:childLogs[3] key:@"bar" value:@"baz"];
         }
-
     }
 }
 
-- (void)assertLogKV:(NSDictionary *)logStruct key:(NSString *)key value:(NSString * _Nullable)value {
-    for (NSDictionary* keyValuePair in logStruct[@"fields"]) {
+- (void)assertLogKV:(NSDictionary *)logStruct key:(NSString *)key value:(NSString *_Nullable)value {
+    for (NSDictionary *keyValuePair in logStruct[@"fields"]) {
         if ([keyValuePair[@"Key"] isEqualToString:key]) {
             XCTAssert([keyValuePair[@"Value"] isEqualToString:value]);
             return;
