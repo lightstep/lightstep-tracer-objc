@@ -142,12 +142,14 @@
 }
 
 - (id<OTSpan>)setBaggageItem:(NSString *)key value:(NSString *)value {
+    // TODO: change selector in OTSpan.h to setBaggageItem:forKey:
     self.context = [self.context withBaggageItem:key value:value];
     return self;
 }
 
 - (NSString *)getBaggageItem:(NSString *)key {
-    return [self.context getBaggageItem:key];
+    // TODO: rename selector in OTSpan.h to baggageItemForKey:
+    return [self.context baggageItemForKey:key];
 }
 
 - (void)addTags:(NSDictionary *)tags {

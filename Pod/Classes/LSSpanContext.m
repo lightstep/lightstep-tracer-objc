@@ -26,7 +26,7 @@
     return [[LSSpanContext alloc] initWithTraceId:self.traceId spanId:self.spanId baggage:baggageCopy];
 }
 
-- (NSString *)getBaggageItem:(NSString *)key {
+- (NSString *)baggageItemForKey:(NSString *)key {
     return (NSString *)[self.baggage objectForKey:key];
 }
 

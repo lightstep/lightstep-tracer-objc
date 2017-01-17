@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (LSSpanContext *)withBaggageItem:(NSString *)key value:(NSString *)value;
 
 /// Return a specific baggage item.
-- (NSString *)getBaggageItem:(NSString *)key;
+- (NSString *)baggageItemForKey:(NSString *)key;
 
 /// The LightStep Span's probabilistically unique trace id.
 @property(nonatomic) UInt64 traceId;
