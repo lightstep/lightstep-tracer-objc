@@ -30,9 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, strong) NSDictionary<NSString *, NSString *> *tags;
 
-/// Add a set of tags from the given dictionary. Existing key-value pairs will be overwritten by any new tags.
-- (void)addTags:(NSDictionary *)tags;
-
 ///  Get a particular tag.
 - (NSString *)tagForKey:(NSString *)key;
 

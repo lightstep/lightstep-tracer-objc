@@ -152,6 +152,7 @@
     return [self.context baggageItemForKey:key];
 }
 
+/// Add a set of tags from the given dictionary. Existing key-value pairs will be overwritten by any new tags.
 - (void)addTags:(NSDictionary *)tags {
     if (tags == nil) {
         return;
