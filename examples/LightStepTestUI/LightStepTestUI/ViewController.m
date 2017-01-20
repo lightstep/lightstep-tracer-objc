@@ -213,7 +213,7 @@ completionHandler:(void (^)(id response, NSError *error))completionHandler {
             completionHandler:^(NSString* text) {
                 [span logEvent:@"query_complete"
                        payload:@{@"main_thread":@([NSThread isMainThread])}];
-                NSString* displayString = [NSString stringWithFormat:@"%@\n\nView trace at:\n %@\n", text, [(LSSpan*)span _generateTraceURL]];
+                NSString* displayString = [NSString stringWithFormat:@"%@\n\nView trace at:\n %@\n", text, [(LSSpan*)span traceURL]];
 
                 // UI updates need to occur in the main thread
                 dispatch_async(dispatch_get_main_queue(), ^{

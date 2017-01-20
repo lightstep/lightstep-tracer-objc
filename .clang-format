@@ -1,0 +1,13 @@
+---
+BasedOnStyle: Chromium
+ColumnLimit: 120
+IndentWidth: 4
+KeepEmptyLinesAtTheStartOfBlocks: false
+ObjCBlockIndentWidth: 4
+PenaltyBreakFirstLessLess: 120
+PointerBindsToType: false
+SpacesBeforeTrailingComments: 1
+SpacesInContainerLiterals: false
+SortIncludes: false
+TabWidth: 8
+UseTab: Never
