@@ -5,11 +5,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// The error domain for all OpenTracing-related NSErrors.
+/// The error domain for all LightStep-related NSErrors.
 extern NSString *const LSErrorDomain;
 
-/// OTUnsupportedFormat should be used by `OTTracer#inject:format:carrier:` and
-/// `OTTracer#extractWithFormat:carrier:` implementations that don't support the requested carrier format.
+/// LightStep error that represents background task failures.
 extern NSInteger const LSBackgroundTaskError;
 
 /// An implementation of the OTTracer protocol.
