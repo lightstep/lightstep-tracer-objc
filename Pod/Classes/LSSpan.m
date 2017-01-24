@@ -1,6 +1,7 @@
 #import "LSSpan.h"
 #import "LSSpanContext.h"
 #import "LSTracer.h"
+#import "LSClockState.h"
 #import "LSUtil.h"
 
 #pragma mark - LSLog
@@ -59,7 +60,7 @@
     if (self = [super init]) {
         _tracer = tracer;
         _operationName = operationName;
-        _startTime = startTime ?: [NSDate date];
+        _startTime = startTime ?: [tracer.timeProvider currentTime];
         _logs = @[].mutableCopy;
         _mutableTags = @{}.mutableCopy;
         _parent = parent;
@@ -82,11 +83,11 @@
 }
 
 - (void)logEvent:(NSString *)eventName {
-    [self log:eventName timestamp:[NSDate date] payload:nil];
+    [self log:eventName timestamp:[self.tracer.timeProvider currentTime] payload:nil];
 }
 
 - (void)logEvent:(NSString *)eventName payload:(NSObject *)payload {
-    [self log:eventName timestamp:[NSDate date] payload:payload];
+    [self log:eventName timestamp:[self.tracer.timeProvider currentTime] payload:payload];
 }
 
 - (void)log:(NSString *)eventName timestamp:(NSDate *)timestamp payload:(NSObject *)payload {
@@ -109,7 +110,7 @@
 }
 
 - (void)log:(NSDictionary<NSString *, NSObject *> *)fields {
-    [self log:fields timestamp:[NSDate date]];
+    [self log:fields timestamp:[self.tracer.timeProvider currentTime]];
 }
 
 - (void)log:(NSDictionary<NSString *, NSObject *> *)fields timestamp:(nullable NSDate *)timestamp {

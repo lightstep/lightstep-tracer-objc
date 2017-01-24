@@ -1,15 +1,15 @@
 #import <Foundation/Foundation.h>
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol LSTimeProvider
+- (NSDate *)currentTime;
+- (SInt64)offsetInMicroseconds;
+@end
+
 /// A straight port/copy of the `rl-cruntime-common` ClockState javascript prototype.
-@interface LSClockState : NSObject
+@interface LSClockState : NSObject<LSTimeProvider>
 
-/// A helper that returns the local timestamp in microseconds (since the unix epoch).
-+ (SInt64)nowMicros;
-
-/// The most-recently-computed (via `update`) offset between server and client in microseconds.
-/// This should be *added* to any local timestamps before sending to the server.
-@property(nonatomic, readonly) SInt64 offsetMicros;
++ (LSClockState *)sharedClock;
 
 /// Provide information about a fresh clock-skew datapoint.
 ///
