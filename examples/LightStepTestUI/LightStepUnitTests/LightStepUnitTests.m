@@ -18,6 +18,7 @@ const NSUInteger kMaxLength = 8192;
     [super setUp];
     self.tracer = [[LSTracer alloc] initWithToken:@"TEST_TOKEN"
                                     componentName:@"LightStepUnitTests"
+                                     timeProvider:^NSDate * _Nonnull{ return [NSDate date]; }
                                           baseURL:[NSURL URLWithString:@"http://localhost:9997"]
                              flushIntervalSeconds:0]; // disable the flush loop
 }
@@ -180,6 +181,20 @@ const NSUInteger kMaxLength = 8192;
     XCTAssertNil([child1 getBaggageItem:@"backpack"]);
     XCTAssert([[child2 getBaggageItem:@"suitcase"] isEqualToString:@"brown"]);
     XCTAssert([[child2 getBaggageItem:@"backpack"] isEqualToString:@"gray"]);
+}
+
+
+- (void)testCustomNTP {
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:100];
+
+    self.tracer = [[LSTracer alloc] initWithToken:@"TEST_TOKEN"
+                                    componentName:@"LightStepUnitTests"
+                                     timeProvider:^NSDate * _Nonnull{ return date; }
+                                          baseURL:[NSURL URLWithString:@"http://localhost:9997"]
+                             flushIntervalSeconds:0]; // disable the flush loop
+
+    id<OTSpan> span = [self.tracer startSpan:@"ntp"];
+    XCTAssertEqual(date, [(LSSpan *)span startTime], @"Provided time was incorrect");
 }
 
 @end
