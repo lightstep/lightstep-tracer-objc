@@ -351,6 +351,12 @@ static NSString *kBasicTracerBaggagePrefix = @"ot-baggage-";
     SInt64 originMicroseconds = [[self.timeProvider currentTime] toMicros];
     [[session dataTaskWithRequest:request
                 completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                    // Hack, but better than before
+                    if (![self.timeProvider isKindOfClass:[LSClockState class]) {
+                        cleanupBlock(true, error);
+                        return
+                    }
+
                     [self handleAPIResponse:data
                      withOriginMicroseconds:originMicroseconds
                                  completion:cleanupBlock
