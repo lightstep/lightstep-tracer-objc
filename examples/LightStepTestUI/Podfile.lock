@@ -8,7 +8,7 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   lightstep:
-    :path: "../.."
+    :path: ../..
 
 SPEC CHECKSUMS:
   lightstep: efa7f1a7769330c758056782115762302e17f121
@@ -16,4 +16,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: ab77b8c59bf40240bec48ed4c7abaa4e04891fcc
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.2.0
