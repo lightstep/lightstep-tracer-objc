@@ -54,7 +54,7 @@ extern NSInteger const LSBackgroundTaskError;
 #pragma mark - LightStep extensions and internal methods
 
 /// The remote service base URL
-@property(nonatomic, readonly) NSURL *baseURL;
+@property(nonatomic, strong, readonly) NSURL *baseURL;
 
 /// `LSTracer` instance's globally unique id ("guid"), and assigned automatically by LightStep.
 @property(nonatomic, readonly) UInt64 runtimeGuid;
@@ -70,7 +70,7 @@ extern NSInteger const LSBackgroundTaskError;
 @property(atomic) BOOL enabled;
 
 /// Tracer's access token
-@property(atomic, readonly) NSString *accessToken;
+@property(atomic, strong, readonly) NSString *accessToken;
 
 /// Record a span.
 - (void)_appendSpanJSON:(NSDictionary *)spanRecord;
