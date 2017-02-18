@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Internal
 
 /// The baggage dictionary (for internal use only).
-@property(nonatomic, readonly) NSDictionary *baggage;
+@property(nonatomic, strong, readonly) NSDictionary *baggage;
 
 @end
 

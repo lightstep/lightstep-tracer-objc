@@ -7,8 +7,8 @@
 
 @interface LSLog : NSObject
 
-@property(nonatomic, readonly) NSDate *timestamp;
-@property(nonatomic, readonly) NSDictionary<NSString *, NSObject *> *fields;
+@property(nonatomic, strong, readonly) NSDate *timestamp;
+@property(nonatomic, strong, readonly) NSDictionary<NSString *, NSObject *> *fields;
 
 - (instancetype)initWithTimestamp:(NSDate *)timestamp fields:(NSDictionary<NSString *, NSObject *> *)fields;
 
