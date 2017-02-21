@@ -1,4 +1,5 @@
 #import "LSClockState.h"
+#import "LSUtil.h"
 
 #pragma mark - Constants
 
@@ -43,6 +44,7 @@ static NSString *kSamplesKey = @"samples";
 
 @end
 
+
 #pragma mark - LSClockState
 
 @interface LSClockState ()
@@ -53,20 +55,37 @@ static NSString *kSamplesKey = @"samples";
 
 @implementation LSClockState
 
+#pragma mark - LSTimeProvider implementation
+
+- (SInt64)offsetInMicroseconds {
+    return self.currentOffsetMicros;
+}
+
+- (NSDate *)currentTime {
+    return [NSDate date];
+}
+
+#pragma mark - Singleton
+
++ (LSClockState *)sharedClock {
+    static LSClockState *singleton;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (!singleton) {
+            singleton = [[self alloc] init];
+        }
+    });
+    return singleton;
+}
+
+#pragma mark - Public
+
 - (id)init {
     if (self = [super init]) {
         [self _tryToRestoreFromUserDefaults];
         [self update];
     }
     return self;
-}
-
-+ (SInt64)nowMicros {
-    return (SInt64)([[NSDate date] timeIntervalSince1970] * USEC_PER_SEC);
-}
-
-- (SInt64)offsetMicros {
-    return self.currentOffsetMicros;
 }
 
 - (void)addSampleWithOriginMicros:(SInt64)originMicros
@@ -151,7 +170,7 @@ static NSString *kSamplesKey = @"samples";
 
 - (void)_persistToUserDefaults {
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:@{
-        kTimestampMicrosKey: @([LSClockState nowMicros]),
+        kTimestampMicrosKey: @([[self currentTime] toMicros]),
         kSamplesKey: self.samples
     }];
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:kUserDefaultsKey];
@@ -170,7 +189,7 @@ static NSString *kSamplesKey = @"samples";
             NSDictionary *dict = [NSKeyedUnarchiver unarchiveObjectWithData:data];
             NSNumber *tsMicros = [dict objectForKey:kTimestampMicrosKey];
             NSArray *samples = [dict objectForKey:kSamplesKey];
-            SInt64 nowMicros = [LSClockState nowMicros];
+            SInt64 nowMicros = [[self currentTime] toMicros];
             if (dict && tsMicros && samples && (tsMicros.longLongValue > (nowMicros - kStoredSamplesTTLMicros)) &&
                 (tsMicros.longLongValue < nowMicros) /* <-- sanity check */) {
                 NSUInteger loc = MAX(0, samples.count - (kMaxOffsetAge + 1));

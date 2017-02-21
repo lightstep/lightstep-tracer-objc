@@ -3,6 +3,8 @@
 #import "LSSpan.h"
 #import <opentracing/OTTracer.h>
 
+@protocol LSTimeProvider;
+
 NS_ASSUME_NONNULL_BEGIN
 
 /// The error domain for all LightStep-related NSErrors.
@@ -41,12 +43,15 @@ extern NSInteger const LSBackgroundTaskError;
 /// @param accessToken: the access token.
 /// @param componentName: the "component name" to associate with spans from this process; e.g.,
 ///                       the name of your iOS app or the bundle name.
+/// @param timeProvider:  (optional) your application can return the current time when asked.
+///                       If not provided, Lightstep will use it's own NTP implementation
 /// @param baseURL: the URL for the collector's HTTP+JSON base endpoint (search for LSDefaultBaseURLString)
 /// @param flushIntervalSeconds: the flush interval, or 0 for no automatic background flushing
 ///
 /// @returns An `LSTracer` instance that's ready to create spans and logs.
 - (instancetype)initWithToken:(NSString *)accessToken
                 componentName:(nullable NSString *)componentName
+                 timeProvider:(nullable id<LSTimeProvider>)timeProvider
                       baseURL:(nullable NSURL *)baseURL
          flushIntervalSeconds:(NSUInteger)flushIntervalSeconds;
 
@@ -68,6 +73,9 @@ extern NSInteger const LSBackgroundTaskError;
 /// If true, the library is currently buffering and reporting data. If set to false, tracing data is no longer
 /// collected.
 @property(atomic) BOOL enabled;
+
+/// Time provider (either Lightstep's internal LSClockState or a customer provided one)
+@property(nonatomic, readonly) id<LSTimeProvider> timeProvider;
 
 /// Tracer's access token
 @property(atomic, strong, readonly) NSString *accessToken;

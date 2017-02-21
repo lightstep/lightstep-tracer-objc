@@ -22,7 +22,6 @@ NSString *const LSErrorDomain = @"com.lightstep";
 @interface LSTracer ()
 @property(nonatomic, strong) NSMutableArray<NSDictionary *> *pendingJSONSpans;
 @property(nonatomic, strong, readonly) NSDictionary<NSString *, NSString *> *tracerJSON;
-@property(nonatomic, strong, readonly) LSClockState *clockState;
 
 @property(nonatomic, strong, readonly) dispatch_queue_t flushQueue;
 @property(nonatomic, strong) dispatch_source_t flushTimer;
@@ -37,6 +36,7 @@ NSString *const LSErrorDomain = @"com.lightstep";
 
 - (instancetype)initWithToken:(NSString *)accessToken
                 componentName:(NSString *)componentName
+                 timeProvider:(nullable id<LSTimeProvider>)timeProvider
                       baseURL:(NSURL *)baseURL
          flushIntervalSeconds:(NSUInteger)flushIntervalSeconds {
     if (self = [super init]) {
@@ -48,8 +48,8 @@ NSString *const LSErrorDomain = @"com.lightstep";
         _flushQueue = dispatch_queue_create("com.lightstep.flush_queue", DISPATCH_QUEUE_SERIAL);
         _flushTimer = nil;
         _enabled = true;
-        _clockState = [[LSClockState alloc] init];
-        _lastFlush = [NSDate date];
+        _timeProvider = timeProvider ?: [[LSClockState alloc] init];
+        _lastFlush = [_timeProvider currentTime];
         _bgTaskId = UIBackgroundTaskInvalid;
         _baseURL = baseURL ?: [NSURL URLWithString:LSDefaultBaseURLString];
         _tracerJSON = @{
@@ -73,6 +73,7 @@ NSString *const LSErrorDomain = @"com.lightstep";
          flushIntervalSeconds:(NSUInteger)flushIntervalSeconds {
     return [self initWithToken:accessToken
                  componentName:componentName
+                  timeProvider:nil
                        baseURL:nil
           flushIntervalSeconds:flushIntervalSeconds];
 }
@@ -80,6 +81,7 @@ NSString *const LSErrorDomain = @"com.lightstep";
 - (instancetype)initWithToken:(NSString *)accessToken componentName:(NSString *)componentName {
     return [self initWithToken:accessToken
                  componentName:componentName
+                  timeProvider:nil
                        baseURL:nil
           flushIntervalSeconds:LSDefaultFlushIntervalSeconds];
 }
@@ -90,19 +92,19 @@ NSString *const LSErrorDomain = @"com.lightstep";
 }
 
 - (id<OTSpan>)startSpan:(NSString *)operationName {
-    return [self startSpan:operationName childOf:nil tags:nil startTime:[NSDate date]];
+    return [self startSpan:operationName childOf:nil tags:nil startTime:[self.timeProvider currentTime]];
 }
 
 - (id<OTSpan>)startSpan:(NSString *)operationName tags:(NSDictionary *)tags {
-    return [self startSpan:operationName childOf:nil tags:tags startTime:[NSDate date]];
+    return [self startSpan:operationName childOf:nil tags:tags startTime:[self.timeProvider currentTime]];
 }
 
 - (id<OTSpan>)startSpan:(NSString *)operationName childOf:(id<OTSpanContext>)parent {
-    return [self startSpan:operationName childOf:parent tags:nil startTime:[NSDate date]];
+    return [self startSpan:operationName childOf:parent tags:nil startTime:[self.timeProvider currentTime]];
 }
 
 - (id<OTSpan>)startSpan:(NSString *)operationName childOf:(id<OTSpanContext>)parent tags:(NSDictionary *)tags {
-    return [self startSpan:operationName childOf:parent tags:tags startTime:[NSDate date]];
+    return [self startSpan:operationName childOf:parent tags:tags startTime:[self.timeProvider currentTime]];
 }
 
 - (id<OTSpan>)startSpan:(NSString *)operationName
@@ -125,9 +127,7 @@ NSString *const LSErrorDomain = @"com.lightstep";
             }
         }
     }
-    // No locking required
     return [[LSSpan alloc] initWithTracer:self operationName:operationName parent:parent tags:tags startTime:startTime];
-    return nil;
 }
 
 - (BOOL)inject:(id<OTSpanContext>)span format:(NSString *)format carrier:(id)carrier {
@@ -305,7 +305,7 @@ static NSString *kBasicTracerBaggagePrefix = @"ot-baggage-";
 
     NSMutableDictionary *reqJSON;
     @synchronized(self) {
-        NSDate *now = [NSDate date];
+        NSDate *now = [self.timeProvider currentTime];
         if (self.pendingJSONSpans.count == 0) {
             // Nothing to report.
             return;
@@ -314,7 +314,7 @@ static NSString *kBasicTracerBaggagePrefix = @"ot-baggage-";
         // reqJSON spec:
         // https://github.com/lightstep/lightstep-tracer-go/blob/40cbd138e6901f0dafdd0cccabb6fc7c5a716efb/lightstep_thrift/ttypes.go#L2586
         reqJSON = [NSMutableDictionary dictionary];
-        reqJSON[@"timestamp_offset_micros"] = @(self.clockState.offsetMicros);
+        reqJSON[@"timestamp_offset_micros"] = @([self.timeProvider offsetInMicroseconds]);
         reqJSON[@"runtime"] = self.tracerJSON;
         reqJSON[@"span_records"] = self.pendingJSONSpans;
         reqJSON[@"oldest_micros"] = @([self.lastFlush toMicros]);
@@ -348,42 +348,55 @@ static NSString *kBasicTracerBaggagePrefix = @"ot-baggage-";
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.baseURL];
     request.HTTPBody = [reqBody dataUsingEncoding:NSUTF8StringEncoding];
     request.HTTPMethod = @"POST";
-    SInt64 originMicros = [LSClockState nowMicros];
-    NSURLSessionDataTask *postDataTask =
-        [session dataTaskWithRequest:request
-                   completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                       @try {
-                           __typeof(self) strongSelf = weakSelf;
-                           SInt64 destinationMicros = [LSClockState nowMicros];
-                           NSError *jsonError;
-                           NSDictionary *responseJSON =
-                               [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
-                           if (jsonError == nil) {
-                               if ([responseJSON objectForKey:@"timing"] != nil) {
-                                   NSDictionary *timingJSON = [responseJSON objectForKey:@"timing"];
-                                   NSNumber *receiveMicros = [timingJSON objectForKey:@"receive_micros"];
-                                   NSNumber *transmitMicros = [timingJSON objectForKey:@"transmit_micros"];
+    SInt64 originMicroseconds = [[self.timeProvider currentTime] toMicros];
+    [[session dataTaskWithRequest:request
+                completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                    // Hack, but better than before
+                    if (![self.timeProvider isKindOfClass:[LSClockState class]) {
+                        cleanupBlock(true, error);
+                        return
+                    }
 
-                                   if (receiveMicros != nil && transmitMicros != nil) {
-                                       // Update our local NTP-lite clock state with the latest
-                                       // measurements.
-                                       [strongSelf.clockState addSampleWithOriginMicros:originMicros
-                                                                          receiveMicros:receiveMicros.longLongValue
-                                                                         transmitMicros:transmitMicros.longLongValue
-                                                                      destinationMicros:destinationMicros];
-                                   }
-                               }
-                           }
-                       } @catch (NSException *e) {
-                           NSLog(@"Caught exception in LightStep reporting response; dropping "
-                                 @"data. Exception: %@",
-                                 e);
-                       } @finally {
-                           cleanupBlock(true, error);
-                       }
-                   }];
-    // "Start" (resume) the HTTP activity.
-    [postDataTask resume];
+                    [self handleAPIResponse:data
+                     withOriginMicroseconds:originMicroseconds
+                                 completion:cleanupBlock
+                                      error:error];
+                }]
+     resume];
+}
+
+- (void)handleAPIResponse:(NSData *)data
+   withOriginMicroseconds:(UInt64)originMicroseconds
+               completion:(void(^)(BOOL, NSError *))cleanupBlock
+                    error:(NSError *)error {
+    @try {
+        SInt64 destinationMicros = [[self.timeProvider currentTime] toMicros];
+        NSError *jsonError;
+        NSDictionary *responseJSON =
+        [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
+        if (jsonError == nil) {
+            if ([responseJSON objectForKey:@"timing"] != nil) {
+                NSDictionary *timingJSON = [responseJSON objectForKey:@"timing"];
+                NSNumber *receiveMicros = [timingJSON objectForKey:@"receive_micros"];
+                NSNumber *transmitMicros = [timingJSON objectForKey:@"transmit_micros"];
+
+                if (receiveMicros != nil && transmitMicros != nil) {
+                    // Update our local NTP-lite clock state with the latest
+                    // measurements.
+                    [(LSClockState *)self.timeProvider addSampleWithOriginMicros:originMicroseconds
+                                                                   receiveMicros:receiveMicros.longLongValue
+                                                                  transmitMicros:transmitMicros.longLongValue
+                                                               destinationMicros:destinationMicros];
+                }
+            }
+        }
+    } @catch (NSException *e) {
+        NSLog(@"Caught exception in LightStep reporting response; dropping "
+              @"data. Exception: %@",
+              e);
+    } @finally {
+        cleanupBlock(true, error);
+    }
 }
 
 // Called by flush() callbacks on a failed report.

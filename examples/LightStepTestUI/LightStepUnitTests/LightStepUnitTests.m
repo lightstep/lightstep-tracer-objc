@@ -3,21 +3,40 @@
 #import <lightstep/LSSpan.h>
 #import <lightstep/LSTracer.h>
 #import <lightstep/LSUtil.h>
+#import <lightstep/LSClockState.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 const NSUInteger kMaxLength = 8192;
 
+@interface DumbTimeProvider : NSObject<LSTimeProvider>
+@property(nonatomic, strong) NSDate *fakeDate;
+@end
+
+@implementation DumbTimeProvider
+- (NSDate *)currentTime {
+    return self.fakeDate ?: [NSDate date];
+}
+- (SInt64)offsetInMicroseconds {
+    return 1;
+}
+@end
+
+
 @interface LightStepUnitTests : XCTestCase
 @property(nonatomic, strong) LSTracer *tracer;
+@property(nonatomic, strong) DumbTimeProvider *timeProvider;
 @end
+
 
 @implementation LightStepUnitTests
 
 - (void)setUp {
     [super setUp];
+    self.timeProvider = [DumbTimeProvider new];
     self.tracer = [[LSTracer alloc] initWithToken:@"TEST_TOKEN"
                                     componentName:@"LightStepUnitTests"
+                                     timeProvider:self.timeProvider
                                           baseURL:[NSURL URLWithString:@"http://localhost:9997"]
                              flushIntervalSeconds:0]; // disable the flush loop
 }
@@ -180,6 +199,16 @@ const NSUInteger kMaxLength = 8192;
     XCTAssertNil([child1 getBaggageItem:@"backpack"]);
     XCTAssert([[child2 getBaggageItem:@"suitcase"] isEqualToString:@"brown"]);
     XCTAssert([[child2 getBaggageItem:@"backpack"] isEqualToString:@"gray"]);
+}
+
+
+- (void)testCustomNTP {
+    NSDate *fakeDate = [NSDate dateWithTimeIntervalSince1970:100];
+    self.timeProvider.fakeDate = fakeDate;
+
+    id<OTSpan> span = [self.tracer startSpan:@"ntp"];
+    NSDate *actualDate = [(LSSpan *)span startTime];
+    XCTAssertTrue([fakeDate isEqualToDate:actualDate], @"Expected %@ to equal %@", fakeDate, actualDate);
 }
 
 @end
