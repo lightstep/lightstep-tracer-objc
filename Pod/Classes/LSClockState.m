@@ -173,7 +173,7 @@ static NSString *kSamplesKey = @"samples";
             SInt64 nowMicros = [LSClockState nowMicros];
             if (dict && tsMicros && samples && (tsMicros.longLongValue > (nowMicros - kStoredSamplesTTLMicros)) &&
                 (tsMicros.longLongValue < nowMicros) /* <-- sanity check */) {
-                NSUInteger loc = MAX(0, samples.count - (kMaxOffsetAge + 1));
+                NSUInteger loc = MAX(0, (NSInteger)samples.count - (kMaxOffsetAge + 1));
                 NSUInteger len = samples.count - loc;
                 self.samples = [NSMutableArray arrayWithArray:[samples subarrayWithRange:NSMakeRange(loc, len)]];
             }
