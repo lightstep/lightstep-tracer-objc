@@ -336,16 +336,15 @@ static NSString *kBasicTracerBaggagePrefix = @"ot-baggage-";
         }
     }
 
-    NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    sessionConfiguration.HTTPAdditionalHeaders =
-        @{ @"LightStep-Access-Token": self.accessToken,
-           @"Content-Type": @"application/json" };
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
     NSString *reqBody = [LSUtil objectToJSONString:reqJSON maxLength:LSMaxRequestSize];
     if (reqBody == nil) {
         cleanupBlock(true, [NSError errorWithDomain:LSErrorDomain code:LSRequestTooLargeError userInfo:nil]);
     }
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.baseURL];
+    request.allHTTPHeaderFields = @{
+        @"Content-Type": @"application/json",
+        @"LightStep-Access-Token": self.accessToken
+    };
     request.HTTPBody = [reqBody dataUsingEncoding:NSUTF8StringEncoding];
     request.HTTPMethod = @"POST";
     SInt64 originMicros = [LSClockState nowMicros];
@@ -384,6 +383,16 @@ static NSString *kBasicTracerBaggagePrefix = @"ot-baggage-";
                    }];
     // "Start" (resume) the HTTP activity.
     [postDataTask resume];
+}
+
+- (NSURLSession *)urlSession {
+    if (_urlSession) {
+        return _urlSession;
+    }
+
+    _urlSession = [NSURLSession sessionWithConfiguration:
+                   [NSURLSessionConfiguration defaultSessionConfiguration]];
+    return _urlSession;
 }
 
 // Called by flush() callbacks on a failed report.
