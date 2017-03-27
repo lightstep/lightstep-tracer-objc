@@ -320,7 +320,7 @@ static NSString *kBasicTracerBaggagePrefix = @"ot-baggage-";
         reqJSON[@"oldest_micros"] = @([self.lastFlush toMicros]);
         reqJSON[@"youngest_micros"] = @([now toMicros]);
 
-        self.pendingJSONSpans = [NSMutableArray<NSDictionary *> array];
+        self.pendingJSONSpans = [NSMutableArray<NSDictionary *> new];
         self.lastFlush = now;
 
         self.bgTaskId = [[UIApplication sharedApplication]
