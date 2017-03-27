@@ -339,7 +339,9 @@ static NSString *kBasicTracerBaggagePrefix = @"ot-baggage-";
     NSString *reqBody = [LSUtil objectToJSONString:reqJSON maxLength:LSMaxRequestSize];
     if (reqBody == nil) {
         cleanupBlock(true, [NSError errorWithDomain:LSErrorDomain code:LSRequestTooLargeError userInfo:nil]);
+        return;
     }
+
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.baseURL];
     request.allHTTPHeaderFields = @{
         @"Content-Type": @"application/json",
