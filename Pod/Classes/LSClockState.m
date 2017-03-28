@@ -57,7 +57,7 @@ static NSString *kSamplesKey = @"samples";
 - (id)init {
     if (self = [super init]) {
         _samplesQueue = dispatch_queue_create("sample storage", DISPATCH_QUEUE_SERIAL);
-
+        _samples = @[].mutableCopy;
         [self _tryToRestoreFromUserDefaults];
         [self update];
     }
@@ -90,10 +90,11 @@ static NSString *kSamplesKey = @"samples";
     // Note that self.samplesQueue is DISPATCH_QUEUE_SERIAL and it makes thread safe reads/writes.
     dispatch_async(self.samplesQueue, ^{
         // Discard the oldest sample and push the new one.
-        [self.samples removeObjectAtIndex:0];
-        [self.samples
-         addObject:[[LSSyncSample alloc] initWithDelayMicros:latestDelayMicros offsetMicros:latestOffsetMicros]];
-
+        if (self.samples.count > 0) {
+            [self.samples removeObjectAtIndex:0];
+        }
+        [self.samples addObject:[[LSSyncSample alloc] initWithDelayMicros:latestDelayMicros
+                                                             offsetMicros:latestOffsetMicros]];
         self.currentOffsetAge++;
 
         // Remember what we've seen.
@@ -184,8 +185,6 @@ static NSString *kSamplesKey = @"samples";
                 NSUInteger len = samples.count - loc;
                 self.samples = [samples subarrayWithRange:NSMakeRange(loc, len)].mutableCopy;
             }
-        } else {
-            self.samples = [NSMutableArray new];
         }
 
         if (self.samples.count == 0) {
