@@ -86,6 +86,8 @@ static NSString *kSamplesKey = @"samples";
         latestOffsetMicros = ((receiveMicros - originMicros) + (transmitMicros - destinationMicros)) / 2;
     }
 
+
+    // Note that self.samplesQueue is DISPATCH_QUEUE_SERIAL and it makes thread safe reads/writes.
     dispatch_async(self.samplesQueue, ^{
         // Discard the oldest sample and push the new one.
         [self.samples removeObjectAtIndex:0];
@@ -96,7 +98,7 @@ static NSString *kSamplesKey = @"samples";
 
         // Remember what we've seen.
         [self _persistSamplesToUserDefaults:self.samples.copy];
-        
+
         // Take the new sample into account.
         [self update];
     });

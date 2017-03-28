@@ -59,7 +59,8 @@ extern NSInteger const LSBackgroundTaskError;
 /// `LSTracer` instance's globally unique id ("guid"), and assigned automatically by LightStep.
 @property(nonatomic, readonly) UInt64 runtimeGuid;
 
-/// HTTP session to be used for performing requests. This enable sharing a connnection pool with your own app.
+/// HTTP session to be used for performing requests. This enables sharing a connnection pool with your own app.
+/// It should be set during initialization, ideally before starting and finishing Spans.
 @property(nonatomic, strong) NSURLSession *urlSession;
 
 /// The `LSTracer` instance's maximum number of records to buffer between reports.
