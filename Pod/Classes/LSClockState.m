@@ -90,10 +90,11 @@ static NSString *kSamplesKey = @"samples";
     // Note that self.samplesQueue is DISPATCH_QUEUE_SERIAL and it makes thread safe reads/writes.
     dispatch_async(self.samplesQueue, ^{
         // Discard the oldest sample and push the new one.
-        [self.samples removeObjectAtIndex:0];
-        [self.samples
-         addObject:[[LSSyncSample alloc] initWithDelayMicros:latestDelayMicros offsetMicros:latestOffsetMicros]];
-
+        if (self.samples.count > 0) {
+            [self.samples removeObjectAtIndex:0];
+        }
+        [self.samples addObject:[[LSSyncSample alloc] initWithDelayMicros:latestDelayMicros
+                                                             offsetMicros:latestOffsetMicros]];
         self.currentOffsetAge++;
 
         // Remember what we've seen.
