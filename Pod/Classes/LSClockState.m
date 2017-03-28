@@ -49,12 +49,15 @@ static NSString *kSamplesKey = @"samples";
 @property(nonatomic, strong) NSMutableArray<LSSyncSample *> *samples;
 @property(nonatomic) NSInteger currentOffsetAge;
 @property(nonatomic) SInt64 currentOffsetMicros;
+@property(nonatomic) dispatch_queue_t samplesQueue;
 @end
 
 @implementation LSClockState
 
 - (id)init {
     if (self = [super init]) {
+        _samplesQueue = dispatch_queue_create("sample storage", DISPATCH_QUEUE_SERIAL);
+
         [self _tryToRestoreFromUserDefaults];
         [self update];
     }
@@ -73,6 +76,7 @@ static NSString *kSamplesKey = @"samples";
                     receiveMicros:(SInt64)receiveMicros
                    transmitMicros:(SInt64)transmitMicros
                 destinationMicros:(SInt64)destinationMicros {
+
     SInt64 latestDelayMicros = INT64_MAX;
     SInt64 latestOffsetMicros = 0;
     // Ensure that all of the data are valid before using them. If
@@ -82,18 +86,22 @@ static NSString *kSamplesKey = @"samples";
         latestOffsetMicros = ((receiveMicros - originMicros) + (transmitMicros - destinationMicros)) / 2;
     }
 
-    // Discard the oldest sample and push the new one.
-    [self.samples removeObjectAtIndex:0];
-    [self.samples
-        addObject:[[LSSyncSample alloc] initWithDelayMicros:latestDelayMicros offsetMicros:latestOffsetMicros]];
 
-    self.currentOffsetAge++;
+    // Note that self.samplesQueue is DISPATCH_QUEUE_SERIAL and it makes thread safe reads/writes.
+    dispatch_async(self.samplesQueue, ^{
+        // Discard the oldest sample and push the new one.
+        [self.samples removeObjectAtIndex:0];
+        [self.samples
+         addObject:[[LSSyncSample alloc] initWithDelayMicros:latestDelayMicros offsetMicros:latestOffsetMicros]];
 
-    // Remember what we've seen.
-    [self _persistToUserDefaults];
+        self.currentOffsetAge++;
 
-    // Take the new sample into account.
-    [self update];
+        // Remember what we've seen.
+        [self _persistSamplesToUserDefaults:self.samples.copy];
+
+        // Take the new sample into account.
+        [self update];
+    });
 }
 
 - (void)update {
@@ -149,45 +157,45 @@ static NSString *kSamplesKey = @"samples";
 
 #pragma mark - Private
 
-- (void)_persistToUserDefaults {
+- (void)_persistSamplesToUserDefaults:(NSArray *)samples {
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:@{
         kTimestampMicrosKey: @([LSClockState nowMicros]),
-        kSamplesKey: self.samples
+        kSamplesKey: samples
     }];
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:kUserDefaultsKey];
 }
 
 // Overwrites all state; only intended to be called from init.
 - (void)_tryToRestoreFromUserDefaults {
-    self.samples = [NSMutableArray array];
-    self.currentOffsetMicros = 0;
-    self.currentOffsetAge = kMaxOffsetAge + 1;
-    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultsKey];
-    if (data != nil) {
-        // Check out this gem, which ends with an emphatic "*Do not use NSKeyedArchiver*":
-        // http://stackoverflow.com/a/17301208/3399080
-        @try {
+    dispatch_sync(self.samplesQueue, ^{
+        self.currentOffsetMicros = 0;
+        self.currentOffsetAge = kMaxOffsetAge + 1;
+        NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultsKey];
+        if (data != nil) {
+            // Check out this gem, which ends with an emphatic "*Do not use NSKeyedArchiver*":
+            // http://stackoverflow.com/a/17301208/3399080
             NSDictionary *dict = [NSKeyedUnarchiver unarchiveObjectWithData:data];
             NSNumber *tsMicros = [dict objectForKey:kTimestampMicrosKey];
             NSArray *samples = [dict objectForKey:kSamplesKey];
             SInt64 nowMicros = [LSClockState nowMicros];
             if (dict && tsMicros && samples && (tsMicros.longLongValue > (nowMicros - kStoredSamplesTTLMicros)) &&
                 (tsMicros.longLongValue < nowMicros) /* <-- sanity check */) {
-                NSUInteger loc = MAX(0, samples.count - (kMaxOffsetAge + 1));
+                NSUInteger loc = MAX(0, (NSInteger)samples.count - (kMaxOffsetAge + 1));
                 NSUInteger len = samples.count - loc;
-                self.samples = [NSMutableArray arrayWithArray:[samples subarrayWithRange:NSMakeRange(loc, len)]];
+                self.samples = [samples subarrayWithRange:NSMakeRange(loc, len)].mutableCopy;
             }
-        } @catch (NSException *e) {
-            NSLog(@"Unable to decode LSClockState data. Leaving things be.");
+        } else {
+            self.samples = [NSMutableArray new];
         }
-    }
-    if (self.samples.count == 0) {
-        // Otherwise initalize with (kMaxOffsetAge+1) dummy samples.
-        for (int i = 0; i < (kMaxOffsetAge + 1); i++) {
-            LSSyncSample *ss = [[LSSyncSample alloc] initWithDelayMicros:INT64_MAX offsetMicros:0];
-            [self.samples addObject:ss];
+
+        if (self.samples.count == 0) {
+            // Otherwise initalize with (kMaxOffsetAge+1) dummy samples.
+            for (int i = 0; i < (kMaxOffsetAge + 1); i++) {
+                LSSyncSample *ss = [[LSSyncSample alloc] initWithDelayMicros:INT64_MAX offsetMicros:0];
+                [self.samples addObject:ss];
+            }
         }
-    }
+    });
 }
 
 @end

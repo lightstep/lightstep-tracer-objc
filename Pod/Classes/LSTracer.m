@@ -320,7 +320,7 @@ static NSString *kBasicTracerBaggagePrefix = @"ot-baggage-";
         reqJSON[@"oldest_micros"] = @([self.lastFlush toMicros]);
         reqJSON[@"youngest_micros"] = @([now toMicros]);
 
-        self.pendingJSONSpans = [NSMutableArray<NSDictionary *> array];
+        self.pendingJSONSpans = [NSMutableArray<NSDictionary *> new];
         self.lastFlush = now;
 
         self.bgTaskId = [[UIApplication sharedApplication]
@@ -336,54 +336,67 @@ static NSString *kBasicTracerBaggagePrefix = @"ot-baggage-";
         }
     }
 
-    NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    sessionConfiguration.HTTPAdditionalHeaders =
-        @{ @"LightStep-Access-Token": self.accessToken,
-           @"Content-Type": @"application/json" };
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
     NSString *reqBody = [LSUtil objectToJSONString:reqJSON maxLength:LSMaxRequestSize];
     if (reqBody == nil) {
         cleanupBlock(true, [NSError errorWithDomain:LSErrorDomain code:LSRequestTooLargeError userInfo:nil]);
+        return;
     }
+
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.baseURL];
+    request.allHTTPHeaderFields = @{
+        @"Content-Type": @"application/json",
+        @"LightStep-Access-Token": self.accessToken
+    };
     request.HTTPBody = [reqBody dataUsingEncoding:NSUTF8StringEncoding];
     request.HTTPMethod = @"POST";
+
     SInt64 originMicros = [LSClockState nowMicros];
     NSURLSessionDataTask *postDataTask =
-        [session dataTaskWithRequest:request
-                   completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                       @try {
-                           __typeof(self) strongSelf = weakSelf;
-                           SInt64 destinationMicros = [LSClockState nowMicros];
-                           NSError *jsonError;
-                           NSDictionary *responseJSON =
-                               [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
-                           if (jsonError == nil) {
-                               if ([responseJSON objectForKey:@"timing"] != nil) {
-                                   NSDictionary *timingJSON = [responseJSON objectForKey:@"timing"];
-                                   NSNumber *receiveMicros = [timingJSON objectForKey:@"receive_micros"];
-                                   NSNumber *transmitMicros = [timingJSON objectForKey:@"transmit_micros"];
+        [self.urlSession dataTaskWithRequest:request
+                           completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
 
-                                   if (receiveMicros != nil && transmitMicros != nil) {
-                                       // Update our local NTP-lite clock state with the latest
-                                       // measurements.
-                                       [strongSelf.clockState addSampleWithOriginMicros:originMicros
-                                                                          receiveMicros:receiveMicros.longLongValue
-                                                                         transmitMicros:transmitMicros.longLongValue
-                                                                      destinationMicros:destinationMicros];
-                                   }
-                               }
-                           }
-                       } @catch (NSException *e) {
-                           NSLog(@"Caught exception in LightStep reporting response; dropping "
-                                 @"data. Exception: %@",
-                                 e);
-                       } @finally {
-                           cleanupBlock(true, error);
-                       }
-                   }];
+            if (error != nil || data == nil) {
+                cleanupBlock(true, error);
+                return;
+            }
+
+            __typeof(self) strongSelf = weakSelf;
+            SInt64 destinationMicros = [LSClockState nowMicros];
+            NSError *jsonError;
+            NSDictionary *responseJSON = [NSJSONSerialization JSONObjectWithData:data
+                                                                         options:kNilOptions
+                                                                           error:&jsonError];
+            if (jsonError == nil) {
+               if ([responseJSON objectForKey:@"timing"] != nil) {
+                   NSDictionary *timingJSON = [responseJSON objectForKey:@"timing"];
+                   NSNumber *receiveMicros = [timingJSON objectForKey:@"receive_micros"];
+                   NSNumber *transmitMicros = [timingJSON objectForKey:@"transmit_micros"];
+
+                   if (receiveMicros != nil && transmitMicros != nil) {
+                       // Update our local NTP-lite clock state with the latest
+                       // measurements.
+                       [strongSelf.clockState addSampleWithOriginMicros:originMicros
+                                                          receiveMicros:receiveMicros.longLongValue
+                                                         transmitMicros:transmitMicros.longLongValue
+                                                      destinationMicros:destinationMicros];
+                   }
+               }
+            }
+
+            cleanupBlock(true, jsonError);
+        }];
     // "Start" (resume) the HTTP activity.
     [postDataTask resume];
+}
+
+- (NSURLSession *)urlSession {
+    if (_urlSession) {
+        return _urlSession;
+    }
+
+    _urlSession = [NSURLSession sessionWithConfiguration:
+                   [NSURLSessionConfiguration defaultSessionConfiguration]];
+    return _urlSession;
 }
 
 // Called by flush() callbacks on a failed report.
