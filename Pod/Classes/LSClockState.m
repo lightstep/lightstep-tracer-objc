@@ -184,8 +184,6 @@ static NSString *kSamplesKey = @"samples";
                 NSUInteger len = samples.count - loc;
                 self.samples = [samples subarrayWithRange:NSMakeRange(loc, len)].mutableCopy;
             }
-        } else {
-            self.samples = [NSMutableArray new];
         }
 
         if (self.samples.count == 0) {
@@ -195,6 +193,8 @@ static NSString *kSamplesKey = @"samples";
                 [self.samples addObject:ss];
             }
         }
+
+        self.samples = _samples ?: [NSMutableArray new];
     });
 }
 
