@@ -8,6 +8,7 @@
 
 #import "LSSpanContext.h"
 #import "LSUtil.h"
+#import "LSBinaryCodec.h"
 
 @implementation LSSpanContext
 
@@ -18,6 +19,21 @@
         _baggage = baggage ?: @{};
     }
     return self;
+}
+
+- (NSData *)asEncodedProtobufMessage {
+    return [LSBinaryCodec encodedMessageForTraceID:_traceId spanID:_spanId baggage:_baggage];
+}
+
++ (instancetype)decodeFromProtobufMessage:(NSData *)protoEnc error:(NSError **)error{
+    id instance = [[self class] alloc];
+    bool success = [LSBinaryCodec decodeMessage:protoEnc into:instance error:error];
+
+    if (!success) {
+        return nil;
+    } else {
+        return instance;
+    }
 }
 
 - (LSSpanContext *)withBaggageItem:(NSString *)key value:(NSString *)value {

@@ -29,6 +29,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// The LightStep Span's probabilistically unique (span) id.
 @property(nonatomic) UInt64 spanId;
 
+- (NSData *)asEncodedProtobufMessage;
++ (instancetype)decodeFromProtobufMessage:(NSData *)protoEnc error:(NSError**)error;
+
 /// The trace id as a hexadecimal string.
 - (NSString *)hexTraceId;
 

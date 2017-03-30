@@ -1,6 +1,7 @@
 #import <XCTest/XCTest.h>
 
 #import <lightstep/LSSpan.h>
+#import <lightstep/LSSpanContext.h>
 #import <lightstep/LSTracer.h>
 #import <lightstep/LSUtil.h>
 
@@ -180,6 +181,62 @@ const NSUInteger kMaxLength = 8192;
     XCTAssertNil([child1 getBaggageItem:@"backpack"]);
     XCTAssert([[child2 getBaggageItem:@"suitcase"] isEqualToString:@"brown"]);
     XCTAssert([[child2 getBaggageItem:@"backpack"] isEqualToString:@"gray"]);
+}
+
+- (void)testSpanContextBinarySerialization {
+    NSDictionary *testBaggage = @{
+                                  @"checked": @"baggage",
+                                  @"backpack": @"gray",
+                                  @"suitcase": @"brown",
+                                  };
+    LSSpanContext *ctx = [[LSSpanContext alloc] initWithTraceId:123 spanId:456 baggage:testBaggage];
+    NSData *protoEnc = [ctx asEncodedProtobufMessage];
+
+    LSSpanContext *decode = [LSSpanContext decodeFromProtobufMessage:protoEnc error:nil];
+
+    XCTAssertNotNil(decode);
+    XCTAssertEqual(ctx.traceId, decode.traceId);
+    XCTAssertEqual(ctx.spanId, decode.spanId);
+    XCTAssertEqual(ctx.baggage.count, decode.baggage.count);
+
+    XCTAssert([ctx.baggage[@"checked"] isEqualToString:decode.baggage[@"checked"]]);
+    XCTAssert([ctx.baggage[@"suitcase"] isEqualToString:decode.baggage[@"suitcase"]]);
+    XCTAssert([ctx.baggage[@"backpack"] isEqualToString:decode.baggage[@"backpack"]]);
+}
+
+- (void)testLSBinaryCarrier {
+    // Encode and decode, assert equality of spans.
+    id<OTSpan> span = [self.tracer startSpan:@"Sending Request"];
+    [span setBaggageItem:@"checked" value:@"baggage"];
+    [span setBaggageItem:@"backpack" value:@"gray"];
+    [span setBaggageItem:@"suitcase" value:@"brown"];
+
+    NSMutableData *data = [[NSMutableData alloc] init];
+    [self.tracer inject:span.context format:OTFormatBinary carrier:data];
+    id<OTSpanContext> ctx = [self.tracer extractWithFormat:OTFormatBinary carrier:data];
+
+    LSSpanContext *c = (LSSpanContext *)ctx;
+    LSSpanContext *s = (LSSpanContext *)span.context;
+    XCTAssertEqual(c.traceId, s.traceId);
+    XCTAssertEqual(c.spanId, s.spanId);
+    XCTAssertEqual(c.baggage.count, s.baggage.count);
+
+    XCTAssert([c.baggage[@"checked"] isEqualToString:s.baggage[@"checked"]]);
+    XCTAssert([c.baggage[@"suitcase"] isEqualToString:s.baggage[@"suitcase"]]);
+    XCTAssert([c.baggage[@"backpack"] isEqualToString:s.baggage[@"backpack"]]);
+}
+
+- (void)testLSBinaryExtraction {
+    // Take a known piece of base64-encoded data and assert
+    NSString *base64 = @"EigJOjioEaYHBgcRNmifUO7/xlgYASISCgdjaGVja2VkEgdiYWdnYWdl";
+    NSData *encoded = [base64 dataUsingEncoding:NSUTF8StringEncoding];
+
+    LSSpanContext *ctx = (LSSpanContext *)[self.tracer extractWithFormat:OTFormatBinary carrier:encoded];
+    XCTAssertEqual(ctx.spanId, 6397081719746291766);
+    XCTAssertEqual(ctx.traceId, 506100417967962170);
+    XCTAssertEqual(ctx.baggage.count, 1);
+
+    XCTAssert([ctx.baggage[@"checked"] isEqualToString:@"baggage"]);
 }
 
 @end

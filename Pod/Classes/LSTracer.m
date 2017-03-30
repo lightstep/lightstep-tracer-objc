@@ -158,11 +158,18 @@ static NSString *kBasicTracerBaggagePrefix = @"ot-baggage-";
         }];
         return true;
     } else if ([format isEqualToString:OTFormatBinary]) {
-        // TODO: support the binary carrier here.
-        if (outError != nil) {
-            *outError = [NSError errorWithDomain:OTErrorDomain code:OTUnsupportedFormatCode userInfo:nil];
+        NSMutableData *data = carrier;
+
+        NSData *protoEnc = [ctx asEncodedProtobufMessage];
+        if (!protoEnc) {
+            if (outError) {
+                *outError = [NSError errorWithDomain:OTErrorDomain code:OTSpanContextCorruptedCode userInfo:nil];
+            }
+            return false;
         }
-        return false;
+        [data appendData:[protoEnc base64EncodedDataWithOptions:0]];
+
+        return true;
     } else {
         if (outError != nil) {
             *outError = [NSError errorWithDomain:OTErrorDomain code:OTUnsupportedFormatCode userInfo:nil];
@@ -227,10 +234,12 @@ static NSString *kBasicTracerBaggagePrefix = @"ot-baggage-";
 
         return [[LSSpanContext alloc] initWithTraceId:traceId spanId:spanId baggage:baggage];
     } else if ([format isEqualToString:OTFormatBinary]) {
-        if (outError != nil) {
-            *outError = [NSError errorWithDomain:OTErrorDomain code:OTUnsupportedFormatCode userInfo:nil];
-        }
-        return nil;
+        NSData *data = carrier;
+        NSData *decoded = [[NSData alloc] initWithBase64EncodedData:data options:0];
+
+        LSSpanContext *ctx = [LSSpanContext decodeFromProtobufMessage:decoded error:outError];
+
+        return ctx;
     } else {
         if (outError != nil) {
             *outError = [NSError errorWithDomain:OTErrorDomain code:OTUnsupportedFormatCode userInfo:nil];
