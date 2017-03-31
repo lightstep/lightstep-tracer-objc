@@ -199,6 +199,8 @@ const NSUInteger kMaxLength = 8192;
     XCTAssertEqual(ctx.spanId, decode.spanId);
     XCTAssertEqual(ctx.baggage.count, decode.baggage.count);
 
+    XCTAssert([decode.baggage[@"checked"] isEqualToString:@"baggage"]);
+    XCTAssert([decode.baggage[@"backpack"] isEqualToString:@"gray"]);
     XCTAssert([ctx.baggage[@"checked"] isEqualToString:decode.baggage[@"checked"]]);
     XCTAssert([ctx.baggage[@"suitcase"] isEqualToString:decode.baggage[@"suitcase"]]);
     XCTAssert([ctx.baggage[@"backpack"] isEqualToString:decode.baggage[@"backpack"]]);
