@@ -29,6 +29,12 @@ NS_ASSUME_NONNULL_BEGIN
 /// The LightStep Span's probabilistically unique (span) id.
 @property(nonatomic) UInt64 spanId;
 
+// Returns a representation of this SpanContext in protocol buffer
+// binary encoding. This is just a plain byte array. If you wish to
+// pass this data in an HTTP header or other textual transport, Base64
+// encoding should be applied.
+- (NSData *)asEncodedProtobufMessage;
+
 /// The trace id as a hexadecimal string.
 - (NSString *)hexTraceId;
 

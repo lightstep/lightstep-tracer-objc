@@ -158,11 +158,18 @@ static NSString *kBasicTracerBaggagePrefix = @"ot-baggage-";
         }];
         return true;
     } else if ([format isEqualToString:OTFormatBinary]) {
-        // TODO: support the binary carrier here.
-        if (outError != nil) {
-            *outError = [NSError errorWithDomain:OTErrorDomain code:OTUnsupportedFormatCode userInfo:nil];
+        NSMutableData *data = carrier;
+
+        NSData *protoEnc = [ctx asEncodedProtobufMessage];
+        if (!protoEnc) {
+            if (outError) {
+                *outError = [NSError errorWithDomain:OTErrorDomain code:OTSpanContextCorruptedCode userInfo:nil];
+            }
+            return false;
         }
-        return false;
+        [data appendData:[protoEnc base64EncodedDataWithOptions:0]];
+
+        return true;
     } else {
         if (outError != nil) {
             *outError = [NSError errorWithDomain:OTErrorDomain code:OTUnsupportedFormatCode userInfo:nil];
