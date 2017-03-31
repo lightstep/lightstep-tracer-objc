@@ -22,7 +22,7 @@
 }
 
 - (NSData *)asEncodedProtobufMessage {
-    return [LSBinaryCodec encodedMessageForTraceID:_traceId spanID:_spanId baggage:_baggage];
+    return [LSBinaryCodec encodedMessageForTraceID:_traceId spanID:_spanId];
 }
 
 - (LSSpanContext *)withBaggageItem:(NSString *)key value:(NSString *)value {

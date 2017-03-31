@@ -12,9 +12,9 @@
 
 + (NSData *)encodedMessageForTraceID:(UInt64)traceID
                               spanID:(UInt64)spanID
-                             baggage:(NSDictionary *)baggage {
+                              {
     // Encode our inner message first
-    NSData *inner = [LSBinaryCodec encodeInnerMessageForTraceID:traceID spanID:spanID baggage:baggage];
+    NSData *inner = [LSBinaryCodec encodeInnerMessageForTraceID:traceID spanID:spanID];
 
     // Next, write our outer message by checking the length of the inner message.
     // TODO: We probably know this capacity, so we should set it:
@@ -31,8 +31,7 @@
 #pragma mark - private
 
 + (NSData *)encodeInnerMessageForTraceID:(UInt64)traceID
-                                  spanID:(UInt64)spanID
-                                 baggage:(NSDictionary *)baggage {
+                                  spanID:(UInt64)spanID {
     NSMutableData *message = [[NSMutableData alloc] init];
 
     // fixed64 traceID = 1;

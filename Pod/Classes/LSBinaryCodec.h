@@ -17,7 +17,7 @@
 // field with tag 1.
 @interface LSBinaryCodec : NSObject
 
-+ (NSData *)encodedMessageForTraceID:(UInt64)traceID spanID:(UInt64)spanID baggage:(NSDictionary *)baggage;
++ (NSData *)encodedMessageForTraceID:(UInt64)traceID spanID:(UInt64)spanID;
 
 @end
 
