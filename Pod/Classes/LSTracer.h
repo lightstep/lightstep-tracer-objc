@@ -38,11 +38,11 @@ extern NSInteger const LSBackgroundTaskError;
 /// wish to register for UIApplicationDidEnterBackgroundNotification notifications and explicitly call flush
 /// at that point.
 ///
-/// @param accessToken: the access token.
-/// @param componentName: the "component name" to associate with spans from this process; e.g.,
-///                       the name of your iOS app or the bundle name.
-/// @param baseURL: the URL for the collector's HTTP+JSON base endpoint (search for LSDefaultBaseURLString)
-/// @param flushIntervalSeconds: the flush interval, or 0 for no automatic background flushing
+/// @param accessToken the access token.
+/// @param componentName the "component name" to associate with spans from this process; e.g.,
+///                      the name of your iOS app or the bundle name.
+/// @param baseURL the URL for the collector's HTTP+JSON base endpoint (search for LSDefaultBaseURLString)
+/// @param flushIntervalSeconds the flush interval, or 0 for no automatic background flushing
 ///
 /// @returns An `LSTracer` instance that's ready to create spans and logs.
 - (instancetype)initWithToken:(NSString *)accessToken
