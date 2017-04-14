@@ -13,15 +13,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Provide information about a fresh clock-skew datapoint.
 ///
-/// @param originMicros: represents the local time of transmission.
+/// @param originMicros represents the local time of transmission.
 ///
-/// @param receiveMicros: represents the time the remote server received the synchronization message
+/// @param receiveMicros represents the time the remote server received the synchronization message
 ///                       (according to the server's clock).
 ///
-/// @param receiveMicros: represents the time the remote server sent the synchronization reply
+/// @param transmitMicros represents the time the remote server sent the synchronization reply
 ///                       (according to the server's clock).
 ///
-/// @param destinationMicros: represents the local time of receipt for the synchronization reply.
+/// @param destinationMicros represents the local time of receipt for the synchronization reply.
 - (void)addSampleWithOriginMicros:(SInt64)originMicros
                     receiveMicros:(SInt64)receiveMicros
                    transmitMicros:(SInt64)transmitMicros
