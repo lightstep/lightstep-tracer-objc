@@ -194,6 +194,8 @@ static NSString *kSamplesKey = @"samples";
                 [self.samples addObject:ss];
             }
         }
+
+        self.samples = _samples ?: [NSMutableArray new];
     });
 }
 
