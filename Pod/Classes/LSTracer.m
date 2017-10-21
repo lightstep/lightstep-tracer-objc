@@ -21,7 +21,7 @@ NSString *const LSErrorDomain = @"com.lightstep";
 
 @interface LSTracer ()
 @property(nonatomic, strong) NSMutableArray<NSDictionary *> *pendingJSONSpans;
-@property(nonatomic, strong, readonly) NSDictionary<NSString *, NSString *> *tracerJSON;
+@property(nonatomic, strong, readonly) NSDictionary<NSString *, id> *tracerJSON;
 @property(nonatomic, strong, readonly) LSClockState *clockState;
 
 @property(nonatomic, strong, readonly) dispatch_queue_t flushQueue;
