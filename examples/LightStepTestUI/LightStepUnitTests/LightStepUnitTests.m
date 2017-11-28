@@ -1,6 +1,7 @@
 #import <XCTest/XCTest.h>
 
 #import <lightstep/LSSpan.h>
+#import <lightstep/LSSpanContext.h>
 #import <lightstep/LSTracer.h>
 #import <lightstep/LSUtil.h>
 
@@ -180,6 +181,38 @@ const NSUInteger kMaxLength = 8192;
     XCTAssertNil([child1 getBaggageItem:@"backpack"]);
     XCTAssert([[child2 getBaggageItem:@"suitcase"] isEqualToString:@"brown"]);
     XCTAssert([[child2 getBaggageItem:@"backpack"] isEqualToString:@"gray"]);
+}
+
+- (void)testLSBinaryEncoding {
+    // Generate a span context and make sure the message we wend out matches our expectations.
+    LSSpanContext *test = [[LSSpanContext alloc] initWithTraceId:506100417967962170 spanId:6397081719746291766 baggage:nil];
+
+    NSData *pb = [test asEncodedProtobufMessage];
+    NSString *encodedStr = [pb base64EncodedStringWithOptions:0];
+
+    // Take a known piece of base64-encoded data and assert
+    NSString *desired = @"EhQJOjioEaYHBgcRNmifUO7/xlgYAQ==";
+
+    // Here's why we know this is right:
+    // EhQJOjioEaYHBgcRNmifUO7/xlgYAQ== is 32 ASCII chars, which base64 decodes to these 22 bytes:
+    // 12 14 09 3A 38 A8 11 A6 07 06 07 11 36 68 9F 50 EE FF C6 58 18 01
+    //
+    // Our PB definition:
+    // 12 14 == tag 2, type 2 (length delimited), length 20.
+    // We know type 2 has 3 fields we encode: trace_id, span_id, sampled
+    //
+    // 09 == tag 1 (trace_id), type 1 (fixed64) which is the next 8 bytes:
+    // 3A 38 A8 11 A6 07 06 07 (little endian representation)
+    //
+    // 11 == tag 2 (span_id), type 1 (fixed64) which is the next 8 bytes
+    // 36 68 9F 50 EE FF C6 58 (little endian representation)
+    //
+    // 18 == tag 3 (sampled), type 0 (varint). We have to read until we get
+    // 0 for the MSB. That's just 1 byte here: 01, or 1 for "true"
+    //
+    // We don't encode baggage, so it isn't present in the encoding.
+
+    XCTAssert([encodedStr isEqualToString:desired]);
 }
 
 @end
