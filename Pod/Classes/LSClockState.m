@@ -52,6 +52,14 @@ static NSString *kSamplesKey = @"samples";
 @property(nonatomic) dispatch_queue_t samplesQueue;
 @end
 
+static void persistSamplesToUserDefaults(NSArray *samples) {
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:@{
+                                                                 kTimestampMicrosKey: @([LSClockState nowMicros]),
+                                                                 kSamplesKey: samples
+                                                                 }];
+    [[NSUserDefaults standardUserDefaults] setObject:data forKey:kUserDefaultsKey];
+}
+
 @implementation LSClockState
 
 - (id)init {
@@ -59,7 +67,9 @@ static NSString *kSamplesKey = @"samples";
         _samplesQueue = dispatch_queue_create("sample storage", DISPATCH_QUEUE_SERIAL);
         _samples = @[].mutableCopy;
         [self _tryToRestoreFromUserDefaults];
-        [self update];
+        dispatch_sync(_samplesQueue, ^{
+            [self update];
+        });
     }
     return self;
 }
@@ -98,7 +108,7 @@ static NSString *kSamplesKey = @"samples";
         self.currentOffsetAge++;
 
         // Remember what we've seen.
-        [self _persistSamplesToUserDefaults:self.samples.copy];
+        persistSamplesToUserDefaults(self.samples.copy);
 
         // Take the new sample into account.
         [self update];
@@ -126,8 +136,7 @@ static NSString *kSamplesKey = @"samples";
     // offset is the "best" one.
     SInt64 minDelayMicros = INT64_MAX;
     SInt64 bestOffsetMicros = 0;
-    for (int i = 0; i < self.samples.count; i++) {
-        LSSyncSample *curSamp = self.samples[i];
+    for (LSSyncSample *curSamp in self.samples) {
         if (curSamp.delayMicros < minDelayMicros) {
             minDelayMicros = curSamp.delayMicros;
             bestOffsetMicros = curSamp.offsetMicros;
@@ -141,8 +150,7 @@ static NSString *kSamplesKey = @"samples";
 
     // Now compute the jitter, i.e., the error relative to the new offset were we to use it.
     double jitter = 0;
-    for (int i = 0; i < self.samples.count; i++) {
-        LSSyncSample *curSamp = self.samples[i];
+    for (LSSyncSample *curSamp in self.samples) {
         jitter += pow(bestOffsetMicros - curSamp.offsetMicros, 2);
     }
     jitter = sqrt(jitter / self.samples.count);
@@ -157,14 +165,6 @@ static NSString *kSamplesKey = @"samples";
 }
 
 #pragma mark - Private
-
-- (void)_persistSamplesToUserDefaults:(NSArray *)samples {
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:@{
-        kTimestampMicrosKey: @([LSClockState nowMicros]),
-        kSamplesKey: samples
-    }];
-    [[NSUserDefaults standardUserDefaults] setObject:data forKey:kUserDefaultsKey];
-}
 
 // Overwrites all state; only intended to be called from init.
 - (void)_tryToRestoreFromUserDefaults {
