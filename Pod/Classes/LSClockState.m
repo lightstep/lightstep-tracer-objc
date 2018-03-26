@@ -53,11 +53,13 @@ static NSString *kSamplesKey = @"samples";
 @end
 
 static void persistSamplesToUserDefaults(NSArray *samples) {
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:@{
-                                                                 kTimestampMicrosKey: @([LSClockState nowMicros]),
-                                                                 kSamplesKey: samples
-                                                                 }];
-    [[NSUserDefaults standardUserDefaults] setObject:data forKey:kUserDefaultsKey];
+    @autoreleasepool {
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:@{
+                                                                     kTimestampMicrosKey: @([LSClockState nowMicros]),
+                                                                     kSamplesKey: samples
+                                                                     }];
+        [[NSUserDefaults standardUserDefaults] setObject:data forKey:kUserDefaultsKey];
+    }
 }
 
 @implementation LSClockState
