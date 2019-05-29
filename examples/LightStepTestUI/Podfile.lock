@@ -1,19 +1,23 @@
 PODS:
   - lightstep (3.2.11):
-    - opentracing (~> 0.4.0)
-  - opentracing (0.4.2)
+    - opentracing (~> 0.5.1)
+  - opentracing (0.5.1)
 
 DEPENDENCIES:
   - lightstep (from `../..`)
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - opentracing
+
 EXTERNAL SOURCES:
   lightstep:
-    :path: ../..
+    :path: "../.."
 
 SPEC CHECKSUMS:
-  lightstep: abf0705906ece8e8eebecc53943d1cf3f03abed3
-  opentracing: ead1caa5478ee78318bda55862fe33a2e67478a4
+  lightstep: 9b99175dbdb19e3e5632ec5a2e8ed201c22ac319
+  opentracing: f21afebfecbcc50a3fd367a6b30331f0bd094e29
 
 PODFILE CHECKSUM: ab77b8c59bf40240bec48ed4c7abaa4e04891fcc
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.7.0

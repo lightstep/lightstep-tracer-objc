@@ -1,4 +1,9 @@
-#import <UIKit/UIKit.h>
+
+#if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR || TARGET_OS_TV)
+    #import <UIKit/UIKit.h>
+#else
+    #import <Cocoa/Cocoa.h>;
+#endif
 #import <opentracing/OTReference.h>
 
 #import "LSClockState.h"
