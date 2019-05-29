@@ -16,6 +16,6 @@ Pod::Spec.new do |s|
 
   s.source_files = 'Pod/Classes/*'
   s.requires_arc = true
-  s.dependency 'opentracing', '~>0.4.0'
+  s.dependency 'opentracing', '~>0.5.1'
 
 end
