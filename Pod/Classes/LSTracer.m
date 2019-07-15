@@ -60,11 +60,11 @@ NSString *const LSErrorDomain = @"com.lightstep";
         _tracerJSON = @{
             @"guid": [LSUtil hexGUID:_runtimeGuid],
             @"attrs": [LSUtil keyValueArrayFromDictionary:@{
-                @"lightstep.tracer_platform": @"ios",
-                @"lightstep.tracer_platform_version": [[UIDevice currentDevice] systemVersion],
+                @"lightstep.tracer_platform": [LSUtil getTracerPlatform],
+                @"lightstep.tracer_platform_version": [LSUtil getTracerPlatformVersion],
                 @"lightstep.tracer_version": LS_TRACER_VERSION,
                 @"lightstep.component_name": componentName,
-                @"device_model": [[UIDevice currentDevice] model]
+                @"device_model": [LSUtil getDeviceModel]
             }]
         };
 

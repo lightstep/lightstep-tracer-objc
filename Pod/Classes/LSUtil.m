@@ -29,6 +29,30 @@
     return json;
 }
 
++ (NSString *)getTracerPlatform {
+    #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR || TARGET_OS_TV)
+        return @"ios";
+    #else
+        return @"macos":
+    #endif
+}
+
++ (NSString *)getTracerPlatformVersion {
+    #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR || TARGET_OS_TV)
+        return [[UIDevice currentDevice] systemVersion];
+    #else
+        return [[NSProcessInfo processInfo] operatingSystemVersionString];
+    #endif
+}
+
++ (NSString *)getDeviceModel {
+    #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR || TARGET_OS_TV)
+        return [[UIDevice currentDevice] model];
+    #else
+        return @"Macintosh";
+    #endif
+}
+
 #pragma mark - Private
 
 // Convert the object to JSON without string length constraints
