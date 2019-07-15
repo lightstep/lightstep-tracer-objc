@@ -33,7 +33,7 @@
     #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR || TARGET_OS_TV)
         return @"ios";
     #else
-        return @"macos":
+        return @"macos";
     #endif
 }
 

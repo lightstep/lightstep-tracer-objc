@@ -15,9 +15,9 @@ EXTERNAL SOURCES:
     :path: "../.."
 
 SPEC CHECKSUMS:
-  lightstep: 9b99175dbdb19e3e5632ec5a2e8ed201c22ac319
+  lightstep: 1ec07c92b285035f53c8c34d2f1f403346e69ad5
   opentracing: f21afebfecbcc50a3fd367a6b30331f0bd094e29
 
-PODFILE CHECKSUM: ab77b8c59bf40240bec48ed4c7abaa4e04891fcc
+PODFILE CHECKSUM: 215ca43be292ffbbbedccfc477a98ae1f33fbb65
 
 COCOAPODS: 1.7.0

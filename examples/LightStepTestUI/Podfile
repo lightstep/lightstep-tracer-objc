@@ -4,16 +4,22 @@
 # use_frameworks!
 #
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '8.0'
 
 install! 'cocoapods', :deterministic_uuids => false
 
 workspace 'LightStepTestUI'
 
 target 'LightStepTestUI' do
+  platform :ios, '8.0'
+  pod 'lightstep', :path => '../..'
+end
+
+target 'LightStepCocoaTestUI' do
+  platform :macos, '10.11'
   pod 'lightstep', :path => '../..'
 end
 
 target 'LightStepUnitTests' do
+  platform :ios, '8.0'
   pod 'lightstep', :path => '../..'
 end
