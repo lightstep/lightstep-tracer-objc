@@ -39,12 +39,12 @@ const NSUInteger kMaxLength = 8192;
     // Integer
     XCTAssertEqualObjects([LSUtil objectToJSONString:@42 maxLength:kMaxLength], @"42");
     // Float
-    XCTAssertEqualObjects([LSUtil objectToJSONString:@3.14 maxLength:kMaxLength], @"3.14");
+    XCTAssertEqualObjects([LSUtil objectToJSONString:@3.14 maxLength:kMaxLength], @"3.1400000000000001");
     // Empty array
     XCTAssertEqualObjects([LSUtil objectToJSONString:@[] maxLength:kMaxLength], @"[]");
     // Regular array
     NSArray *arr = @[@"test", @42, @3.14];
-    XCTAssertEqualObjects([LSUtil objectToJSONString:arr maxLength:kMaxLength], @"[\"test\",42,3.14]");
+    XCTAssertEqualObjects([LSUtil objectToJSONString:arr maxLength:kMaxLength], @"[\"test\",42,3.1400000000000001]");
     // Empty dictionary
     XCTAssertEqualObjects([LSUtil objectToJSONString:@{} maxLength:kMaxLength], @"{}");
     // Simple dictionary
@@ -52,7 +52,7 @@ const NSUInteger kMaxLength = 8192;
     // guarentees for dictionaries.
     NSDictionary *dict = @{ @"string": @"test", @"integer": @42, @"float": @3.14 };
     XCTAssertEqualObjects([LSUtil objectToJSONString:dict maxLength:kMaxLength],
-                          @"{\"string\":\"test\",\"integer\":42,\"float\":3.14}");
+                          @"{\"string\":\"test\",\"integer\":42,\"float\":3.1400000000000001}");
 }
 
 - (void)testObjectToJSONStringItsComplicated {
