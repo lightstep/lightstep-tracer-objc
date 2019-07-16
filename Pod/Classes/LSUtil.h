@@ -12,6 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 + (UInt64)guidFromHex:(NSString *)hexString;
 + (NSString *)objectToJSONString:(nullable id)obj maxLength:(NSUInteger)maxLength;
 + (NSMutableArray *)keyValueArrayFromDictionary:(NSDictionary<NSString *, NSObject *> *)dict;
++ (NSString *)getTracerPlatform;
++ (NSString *)getTracerPlatformVersion;
++ (NSString *)getDeviceModel;
 
 @end
 

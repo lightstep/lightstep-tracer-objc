@@ -1,4 +1,9 @@
-#import <UIKit/UIKit.h>
+
+#if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR || TARGET_OS_TV)
+    #import <UIKit/UIKit.h>
+#else
+    #import <Cocoa/Cocoa.h>
+#endif
 #import <opentracing/OTReference.h>
 
 #import "LSClockState.h"
@@ -28,7 +33,9 @@ NSString *const LSErrorDomain = @"com.lightstep";
 @property(nonatomic, strong) dispatch_source_t flushTimer;
 @property(nonatomic, strong) NSDate *lastFlush;
 @property(nonatomic) UInt64 runtimeGuid;
+#if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR || TARGET_OS_TV)
 @property(nonatomic) UIBackgroundTaskIdentifier bgTaskId;
+#endif
 @end
 
 #pragma mark - Tracer implementation
@@ -50,16 +57,18 @@ NSString *const LSErrorDomain = @"com.lightstep";
         _enabled = true;
         _clockState = [[LSClockState alloc] init];
         _lastFlush = [NSDate date];
+        #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR || TARGET_OS_TV)
         _bgTaskId = UIBackgroundTaskInvalid;
+        #endif
         _baseURL = baseURL ?: [NSURL URLWithString:LSDefaultBaseURLString];
         _tracerJSON = @{
             @"guid": [LSUtil hexGUID:_runtimeGuid],
             @"attrs": [LSUtil keyValueArrayFromDictionary:@{
-                @"lightstep.tracer_platform": @"ios",
-                @"lightstep.tracer_platform_version": [[UIDevice currentDevice] systemVersion],
+                @"lightstep.tracer_platform": [LSUtil getTracerPlatform],
+                @"lightstep.tracer_platform_version": [LSUtil getTracerPlatformVersion],
                 @"lightstep.tracer_version": LS_TRACER_VERSION,
                 @"lightstep.component_name": componentName,
-                @"device_model": [[UIDevice currentDevice] model]
+                @"device_model": [LSUtil getDeviceModel]
             }]
         };
 
@@ -281,7 +290,7 @@ static NSString *kBasicTracerBaggagePrefix = @"ot-baggage-";
         // Short-circuit.
         return;
     }
-
+    
     // We really want this flush to go through, even if the app enters the
     // background and iOS wants to move on with its life.
     //
@@ -294,6 +303,7 @@ static NSString *kBasicTracerBaggagePrefix = @"ot-baggage-";
     // extant at any given moment, and thus it's safe to store the background
     // task id in _bgTaskId.
     __weak __typeof(self) weakSelf = self;
+    #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR || TARGET_OS_TV)
     void (^cleanupBlock)(BOOL, NSError *_Nullable) = ^(BOOL endBackgroundTask, NSError *_Nullable error) {
         if (endBackgroundTask) {
             [weakSelf _endBackgroundTask];
@@ -302,6 +312,7 @@ static NSString *kBasicTracerBaggagePrefix = @"ot-baggage-";
             doneCallback(error);
         }
     };
+    #endif
 
     NSMutableDictionary *reqJSON;
     @synchronized(self) {
@@ -322,23 +333,26 @@ static NSString *kBasicTracerBaggagePrefix = @"ot-baggage-";
 
         self.pendingJSONSpans = [NSMutableArray<NSDictionary *> new];
         self.lastFlush = now;
-
-        self.bgTaskId = [[UIApplication sharedApplication]
-            beginBackgroundTaskWithName:@"com.lightstep.flush"
-                      expirationHandler:^{
-                          cleanupBlock(true,
-                                       [NSError errorWithDomain:LSErrorDomain code:LSBackgroundTaskError userInfo:nil]);
-                      }];
-        if (self.bgTaskId == UIBackgroundTaskInvalid) {
-            NSLog(@"unable to enter the background, so skipping flush");
-            cleanupBlock(false, [NSError errorWithDomain:LSErrorDomain code:LSBackgroundTaskError userInfo:nil]);
-            return;
+        #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR || TARGET_OS_TV)
+            self.bgTaskId = [[UIApplication sharedApplication]
+                beginBackgroundTaskWithName:@"com.lightstep.flush"
+                          expirationHandler:^{
+                              cleanupBlock(true,
+                                           [NSError errorWithDomain:LSErrorDomain code:LSBackgroundTaskError userInfo:nil]);
+                          }];
+            if (self.bgTaskId == UIBackgroundTaskInvalid) {
+                NSLog(@"unable to enter the background, so skipping flush");
+                cleanupBlock(false, [NSError errorWithDomain:LSErrorDomain code:LSBackgroundTaskError userInfo:nil]);
+                return;
         }
+        #endif
     }
 
     NSString *reqBody = [LSUtil objectToJSONString:reqJSON maxLength:LSMaxRequestSize];
     if (reqBody == nil) {
+        #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR || TARGET_OS_TV)
         cleanupBlock(true, [NSError errorWithDomain:LSErrorDomain code:LSRequestTooLargeError userInfo:nil]);
+#endif
         return;
     }
 
@@ -356,10 +370,12 @@ static NSString *kBasicTracerBaggagePrefix = @"ot-baggage-";
                            completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
 
             if (error != nil || data == nil) {
+                #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR || TARGET_OS_TV)
                 cleanupBlock(true, error);
+#endif
                 return;
             }
-
+            
             __typeof(self) strongSelf = weakSelf;
             SInt64 destinationMicros = [LSClockState nowMicros];
             NSError *jsonError;
@@ -382,8 +398,9 @@ static NSString *kBasicTracerBaggagePrefix = @"ot-baggage-";
                    }
                }
             }
-
+#if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR || TARGET_OS_TV)
             cleanupBlock(true, jsonError);
+#endif
         }];
     // "Start" (resume) the HTTP activity.
     [postDataTask resume];
@@ -403,12 +420,14 @@ static NSString *kBasicTracerBaggagePrefix = @"ot-baggage-";
 //
 // Note: do not call directly from outside flush().
 - (void)_endBackgroundTask {
+    #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR || TARGET_OS_TV)
     @synchronized(self) {
         if (self.bgTaskId != UIBackgroundTaskInvalid) {
             [[UIApplication sharedApplication] endBackgroundTask:self.bgTaskId];
             self.bgTaskId = UIBackgroundTaskInvalid;
         }
     }
+    #endif
 }
 
 @end

@@ -15,6 +15,12 @@
 		811B5ED31C7E80F90076110E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 811B5ED21C7E80F90076110E /* Assets.xcassets */; };
 		811B5ED61C7E80F90076110E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 811B5ED41C7E80F90076110E /* LaunchScreen.storyboard */; };
 		817C861E1C84D0200060C5FD /* LightStepUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 817C861D1C84D0200060C5FD /* LightStepUnitTests.m */; };
+		D2232F6022DCB13E00D5E081 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D2232F5F22DCB13E00D5E081 /* AppDelegate.m */; };
+		D2232F6322DCB13E00D5E081 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2232F6222DCB13E00D5E081 /* ViewController.m */; };
+		D2232F6522DCB13F00D5E081 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2232F6422DCB13F00D5E081 /* Assets.xcassets */; };
+		D2232F6822DCB13F00D5E081 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2232F6622DCB13F00D5E081 /* Main.storyboard */; };
+		D2232F6B22DCB13F00D5E081 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D2232F6A22DCB13F00D5E081 /* main.m */; };
+		D855D7A113EEE724FDDAAC27 /* libPods-LightStepCocoaTestUI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53F3B9097129B21CF60F26D2 /* libPods-LightStepCocoaTestUI.a */; };
 		FC8CEA6067CDE25B50423D3D /* libPods-LightStepUnitTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B65B1CD6D54ADBD1AA2719A7 /* libPods-LightStepUnitTests.a */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +37,8 @@
 /* Begin PBXFileReference section */
 		07C33A36D9780B67E071DDE8 /* Pods-LightStepTestUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LightStepTestUI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LightStepTestUI/Pods-LightStepTestUI.debug.xcconfig"; sourceTree = "<group>"; };
 		4E3F58243825167ED6188095 /* Pods-LightStepTestUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LightStepTestUI.release.xcconfig"; path = "Pods/Target Support Files/Pods-LightStepTestUI/Pods-LightStepTestUI.release.xcconfig"; sourceTree = "<group>"; };
+		53F3B9097129B21CF60F26D2 /* libPods-LightStepCocoaTestUI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LightStepCocoaTestUI.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		55FFEFC57FDB48E55CD92868 /* Pods-LightStepCocoaTestUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LightStepCocoaTestUI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LightStepCocoaTestUI/Pods-LightStepCocoaTestUI.debug.xcconfig"; sourceTree = "<group>"; };
 		59B7015A1F97CC51513E4FA0 /* libPods-LightStepTestUI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LightStepTestUI.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		811B5EC31C7E80F90076110E /* LightStepTestUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LightStepTestUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		811B5EC71C7E80F90076110E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -45,10 +53,22 @@
 		817C861B1C84D0200060C5FD /* LightStepUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LightStepUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		817C861D1C84D0200060C5FD /* LightStepUnitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LightStepUnitTests.m; sourceTree = "<group>"; };
 		817C861F1C84D0200060C5FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		90C924A50B9E013C1DB4DD08 /* Pods-LightStepCocoaTestUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LightStepCocoaTestUI.release.xcconfig"; path = "Pods/Target Support Files/Pods-LightStepCocoaTestUI/Pods-LightStepCocoaTestUI.release.xcconfig"; sourceTree = "<group>"; };
 		A9C454551D7F4369000283E1 /* lightstep.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = lightstep.framework; path = "../../../../Library/Developer/Xcode/DerivedData/LightStepTestUI-gygbfnxbvlvkuzgefierexnqwaxx/Build/Products/Debug-iphonesimulator/lightstep/lightstep.framework"; sourceTree = "<group>"; };
 		B65B1CD6D54ADBD1AA2719A7 /* libPods-LightStepUnitTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LightStepUnitTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C44D7FC31F0A312669727212 /* Pods-LightStepUnitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LightStepUnitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LightStepUnitTests/Pods-LightStepUnitTests.release.xcconfig"; sourceTree = "<group>"; };
 		C9D5B00D38FF88B3D56EB4BA /* Pods-LightStepUnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LightStepUnitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LightStepUnitTests/Pods-LightStepUnitTests.debug.xcconfig"; sourceTree = "<group>"; };
+		D2232F5C22DCB13E00D5E081 /* LightStepCocoaTestUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LightStepCocoaTestUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2232F5E22DCB13E00D5E081 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		D2232F5F22DCB13E00D5E081 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		D2232F6122DCB13E00D5E081 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		D2232F6222DCB13E00D5E081 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		D2232F6422DCB13F00D5E081 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D2232F6722DCB13F00D5E081 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D2232F6922DCB13F00D5E081 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D2232F6A22DCB13F00D5E081 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D2232F6C22DCB13F00D5E081 /* LightStepCocoaTestUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LightStepCocoaTestUI.entitlements; sourceTree = "<group>"; };
+		D2C1C98F229F22C500C18821 /* libTracer.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libTracer.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +88,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D2232F5922DCB13E00D5E081 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D855D7A113EEE724FDDAAC27 /* libPods-LightStepCocoaTestUI.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D2C1C98D229F22C500C18821 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -77,6 +112,7 @@
 				A9C454551D7F4369000283E1 /* lightstep.framework */,
 				59B7015A1F97CC51513E4FA0 /* libPods-LightStepTestUI.a */,
 				B65B1CD6D54ADBD1AA2719A7 /* libPods-LightStepUnitTests.a */,
+				53F3B9097129B21CF60F26D2 /* libPods-LightStepCocoaTestUI.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -86,6 +122,7 @@
 			children = (
 				811B5EC51C7E80F90076110E /* LightStepTestUI */,
 				817C861C1C84D0200060C5FD /* LightStepUnitTests */,
+				D2232F5D22DCB13E00D5E081 /* LightStepCocoaTestUI */,
 				811B5EC41C7E80F90076110E /* Products */,
 				F5ED9A4DDD106094BF7E51DD /* Pods */,
 				14619A5966212857C456D1BA /* Frameworks */,
@@ -97,6 +134,8 @@
 			children = (
 				811B5EC31C7E80F90076110E /* LightStepTestUI.app */,
 				817C861B1C84D0200060C5FD /* LightStepUnitTests.xctest */,
+				D2C1C98F229F22C500C18821 /* libTracer.dylib */,
+				D2232F5C22DCB13E00D5E081 /* LightStepCocoaTestUI.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -134,6 +173,22 @@
 			path = LightStepUnitTests;
 			sourceTree = "<group>";
 		};
+		D2232F5D22DCB13E00D5E081 /* LightStepCocoaTestUI */ = {
+			isa = PBXGroup;
+			children = (
+				D2232F5E22DCB13E00D5E081 /* AppDelegate.h */,
+				D2232F5F22DCB13E00D5E081 /* AppDelegate.m */,
+				D2232F6122DCB13E00D5E081 /* ViewController.h */,
+				D2232F6222DCB13E00D5E081 /* ViewController.m */,
+				D2232F6422DCB13F00D5E081 /* Assets.xcassets */,
+				D2232F6622DCB13F00D5E081 /* Main.storyboard */,
+				D2232F6922DCB13F00D5E081 /* Info.plist */,
+				D2232F6A22DCB13F00D5E081 /* main.m */,
+				D2232F6C22DCB13F00D5E081 /* LightStepCocoaTestUI.entitlements */,
+			);
+			path = LightStepCocoaTestUI;
+			sourceTree = "<group>";
+		};
 		F5ED9A4DDD106094BF7E51DD /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -141,11 +196,23 @@
 				4E3F58243825167ED6188095 /* Pods-LightStepTestUI.release.xcconfig */,
 				C9D5B00D38FF88B3D56EB4BA /* Pods-LightStepUnitTests.debug.xcconfig */,
 				C44D7FC31F0A312669727212 /* Pods-LightStepUnitTests.release.xcconfig */,
+				55FFEFC57FDB48E55CD92868 /* Pods-LightStepCocoaTestUI.debug.xcconfig */,
+				90C924A50B9E013C1DB4DD08 /* Pods-LightStepCocoaTestUI.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		D2C1C98B229F22C500C18821 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		811B5EC21C7E80F90076110E /* LightStepTestUI */ = {
@@ -156,8 +223,6 @@
 				811B5EBF1C7E80F90076110E /* Sources */,
 				811B5EC01C7E80F90076110E /* Frameworks */,
 				811B5EC11C7E80F90076110E /* Resources */,
-				DA0B47114BE1B334EB0974F1 /* [CP] Embed Pods Frameworks */,
-				B945AACE850172993BD52592 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -176,8 +241,6 @@
 				817C86171C84D0200060C5FD /* Sources */,
 				817C86181C84D0200060C5FD /* Frameworks */,
 				817C86191C84D0200060C5FD /* Resources */,
-				60FDA512AA08A24637F11249 /* [CP] Embed Pods Frameworks */,
-				8B445DCFFA094F3887C111CC /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -188,6 +251,41 @@
 			productName = LightStepUnitTests;
 			productReference = 817C861B1C84D0200060C5FD /* LightStepUnitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D2232F5B22DCB13E00D5E081 /* LightStepCocoaTestUI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D2232F6F22DCB13F00D5E081 /* Build configuration list for PBXNativeTarget "LightStepCocoaTestUI" */;
+			buildPhases = (
+				8BE9BE5AF20E1AEAF293C6F5 /* [CP] Check Pods Manifest.lock */,
+				D2232F5822DCB13E00D5E081 /* Sources */,
+				D2232F5922DCB13E00D5E081 /* Frameworks */,
+				D2232F5A22DCB13E00D5E081 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LightStepCocoaTestUI;
+			productName = LightStepCocoaTestUI;
+			productReference = D2232F5C22DCB13E00D5E081 /* LightStepCocoaTestUI.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D2C1C98E229F22C500C18821 /* Tracer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D2C1C997229F22C500C18821 /* Build configuration list for PBXNativeTarget "Tracer" */;
+			buildPhases = (
+				D2C1C98B229F22C500C18821 /* Headers */,
+				D2C1C98C229F22C500C18821 /* Sources */,
+				D2C1C98D229F22C500C18821 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Tracer;
+			productName = Tracer;
+			productReference = D2C1C98F229F22C500C18821 /* libTracer.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
 		};
 /* End PBXNativeTarget section */
 
@@ -200,11 +298,21 @@
 				TargetAttributes = {
 					811B5EC21C7E80F90076110E = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 5F7HL6C44K;
+						DevelopmentTeam = A45Q5DN8BF;
+						ProvisioningStyle = Manual;
 					};
 					817C861A1C84D0200060C5FD = {
 						CreatedOnToolsVersion = 7.2.1;
+						ProvisioningStyle = Manual;
 						TestTargetID = 811B5EC21C7E80F90076110E;
+					};
+					D2232F5B22DCB13E00D5E081 = {
+						CreatedOnToolsVersion = 10.2.1;
+						ProvisioningStyle = Manual;
+					};
+					D2C1C98E229F22C500C18821 = {
+						CreatedOnToolsVersion = 10.2.1;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -213,6 +321,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -223,6 +332,8 @@
 			targets = (
 				811B5EC21C7E80F90076110E /* LightStepTestUI */,
 				817C861A1C84D0200060C5FD /* LightStepUnitTests */,
+				D2C1C98E229F22C500C18821 /* Tracer */,
+				D2232F5B22DCB13E00D5E081 /* LightStepCocoaTestUI */,
 			);
 		};
 /* End PBXProject section */
@@ -242,6 +353,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D2232F5A22DCB13E00D5E081 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2232F6522DCB13F00D5E081 /* Assets.xcassets in Resources */,
+				D2232F6822DCB13F00D5E081 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,64 +386,26 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		60FDA512AA08A24637F11249 /* [CP] Embed Pods Frameworks */ = {
+		8BE9BE5AF20E1AEAF293C6F5 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
+			inputFileListPaths = (
 			);
-			name = "[CP] Embed Pods Frameworks";
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LightStepCocoaTestUI-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LightStepUnitTests/Pods-LightStepUnitTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8B445DCFFA094F3887C111CC /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LightStepUnitTests/Pods-LightStepUnitTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B945AACE850172993BD52592 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LightStepTestUI/Pods-LightStepTestUI-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DA0B47114BE1B334EB0974F1 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LightStepTestUI/Pods-LightStepTestUI-frameworks.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E063C043E467349F2E6AAE64 /* [CP] Check Pods Manifest.lock */ = {
@@ -365,6 +447,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D2232F5822DCB13E00D5E081 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2232F6322DCB13E00D5E081 /* ViewController.m in Sources */,
+				D2232F6B22DCB13F00D5E081 /* main.m in Sources */,
+				D2232F6022DCB13E00D5E081 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D2C1C98C229F22C500C18821 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -392,6 +491,14 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
+		D2232F6622DCB13F00D5E081 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D2232F6722DCB13F00D5E081 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -414,6 +521,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -463,6 +571,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -493,7 +602,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
-				DEVELOPMENT_TEAM = 5F7HL6C44K;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = A45Q5DN8BF;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"COCOAPODS=1",
@@ -506,6 +617,7 @@
 				PODS_ROOT = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lightstep.LightStepTestUI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -515,7 +627,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
-				DEVELOPMENT_TEAM = 5F7HL6C44K;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = A45Q5DN8BF;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"COCOAPODS=1",
@@ -528,6 +642,7 @@
 				PODS_ROOT = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lightstep.LightStepTestUI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
@@ -536,11 +651,15 @@
 			baseConfigurationReference = C9D5B00D38FF88B3D56EB4BA /* Pods-LightStepUnitTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = LightStepUnitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lightstep.LightStepUnitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LightStepTestUI.app/LightStepTestUI";
 			};
 			name = Debug;
@@ -550,12 +669,164 @@
 			baseConfigurationReference = C44D7FC31F0A312669727212 /* Pods-LightStepUnitTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = LightStepUnitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lightstep.LightStepUnitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LightStepTestUI.app/LightStepTestUI";
+			};
+			name = Release;
+		};
+		D2232F6D22DCB13F00D5E081 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 55FFEFC57FDB48E55CD92868 /* Pods-LightStepCocoaTestUI.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = LightStepCocoaTestUI/LightStepCocoaTestUI.entitlements;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = LightStepCocoaTestUI/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = LightStep.LightStepCocoaTestUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		D2232F6E22DCB13F00D5E081 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 90C924A50B9E013C1DB4DD08 /* Pods-LightStepCocoaTestUI.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = LightStepCocoaTestUI/LightStepCocoaTestUI.entitlements;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = LightStepCocoaTestUI/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = LightStep.LightStepCocoaTestUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		D2C1C995229F22C500C18821 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		D2C1C996229F22C500C18821 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -585,6 +856,24 @@
 			buildConfigurations = (
 				817C86221C84D0200060C5FD /* Debug */,
 				817C86231C84D0200060C5FD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D2232F6F22DCB13F00D5E081 /* Build configuration list for PBXNativeTarget "LightStepCocoaTestUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D2232F6D22DCB13F00D5E081 /* Debug */,
+				D2232F6E22DCB13F00D5E081 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D2C1C997229F22C500C18821 /* Build configuration list for PBXNativeTarget "Tracer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D2C1C995229F22C500C18821 /* Debug */,
+				D2C1C996229F22C500C18821 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
