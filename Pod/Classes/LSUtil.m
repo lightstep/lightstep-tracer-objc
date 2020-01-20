@@ -1,5 +1,6 @@
 #import "LSUtil.h"
 #import <stdlib.h> // arc4random_uniform()
+@import UIKit;
 
 @implementation LSUtil
 
