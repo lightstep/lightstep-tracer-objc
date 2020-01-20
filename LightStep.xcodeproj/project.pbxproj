@@ -19,6 +19,7 @@
 		0356265F23D20EEB006E4793 /* LSUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 0356264723D20D48006E4793 /* LSUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0356266023D20EEB006E4793 /* LSVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 0356264C23D20D48006E4793 /* LSVersion.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0356266123D20EEB006E4793 /* LightStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 0356263C23D20D1F006E4793 /* LightStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9F11D59923D5AD7700F97187 /* opentracing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F11D59823D5AD7700F97187 /* opentracing.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		0356264F23D20D48006E4793 /* LSSpan.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LSSpan.h; path = Pod/Classes/LSSpan.h; sourceTree = "<group>"; };
 		0356266223D210BD006E4793 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		0356266323D210BD006E4793 /* Cartfile.resolved */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile.resolved; sourceTree = "<group>"; };
+		9F11D59823D5AD7700F97187 /* opentracing.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opentracing.framework; path = Carthage/Build/iOS/opentracing.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F11D59923D5AD7700F97187 /* opentracing.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,6 +59,7 @@
 			children = (
 				0356266223D210BD006E4793 /* Cartfile */,
 				0356266323D210BD006E4793 /* Cartfile.resolved */,
+				9F11D59823D5AD7700F97187 /* opentracing.framework */,
 				0356263B23D20D1F006E4793 /* LightStep */,
 				0356263A23D20D1F006E4793 /* Products */,
 			);
@@ -311,6 +315,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -321,6 +329,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.lightstep.ios.LightStep;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -334,6 +343,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -344,6 +357,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.lightstep.ios.LightStep;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
