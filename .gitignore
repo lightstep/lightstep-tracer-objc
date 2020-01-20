@@ -41,3 +41,4 @@ lightstep-pod-tmp/
 PodInstallTarget/Podfile.lock
 PodInstallTarget/Pods
 PodInstallTarget/PodInstallTarget.xcworkspace
+Index/*
