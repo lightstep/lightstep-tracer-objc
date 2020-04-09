@@ -1,6 +1,11 @@
 #import "LSUtil.h"
 #import <stdlib.h> // arc4random_uniform()
 
+#import "TargetConditionals.h"
+#if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR || TARGET_OS_TV)
+#import <UIKit/UIKit.h>
+#endif
+
 @implementation LSUtil
 
 + (UInt64)generateGUID {

@@ -17,6 +17,14 @@ pod 'lightstep', '~>3.2'
 
 3. Run `pod install` in your project directory. Open the newly created workspace file in Xcode.
 
+## Installation (Carthage)
+
+Add following line to your `Cartfile`:
+
+```
+github "lightstep/lightstep-tracer-objc" ~> 3.0
+```
+
 ## Getting started
 
 ```objectivec
