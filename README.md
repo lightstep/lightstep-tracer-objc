@@ -1,5 +1,8 @@
 # lightstep-tracer-objc
 
+> ❗ **This legacy instrumentation is no longer recommended**. Please review [documentation on setting up and configuring OpenTelemetry Swift](https://github.com/open-telemetry/opentelemetry-swift).
+
+
 [![Version](https://img.shields.io/cocoapods/v/lightstep.svg?style=flat)](http://cocoapods.org/pods/lightstep)
 [![License](https://img.shields.io/cocoapods/l/lightstep.svg?style=flat)](http://cocoapods.org/pods/lightstep)
 [![Platform](https://img.shields.io/cocoapods/p/lightstep.svg?style=flat)](http://cocoapods.org/pods/lightstep)
